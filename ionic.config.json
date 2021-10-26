@@ -1,5 +1,7 @@
 {
   "name": "cvs-app-mobile-ionic-5",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

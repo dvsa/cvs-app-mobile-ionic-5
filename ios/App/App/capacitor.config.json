@@ -1,0 +1,6 @@
+{
+	"appId": "uk.gov.dvsa.cvsmobileapp",
+	"appName": "Vehicle Testing",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
