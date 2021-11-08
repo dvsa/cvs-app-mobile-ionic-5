@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="22px" viewBox="0 0 54 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>BETA Logo</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="BETA-Logo">
+            <g>
+                <rect id="Orange" fill="#005EA5" x="0" y="0" width="54" height="22"></rect>
+                <text id="BETA" font-family="GDSTransportWebsite-Bold, GDS Transport Website" font-size="16" font-weight="bold" letter-spacing="1" fill="#FFFFFF">
+                    <tspan x="5.40625" y="17">BETA</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

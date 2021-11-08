@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="31px" viewBox="0 0 20 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Timeline pin with line</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Prototype" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-92.000000, -116.000000)">
+            <g id="Timeline-pin-with-line" transform="translate(93.000000, 117.000000)">
+                <g id="Group-5">
+                    <g id="Group-4">
+                        <g id="Group">
+                            <g id="Group-3">
+                                <path d="M9,28 C9,28 18,13.7524413 18,8.85948358 C18,3.96652591 13.9705627,0 9,0 C4.02943725,0 0,3.96652591 0,8.85948358 C0,13.7524413 9,28 9,28 Z" id="Circle" stroke="#005EA5" stroke-width="2" fill="#FFFFFF"></path>
+                                <circle id="Oval" fill="#005EA5" cx="9" cy="9" r="5"></circle>
+                            </g>
+                        </g>
+                    </g>
+                    <path d="M9,28 L9,29" id="Line-7" stroke="#005EA5" stroke-width="2" stroke-linecap="square"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

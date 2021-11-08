@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Custom/Timeline/Time-not-testing---no-reason" transform="translate(-16.000000, -16.000000)">
+            <g id="Group" transform="translate(17.000000, 17.000000)">
+                <circle id="Oval" stroke="#B10E1E" stroke-width="2" fill="#FFFFFF" cx="9" cy="9" r="9"></circle>
+                <text id="!" font-family="SFProDisplay-Bold, SF Pro Display" font-size="12" font-weight="bold" letter-spacing="-0.1255864" fill="#B10E1E">
+                    <tspan x="7.1643557" y="13">!</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
