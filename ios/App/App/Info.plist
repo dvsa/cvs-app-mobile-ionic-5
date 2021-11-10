@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>Vehicle Testing</string>
+	<string>Vehicle Testing</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,6 +27,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Use Face ID to authenticate yourself and login</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -50,5 +52,18 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+		<key>CFBundleURLTypes</key>
+  	<array>
+  		<dict>
+  			<key>CFBundleURLName</key>
+  			<string>com.getcapacitor.capacitor</string>
+  			<key>CFBundleURLSchemes</key>
+  			<array>
+  				<string>capacitor</string>
+  				<string>uk.gov.dvsa.cvsmobileapp://callback</string>
+  				<string>uk.gov.dvsa.cvsmobileapp</string>
+  			</array>
+  		</dict>
+  	</array>
 </dict>
 </plist>

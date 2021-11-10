@@ -16,10 +16,6 @@
     <param name="ios-package" value="IonicNativeAuthPlugin" onload="true"/>
   </feature>
 
-  <feature name="NetworkStatus">
-    <param name="ios-package" value="CDVConnection"/>
-  </feature>
-
   <feature name="CallNumber">
     <param name="ios-package" value="CFCallNumber"/>
   </feature>
@@ -34,6 +30,14 @@
 
   <feature name="UniversalAnalytics">
     <param name="ios-package" value="UniversalAnalyticsPlugin"/>
+  </feature>
+
+  <feature name="NetworkStatus">
+    <param name="ios-package" value="CDVConnection"/>
+  </feature>
+
+  <feature name="SecureStorage">
+    <param name="ios-package" value="SecureStorage"/>
   </feature>
 
   
