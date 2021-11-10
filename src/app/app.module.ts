@@ -30,6 +30,10 @@ import {LogsModule} from '@store/logs/logs.module';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {DataStoreProvider} from '@store/logs/data-store.service';
+import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import {MobileAccessibility} from '@ionic-native/mobile-accessibility/ngx';
+
 
 const IONIC_NATIVE_PROVIDERS = [
   // StatusBar,
@@ -39,11 +43,11 @@ const IONIC_NATIVE_PROVIDERS = [
   // CallNumber,
   // OpenNativeSettings,
   // WheelSelector,
-  // MobileAccessibility,
+  MobileAccessibility,
   // AppVersion,
   // Keyboard,
-  // ScreenOrientation,
-  // GoogleAnalytics,
+  ScreenOrientation,
+  GoogleAnalytics,
   SecureStorage,
   Network,
 ];
@@ -65,7 +69,7 @@ const CUSTOM_PROVIDERS = [
   CommonFunctionsService,
   LogsProvider,
   SignatureService,
-  // AnalyticsService,
+  AnalyticsService,
   // DurationService,
   NetworkService,
   DataStoreProvider,
