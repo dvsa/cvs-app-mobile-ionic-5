@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Platform} from '@ionic/angular';
-import {NetworkService} from '@providers/global';
+import {AppService, NetworkService} from '@providers/global';
 import {AuthenticationService} from '@providers/auth';
 import {StorageService} from '@providers/natives/storage.service';
 
@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
     private networkService: NetworkService,
     private authenticationService: AuthenticationService,
     public storageService: StorageService,
+    private appService: AppService,
   ) {
   }
 
@@ -29,9 +30,9 @@ export class AppComponent implements OnInit {
     this.networkService.initialiseNetworkStatus();
 
     await this.authenticationService.expireTokens();
-    //
-    // await this.appService.manageAppInit();
-    //
+
+    await this.appService.manageAppInit();
+
     // const netWorkStatus: CONNECTION_STATUS = this.networkService.getNetworkState();
     //
     // if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {

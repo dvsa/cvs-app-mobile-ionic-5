@@ -25,7 +25,7 @@ import {SignatureService} from '@providers/signature/signature.service';
 import { Network } from '@ionic-native/network/ngx';
 import {SecureStorage} from '@ionic-native/secure-storage/ngx';
 import {HttpClientModule} from '@angular/common/http';
-import { IonicStorageModule } from '@ionic/storage-angular';
+import { IonicStorageModule } from '@ionic/storage';
 import {LogsModule} from '@store/logs/logs.module';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
@@ -49,7 +49,7 @@ const IONIC_NATIVE_PROVIDERS = [
 ];
 
 const CUSTOM_PROVIDERS = [
-  // AppService,
+  AppService,
   // AppAlertService,
   // SyncService,
   HTTPService,
