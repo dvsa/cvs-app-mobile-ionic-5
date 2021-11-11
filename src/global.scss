@@ -24,3 +24,528 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+body {
+  letter-spacing: -0.25px;
+}
+
+.header-ios {
+  -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+
+  ion-navbar.toolbar {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  ion-navbar {
+    min-height: 116px;
+    height: inherit;
+
+    ion-title {
+      padding: 0;
+      height: 44px;
+      margin: 46px 0 0 10px;
+
+      .toolbar-title-ios {
+        text-align: left;
+        font-size: var(--font-size-extra-large);
+        font-weight: var(--font-weight-bold);
+        line-height: 41px;
+        color: var(--light);
+      }
+    }
+
+    button {
+      color: var(--light);
+      font-weight: var(--font-weight-bold);
+
+      &.back-button {
+        font-weight: var(--font-weight-normal);
+      }
+    }
+  }
+
+  ion-navbar.testInProgress {
+    .toolbar-background-ios {
+      background-color: var(--primary);
+    }
+  }
+
+  ion-toolbar {
+    padding-top: 0;
+    min-height: 50px;
+
+    .searchbar-ios {
+      min-height: inherit;
+      padding-bottom: 8px;
+
+      .searchbar-ios-cancel {
+        margin: 0;
+      }
+
+      .searchbar-input {
+        background-color: var(--color-grey-4);
+      }
+    }
+
+    .searchbar-ios.keep-cancel-on {
+      .searchbar-ios-cancel {
+        display: block;
+        padding-left: 8px;
+      }
+    }
+
+    ion-title {
+      padding: 0;
+
+      .toolbar-title-ios {
+        text-align: left;
+        font-weight: var(--font-weight-normal);
+      }
+    }
+  }
+}
+
+.ion-item-title {
+  -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+}
+
+ion-list .input-wrapper {
+  //accessibility formatting for the lists
+  display: flex;
+  flex-wrap: wrap;
+
+  ion-label {
+    white-space: normal;
+    min-width: 45%;
+  }
+}
+
+.item-ios {
+  padding-left: 0;
+
+  &.item-block .item-inner {
+    border-color: var(--color-grey-2);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+p[text-left],
+span[text-left] {
+  color: var(--dark);
+}
+
+.full-dividers-list {
+  .input-wrapper {
+    padding-left: 16px;
+  }
+}
+
+.ios ion-nav > .ion-page > .toolbar.statusbar-padding:first-child,
+.ios ion-nav > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios .modal-wrapper > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios ion-tab > .ion-page > .toolbar.statusbar-padding:first-child,
+.ios ion-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
+.ios ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
+.ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
+.ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
+  padding-top: 24px;
+  //padding-left: calc(constant(safe-area-inset-left) + 4px);
+  //padding-right: calc(constant(safe-area-inset-right) + 4px);
+  min-height: 116px;
+
+  .title-ios {
+    margin-top: 46px;
+    padding-top: 20px;
+    min-height: 64px;
+  }
+}
+
+.ios ion-footer {
+  .footer-cta-section {
+    padding: 0 16px;
+
+    ion-button {
+      margin-bottom: 30px;
+      font-weight: var(--font-weight-bold);
+      --box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.75)
+    }
+  }
+
+  .toolbar:last-child {
+    min-height: 44px;
+    height: inherit;
+    padding-bottom: inherit;
+  }
+
+  .accessibility-bold-text {
+    font-weight: 600 !important;
+
+    span,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-weight: 600 !important;
+    }
+  }
+}
+
+// Searchbars found in the header
+.header-ios ion-toolbar .searchbar-ios {
+  .searchbar-search-icon,
+  .searchbar-clear-icon {
+    filter: brightness(0) invert(1);
+  }
+
+  .searchbar-search-icon {
+    left: 10px;
+    top: 12px;
+    width: 14px;
+    height: 14px;
+    background-size: 14px;
+  }
+
+  .searchbar-input {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: var(--light);
+    font-size: var(--font-size-medium);
+    height: 36px;
+
+    &::placeholder {
+      color: var(--light);
+    }
+  }
+}
+
+.content-background-color-grey {
+  background-color: var(--color-grey-3);
+}
+
+// Global CSS for item-dividers
+ion-item-divider {
+  white-space: normal !important;
+
+  .label-ios {
+    white-space: normal;
+    margin: 0 8px 0 0;
+    font-size: var(--item-ios-divider-font-size);
+  }
+}
+
+// Global CSS for item-groups
+ion-item-group {
+  .item-ios:last-child {
+    .item-inner {
+      border-bottom: none !important;
+    }
+  }
+}
+
+.no-result {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  h3 {
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--color-grey-1);
+    margin: 4px;
+  }
+
+  span {
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-grey-1);
+  }
+
+  .no-result-link {
+    font-size: var(--font-size-medium);
+    text-decoration: underline;
+    color: var(--primary);
+  }
+}
+
+.searchbar-scroll--margin-small {
+  margin-top: 72px !important;
+}
+
+.searchbar-scroll--margin-big {
+  margin-top: 166px !important;
+}
+
+.searchbar-scroll--margin-bot {
+  margin-bottom: 0 !important;
+}
+
+.searchbar-navbar {
+  display: none !important;
+}
+
+.searchbar-ionToolBar {
+  padding-top: 24px !important;
+}
+
+// Registration plate
+.vehicle-header-vrm-number {
+  -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+  background: var(--color-reg-plate);
+  min-width: 200px;
+  width: fit-content;
+  min-height: 50px;
+  height: fit-content;
+  font-size: var(--font-size-extra-large);
+  font-weight: var(--font-weight-bold);
+  line-height: 42px;
+  border-radius: 8px;
+  border: 3px var(--dark) solid;
+  margin: 24px auto;
+}
+
+// Vehicle list general style
+ion-list.vehicle-list {
+  border-bottom: 0.5px solid var(--color-grey-2);
+  margin-bottom: 10px;
+  background: var(--light);
+
+  ion-list-header.list-header {
+    min-height: var(--list-header-height-small);
+    background: var(--color-grey-3);
+    border-bottom: 0.5px solid var(--color-grey-2);
+
+    ion-label {
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-normal);
+      margin-bottom: 0;
+    }
+  }
+
+  .item-block .item-inner {
+    border-bottom: none;
+    padding-right: 0;
+  }
+
+  ion-item.item-ios {
+    width: calc(100% - 16px);
+    border-bottom: 0.5px solid var(--color-grey-2);
+
+    &:last-child {
+      border-bottom: 0;
+      margin-bottom: 1px; /* Fixes overlapping issue with the list's border-bottom */
+    }
+
+    ion-label {
+      color: var(--list-ios-header-color);
+      font-weight: var(--font-weight-normal);
+      line-height: 18px;
+
+      h3 {
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-normal);
+        line-height: 22px;
+        color: var(--dark);
+      }
+
+      p[text-wrap] {
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-normal);
+        line-height: 22px;
+        color: var(--dark);
+      }
+    }
+
+    [item-content] {
+      p {
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-normal);
+        line-height: 22px;
+        color: var(--color-grey-1);
+      }
+    }
+  }
+
+  button.item-ios {
+    .item-inner {
+      border-bottom: 0.5px solid var(--color-grey-2);
+      min-height: 60px;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    ion-label {
+      h3 {
+        font-size: var(--font-size-medium);
+      }
+    }
+  }
+}
+
+.danger-action-button {
+  color: var(--danger) !important;
+}
+
+.prs-action-button {
+  text-transform: uppercase;
+  color: var(--primary) !important;
+}
+
+.bold-action-button {
+  font-weight: var(--font-weight-bold);
+}
+
+.not-bold-action-button {
+  font-weight: var(--font-weight-normal) !important;
+}
+
+.buttonOpacity {
+  opacity: 0.4;
+}
+
+.buttonBackground {
+  background-color: #d9d9d9;
+}
+
+.submit-toast {
+  .toast-wrapper.toast-top {
+    background: unset;
+  }
+
+  .toast-message {
+    margin-top: 100px;
+    border-radius: var(--card-ios-border-radius);
+    background-color: var(--tertiary);
+  }
+}
+
+.test-result {
+  font-weight: var(--font-weight-semi-bold);
+  font-size: var(--font-size-medium);
+}
+
+.badge-ios-light {
+  border: 1px solid var(--dark);
+}
+
+.item-inner > ion-icon.ion-ios-arrow-forward {
+  font-size: var(--font-size-medium-2);
+  display: flex;
+  align-items: center;
+}
+
+.action-sheet-ios .action-sheet-button span.button-inner {
+  display: inline-block;
+
+  &::first-letter {
+    text-transform: uppercase !important;
+  }
+}
+
+.color-grey-1 {
+  color: var(--color-grey-1);
+}
+
+.color-grey-2 {
+  color: var(--color-grey-2);
+}
+
+.margin-vertical-half {
+  margin: 8px 0;
+}
+
+.margin-left-half {
+  margin-left: 8px;
+}
+
+.black-bar {
+  height: 35px;
+  background-color: var(--dark);
+}
+
+.blue-bar {
+  height: 15px;
+  background-color: var(--tertiary);
+}
+
+.card-ios {
+  box-shadow: none;
+}
+
+ion-item-divider.defect-heading {
+  min-height: 60px;
+
+  .label-ios {
+    font-size: var(--font-size-medium-2);
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--dark);
+    padding: 8px 0;
+  }
+}
+
+.gray-toolbar {
+  div.toolbar-background-ios {
+    background: var(--color-grey-4);
+  }
+}
+
+.sign-toast-css {
+  .toast-message {
+    border-radius: 0.65rem !important;
+    background-color: var(--tertiary);
+  }
+}
+
+.alert-ios .alert-button {
+  height: initial;
+  padding: 8px;
+  min-height: 44px;
+}
+
+.asterisk {
+  margin-left: -5px;
+}
+
+.error-incomplete-item {
+  border-left: 5px solid var(--danger);
+
+  h3[item-end].vehicle-details,
+  h3[item-end].odometer-reading-status,
+  h3[item-end].test-type-status,
+  h3[item-end].current-value.no-data {
+    color: var(--danger) !important;
+  }
+}
+
+.flex-wrapper-container {
+  display: -webkit-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.picker-wrapper {
+  -webkit-text-size-adjust: var(--disable-accessibility-text-scaling); //Ionic datepicker does not scale with text
+}
+
+.wrap-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.accessibility-max-width,
+.accessibility-max-width h3.vehicle-details,
+.accessibility-max-width h3.cor-details {
+  width: initial !important;
+  max-width: 100% !important;
+}

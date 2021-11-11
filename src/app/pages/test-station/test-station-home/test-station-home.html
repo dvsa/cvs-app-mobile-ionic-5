@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="black-bar"></ion-row>
+    <ion-row class="blue-bar"></ion-row>
+  </ion-grid>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="logo">
+    <ion-img
+      class="logo-img"
+      src="./assets/imgs/client-logo.svg"
+      width="140"
+      height="94"
+      (click)="enableCache()"
+    ></ion-img>
+  </div>
+
+  <div class="beta">
+    <span>BETA</span>
+  </div>
+
+  <div class="start-title">
+    <h1>{{ appStrings.APP_NAME }}</h1>
+  </div>
+
+  <h2>{{ appStrings.APP_DESC_PT1 }}<br />{{ appStrings.APP_DESC_PT2 }}</h2>
+</ion-content>
+<ion-footer>
+  <div class="footer-cta-section">
+    <ion-button expand="block" (click)="getStarted()" color="secondary">
+      <span>Get started</span>
+      <img class="ion-padding-start" src="./assets/imgs/arrow-icon.svg" />
+    </ion-button>
+  </div>
+</ion-footer>

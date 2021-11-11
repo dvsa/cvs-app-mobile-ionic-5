@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { Network } from '@ionic-enterprise/network-information/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import { NetworkMock, PlatformMock } from 'ionic-mocks';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';

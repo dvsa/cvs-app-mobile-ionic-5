@@ -33,6 +33,9 @@ import {DataStoreProvider} from '@store/logs/data-store.service';
 import {GoogleAnalytics} from '@ionic-native/google-analytics/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import {MobileAccessibility} from '@ionic-native/mobile-accessibility/ngx';
+import {OpenNativeSettings} from '@ionic-native/open-native-settings/ngx';
+import {CallNumber} from '@ionic-native/call-number/ngx';
+import {AppVersion} from '@ionic-native/app-version/ngx';
 
 
 const IONIC_NATIVE_PROVIDERS = [
@@ -40,11 +43,11 @@ const IONIC_NATIVE_PROVIDERS = [
   // SplashScreen,
   // SocialSharing,
   // Camera,
-  // CallNumber,
-  // OpenNativeSettings,
+  CallNumber,
+  OpenNativeSettings,
   // WheelSelector,
   MobileAccessibility,
-  // AppVersion,
+  AppVersion,
   // Keyboard,
   ScreenOrientation,
   GoogleAnalytics,
@@ -54,23 +57,23 @@ const IONIC_NATIVE_PROVIDERS = [
 
 const CUSTOM_PROVIDERS = [
   AppService,
-  // AppAlertService,
-  // SyncService,
+  AppAlertService,
+  SyncService,
   HTTPService,
   StorageService,
   AuthenticationService,
   VaultService,
   BrowserAuthPlugin,
   BrowserAuthService,
-  // PreparerService,
-  // VisitService,
-  // ActivityService,
-  // StateReformingService,
+  PreparerService,
+  VisitService,
+  ActivityService,
+  StateReformingService,
   CommonFunctionsService,
   LogsProvider,
   SignatureService,
   AnalyticsService,
-  // DurationService,
+  DurationService,
   NetworkService,
   DataStoreProvider,
 ];

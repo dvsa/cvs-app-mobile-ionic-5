@@ -1,17 +1,18 @@
 import {Component, OnInit, Renderer2} from '@angular/core';
 import {Platform} from '@ionic/angular';
-import {AnalyticsService, AppService, NetworkService} from '@providers/global';
+import {AnalyticsService, AppService, NetworkService, SyncService} from '@providers/global';
 import {AuthenticationService} from '@providers/auth';
 import {StorageService} from '@providers/natives/storage.service';
 import {
   ACCESSIBILITY_DEFAULT_VALUES,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  CONNECTION_STATUS
+  CONNECTION_STATUS, PAGE_NAMES
 } from '@app/app.enums';
 import { default as AppConfig } from '../../config/application.hybrid';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import {Router} from '@angular/router';
 
 
 
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit {
     private mobileAccessibility: MobileAccessibility,
     private screenOrientation: ScreenOrientation,
     private renderer: Renderer2,
+    private router: Router,
+    private syncService: SyncService,
   ) {
   }
 
@@ -58,7 +61,8 @@ export class AppComponent implements OnInit {
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
     if (authStatus && !this.appService.isSignatureRegistered) {
-      await this.navigateToSignaturePage();
+      // @TODO - Ionic 5 - enable this once signature pad page implemented
+      // await this.navigateToSignaturePage();
     } else {
       await this.manageAppState();
     }
@@ -69,14 +73,21 @@ export class AppComponent implements OnInit {
   }
 
   async navigateToSignaturePage(): Promise<void> {
+    await this.router.navigate([PAGE_NAMES.SIGNATURE_PAD_PAGE], {replaceUrl: true});
     // @TODO - Ionic 5 - enable this
-    // this.splashScreen.hide();
-    // await this.navElem.setRoot(PAGE_NAMES.SIGNATURE_PAD_PAGE);
     // this.manageAppStateListeners();
   }
 
+  private async setRootPage(): Promise<any> {
+    await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE], {replaceUrl: true});
+    // @TODO - Ionic 5 - do we need this?
+    // this.splashScreen.hide();
+
+  }
+
   async manageAppState() {
-    // @TODO - Ionic 5 - enable this
+    // @TODO - Ionic 5 - replace navigation to rood with method below
+    await this.setRootPage();
     // let error, storageState, storedVisit, storedActivities;
     //
     // [error, storageState] = await to(this.storageService.read(STORAGE.STATE));

@@ -12,7 +12,11 @@ export class NetworkService {
     CONNECTION_STATUS.OFFLINE
   );
 
-  constructor(private network: Network, private platform: Platform) {}
+  constructor(
+    private network: Network,
+    private platform: Platform,
+  ) {
+  }
 
   initialiseNetworkStatus(): void {
     const status =

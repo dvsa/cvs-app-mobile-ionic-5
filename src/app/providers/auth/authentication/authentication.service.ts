@@ -90,7 +90,7 @@ export class AuthenticationService {
   }
 
   async hasUserRights(checkRoles: string[]): Promise<boolean> {
-    const { testerRoles: roles } = this.tokenInfo;
+    const { roles } = await this.auth.getIdToken();
     return roles && roles.some((role) => checkRoles.indexOf(role) >= 0);
   }
 

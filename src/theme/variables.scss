@@ -3,6 +3,41 @@
 
 /** Ionic CSS Variables **/
 :root {
+  /** migrated global variables **/
+  --title-font-family: 'Arial Black', Gadget, sans-serif;
+  --sf-pro-font-family: 'SF Pro Text', Gadget, sans-serif;
+  --sf-pro-display-font-family: 'SF Pro Display', Gadget, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+
+  --font-size-small: 13px;
+  --font-size-normal: 15px;
+  --font-size-medium: 17px;
+  --font-size-medium-2: 21px;
+  --font-size-large: 28px;
+  --font-size-extra-large: 34px;
+
+  --item-ios-divider-font-size: 14px;
+  --custom-back-button-font-size: 34px;
+
+  --list-ios-item-height: 71px;
+
+  --loading-ios-max-width: 80%;
+  --popover-ios-width: 66%;
+  --disable-accessibility-text-scaling: 100% !important;
+  --alert-ios-button-group-flex-wrap: wrap-reverse;
+
+  /** custom colours **/
+  --primary: #2b8cc4;
+  --secondary: #00823b;
+  --tertiary: #005ea5;
+  --danger: #b10e1e;
+  --attention: #ffbf47;
+  --light: #fff;
+  --dark: #0b0c0c;
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -12,7 +47,7 @@
   --ion-color-primary-tint: #4c8dff;
 
   /** secondary **/
-  --ion-color-secondary: #3dc2ff;
+  --ion-color-secondary: #00823b;
   --ion-color-secondary-rgb: 61, 194, 255;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;

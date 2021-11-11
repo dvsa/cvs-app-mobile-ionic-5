@@ -73,6 +73,7 @@
     "@angular/compiler-cli": "~12.1.1",
     "@angular/language-service": "~12.0.1",
     "@capacitor/cli": "^3.2.4",
+    "@ionic-native-mocks/network": "^2.0.12",
     "@ionic/angular-toolkit": "^4.0.0",
     "@ngrx/devtools": "^1.4.0",
     "@types/debug": "^4.1.7",
