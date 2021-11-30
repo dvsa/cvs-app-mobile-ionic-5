@@ -34,4 +34,13 @@ export class DurationService {
     const { start, end } = params;
     return Math.round((end - start) / 1000);
   }
+
+  completeDuration(type: string, currentPage) {
+    this.setDuration({ end: Date.now() }, type);
+    const duration = this.getDuration(type);
+    const takenDuration = this.getTakenDuration(duration);
+    currentPage.trackAddTestTypeDuration('ADD_TEST_TYPE_START_TIME', duration.start.toString());
+    currentPage.trackAddTestTypeDuration('ADD_TEST_TYPE_END_TIME', duration.end.toString());
+    currentPage.trackAddTestTypeDuration('ADD_TEST_TYPE_TIME_TAKEN', takenDuration.toString());
+  }
 }

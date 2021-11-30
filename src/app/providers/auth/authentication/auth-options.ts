@@ -20,6 +20,7 @@ export const webAzureConfig: IonicAuthOptions = {
 
 export const cordovaAzureConfig: IonicAuthOptions = {
   ...baseConfig,
+  logLevel: 'DEBUG',
   platform: 'cordova',
   redirectUri: `${AppConfig.app.AUTH_REDIRECT_URL}://callback`,
   logoutUrl: `${AppConfig.app.AUTH_REDIRECT_URL}://callback?logout=true`,

@@ -12,7 +12,7 @@ export class SignatureServiceMock {
     if (this.isError) {
       return throwError({});
     }
-    return of({});
+    return of({status: 200, body: {message: 'some message'}});
   }
 
   goToRootPage(navCtrl: NavController): void {

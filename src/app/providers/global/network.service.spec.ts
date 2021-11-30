@@ -1,14 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Network } from '@ionic-native/network/ngx';
 import { Platform } from '@ionic/angular';
-import { NetworkMock, PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from 'ionic-mocks';
 import { take } from 'rxjs/operators';
 import { CONNECTION_STATUS } from '@app/app.enums';
 import { NetworkService } from './network.service';
+import { NetworkMock } from '@test-config/ionic-mocks/network.mock';
+import {of} from 'rxjs/observable/of';
 
 describe('NetworkService', () => {
   let platform: Platform;
-  let network: Network;
+  let network;
   let service: NetworkService;
 
   const networkType = 'wifi';
@@ -17,8 +19,8 @@ describe('NetworkService', () => {
     TestBed.configureTestingModule({
       providers: [
         NetworkService,
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: Network, useFactory: () => NetworkMock.instance('') }
+        { provide: Platform, useValue: PlatformMock.instance() },
+        { provide: Network, useClass: NetworkMock }
       ]
     });
 
@@ -41,6 +43,8 @@ describe('NetworkService', () => {
 
     it('should subscribe to network status initialization on device', () => {
       platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
+      spyOn(network, 'onDisconnect').and.returnValue(of());
+      spyOn(network, 'onConnect').and.returnValue(of());
 
       service.initialiseNetworkStatus();
 

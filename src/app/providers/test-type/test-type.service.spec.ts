@@ -58,11 +58,11 @@ describe('Provider: TestTypeService', () => {
       ]
     });
 
-    testTypeService = TestBed.get(TestTypeService);
-    storageService = TestBed.get(StorageService);
-    visitService = TestBed.get(VisitService);
-    analyticsService = TestBed.get(AnalyticsService);
-    durationService = TestBed.get(DurationService);
+    testTypeService = TestBed.inject(TestTypeService);
+    storageService = TestBed.inject(StorageService);
+    visitService = TestBed.inject(VisitService);
+    analyticsService = TestBed.inject(AnalyticsService);
+    durationService = TestBed.inject(DurationService);
   });
 
   afterEach(() => {
@@ -95,8 +95,8 @@ describe('Provider: TestTypeService', () => {
       spyOn(Date, 'now').and.returnValue(timeEnd);
 
       spyOn(durationService, 'setDuration');
-      getDurationSpy = spyOn(durationService, 'getDuration');
-      getTakenDurationSpy = spyOn(durationService, 'getTakenDuration');
+      getDurationSpy = spyOn(durationService, 'getDuration').and.returnValue({start: 12345, end: 123456});
+      getTakenDurationSpy = spyOn(durationService, 'getTakenDuration').and.returnValue(1234);
     });
 
     it('should add a defect in test array', async () => {
@@ -224,7 +224,8 @@ describe('Provider: TestTypeService', () => {
 
   it('should return data from local storage', () => {
     testTypeService.getTestTypesFromStorage().subscribe((data) => {
-      expect(data).toBe(TEST_TYPES as TestTypesReferenceDataModel[]);
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      expect(data).toBe(<TestTypesReferenceDataModel[]>TEST_TYPES);
     });
   });
 
