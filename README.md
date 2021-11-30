@@ -81,7 +81,7 @@ To get a working build running locally follow these steps:
 2. Rename the `env` to `.env`. Go to [.env](https://wiki.dvsacloud.uk/display/HVT/Getting+started+with+the+Mobile+App#GettingstartedwiththeMobileApp-.env) section and under the subheading .env copy and paste the content into the `.env` file.
    Source your `.env` file by running `source .env` (**Linux users**)
 
-3. You can use `nvm use` to switch to the supported version of 10.x if you have more than one version of node installed
+3. You can use `nvm use` to switch to the supported version of 12.x if you have more than one version of node installed
    Run `npm install`.
 
 4. You can launch the app in the web browser of choice at this stage: <br>
@@ -131,7 +131,6 @@ export IPHONE8_P_ID=
 
 - Hooks are applied on pre-commit, commit-msg and prepush using [husky](https://github.com/typicode/husky).
 - Code is linted with [eslint](https://eslint.org/) - `npm run lint`
-- We format the code using [prettier](https://prettier.io/) - `npm run prettier`
 - [Typescript](https://github.com/basarat/typescript-book) is used and we follow the [angular coding style](https://angular.io/guide/styleguide) with the following [clean code principles](https://github.com/ryanmcdermott/clean-code-javascript)
 
 ### Committing code
@@ -145,9 +144,7 @@ We use [commitlint](https://github.com/conventional-changelog/commitlint#readme)
 
 In order to test, you need to run the following:
 
-- `npm run test:unit:watch` for unit tests.
-- `npm run test:unit:coverage` for code coverage
-- `npm run sonar-scanner` for sonarqube.
+- `npm run test` for unit tests.
 
 Framework: [Jasmine](https://jasmine.github.io/2.0/introduction.html) with Karma runner.
 
