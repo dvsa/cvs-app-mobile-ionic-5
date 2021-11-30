@@ -8,6 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "test-ci": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "config": "ts-node ./scripts/create-configs.ts",
@@ -110,7 +111,7 @@
     "hooks": {
       "commit-msg": "npm run lint && ./node_modules/.bin/commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "npm run security-checks",
-      "pre-push": "npm run build && npm run test:unit:coverage"
+      "pre-push": "npm run test-ci"
     }
   }
 }
