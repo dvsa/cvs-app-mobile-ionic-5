@@ -39,7 +39,6 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     await this.platform.ready();
-    alert('ready');
     await this.initApp();
   }
 

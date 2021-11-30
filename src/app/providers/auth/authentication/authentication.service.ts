@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import {Platform} from '@ionic/angular';
 import { IonicAuth } from '@ionic-enterprise/auth';
 import { Observable, Subject } from 'rxjs';
-import jwt_decode from 'jwt-decode';
 import to from 'await-to-js';
 import { Storage } from '@ionic/storage';
 
@@ -37,14 +36,12 @@ export class AuthenticationService {
   constructor(
     private platform: Platform,
     private vaultService: VaultService,
-    // private alertService: AppAlertService,
     private commonFunc: CommonFunctionsService,
     private logProvider: LogsProvider,
     private networkService: NetworkService,
     private storage: Storage,
   ) {
     this.initialiseAuth();
-    this.updateTokenInfo();
   }
 
   async initialiseAuth() {
@@ -90,30 +87,31 @@ export class AuthenticationService {
   }
 
   async hasUserRights(checkRoles: string[]): Promise<boolean> {
-    const { roles } = await this.auth.getIdToken();
+    const { testerRoles: roles } = this.tokenInfo;
     return roles && roles.some((role) => checkRoles.indexOf(role) >= 0);
   }
 
   async getTokenDetails(): Promise<TokenInfo> {
     const authResponse = await this._auth.getAuthResponse();
-    if (!authResponse) {
+    const idToken = await this._auth.getIdToken();
+    if (!idToken) {
       return;
     }
 
     const { id_token: token } = authResponse;
-    const decodedToken: any = jwt_decode(token);
-
-    const employeeId = decodedToken.employeeid || '';
-    await this.storage.set(STORAGE.EMPLOYEE_ID, employeeId);
+    // set the stored value for employee id only if the idToken is valid (has one or more props)
+    if(typeof idToken === 'object' && Object.keys(idToken).length) {
+      await this.storage.set(STORAGE.EMPLOYEE_ID, idToken.employeeid || null);
+    }
 
     return {
-      id: decodedToken.sub,
-      testerName: decodedToken.name,
-      testerEmail: decodedToken.email || decodedToken.preferred_username,
-      testerRoles: decodedToken.roles,
-      oid: decodedToken.oid || '',
-      employeeId,
-      testerId: decodedToken.employeeid || decodedToken.oid,
+      id: idToken.sub,
+      testerName: idToken.name,
+      testerEmail: idToken.email || idToken.preferred_username,
+      testerRoles: idToken.roles,
+      oid: idToken.oid || '',
+      employeeId: idToken.employeeid,
+      testerId: idToken.employeeid || idToken.oid,
       token
     };
   }
@@ -150,7 +148,6 @@ export class AuthenticationService {
       const [error] = await to(this.login());
 
       if (error) {
-        // this.alertService.alertLoginFailed();
         this.logLoginUnsuccessful(error.message);
         return Promise.resolve(false);
       } else {
@@ -180,4 +177,12 @@ export class AuthenticationService {
     const now = new Date();
     return tokenExpiry < now;
   }
+
+  async getTesterID(): Promise<string> {
+    // prioritise value in storage for employee id, fall back to ionic auth token values
+    const employeeId = await this.storage.get(STORAGE.EMPLOYEE_ID);
+    const idToken = await this._auth.getIdToken();
+    return employeeId || idToken.employeeId || idToken.oid || null;
+  }
+
 }
