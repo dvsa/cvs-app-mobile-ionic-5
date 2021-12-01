@@ -62,9 +62,9 @@ export class TestStationHomePage implements OnInit {
   }
 
   async ionViewDidEnter() {
-    if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
-      await this.alertService.alertUnAuthorise();
-    }
+    // if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
+    //   await this.alertService.alertUnAuthorise();
+    // }
   }
 
   async getStarted() {
@@ -87,7 +87,7 @@ export class TestStationHomePage implements OnInit {
 
   // Test function to navigate to new page
   async testNav() {
-    await this.router.navigate(['test']);
+    await this.router.navigate(['test'], {state: { lie: 'Tom Evans is Great!' } });
   }
 
   async setPage(): Promise<void> {

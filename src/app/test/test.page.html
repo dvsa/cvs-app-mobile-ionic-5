@@ -1,9 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ 'Tom Evans is great!' }}</ion-title>
+    <ion-title>{{ bigLie }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-button routerLink="" routerDirection="back">Back</ion-button>
+  <ion-button (click)="navigateAgain()">Navigate again</ion-button>
 </ion-content>
