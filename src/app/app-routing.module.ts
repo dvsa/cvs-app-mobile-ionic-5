@@ -3,10 +3,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {PAGE_NAMES} from '@app/app.enums';
 
 const routes: Routes = [
-  // {
-  //   path: 'home',
-  //   loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  // },
   {
     path: '',
     redirectTo: PAGE_NAMES.TEST_STATION_HOME_PAGE,
@@ -15,6 +11,10 @@ const routes: Routes = [
   {
     path: PAGE_NAMES.TEST_STATION_HOME_PAGE,
     loadChildren: () => import('./pages/test-station/test-station-home/test-station-home.module').then((m) => m.TestStationHomeModule)
+  },
+  {
+    path: 'test',
+    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   },
 ];
 

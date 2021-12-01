@@ -85,6 +85,11 @@ export class TestStationHomePage implements OnInit {
     }
   }
 
+  // Test function to navigate to new page
+  async testNav() {
+    await this.router.navigate(['test']);
+  }
+
   async setPage(): Promise<void> {
     if (this.appService.isCordova) {
       if (this.appService.isSignatureRegistered) {
