@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, UrlTree} from '@angular/router';
+import {Router} from '@angular/router';
 import {StateReformingService} from '@providers/global';
 
 @Component({
@@ -8,16 +8,13 @@ import {StateReformingService} from '@providers/global';
   styleUrls: ['./another.page.scss'],
 })
 export class AnotherPage implements OnInit {
-  lastUrl: string | UrlTree;
-  currentUrl: string;
+  lastPage: string;
   constructor(
     private router: Router,
     private stateReformingService: StateReformingService
   ) { }
 
   ngOnInit() {
-    this.lastUrl = this.router.getCurrentNavigation().initialUrl;
-    this.currentUrl = this.router.url;
   }
 
   async navigateFinal() {

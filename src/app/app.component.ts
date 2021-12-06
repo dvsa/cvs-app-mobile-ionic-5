@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
   async manageAppState() {
     await this.stateReformingService.rebuildStack();
 
-    const lastPage = this.stateReformingService.getLastPage();
+    const lastPage = this.stateReformingService.getPageFromLastSession();
 
     if (lastPage) {
       await this.router.navigate([lastPage.page]);

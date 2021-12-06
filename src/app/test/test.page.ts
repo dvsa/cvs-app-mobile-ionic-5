@@ -9,6 +9,7 @@ import {StateReformingService} from '@providers/global';
 })
 export class TestPage implements OnInit {
   pageName: string;
+  lastPage: string;
   constructor(
     private router: Router,
     private stateReformingService: StateReformingService

@@ -19,7 +19,7 @@ export class StateReformingService {
   private _navStack: StateHistoryModel[] = [];
   constructor(public storageService: StorageService, private appService: AppService) {}
 
-  getLastPage(): StateHistoryModel {
+  getPageFromLastSession(): StateHistoryModel {
     return this.navStack[this.navStack.length - 1];
   }
 
