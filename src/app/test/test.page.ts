@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {StateReformingService} from '@providers/global';
 
 @Component({
   selector: 'app-test',
@@ -7,14 +8,16 @@ import {Router} from '@angular/router';
   styleUrls: ['./test.page.scss'],
 })
 export class TestPage implements OnInit {
-  bigLie: string;
+  pageName: string;
   constructor(
-    private router: Router
+    private router: Router,
+    private stateReformingService: StateReformingService
 
-  ) { }
+
+) { }
 
   ngOnInit() {
-    this.bigLie = this.router.getCurrentNavigation().extras.state.lie;
+    this.pageName = this.router.getCurrentNavigation().extras.state.pageName;
   }
 
   async navigateAgain() {

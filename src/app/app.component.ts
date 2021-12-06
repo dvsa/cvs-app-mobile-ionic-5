@@ -12,8 +12,8 @@ import {
 import { default as AppConfig } from '../../config/application.hybrid';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import {Router} from '@angular/router';
-
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import { StateReformingService} from '@providers/global';
 
 
 @Component({
@@ -34,12 +34,24 @@ export class AppComponent implements OnInit {
     private renderer: Renderer2,
     private router: Router,
     private syncService: SyncService,
+    private stateReformingService: StateReformingService
   ) {
   }
 
   async ngOnInit() {
     await this.platform.ready();
     await this.initApp();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.stateReformingService.pushNavStack(
+          {
+            page: event.url,
+            extras: {
+              state: this.router.getCurrentNavigation().extras.state
+            }
+          });
+      }
+    });
   }
 
   async initApp() {
@@ -53,8 +65,7 @@ export class AppComponent implements OnInit {
     const netWorkStatus: CONNECTION_STATUS = this.networkService.getNetworkState();
 
     if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
-      // @TODO - Ionic 5 - enable this
-      // this.manageAppState();
+      await this.manageAppState();
       return;
     }
 
@@ -85,8 +96,18 @@ export class AppComponent implements OnInit {
   }
 
   async manageAppState() {
-    // @TODO - Ionic 5 - replace navigation to rood with method below
-    await this.setRootPage();
+    await this.stateReformingService.rebuildStack();
+
+    const lastPage = this.stateReformingService.getLastPage();
+
+    if (lastPage) {
+      await this.router.navigate([lastPage.page]);
+      // await this.stateReformingService.emptyStack();
+      // this.splashScreen.hide();
+    } else {
+      await this.setRootPage();
+    }
+
     // let error, storageState, storedVisit, storedActivities;
     //
     // [error, storageState] = await to(this.storageService.read(STORAGE.STATE));

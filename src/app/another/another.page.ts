@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router, UrlTree} from '@angular/router';
+import {StateReformingService} from '@providers/global';
 
 @Component({
   selector: 'app-another',
@@ -10,7 +11,8 @@ export class AnotherPage implements OnInit {
   lastUrl: string | UrlTree;
   currentUrl: string;
   constructor(
-    private router: Router
+    private router: Router,
+    private stateReformingService: StateReformingService
   ) { }
 
   ngOnInit() {

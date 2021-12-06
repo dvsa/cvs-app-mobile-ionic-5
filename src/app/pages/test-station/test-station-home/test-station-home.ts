@@ -87,7 +87,7 @@ export class TestStationHomePage implements OnInit {
 
   // Test function to navigate to new page
   async testNav() {
-    await this.router.navigate(['test'], {state: { lie: 'Tom Evans is Great!' } });
+    await this.router.navigate(['test'], {state: { pageName: 'Test' } });
   }
 
   async setPage(): Promise<void> {

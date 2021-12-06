@@ -1,10 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ bigLie }}</ion-title>
+    <ion-title>{{ pageName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <p>{{ stateReformingService.navStack }}</p>
   <ion-button routerLink="" routerDirection="back">Back</ion-button>
   <ion-button (click)="navigateAgain()">Navigate again</ion-button>
 </ion-content>

@@ -5,8 +5,7 @@
 </ion-header>
 
 <ion-content>
+  <p>{{ stateReformingService.navStack }}</p>
   <ion-button routerLink="{{lastUrl}}" routerDirection="back">Back</ion-button>
-
-  <p>last url: {{ lastUrl }}</p>
-  <p>current url: {{ currentUrl }}</p>
+  <ion-button (click)="finish()">Finish</ion-button>
 </ion-content>
