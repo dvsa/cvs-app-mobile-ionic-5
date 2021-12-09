@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {StateReformingService} from '@providers/global';
+import { Router } from '@angular/router';
+import { StateReformingService } from '@providers/global';
 
 @Component({
   selector: 'app-another',

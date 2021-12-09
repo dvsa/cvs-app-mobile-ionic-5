@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Store } from '@ngrx/store';
-import { NavController } from '@ionic/angular';
 
 import {
   ANALYTICS_SCREEN_NAMES,
@@ -31,7 +30,6 @@ export class TestStationHomePage implements OnInit {
   appStrings: typeof APP_STRINGS = APP_STRINGS;
 
   constructor(
-    public navCtrl: NavController,
     public appService: AppService,
     private screenOrientation: ScreenOrientation,
     private authenticationService: AuthenticationService,
@@ -40,7 +38,7 @@ export class TestStationHomePage implements OnInit {
     private store$: Store<LogsModel>,
     private analyticsService: AnalyticsService,
     private logProvider: LogsProvider,
-    private router: Router,
+    private router: Router
   ) {}
 
   neededRoles: string[] = [
@@ -87,7 +85,7 @@ export class TestStationHomePage implements OnInit {
 
   // Test function to navigate to new page
   async testNav() {
-    await this.router.navigate(['test'], {state: { pageName: 'Test' } });
+    await this.router.navigate(['test'], {state: {page: 'Test'}});
   }
 
   async setPage(): Promise<void> {

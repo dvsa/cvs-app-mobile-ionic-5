@@ -12,7 +12,7 @@ import {
 import { default as AppConfig } from '../../config/application.hybrid';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import { NavigationStart, Router} from '@angular/router';
 import { StateReformingService} from '@providers/global';
 
 
@@ -97,15 +97,13 @@ export class AppComponent implements OnInit {
 
   async manageAppState() {
     await this.stateReformingService.rebuildStack();
-
-    const lastPage = this.stateReformingService.getPageFromLastSession();
-
-    if (lastPage) {
+    try {
+      const lastPage = this.stateReformingService.getPageFromLastSession();
       await this.router.navigate([lastPage.page]);
+    } catch(e) {
+      await this.setRootPage();
       // await this.stateReformingService.emptyStack();
       // this.splashScreen.hide();
-    } else {
-      await this.setRootPage();
     }
 
     // let error, storageState, storedVisit, storedActivities;

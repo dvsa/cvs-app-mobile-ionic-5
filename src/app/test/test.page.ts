@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import { NavigationExtras, Router} from '@angular/router';
 import {StateReformingService} from '@providers/global';
 
 @Component({
@@ -13,12 +13,20 @@ export class TestPage implements OnInit {
   constructor(
     private router: Router,
     private stateReformingService: StateReformingService
-
-
 ) { }
 
   ngOnInit() {
-    this.pageName = this.router.getCurrentNavigation().extras.state.pageName;
+    const navExtras = this.getNavExtras();
+    this.pageName = navExtras.state.page;
+  }
+
+  getNavExtras(): NavigationExtras {
+    const extras = this.router.getCurrentNavigation().extras;
+    if (extras.state !== undefined) {
+      return extras;
+    } else {
+      return this.stateReformingService.getOldNavigationalExtrasForPage(this.router.url).extras;
+    }
   }
 
   async navigateAgain() {
