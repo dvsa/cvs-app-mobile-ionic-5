@@ -14,7 +14,8 @@ export enum STORAGE {
   SIGNATURE = 'signature-image',
   APP_VERSION = 'app-version',
   LATEST_VERSION = 'latest-version',
-  EMPLOYEE_ID = 'employeeId'
+  EMPLOYEE_ID = 'employeeId',
+  NAV_DATA = 'navData'
 }
 
 export enum PATHS {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router} from '@angular/router';
-import {StateReformingService} from '@providers/global';
+import { Router} from '@angular/router';
+import {NavStateModel, StateReformingService} from '@providers/global';
+import { NavParamService } from '@app/nav-param.service';
 
 @Component({
   selector: 'app-test',
@@ -9,24 +10,23 @@ import {StateReformingService} from '@providers/global';
 })
 export class TestPage implements OnInit {
   pageName: string;
-  lastPage: string;
+  route: string;
   constructor(
     private router: Router,
-    private stateReformingService: StateReformingService
-) { }
-
-  ngOnInit() {
-    const navExtras = this.getNavExtras();
-    this.pageName = navExtras.state.page;
+    private stateReformingService: StateReformingService,
+    private navParamService: NavParamService
+) {
+    this.pageName = this.navParamService.returnNavData('page');
   }
 
-  getNavExtras(): NavigationExtras {
-    const extras = this.router.getCurrentNavigation().extras;
-    if (extras.state !== undefined) {
-      return extras;
-    } else {
-      return this.stateReformingService.getOldNavigationalExtrasForPage(this.router.url).extras;
-    }
+  ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.route = '';
+    this.stateReformingService.navStack.forEach(nav => {
+      this.route += nav.page;
+    });
   }
 
   async navigateAgain() {

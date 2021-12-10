@@ -9,12 +9,20 @@ import { StateReformingService } from '@providers/global';
 })
 export class AnotherPage implements OnInit {
   lastPage: string;
+  route: string;
   constructor(
     private router: Router,
     private stateReformingService: StateReformingService
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.route = '';
+    this.stateReformingService.navStack.forEach(nav => {
+      this.route += nav.page;
+    });
   }
 
   async navigateFinal() {

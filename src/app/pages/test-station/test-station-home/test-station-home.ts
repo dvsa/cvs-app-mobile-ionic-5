@@ -20,6 +20,7 @@ import { LogsModel } from '@store/logs/logs.model';
 import { startSendingLogs } from '@store/logs/logs.actions';
 import { LogsProvider } from '@store/logs/logs.service';
 import { Router } from '@angular/router';
+import { NavParamService } from '@app/nav-param.service';
 
 @Component({
   selector: 'page-test-station-home',
@@ -38,7 +39,8 @@ export class TestStationHomePage implements OnInit {
     private store$: Store<LogsModel>,
     private analyticsService: AnalyticsService,
     private logProvider: LogsProvider,
-    private router: Router
+    private router: Router,
+    private navParamService: NavParamService
   ) {}
 
   neededRoles: string[] = [
@@ -85,7 +87,10 @@ export class TestStationHomePage implements OnInit {
 
   // Test function to navigate to new page
   async testNav() {
-    await this.router.navigate(['test'], {state: {page: 'Test'}});
+    this.navParamService.updateNavData({
+      page: 'Test Page'
+    });
+    await this.router.navigate(['test']);
   }
 
   async setPage(): Promise<void> {

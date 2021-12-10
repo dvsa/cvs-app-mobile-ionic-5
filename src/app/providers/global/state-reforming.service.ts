@@ -2,23 +2,20 @@ import { Injectable } from '@angular/core';
 import { StorageService } from '../natives/storage.service';
 import { PAGE_NAMES, STORAGE } from '@app/app.enums';
 import { AppService } from './app.service';
-import {NavigationExtras, Router} from '@angular/router';
+import { NavParamService } from '@app/nav-param.service';
 
 export interface NavStateModel {
   page: string;
-  extras?: NavigationExtras;
 }
 
 @Injectable()
 export class StateReformingService {
   private _navStack: NavStateModel[] = [];
-  constructor(public storageService: StorageService, private appService: AppService) {}
-
-
-  getOldNavigationalExtrasForPage(pageName: string): NavStateModel {
-    const reversedNavStack = [...this.navStack.reverse()];
-    return reversedNavStack.find(nav => nav.page === pageName && nav.extras.state !== undefined);
-  }
+  constructor(
+    public storageService: StorageService,
+    private appService: AppService,
+    private navParamService: NavParamService
+  ) {}
 
   getPageFromLastSession(): NavStateModel {
     return this.navStack[this.navStack.length - 1];
@@ -26,10 +23,18 @@ export class StateReformingService {
 
   async emptyStack() {
     this.navStack = [];
+    this.navParamService.navData = {};
+
     await this.storageService.update(STORAGE.STATE, this.navStack);
+    await this.storageService.update('navData', this.navParamService.navData);
   }
 
-  async rebuildStack() {
+  async rebuildState() {
+    await this.rebuildNavStack();
+    await this.rebuildNavParams();
+  }
+
+  async rebuildNavStack() {
     await this.storageService.read(STORAGE.STATE).then((data: string) => {
       try {
         const stateHistory: NavStateModel[] = JSON.parse(data);
@@ -40,11 +45,22 @@ export class StateReformingService {
     });
   }
 
+  async rebuildNavParams() {
+    await this.storageService.read(STORAGE.NAV_DATA).then((data: JSON) => {
+      try {
+        this.navParamService.navData = data;
+      } catch(e) {
+        this.navParamService.navData = {};
+      }
+    });
+  }
+
+
   pushNavStack(navState: NavStateModel) {
     this._navStack.push(navState);
   }
 
-  async updateNavStack() {
+  async updateState() {
     if (this.appService.caching) {
       const stateHistory: NavStateModel[] = [];
       for (const nav of this.navStack) {
@@ -55,12 +71,13 @@ export class StateReformingService {
         if (nav.page.substring(1) === PAGE_NAMES.TEST_CANCEL_PAGE) {continue;}
 
         stateHistory.push({
-          page: nav.page,
-          extras: nav.extras
+          page: nav.page
         });
-        const stateJSON = JSON.stringify(stateHistory);
-        await this.storageService.update(STORAGE.STATE, stateJSON);
       }
+
+      const stateJSON = JSON.stringify(stateHistory);
+      await this.storageService.update(STORAGE.STATE, stateJSON);
+      await this.storageService.update(STORAGE.NAV_DATA, this.navParamService.navData);
     }
   }
 

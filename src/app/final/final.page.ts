@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {StateReformingService} from '@providers/global';
+import { Router } from '@angular/router';
+import { StateReformingService } from '@providers/global';
 
 @Component({
   selector: 'app-final',
@@ -8,14 +8,21 @@ import {StateReformingService} from '@providers/global';
   styleUrls: ['./final.page.scss'],
 })
 export class FinalPage implements OnInit {
-  lastPage: string;
+  route: string;
   constructor(
     private router: Router,
     private stateReformingService: StateReformingService
   ) { }
 
   ngOnInit() {
-    this.stateReformingService.updateNavStack();
+    this.stateReformingService.updateState();
+  }
+
+  ionViewWillEnter() {
+    this.route = '';
+    this.stateReformingService.navStack.forEach(nav => {
+      this.route += nav.page;
+    });
   }
 
   async finish() {

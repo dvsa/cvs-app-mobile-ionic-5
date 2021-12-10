@@ -14,6 +14,7 @@ import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { NavigationStart, Router} from '@angular/router';
 import { StateReformingService} from '@providers/global';
+import { NavParamService } from '@app/nav-param.service';
 
 
 @Component({
@@ -45,10 +46,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationStart) {
         this.stateReformingService.pushNavStack(
           {
-            page: event.url,
-            extras: {
-              state: this.router.getCurrentNavigation().extras.state
-            }
+            page: event.url
           });
       }
     });
@@ -96,7 +94,7 @@ export class AppComponent implements OnInit {
   }
 
   async manageAppState() {
-    await this.stateReformingService.rebuildStack();
+    await this.stateReformingService.rebuildState();
     try {
       const lastPage = this.stateReformingService.getPageFromLastSession();
       await this.router.navigate([lastPage.page]);
