@@ -32,6 +32,7 @@
     "@capacitor/status-bar": "1.0.5",
     "@ionic-enterprise/auth": "^3.9.0",
     "@ionic-enterprise/identity-vault": "^4.2.7",
+    "@ionic-enterprise/social-sharing": "^6.0.3",
     "@ionic-native/app-version": "^5.36.0",
     "@ionic-native/call-number": "^5.36.0",
     "@ionic-native/core": "^5.36.0",
