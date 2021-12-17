@@ -6,11 +6,13 @@ import { AlertController } from '@ionic/angular';
 import { StatusBar } from '@capacitor/status-bar';
 import { SocialSharing } from '@ionic-enterprise/social-sharing/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 
+declare let cordova: any;
 @Component({
     selector: 'native-plugins-test',
-    templateUrl: 'native-plugins-test.page.ts',
-    styleUrls: ['native-plugins-test.page.scss'],
+    templateUrl: 'native-plugins-test.html',
+    styleUrls: ['native-plugins-test.scss'],
 })
 export class NativePluginsTestPage implements OnInit {
 
@@ -24,6 +26,7 @@ export class NativePluginsTestPage implements OnInit {
         private alertCtrl: AlertController,
         private socialSharing: SocialSharing,
         private network: Network,
+        private http: HTTP,
     ) { }
 
     async ngOnInit(): Promise<void> {
@@ -49,12 +52,31 @@ export class NativePluginsTestPage implements OnInit {
       await alert.present();
     }
 
+    printCordovaFile() {
+      console.log(cordova.file);
+    }
+
     nativeSettings() {
         this.openNativeSettings.open('settings');
     }
 
     testSocialSharing() {
         this.socialSharing.shareViaEmail('another test', 'test', ['thomas.crawley@dvsa.gov.uk',]);
+    }
+
+    testHttpPlugin() {
+      this.http.get('http://ionic.io', {}, {})
+        .then(data => {
+
+        console.log(data.status);
+        console.log(data.data); // data received by server
+        console.log(data.headers);
+      })
+      .catch(error => {
+        console.log(error.status);
+        console.log(error.error); // error message as string
+        console.log(error.headers);
+      });
     }
 
     async toggleScreenOrientationLock() {
@@ -92,6 +114,10 @@ export class NativePluginsTestPage implements OnInit {
     async printNetworkStatus() {
       const status = this.network.type;
       await this.showAlert('printNetworkStatus', JSON.stringify(status));
+    }
+
+    exitApp() {
+      cordova.plugins.exit();
     }
 
 }
