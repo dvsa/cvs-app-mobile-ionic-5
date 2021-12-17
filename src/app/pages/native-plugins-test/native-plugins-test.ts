@@ -7,6 +7,7 @@ import { StatusBar } from '@capacitor/status-bar';
 import { SocialSharing } from '@ionic-enterprise/social-sharing/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 declare let cordova: any;
 @Component({
@@ -62,6 +63,10 @@ export class NativePluginsTestPage implements OnInit {
 
     testSocialSharing() {
         this.socialSharing.shareViaEmail('another test', 'test', ['thomas.crawley@dvsa.gov.uk',]);
+    }
+
+    testCameraPlugin() {
+      Camera.requestPermissions({ permissions: ['camera']});
     }
 
     testHttpPlugin() {
