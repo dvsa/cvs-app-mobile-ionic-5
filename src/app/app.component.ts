@@ -14,7 +14,6 @@ import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { NavigationStart, Router} from '@angular/router';
 import { StateReformingService} from '@providers/global';
-import { NavParamService } from '@app/nav-param.service';
 
 
 @Component({
@@ -43,11 +42,18 @@ export class AppComponent implements OnInit {
     await this.platform.ready();
     await this.initApp();
     this.router.events.subscribe(event => {
+
       if (event instanceof NavigationStart) {
-        this.stateReformingService.pushNavStack(
-          {
-            page: event.url
-          });
+        if (event.navigationTrigger === 'popstate') {
+          console.log(event);
+
+          console.log('back');
+        } else {
+          this.stateReformingService.pushNavStack(
+            {
+              page: event.url
+            });
+        }
       }
     });
   }
@@ -66,8 +72,8 @@ export class AppComponent implements OnInit {
       await this.manageAppState();
       return;
     }
-
-    const authStatus = await this.authenticationService.checkUserAuthStatus();
+  const authStatus = false;
+    // const authStatus = await this.authenticationService.checkUserAuthStatus();
     if (authStatus && !this.appService.isSignatureRegistered) {
       // @TODO - Ionic 5 - enable this once signature pad page implemented
       // await this.navigateToSignaturePage();

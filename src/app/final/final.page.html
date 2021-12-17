@@ -1,11 +1,13 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>final</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <p>{{ this.route }}</p>
-  <ion-button routerLink="/another" routerDirection="back">Back</ion-button>
   <ion-button (click)="finish()">Finish</ion-button>
 </ion-content>

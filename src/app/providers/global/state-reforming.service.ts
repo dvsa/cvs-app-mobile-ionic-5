@@ -30,29 +30,47 @@ export class StateReformingService {
   }
 
   async rebuildState() {
+    console.log('test');
     await this.rebuildNavStack();
     await this.rebuildNavParams();
   }
 
   async rebuildNavStack() {
-    await this.storageService.read(STORAGE.STATE).then((data: string) => {
-      try {
-        const stateHistory: NavStateModel[] = JSON.parse(data);
-        this.navStack = stateHistory;
-      } catch(e) {
-        this.navStack = [];
-      }
-    });
+    // await this.storageService.read(STORAGE.STATE).then((data: string) => {
+    //   try {
+    //     const stateHistory: NavStateModel[] = JSON.parse(data);
+    //     this.navStack = stateHistory;
+    //   } catch(e) {
+    //     this.navStack = [];
+    //   }
+    // });
+    try {
+      const data = await this.storageService.read(STORAGE.STATE);
+      const stateHistory: NavStateModel[] = JSON.parse(data) || [];
+      this.navStack = stateHistory;
+    } catch {
+      this.navStack = [];
+    }
   }
 
   async rebuildNavParams() {
-    await this.storageService.read(STORAGE.NAV_DATA).then((data: JSON) => {
-      try {
+    // await this.storageService.read(STORAGE.NAV_DATA).then((data: JSON) => {
+    //   try {
+    //     this.navParamService.navData = data;
+    //   } catch(e) {
+    //     this.navParamService.navData = {};
+    //   }
+    // });
+    try {
+      const data = await this.storageService.read(STORAGE.NAV_DATA);
+      if (!data) {
+        return;
+      } else {
         this.navParamService.navData = data;
-      } catch(e) {
-        this.navParamService.navData = {};
       }
-    });
+    } catch {
+      return;
+    }
   }
 
 
@@ -82,7 +100,7 @@ export class StateReformingService {
   }
 
   get navStack(): NavStateModel[] {
-    return this._navStack;
+    return this._navStack || [];
   }
 
   set navStack(stack: NavStateModel[]) {
