@@ -3,6 +3,8 @@ import {CommonModule} from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import { NativePluginsTestPage } from './native-plugins-test';
 import { NativePluginsTestRoutingModule } from './native-plugins-test-routing.module';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 
 @NgModule({
   declarations: [NativePluginsTestPage],
@@ -10,6 +12,10 @@ import { NativePluginsTestRoutingModule } from './native-plugins-test-routing.mo
     CommonModule,
     IonicModule,
     NativePluginsTestRoutingModule,
-  ]
+  ],
+  providers: [
+    SocialSharing,
+    HTTP,
+  ],
 })
-export class TestStationHomeModule {}
+export class NativePluginsTestPageModule {}

@@ -404,6 +404,7 @@ export enum VISIT {
 }
 
 export enum PAGE_NAMES {
+  NATIVE_PLUGIN_TEST_PAGE = 'NativePluginTestPage',
   TEST_STATION_SEARCH_PAGE = 'TestStationSearchPage',
   TEST_STATION_HOME_PAGE = 'TestStationHomePage',
   CATEGORY_READING_PAGE = 'CategoryReadingPage',

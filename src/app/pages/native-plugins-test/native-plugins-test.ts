@@ -62,7 +62,9 @@ export class NativePluginsTestPage implements OnInit {
     }
 
     testSocialSharing() {
-        this.socialSharing.shareViaEmail('another test', 'test', ['thomas.crawley@dvsa.gov.uk',]);
+        this.socialSharing.shareViaEmail('another test', 'test', ['thomas.crawley@dvsa.gov.uk',])
+        .then((data) => { console.log(data); })
+        .catch((error) => { console.log(error); });
     }
 
     testCameraPlugin() {

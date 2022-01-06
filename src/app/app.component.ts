@@ -58,15 +58,16 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    const authStatus = await this.authenticationService.checkUserAuthStatus();
-    if (authStatus && !this.appService.isSignatureRegistered) {
-      // @TODO - Ionic 5 - enable this once signature pad page implemented
-      // await this.navigateToSignaturePage();
-    } else {
-      await this.manageAppState();
-    }
+    // const authStatus = await this.authenticationService.checkUserAuthStatus();
+    // if (authStatus && !this.appService.isSignatureRegistered) {
+    //   // @TODO - Ionic 5 - enable this once signature pad page implemented
+    //   // await this.navigateToSignaturePage();
+    // } else {
+    //   await this.manageAppState();
+    // }
+    await this.manageAppState();
 
-    if (authStatus && this.appService.isCordova) {
+    if (this.appService.isCordova) {
       await this.activateNativeFeatures();
     }
   }
