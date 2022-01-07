@@ -44,6 +44,8 @@ export class AppComponent implements OnInit {
 
   async initApp() {
 
+    await this.authenticationService.initialiseAuth();
+
     this.networkService.initialiseNetworkStatus();
 
     await this.authenticationService.expireTokens();

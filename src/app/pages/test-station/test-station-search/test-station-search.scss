@@ -1,0 +1,25 @@
+page-atf-search {
+  .item-ios.list-item-height {
+    min-height: $list-ios-item-height;
+
+    h3 {
+      font-size: 17px;
+    }
+  }
+
+  strong {
+    font-weight: normal;
+    color: color($colors, dark);
+  }
+
+  .item-block {
+    border-bottom: 0.5px solid $color-grey-2;
+  }
+
+  .no-result {
+    h3,
+    span {
+      color: $color-grey-1;
+    }
+  }
+}
