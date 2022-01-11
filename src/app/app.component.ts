@@ -73,6 +73,7 @@ export class AppComponent implements OnInit {
       return;
     }
   const authStatus = false;
+    // TODO - PUT THIS BACK
     // const authStatus = await this.authenticationService.checkUserAuthStatus();
     if (authStatus && !this.appService.isSignatureRegistered) {
       // @TODO - Ionic 5 - enable this once signature pad page implemented

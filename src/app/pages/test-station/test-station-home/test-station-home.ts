@@ -62,6 +62,7 @@ export class TestStationHomePage implements OnInit {
   }
 
   async ionViewDidEnter() {
+    // TODO - PUT THIS BACK
     // if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
     //   await this.alertService.alertUnAuthorise();
     // }

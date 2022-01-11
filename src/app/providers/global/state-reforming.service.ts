@@ -36,14 +36,6 @@ export class StateReformingService {
   }
 
   async rebuildNavStack() {
-    // await this.storageService.read(STORAGE.STATE).then((data: string) => {
-    //   try {
-    //     const stateHistory: NavStateModel[] = JSON.parse(data);
-    //     this.navStack = stateHistory;
-    //   } catch(e) {
-    //     this.navStack = [];
-    //   }
-    // });
     try {
       const data = await this.storageService.read(STORAGE.STATE);
       const stateHistory: NavStateModel[] = JSON.parse(data) || [];
@@ -54,22 +46,10 @@ export class StateReformingService {
   }
 
   async rebuildNavParams() {
-    // await this.storageService.read(STORAGE.NAV_DATA).then((data: JSON) => {
-    //   try {
-    //     this.navParamService.navData = data;
-    //   } catch(e) {
-    //     this.navParamService.navData = {};
-    //   }
-    // });
     try {
-      const data = await this.storageService.read(STORAGE.NAV_DATA);
-      if (!data) {
-        return;
-      } else {
-        this.navParamService.navData = data;
-      }
+      this.navParamService.navData = await this.storageService.read(STORAGE.NAV_DATA) || {};
     } catch {
-      return;
+      this.navParamService.navData = {};
     }
   }
 
