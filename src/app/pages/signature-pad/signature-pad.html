@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="header-color ion-justify-content-between ion-align-items-center">
+      <ion-col size="3" class="ion-text-left">
+        <ion-button fill="clear" class="cancel" (click)="clearSignature()">Clear</ion-button>
+      </ion-col>
+      <ion-col size="3" class="ion-text-center">
+        <h4 color="light">Signature</h4>
+      </ion-col>
+      <ion-col size="3" class="ion-text-end">
+        <ion-button fill="clear" (click)="presentPopover()" color="light">Save</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content class="content-background-color-grey ion-no-padding">
+  <ion-grid class="ion-no-padding">
+    <ion-row class="signature-row ion-justify-content-center ion-no-padding">
+      <ion-item-group class="make-full-width">
+        <ion-item-divider class="ion-padding-start ion-text-uppercase">
+          {{ dividerText }}
+        </ion-item-divider>
+        <div>
+          <signature-pad
+            [options]="signaturePadOptions"
+            (onEndEvent)="drawComplete()"
+            id="signatureCanvas"
+          ></signature-pad>
+        </div>
+      </ion-item-group>
+    </ion-row>
+    <ion-row class="ion-padding">
+      <span class="sign-text">{{ underSignText }}</span>
+    </ion-row>
+  </ion-grid>
+</ion-content>

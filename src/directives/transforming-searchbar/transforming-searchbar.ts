@@ -3,6 +3,8 @@ import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2 } fro
 // import { Events } from '@ionic/angular';
 import { APP } from '../../app/app.enums';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import {EventsService} from '@providers/events/events.service';
+import {Subscription} from 'rxjs';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -12,13 +14,14 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
   @Input() searchBarElemRef;
   headerElemRef;
   watchKeyboard;
+  eventSubscription: Subscription;
 
   constructor(
     private el: ElementRef,
     private keyboard: Keyboard,
     private renderer: Renderer2,
     // @TODO - Ionic 5 - enable this
-    // public events: Events
+    private events: EventsService
   ) {
     this.headerElemRef = this.el.nativeElement;
   }
@@ -50,17 +53,17 @@ export class TransformingSearchBarDirective implements AfterViewInit, OnDestroy 
     });
 
     // @TODO - Ionic 5 - enable this
-    // this.events.subscribe(APP.NAV_OUT, () => {
-    //   this.setDefaultCss(scrollContent, navBarElement, ionToolbar);
-    // });
+    this.eventSubscription = this.events.subscribe(APP.NAV_OUT, () => {
+      this.setDefaultCss(scrollContent, navBarElement, ionToolbar);
+    });
   }
 
   ngOnDestroy() {
-    this.searchBarElemRef.ionFocus.unsubscribe();
-    this.searchBarElemRef.ionCancel.unsubscribe();
-    this.watchKeyboard.unsubscribe();
-    // @TODO - Ionic 5 - enable this
-    // this.events.unsubscribe(APP.NAV_OUT);
+    // @TODO - Ionic 5 - enable these if required?
+    // this.searchBarElemRef.ionFocus.unsubscribe();
+    // this.searchBarElemRef.ionCancel.unsubscribe();
+    // this.watchKeyboard.unsubscribe();
+    this.eventSubscription.unsubscribe();
   }
 
   private setDefaultCss(scrollContent, navBarElement, ionToolbar): void {

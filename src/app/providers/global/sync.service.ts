@@ -138,7 +138,7 @@ export class SyncService {
       .toPromise()
       .then((result: any[]) => {
         this.appService.setRefDataSync(true);
-        this.loading.dismissAll();
+        this.loading.dismiss();
         return [null, result.length === 4]; // ensure we have the exact and successful 4 apis call
       })
       .catch(() => [this.handleError()]);

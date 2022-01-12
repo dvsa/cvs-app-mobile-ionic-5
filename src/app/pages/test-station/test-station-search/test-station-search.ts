@@ -1,13 +1,14 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import { NavController } from '@ionic/angular';
 import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
 import { TestStationService } from '@providers/test-station/test-station.service';
 import { ANALYTICS_SCREEN_NAMES, APP } from '@app/app.enums';
 import { AnalyticsService } from '@providers/global';
+import {EventsService} from '@providers/events/events.service';
 
 @Component({
   selector: 'page-test-station-search',
-  templateUrl: 'test-station-search.html'
+  templateUrl: 'test-station-search.html',
+  styleUrls: ['test-station-search.scss'],
 })
 export class TestStationSearchPage implements OnInit {
   @ViewChild('searchBar') searchBar;
@@ -17,17 +18,14 @@ export class TestStationSearchPage implements OnInit {
   focusOut = false;
 
   constructor(
-    public navCtrl: NavController,
-    // @TODO replace events
-    // public events: Events,
+    public events: EventsService,
     private testStationService: TestStationService,
     private analyticsService: AnalyticsService,
-    private zone: NgZone
+    private zone: NgZone,
   ) {}
 
   ngOnInit() {
     this.getTestStations();
-    document.querySelector('.back-button-icon').setAttribute('aria-hidden', 'true');
   }
 
   ionViewDidEnter() {
@@ -46,11 +44,11 @@ export class TestStationSearchPage implements OnInit {
       });
   }
 
-  // @TODO - Ionic 5 Replace Navigation
+  // @TODO - Ionic 5 Replace Navigation to test station details page when ready
   openTestStation(testStation: TestStationReferenceDataModel): void {
     // this.navCtrl.push('TestStationDetailsPage', { testStation: testStation }).then(() => {
-    //   this.clearSearch();
-    //   this.focusOut = false;
+    this.clearSearch();
+    this.focusOut = false;
     // });
   }
 
@@ -70,8 +68,7 @@ export class TestStationSearchPage implements OnInit {
   }
 
   clearSearch(): void {
-    // @TODO - Ionic 5 - get this working
-    // this.events.publish(APP.NAV_OUT);
+    this.events.publish(APP.NAV_OUT);
     this.searchVal = '';
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
       this.testStations,

@@ -13,6 +13,7 @@
       "@store/*": ["src/store/*"],
       "@directives/*": ["src/directives/*"],
       "@pipes/*": ["src/pipes/*"],
+      "@components/*": ["src/components/*"],
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

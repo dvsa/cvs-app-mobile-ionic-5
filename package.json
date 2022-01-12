@@ -48,6 +48,7 @@
     "@ngrx/effects": "^12.5.1",
     "@ngrx/entity": "^12.5.1",
     "@ngrx/store": "^12.5.1",
+    "angular2-signaturepad": "^3.0.4",
     "await-to-js": "^3.0.0",
     "call-number": "^1.0.1",
     "cordova-open-native-settings": "^1.5.5",

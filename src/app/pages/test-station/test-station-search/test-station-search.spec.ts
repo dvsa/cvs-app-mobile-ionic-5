@@ -1,22 +1,21 @@
 import {ComponentFixture, inject, TestBed, waitForAsync} from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { TestStationSearchPage } from './test-station-search';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestStationService } from '@providers/test-station/test-station.service';
 import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
-import { NavControllerMock } from 'ionic-mocks';
 import { AnalyticsService } from '@providers/global';
 import { ANALYTICS_SCREEN_NAMES } from '@app/app.enums';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('Component: TestStationSearchPage', () => {
   let comp: TestStationSearchPage;
   let fixture: ComponentFixture<TestStationSearchPage>;
   let testStationService: TestStationService;
-  let navCtrl: NavController;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(waitForAsync(async () => {
     const testStationServiceSpy = jasmine.createSpyObj('TestStationService', [
       'getTestStations, getTestStationsFromStorage',
       'sortAndSearchTestStation'
@@ -24,13 +23,13 @@ describe('Component: TestStationSearchPage', () => {
 
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [TestStationSearchPage],
       imports: [
-        IonicModule
+        IonicModule,
+        RouterTestingModule,
       ],
       providers: [
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: TestStationService, useValue: testStationServiceSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
@@ -42,7 +41,6 @@ describe('Component: TestStationSearchPage', () => {
     fixture = TestBed.createComponent(TestStationSearchPage);
     comp = fixture.componentInstance;
     testStationService = TestBed.inject(TestStationService);
-    navCtrl = TestBed.inject(NavController);
     analyticsService = TestBed.inject(AnalyticsService);
   });
 
@@ -81,11 +79,12 @@ describe('Component: TestStationSearchPage', () => {
     expect(comp.focusOut).toBeFalsy();
   });
 
-  //@TODO - Ionic 5 - Fix this
-  // it('should push TestStationDetailsPage', () => {
-  //   comp.openTestStation({} as TestStationReferenceDataModel);
-  //   expect(navCtrl.push).toHaveBeenCalled();
-  // });
+  //@TODO - Ionic 5 - update expectation to include router navigation
+  it('should push TestStationDetailsPage', () => {
+    spyOn(comp, 'clearSearch');
+    comp.openTestStation({} as TestStationReferenceDataModel);
+    expect(comp.clearSearch).toHaveBeenCalled();
+  });
 
   it('should test searchList logic', () => {
     const value = 'searchValue';

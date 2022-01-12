@@ -6,6 +6,7 @@ import { TestStationService } from '@providers/test-station/test-station.service
 import {CommonModule} from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import {FormsModule} from '@angular/forms';
+import {TestingStationSearchRoutingModule} from '@app/pages/test-station/test-station-search/test-station-seach-routing.module';
 
 @NgModule({
   declarations: [TestStationSearchPage],
@@ -14,7 +15,8 @@ import {FormsModule} from '@angular/forms';
     DirectivesModule,
     IonicModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    TestingStationSearchRoutingModule,
   ],
   providers: [TestStationService]
 })

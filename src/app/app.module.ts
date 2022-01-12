@@ -15,7 +15,13 @@ import {
   SyncService
 } from '@providers/global';
 import {StorageService} from '@providers/natives/storage.service';
-import {AuthenticationService, BrowserAuthPlugin, BrowserAuthService, VaultService} from '@providers/auth';
+import {
+  AuthenticationService,
+  AuthInterceptor,
+  BrowserAuthPlugin,
+  BrowserAuthService, RetryInterceptor, UnauthInterceptor,
+  VaultService
+} from '@providers/auth';
 import {VisitService} from '@providers/visit/visit.service';
 import {ActivityService} from '@providers/activity/activity.service';
 import {PreparerService} from '@providers/preparer/preparer.service';
@@ -24,7 +30,7 @@ import {LogsProvider} from '@store/logs/logs.service';
 import {SignatureService} from '@providers/signature/signature.service';
 import { Network } from '@ionic-native/network/ngx';
 import {SecureStorage} from '@ionic-native/secure-storage/ngx';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import {LogsModule} from '@store/logs/logs.module';
 import {EffectsModule} from '@ngrx/effects';
@@ -36,7 +42,9 @@ import {MobileAccessibility} from '@ionic-native/mobile-accessibility/ngx';
 import {OpenNativeSettings} from '@ionic-native/open-native-settings/ngx';
 import {CallNumber} from '@ionic-native/call-number/ngx';
 import {AppVersion} from '@ionic-native/app-version/ngx';
-
+import {TestStationService} from '@providers/test-station/test-station.service';
+import {Keyboard} from '@ionic-native/keyboard/ngx';
+import {EventsService} from '@providers/events/events.service';
 
 const IONIC_NATIVE_PROVIDERS = [
   // StatusBar,
@@ -48,7 +56,7 @@ const IONIC_NATIVE_PROVIDERS = [
   // WheelSelector,
   MobileAccessibility,
   AppVersion,
-  // Keyboard,
+  Keyboard,
   ScreenOrientation,
   GoogleAnalytics,
   SecureStorage,
@@ -76,6 +84,13 @@ const CUSTOM_PROVIDERS = [
   DurationService,
   NetworkService,
   DataStoreProvider,
+  EventsService,
+];
+
+const INTERCEPTOR_PROVIDERS = [
+  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: UnauthInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: RetryInterceptor, multi: true }
 ];
 
 @NgModule({
@@ -97,6 +112,8 @@ const CUSTOM_PROVIDERS = [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ...CUSTOM_PROVIDERS,
     ...IONIC_NATIVE_PROVIDERS,
+    ...INTERCEPTOR_PROVIDERS,
+    TestStationService,
   ],
   bootstrap: [AppComponent],
 })

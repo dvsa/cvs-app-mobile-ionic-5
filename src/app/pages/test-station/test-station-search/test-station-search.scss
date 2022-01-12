@@ -1,25 +1,26 @@
-page-atf-search {
+:host {
   .item-ios.list-item-height {
-    min-height: $list-ios-item-height;
+    min-height: var(--list-ios-item-height);
 
     h3 {
-      font-size: 17px;
+      font-size: 50px;
+      color: red;
     }
   }
 
   strong {
     font-weight: normal;
-    color: color($colors, dark);
+    color: var(--dark)
   }
 
   .item-block {
-    border-bottom: 0.5px solid $color-grey-2;
+    border-bottom: 0.5px solid var(--color-grey-2);
   }
 
   .no-result {
     h3,
     span {
-      color: $color-grey-1;
+      color: var(--color-grey-1);
     }
   }
 }

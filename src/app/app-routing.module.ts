@@ -20,6 +20,10 @@ const routes: Routes = [
     path: PAGE_NAMES.TEST_STATION_SEARCH_PAGE,
     loadChildren: () => import('./pages/test-station/test-station-search/test-station-search.module').then((m) => m.TestStationSearchModule)
   },
+  {
+    path: PAGE_NAMES.SIGNATURE_PAD_PAGE,
+    loadChildren: () => import('./pages/signature-pad/signature-pad.module').then( m => m.SignaturePadPageModule)
+  },
 ];
 
 @NgModule({
