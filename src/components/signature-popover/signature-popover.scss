@@ -1,0 +1,49 @@
+:host {
+  div p {
+    //scrollable message window
+    max-height: 100px;
+    overflow: scroll;
+    margin: 0;
+  }
+
+  .pop-img {
+    background-color: var(--light);
+    height: 100px;
+  }
+
+  h5 {
+    //popover title
+    margin-bottom: 5px;
+  }
+
+  p {
+    //popover subtitle
+    margin-top: 0;
+  }
+
+  .row-border {
+    border-top: 0.5px groove var(--color-grey-3);
+
+    .col-border {
+      border-right: 0.5px groove var(--color-grey-3);
+    }
+
+    .button-ios {
+      height: initial; //revert em scaling height of the button
+      min-height: 29px;
+    }
+  }
+}
+
+.popover-content {
+  position: fixed;
+  background-color: var(--color-grey-3);
+}
+
+ion-backdrop {
+  opacity: 0.4 !important;
+}
+
+.popover-viewport {
+  overflow: hidden; //Fix 1px scrolling introduced by the buttons
+}

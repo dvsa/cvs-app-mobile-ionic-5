@@ -1,0 +1,26 @@
+:host {
+  .item-ios.list-item-height {
+    min-height: var(--list-ios-item-height);
+
+    h3 {
+      font-size: 50px;
+      color: red;
+    }
+  }
+
+  strong {
+    font-weight: normal;
+    color: var(--dark)
+  }
+
+  .item-block {
+    border-bottom: 0.5px solid var(--color-grey-2);
+  }
+
+  .no-result {
+    h3,
+    span {
+      color: var(--color-grey-1);
+    }
+  }
+}

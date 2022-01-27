@@ -15,8 +15,6 @@ export class SignatureService {
 
   constructor(
     private httpService: HTTPService,
-    // @TODO - Ionic 5 - replace this
-    // private events: Events,
     private toastCtrl: ToastController,
     private storageService: StorageService,
     private authenticationService: AuthenticationService
@@ -34,9 +32,6 @@ export class SignatureService {
   }
 
   async presentSuccessToast(): Promise<void> {
-    // @TODO - Ionic 5 Migration replace this
-    // this.events.unsubscribe(SIGNATURE_STATUS.SAVED);
-    // this.events.unsubscribe(SIGNATURE_STATUS.ERROR);
     const toast = await this.toastCtrl.create({
       message: APP_STRINGS.SIGN_TOAST_MSG,
       duration: 4000,

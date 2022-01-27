@@ -1,0 +1,58 @@
+<ion-header transforming-searchBar [searchBarElemRef]="searchBar">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="margin-left-half">
+      Find test facility
+    </ion-title>
+  </ion-toolbar>
+  <ion-searchbar
+    (ionInput)="searchList($event)"
+    (ionFocus)="keepCancelOn($event)"
+    (ionCancel)="keepCancelOn($event, true)"
+    [(ngModel)]="searchVal"
+    [ngClass]="{'keep-cancel-on': focusOut}"
+    [cancelButtonText]="'Cancel'"
+    placeholder="Search by test facility number, name or address"
+    #searchBar
+    id="stay-cancel"
+  >
+  </ion-searchbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list *ngIf="filteredTestStations.length">
+    <ion-item-group *ngFor="let testStationGroup of filteredTestStations">
+      <div *ngFor="let testStation of testStationGroup; let i = index">
+        <ion-item-divider class="ion-padding-start" *ngIf="i === 0">
+          <strong>{{ testStation.testStationName | slice:0:1 }}</strong>
+        </ion-item-divider>
+        <ion-item detail="true"
+          (click)="openTestStation(testStation)"
+          class="list-item-height ion-text-wrap"
+        >
+          <ion-label>
+            <ion-text>
+              <h2>{{ testStation.testStationName }}</h2>
+            </ion-text>
+            <h3
+              *ngIf="testStation.searchProperty !== 'testStationAddress'"
+              [innerHTML]="boldSearchVal(testStation.testStationPNumber, searchVal)"
+            ></h3>
+            <p
+              *ngIf="testStation.searchProperty === 'testStationAddress'"
+              [innerHTML]="boldSearchVal(testStation.testStationAddress, searchVal)"
+            ></p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-item-group>
+  </ion-list>
+
+  <div *ngIf="filteredTestStations.length === 0" class="no-result">
+    <h3>No results found</h3>
+    <span>You can search by test facility number,</span>
+    <span>name or address</span>
+  </div>
+</ion-content>

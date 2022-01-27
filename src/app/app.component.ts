@@ -7,12 +7,14 @@ import {
   ACCESSIBILITY_DEFAULT_VALUES,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  CONNECTION_STATUS, PAGE_NAMES
+  CONNECTION_STATUS, PAGE_NAMES, SIGNATURE_STATUS
 } from '@app/app.enums';
 import { default as AppConfig } from '../../config/application.hybrid';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import {Router} from '@angular/router';
+import {EventsService} from '@providers/events/events.service';
+import {Subscription} from 'rxjs';
 
 
 
@@ -22,8 +24,10 @@ import {Router} from '@angular/router';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  eventSubscription: Subscription;
   constructor(
     private platform: Platform,
+    public events: EventsService,
     private networkService: NetworkService,
     private authenticationService: AuthenticationService,
     public storageService: StorageService,
@@ -44,6 +48,8 @@ export class AppComponent implements OnInit {
 
   async initApp() {
 
+    await this.authenticationService.initialiseAuth();
+
     this.networkService.initialiseNetworkStatus();
 
     await this.authenticationService.expireTokens();
@@ -60,8 +66,7 @@ export class AppComponent implements OnInit {
 
     const authStatus = await this.authenticationService.checkUserAuthStatus();
     if (authStatus && !this.appService.isSignatureRegistered) {
-      // @TODO - Ionic 5 - enable this once signature pad page implemented
-      // await this.navigateToSignaturePage();
+      await this.navigateToSignaturePage();
     } else {
       await this.manageAppState();
     }
@@ -72,9 +77,15 @@ export class AppComponent implements OnInit {
   }
 
   async navigateToSignaturePage(): Promise<void> {
+    this.manageAppStateListeners();
     await this.router.navigate([PAGE_NAMES.SIGNATURE_PAD_PAGE], {replaceUrl: true});
-    // @TODO - Ionic 5 - enable this
-    // this.manageAppStateListeners();
+  }
+
+  manageAppStateListeners() {
+    this.eventSubscription = this.events.subscribe(SIGNATURE_STATUS.SAVED_EVENT, async () => {
+      this.eventSubscription.unsubscribe();
+      await this.manageAppState();
+    });
   }
 
   private async setRootPage(): Promise<any> {
@@ -85,8 +96,8 @@ export class AppComponent implements OnInit {
   }
 
   async manageAppState() {
-    // @TODO - Ionic 5 - replace navigation to rood with method below
     await this.setRootPage();
+    // @TODO - Ionic 5 - replace navigation to root above with method below
     // let error, storageState, storedVisit, storedActivities;
     //
     // [error, storageState] = await to(this.storageService.read(STORAGE.STATE));

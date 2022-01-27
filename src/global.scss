@@ -31,69 +31,120 @@ body {
 
 .header-ios {
   -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+  //--min-height: 300px;
 
-  ion-navbar.toolbar {
+
+  ion-toolbar {
+    padding-top: 0;
+    min-height: 50px;
+    --background: var(--header-color);
     display: flex;
     align-items: flex-start;
-  }
-
-  ion-navbar {
-    min-height: 116px;
+    --min-height: 116px;
     height: inherit;
 
     ion-title {
       padding: 0;
       height: 44px;
-      margin: 46px 0 0 10px;
-
-      .toolbar-title-ios {
-        text-align: left;
-        font-size: var(--font-size-extra-large);
-        font-weight: var(--font-weight-bold);
-        line-height: 41px;
-        color: var(--light);
-      }
+      margin: 70px 0 0 10px;
+      text-align: left;
+      font-size: var(--font-size-extra-large);
+      font-weight: var(--font-weight-bold);
+      line-height: 41px;
+      color: var(--light);
     }
 
     button {
       color: var(--light);
       font-weight: var(--font-weight-bold);
-
-      &.back-button {
-        font-weight: var(--font-weight-normal);
-      }
     }
+
+    ion-back-button {
+      font-weight: var(--font-weight-normal);
+      color: white;
+    }
+
+    //ion-searchbar {
+    //  min-height: inherit;
+    //  padding-bottom: 8px;
+    //  --placeholder-color: white;
+    //  --background: rgba(255, 255, 255, 0.3);
+    //
+    //  .searchbar-ios-cancel {
+    //    margin: 0;
+    //  }
+    //
+    //  .searchbar-input {
+    //
+    //  }
+    //}
+    //
+    //ion-searchbar.keep-cancel-on {
+    //  .searchbar-ios-cancel {
+    //    display: block;
+    //    padding-left: 8px;
+    //  }
+    //}
+
   }
 
-  ion-navbar.testInProgress {
-    .toolbar-background-ios {
-      background-color: var(--primary);
-    }
-  }
+  //ion-navbar {
+  //  min-height: 116px;
+  //  height: inherit;
+  //
+  //  ion-title {
+  //    padding: 0;
+  //    height: 44px;
+  //    margin: 46px 0 0 10px;
+  //
+  //    .toolbar-title-ios {
+  //      text-align: left;
+  //      font-size: var(--font-size-extra-large);
+  //      font-weight: var(--font-weight-bold);
+  //      line-height: 41px;
+  //      color: var(--light);
+  //    }
+  //  }
+  //
+  //  button {
+  //    color: var(--light);
+  //    font-weight: var(--font-weight-bold);
+  //
+  //    &.back-button {
+  //      font-weight: var(--font-weight-normal);
+  //    }
+  //  }
+  //}
+
+  //ion-navbar.testInProgress {
+  //  .toolbar-background-ios {
+  //    background-color: var(--primary);
+  //  }
+  //}
 
   ion-toolbar {
     padding-top: 0;
     min-height: 50px;
 
-    .searchbar-ios {
-      min-height: inherit;
-      padding-bottom: 8px;
-
-      .searchbar-ios-cancel {
-        margin: 0;
-      }
-
-      .searchbar-input {
-        background-color: var(--color-grey-4);
-      }
-    }
-
-    .searchbar-ios.keep-cancel-on {
-      .searchbar-ios-cancel {
-        display: block;
-        padding-left: 8px;
-      }
-    }
+    //.searchbar-ios {
+    //  min-height: inherit;
+    //  padding-bottom: 8px;
+    //
+    //  .searchbar-ios-cancel {
+    //    margin: 0;
+    //  }
+    //
+    //  .searchbar-input {
+    //    background-color: var(--color-grey-4);
+    //  }
+    //}
+    //
+    //.searchbar-ios.keep-cancel-on {
+    //  .searchbar-ios-cancel {
+    //    display: block;
+    //    padding-left: 8px;
+    //  }
+    //}
 
     ion-title {
       padding: 0;
@@ -108,6 +159,13 @@ body {
 
 .ion-item-title {
   -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+}
+
+ion-item {
+  p, h3 {
+    color: grey;
+  }
+
 }
 
 ion-list .input-wrapper {
@@ -152,10 +210,12 @@ span[text-left] {
 .ios ion-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
-.ios ion-menu > .menu-inner > ion-header > .toolbar.statusbar-padding:first-child {
-  padding-top: 24px;
-  //padding-left: calc(constant(safe-area-inset-left) + 4px);
-  //padding-right: calc(constant(safe-area-inset-right) + 4px);
+.ios ion-menu > .menu-inner > ion-header > ion-toolbar:first-child {
+  //padding-top: 24px;
+  padding-top: calc(env(safe-area-inset-top) + 4px);
+  padding-left: calc(env(safe-area-inset-left) + 4px);
+  padding-right: calc(env(safe-area-inset-right) + 4px);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
   min-height: 116px;
 
   .title-ios {
@@ -198,7 +258,16 @@ span[text-left] {
 }
 
 // Searchbars found in the header
-.header-ios ion-toolbar .searchbar-ios {
+ion-header > ion-searchbar {
+  background: var(--header-color);
+  .searchbar-input {
+    --background: rgba(255, 255, 255, 0.3);
+    --color: var(--light);
+    height: 36px;
+    --border-radius: 5px;
+    --placeholder-color: var(--light)
+  }
+
   .searchbar-search-icon,
   .searchbar-clear-icon {
     filter: brightness(0) invert(1);
@@ -211,18 +280,8 @@ span[text-left] {
     height: 14px;
     background-size: 14px;
   }
-
-  .searchbar-input {
-    background-color: rgba(255, 255, 255, 0.3);
-    color: var(--light);
-    font-size: var(--font-size-medium);
-    height: 36px;
-
-    &::placeholder {
-      color: var(--light);
-    }
-  }
 }
+
 
 .content-background-color-grey {
   background-color: var(--color-grey-3);
@@ -548,4 +607,60 @@ ion-item-divider.defect-heading {
 .accessibility-max-width h3.cor-details {
   width: initial !important;
   max-width: 100% !important;
+}
+
+
+
+//signature popover css
+.signature-popover {
+  --width: 80vw;
+  --backdrop-opacity: 0.4;
+  div p {
+    //scrollable message window
+    max-height: 100px;
+    overflow: scroll;
+    margin: 0;
+  }
+
+  .pop-img {
+    background-color: var(--light);
+    height: 95%;
+    width: 100%;
+  }
+
+  h5 {
+    //popover title
+    margin-bottom: 5px;
+  }
+
+  p {
+    //popover subtitle
+    margin-top: 0;
+  }
+
+  .row-border {
+    border-top: 0.5px groove var(--color-grey-3);
+
+    .col-border {
+      border-right: 0.5px groove var(--color-grey-3);
+    }
+
+    .button-ios {
+      height: initial; //revert em scaling height of the button
+      min-height: 29px;
+    }
+  }
+
+  .popover-content {
+    position: fixed;
+    background-color: var(--color-grey-3);
+  }
+
+  ion-backdrop {
+    opacity: 0.4 !important;
+  }
+
+  .popover-viewport {
+    overflow: hidden; //Fix 1px scrolling introduced by the buttons
+  }
 }

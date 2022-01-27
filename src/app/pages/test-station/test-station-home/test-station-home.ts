@@ -90,7 +90,7 @@ export class TestStationHomePage implements OnInit {
       if (this.appService.isSignatureRegistered) {
         await this.router.navigate([PAGE_NAMES.TEST_STATION_SEARCH_PAGE]);
       } else {
-        // await this.router.navigate([PAGE_NAMES.SIGNATURE_PAD_PAGE]);
+        await this.router.navigate([PAGE_NAMES.SIGNATURE_PAD_PAGE]);
       }
     } else {
       await this.router.navigate([PAGE_NAMES.TEST_STATION_SEARCH_PAGE]);

@@ -61,7 +61,7 @@ describe('AuthenticationService', () => {
     'getNetworkState',
   ]);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -81,6 +81,7 @@ describe('AuthenticationService', () => {
     commFunc = TestBed.inject(CommonFunctionsService);
     authenticationService = TestBed.inject(AuthenticationService);
     networkService = TestBed.inject(NetworkService);
+    await authenticationService.initialiseAuth();
   });
 
   afterEach(() => {

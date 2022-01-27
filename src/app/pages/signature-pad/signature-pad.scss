@@ -1,0 +1,44 @@
+:host {
+  -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+
+  ion-content > div.scroll-content {
+    overflow: hidden; //disable scrolling for the page
+  }
+
+  .header-color {
+    background-color: var(--dark);
+
+    h4 {
+      color: var(--light);
+    }
+  }
+
+  .signature-row {
+    background-color: var(--light);
+  }
+
+  .make-full-width {
+    width: 100%;
+  }
+
+  div {
+    signature-pad {
+      canvas {
+        border: 1px solid var(--color-grey-3);
+        display: block;
+        margin: 12px auto;
+        width: 95%;
+        max-height: 200px;
+      }
+    }
+  }
+
+  ion-button.cancel {
+    font-weight: var(--font-weight-normal);
+    color: var(--ion-color-light);
+  }
+
+  .sign-text {
+    color: var(--color-grey-1);
+  }
+}

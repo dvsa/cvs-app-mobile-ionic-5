@@ -40,9 +40,7 @@ export class AuthenticationService {
     private logProvider: LogsProvider,
     private networkService: NetworkService,
     private storage: Storage,
-  ) {
-    this.initialiseAuth();
-  }
+  ) {}
 
   async initialiseAuth() {
     const isCordovaApp = this.platform.is('cordova');
@@ -87,6 +85,7 @@ export class AuthenticationService {
   }
 
   async hasUserRights(checkRoles: string[]): Promise<boolean> {
+    await this.updateTokenInfo();
     const { testerRoles: roles } = this.tokenInfo;
     return roles && roles.some((role) => checkRoles.indexOf(role) >= 0);
   }
