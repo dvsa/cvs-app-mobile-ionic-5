@@ -50,4 +50,51 @@ export class AppAlertService {
 
     await alert.present();
   }
+  // TODO - add these in after pages are added
+  // alertSuggestedTestTypes(
+  //   message: string,
+  //   vehicle: VehicleModel,
+  //   buttons: any[],
+  //   testCreatePage: TestCreatePage
+  // ) {
+  //   const alert = this.alertCtrl.create({
+  //     title: APP_STRINGS.RECENTLY_FAILED_TEST_TITLE,
+  //     message: message,
+  //     buttons: [...buttons,
+  //       {
+  //         text: 'Test History',
+  //         handler: () => {
+  //           testCreatePage.goToVehicleTestResultsHistory(vehicle);
+  //         }
+  //       },
+  //       {
+  //         text: 'Select a different test type',
+  //         handler: () => {
+  //           testCreatePage.addNewTestType(vehicle);
+  //         }
+  //       }
+  //     ],
+  //     enableBackdropDismiss: false,
+  //   });
+  //
+  //   alert.present();
+  // }
+  //
+  // callSupport() {
+  //   const confirm = this.alertCtrl.create({
+  //     title: `${AppConfig.app.KEY_PHONE_NUMBER}`,
+  //     buttons: [
+  //       {
+  //         text: APP_STRINGS.CANCEL
+  //       },
+  //       {
+  //         text: APP_STRINGS.CALL,
+  //         handler: () => {
+  //           this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true);
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   confirm.present();
+  // }
 }
