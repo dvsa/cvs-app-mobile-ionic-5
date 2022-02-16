@@ -81,7 +81,7 @@ export class AppAlertService {
   // }
   //
   // callSupport() {
-  //   const confirm = this.alertCtrl.create({
+  //   const alert = this.alertCtrl.create({
   //     title: `${AppConfig.app.KEY_PHONE_NUMBER}`,
   //     buttons: [
   //       {
@@ -91,10 +91,12 @@ export class AppAlertService {
   //         text: APP_STRINGS.CALL,
   //         handler: () => {
   //           this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true);
+  //           alert.dismiss();
   //         }
   //       }
   //     ]
   //   });
-  //   confirm.present();
+  //
+  //   alert.present();
   // }
 }
