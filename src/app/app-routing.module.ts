@@ -24,6 +24,10 @@ const routes: Routes = [
     path: PAGE_NAMES.SIGNATURE_PAD_PAGE,
     loadChildren: () => import('./pages/signature-pad/signature-pad.module').then( m => m.SignaturePadPageModule)
   },
+  {
+    path: PAGE_NAMES.TEST_STATION_DETAILS_PAGE,
+    loadChildren: () => import('./pages/test-station/test-station-details/test-station-details.module').then( m => m.TestStationDetailsModule)
+  },
 ];
 
 @NgModule({

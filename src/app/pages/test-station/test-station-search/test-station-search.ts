@@ -1,9 +1,10 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
 import { TestStationService } from '@providers/test-station/test-station.service';
-import { ANALYTICS_SCREEN_NAMES, APP } from '@app/app.enums';
+import {ANALYTICS_SCREEN_NAMES, APP, PAGE_NAMES} from '@app/app.enums';
 import { AnalyticsService } from '@providers/global';
 import {EventsService} from '@providers/events/events.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'page-test-station-search',
@@ -22,6 +23,7 @@ export class TestStationSearchPage implements OnInit {
     private testStationService: TestStationService,
     private analyticsService: AnalyticsService,
     private zone: NgZone,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -45,8 +47,9 @@ export class TestStationSearchPage implements OnInit {
   }
 
   // @TODO - Ionic 5 Replace Navigation to test station details page when ready
-  openTestStation(testStation: TestStationReferenceDataModel): void {
-    // this.navCtrl.push('TestStationDetailsPage', { testStation: testStation }).then(() => {
+  async openTestStation(testStation: TestStationReferenceDataModel): Promise<void> {
+    await this.router.navigate([PAGE_NAMES.TEST_STATION_DETAILS_PAGE], {state: {testStation}});
+
     this.clearSearch();
     this.focusOut = false;
     // });
@@ -68,7 +71,8 @@ export class TestStationSearchPage implements OnInit {
   }
 
   clearSearch(): void {
-    this.events.publish(APP.NAV_OUT);
+    //@TODO - do we need this? what for?
+    // this.events.publish(APP.NAV_OUT);
     this.searchVal = '';
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
       this.testStations,
