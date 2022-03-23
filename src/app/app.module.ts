@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {
   AnalyticsService,
   AppAlertService,
-  AppService, DurationService,
+  AppService,
   HTTPService, NetworkService,
   StateReformingService,
   SyncService
@@ -81,7 +81,6 @@ const CUSTOM_PROVIDERS = [
   LogsProvider,
   SignatureService,
   AnalyticsService,
-  DurationService,
   NetworkService,
   DataStoreProvider,
   EventsService,

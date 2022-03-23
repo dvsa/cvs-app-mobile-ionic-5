@@ -16,13 +16,11 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
-  DURATION_TYPE,
   TEST_TYPE_RESULTS,
   VEHICLE_TYPE
 } from '@app/app.enums';
 import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
-import { AnalyticsService, DurationService } from '../global';
-import { Duration } from '@models/duration.model';
+import { AnalyticsService } from '../global';
 
 describe('Provider: TestTypeService', () => {
   let testTypeService: TestTypeService;
@@ -32,7 +30,6 @@ describe('Provider: TestTypeService', () => {
   let visitServiceSpy: any;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  let durationService: DurationService;
 
   const TEST_TYPES: TestTypesReferenceDataModel[] = TestTypesReferenceDataMock.TestTypesData;
   const DEFECT: DefectDetailsModel = DefectDetailsDataMock.DefectData;
@@ -51,7 +48,6 @@ describe('Provider: TestTypeService', () => {
       providers: [
         TestTypeService,
         CommonFunctionsService,
-        DurationService,
         { provide: VisitService, useValue: visitServiceSpy },
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy }
@@ -62,7 +58,6 @@ describe('Provider: TestTypeService', () => {
     storageService = TestBed.inject(StorageService);
     visitService = TestBed.inject(VisitService);
     analyticsService = TestBed.inject(AnalyticsService);
-    durationService = TestBed.inject(DurationService);
   });
 
   afterEach(() => {
@@ -85,20 +80,6 @@ describe('Provider: TestTypeService', () => {
   });
 
   describe('addDefect', () => {
-    let getDurationSpy: jasmine.Spy; let getTakenDurationSpy: jasmine.Spy;
-    let timeStart: number;
-    let timeEnd: number;
-
-    beforeEach(() => {
-      timeStart = 1620242516913;
-      timeEnd = 1620243020205;
-      spyOn(Date, 'now').and.returnValue(timeEnd);
-
-      spyOn(durationService, 'setDuration');
-      getDurationSpy = spyOn(durationService, 'getDuration').and.returnValue({start: 12345, end: 123456});
-      getTakenDurationSpy = spyOn(durationService, 'getTakenDuration').and.returnValue(1234);
-    });
-
     it('should add a defect in test array', async () => {
       const testType: TestTypeModel = TestTypeDataModelMock.TestTypeData;
       expect(testType.defects.length).toEqual(0);
@@ -124,19 +105,6 @@ describe('Provider: TestTypeService', () => {
 
       const key = Object.keys(ANALYTICS_LABEL).indexOf('DEFICIENCY_REFERENCE') + 1;
       expect(analyticsService.addCustomDimension).toHaveBeenCalledWith(key, deficiencyRef);
-    });
-
-    it('should track defect Duration', async () => {
-      const strType: string = DURATION_TYPE[DURATION_TYPE.DEFECT_TIME];
-      const duration: Duration = { start: timeStart, end: timeEnd };
-      getDurationSpy.and.returnValue(duration);
-      getTakenDurationSpy.and.returnValue(timeEnd);
-
-      await testTypeService.trackDefectDuration();
-
-      expect(durationService.setDuration).toHaveBeenCalledWith({ end: timeEnd }, strType);
-      expect(durationService.getDuration).toHaveBeenCalledWith(strType);
-      expect(durationService.getTakenDuration).toHaveBeenCalledWith(duration);
     });
   });
 

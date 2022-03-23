@@ -162,4 +162,8 @@ export class TestTypeServiceMock {
   isSpecialistWithoutCertificateNumberCapturedIds(testTypeId: string): boolean {
     return SpecialistTestTypesData.SpecialistWithoutCertificateNumberCapturedIds.indexOf(testTypeId) !== -1;
   }
+
+  fixDateFormatting(testType: TestTypeModel) {
+    // dates already fixed
+  }
 }

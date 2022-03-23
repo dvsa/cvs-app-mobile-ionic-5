@@ -439,15 +439,6 @@ export enum WAIT_TIME_REASONS {
   OTHER = 'Other'
 }
 
-export enum DURATION_TYPE {
-  SEARCH_VEHICLE,
-  CONFIRM_VEHICLE,
-  CONFIRM_PREPARER,
-  ODOMETER_READING,
-  DEFECT_TIME,
-  TEST_TYPE
-}
-
 export enum ANALYTICS_EVENT_CATEGORIES {
   MOBILE_ACCESSIBILITY = 'accessibility',
   APP_UPDATE = 'app_update',
@@ -457,7 +448,9 @@ export enum ANALYTICS_EVENT_CATEGORIES {
   REVIEWS = 'reviews',
   DURATION = 'duration',
   VISIT = 'visit',
-  TEST = 'test'
+  TEST = 'test',
+  TEST_HISTORY = 'test_history',
+  SUGGESTED_TEST_TYPES_POPUP = 'suggested_test_types_popup'
 }
 
 export enum ANALYTICS_EVENTS {
@@ -476,41 +469,21 @@ export enum ANALYTICS_EVENTS {
   CANCEL_TEST = 'cancel_test',
   SUBMIT_TEST = 'submit_test',
   SUBMIT_VISIT = 'submit_visit',
+  SUBMITTED_TESTS = 'submitted_tests',
   ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
   SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
   CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
-  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken'
+  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
+  SUGGESTED_TEST_TYPES_POPUP = 'suggested_test_types_popup',
+  ADD_SUGGESTED_TEST_TYPE = 'add_suggested_test_type',
+  VIEW_TEST_HISTORY = 'view_test_history'
 }
 
 export enum ANALYTICS_LABEL {
   DEFICIENCY_REFERENCE = 'deficiency_reference',
   TEST_TYPE_NAME = 'test_type_name',
   ERROR = 'error',
-  MISSING_MADATORY_FIELD = 'missing_mandatory_field',
-
-  ADD_DEFECT_START_TIME = 'add_defect_start_time',
-  ADD_DEFECT_END_TIME = 'add_defect_end_time',
-  ADD_DEFECT_TIME_TAKEN = 'add_defect_time_taken',
-
-  ADD_ODOMETER_READING_START_TIME = 'add_odometer_reading_start_time',
-  ADD_ODOMETER_READING_END_TIME = 'add_odometer_reading_end_time',
-  ADD_ODOMETER_READING_TIME_TAKEN = 'add_odometer_reading_time_taken',
-
-  ADD_TEST_TYPE_START_TIME = 'add_test_type_start_time',
-  ADD_TEST_TYPE_END_TIME = 'add_test_type_end_time',
-  ADD_TEST_TYPE_TIME_TAKEN = 'add_test_type_time_taken',
-
-  SEARCH_VEHICLE_START_TIME = 'search_vehicle_start_time',
-  SEARCH_VEHICLE_END_TIME = 'search_vehicle_end_time',
-  SEARCH_VEHICLE_TIME_TAKEN = 'search_vehicle_time_taken',
-
-  CONFIRM_VEHICLE_START_TIME = 'confirm_vehicle_start_time',
-  CONFIRM_VEHICLE_END_TIME = 'confirm_vehicle_end_time',
-  CONFIRM_VEHICLE_TIME_TAKEN = 'confirm_vehicle_time_taken',
-
-  CONFIRM_PREPARER_TIME_TAKEN = 'confirm_preparer_time_taken',
-  CONFIRM_PREPARER_START_TIME = 'confirm_preparer_start_time',
-  CONFIRM_PREPARER_END_TIME = 'confirm_preparer_end_time'
+  MISSING_MADATORY_FIELD = 'missing_mandatory_field'
 }
 
 export enum ANALYTICS_VALUE {
@@ -526,7 +499,8 @@ export enum ANALYTICS_VALUE {
   TEST_RESULT_HISTORY_FAILED = 'Failed retrieving the testResultsHistory',
   TEST_RECORD_FAILED = 'Failed retrieving the techRecord',
   VEHICLE_NOT_FOUND = 'Vehicle not found',
-  SAVING_SIGNATURE_FAILED = 'Saving signature failed'
+  SAVING_SIGNATURE_FAILED = 'Saving signature failed',
+  VIEW_TEST_HISTORY = 'View test history'
 }
 
 export enum ANALYTICS_SCREEN_NAMES {
