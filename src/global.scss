@@ -61,7 +61,12 @@ body {
 
     ion-back-button {
       font-weight: var(--font-weight-normal);
-      color: white;
+      color: var(--light);
+    }
+
+    ion-button {
+      --font-weight: var(--font-weight-normal);
+      --color: var(--light);
     }
 
     //ion-searchbar {
@@ -88,7 +93,8 @@ body {
 
   }
 
-  //ion-navbar {
+  // USED TO BE ion-navbar
+  //ion-toolbar {
   //  min-height: 116px;
   //  height: inherit;
   //
@@ -290,12 +296,9 @@ ion-header > ion-searchbar {
 // Global CSS for item-dividers
 ion-item-divider {
   white-space: normal !important;
-
-  .label-ios {
-    white-space: normal;
-    margin: 0 8px 0 0;
-    font-size: var(--item-ios-divider-font-size);
-  }
+  margin: 0 8px 0 0;
+  font-size: var(--item-ios-divider-font-size);
+  color: var(--color-grey-1);
 }
 
 // Global CSS for item-groups
