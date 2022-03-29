@@ -2,8 +2,5 @@
 	"appId": "uk.gov.dvsa.cvsmobileapp",
 	"appName": "Vehicle Testing",
 	"webDir": "www",
-	"bundledWebRuntime": false,
-	"server": {
-		"url": "http://192.168.1.158:8100"
-	}
+	"bundledWebRuntime": false
 }

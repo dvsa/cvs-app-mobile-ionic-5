@@ -29,6 +29,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/test-station/test-station-details/test-station-details.module')
       .then( m => m.TestStationDetailsModule)
   },
+  {
+    path: PAGE_NAMES.VISIT_TIMELINE_PAGE,
+    loadChildren: () => import('./pages/visit/visit-timeline/visit-timeline.module')
+      .then( m => m.VisitTimelineModule)
+  },
 ];
 
 @NgModule({

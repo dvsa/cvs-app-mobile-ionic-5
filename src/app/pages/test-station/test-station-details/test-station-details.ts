@@ -12,7 +12,7 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_VALUE
+  ANALYTICS_VALUE, PAGE_NAMES
 } from '@app/app.enums';
 import { VisitService } from '@providers/visit/visit.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
@@ -46,7 +46,7 @@ export class TestStationDetailsPage {
     private loadingCtrl: LoadingController,
     private authenticationService: AuthenticationService,
     private analyticsService: AnalyticsService,
-    private appService: AppService,
+    public appService: AppService,
     private logProvider: LogsProvider
   ) {
     this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
@@ -65,7 +65,7 @@ export class TestStationDetailsPage {
     const { oid } = this.authenticationService.tokenInfo;
     await LOADING.present();
     this.startVisitSubscription = this.visitService.startVisit(this.testStation).subscribe(
-      (data) => {
+      async (data) => {
         this.logProvider.dispatchLog({
           type: 'info',
           message: `${oid} - ${data.status} ${data.statusText} for API call to ${data.url}`,
@@ -73,11 +73,10 @@ export class TestStationDetailsPage {
         });
 
         this.isNextPageLoading = false;
-        LOADING.dismiss();
+        await LOADING.dismiss();
         this.startVisitSubscription.unsubscribe();
         this.visitService.createVisit(this.testStation, data.body.id);
-        //@TODO replace with angular router
-        //this.navCtrl.push(PAGE_NAMES.VISIT_TIMELINE_PAGE, { testStation: this.testStation });
+        await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE], {state: {testStation: this.testStation}});
       },
       async (error) => {
         this.logProvider.dispatchLog({
