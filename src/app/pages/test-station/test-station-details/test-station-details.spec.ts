@@ -24,26 +24,30 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_SCREEN_NAMES,
-  ANALYTICS_VALUE
+  ANALYTICS_VALUE, PAGE_NAMES
 } from '@app/app.enums';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import {RouterTestingModule} from '@angular/router/testing';
 import {VisitServiceMock} from '@test-config/services-mocks/visit-service.mock';
+import {VisitTimelinePage} from '@app/pages/visit/visit-timeline/visit-timeline';
+import {TestStationDataMock} from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
+import {throwError} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
 
 fdescribe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
   let fixture: ComponentFixture<TestStationDetailsPage>;
   let callNumberSpy: any;
   let openNativeSettingsSpy: any;
-  // let navParams: NavParams;
   let visitServiceMock: VisitService;
   let alertCtrl: AlertController;
   let logProvider: LogsProvider;
   let logProviderSpy;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  const routerSpy = jasmine.createSpyObj('Router', ['getCurrentNavigation', 'navigate']);
+  let router: Router;
+  const testStationMock = TestStationDataMock.TestStationData[0];
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
@@ -61,10 +65,14 @@ fdescribe('Component: TestStationDetailsPage', () => {
       imports: [
         IonicModule,
         PipesModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.VISIT_TIMELINE_PAGE,
+            component: VisitTimelinePage
+          }
+        ])
       ],
       providers: [
-        // { provide: NavParams, useClass: NavParamsMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: CallNumber, useValue: callNumberSpy },
@@ -74,8 +82,7 @@ fdescribe('Component: TestStationDetailsPage', () => {
         { provide: Store, useClass: TestStore },
         { provide: AppService, useClass: AppServiceMock },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: AnalyticsService, useValue: analyticsServiceSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: AnalyticsService, useValue: analyticsServiceSpy }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -84,33 +91,25 @@ fdescribe('Component: TestStationDetailsPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestStationDetailsPage);
     component = fixture.componentInstance;
-    // navParams = TestBed.inject(NavParams);
     visitServiceMock = TestBed.inject(VisitService);
     alertCtrl = TestBed.inject(AlertController);
     analyticsService = TestBed.inject(AnalyticsService);
     logProvider = TestBed.inject(LogsProvider);
-  });
-
-  beforeEach(() => {
-    //@TODO replace with angular router
-    // const navParams = fixture.debugElement.injector.get(NavParams);
-
-    // navParams.get = jasmine.createSpy('get').and.callFake((param) => {
-    //   const params = {
-    //     testStation: {} as TestStationReferenceDataModel
-    //   };
-    //   return params[param];
-    // });
-  });
-
-  beforeEach(() => {
-    // component.testStation = navParams.get('testStation');
+    router = TestBed.inject(Router);
+    spyOn(router, 'getCurrentNavigation').and.returnValue(
+      { extras:
+          {
+            state: {
+              testStation: testStationMock
+            }
+          }
+      } as any
+      );
   });
 
   afterEach(() => {
     fixture.destroy();
     component = null;
-    // navParams = null;
   });
 
   it('should create component', () => {
@@ -126,10 +125,9 @@ fdescribe('Component: TestStationDetailsPage', () => {
     );
   });
 
-  it('should test confirmStartVisit if error', () => {
-    //@TODO - resolve this error
-    // visitServiceMock.isError = true;
-    component.confirmStartVisit();
+  it('should test confirmStartVisit if error', async () => {
+    spyOn(visitServiceMock, 'startVisit').and.returnValue(throwError(new HttpErrorResponse({})));
+    await component.confirmStartVisit();
     expect(analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
@@ -138,11 +136,13 @@ fdescribe('Component: TestStationDetailsPage', () => {
   });
 
   it('should create reportIssue alert', async () => {
+    component.ionViewWillEnter();
     await component.reportIssueHandler();
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
   it('should create alert for starting a visit', async () => {
+    component.ionViewWillEnter();
     await component.startVisit();
     expect(alertCtrl.create).toHaveBeenCalled();
   });

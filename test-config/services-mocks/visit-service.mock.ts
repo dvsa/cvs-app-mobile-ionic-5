@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 
 export class VisitServiceMock {
   visit: VisitModel = {} as VisitModel;
-  isError = false;
 
   public async createVisit(testStation) {
     this.visit.startTime = new Date().toISOString();
@@ -22,7 +21,7 @@ export class VisitServiceMock {
   }
 
   public startVisit(): Observable<any> {
-    return this.isError ? Observable.throw({error: {error: ''}}) : of({body: {id: '123'}});
+    return of({body: {id: '123'}});
   }
 
   public endVisit(isError) {
