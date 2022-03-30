@@ -8,7 +8,7 @@ export class VisitServiceMock {
   visit: VisitModel = {} as VisitModel;
   isError = false;
 
-  public createVisit(testStation) {
+  public async createVisit(testStation) {
     this.visit.startTime = new Date().toISOString();
     this.visit.endTime = null;
     this.visit.testStationName = testStation.atfName;
@@ -17,7 +17,7 @@ export class VisitServiceMock {
     this.visit.testerId = '';
     this.visit.testerName = '';
     this.visit.tests = [];
-    this.updateVisit();
+    await this.updateVisit();
     return this.visit;
   }
 
@@ -34,9 +34,9 @@ export class VisitServiceMock {
     }
   }
 
-  public addTest(test: TestModel) {
+  public async addTest(test: TestModel) {
     this.visit.tests.push(test);
-    this.updateVisit();
+    await this.updateVisit();
   }
 
   public removeTest(testToRemove: TestModel) {
