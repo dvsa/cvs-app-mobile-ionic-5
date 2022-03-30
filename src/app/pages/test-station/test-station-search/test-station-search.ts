@@ -67,6 +67,8 @@ export class TestStationSearchPage implements OnInit {
   }
 
   clearSearch(): void {
+    //@TODO - do we need this? what for?
+    // this.events.publish(APP.NAV_OUT);
     this.searchVal = '';
     this.filteredTestStations = this.testStationService.sortAndSearchTestStation(
       this.testStations,
