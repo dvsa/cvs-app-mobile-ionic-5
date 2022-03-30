@@ -35,7 +35,7 @@ import {TestStationDataMock} from '@assets/data-mocks/reference-data-mocks/test-
 import {throwError} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
 
-fdescribe('Component: TestStationDetailsPage', () => {
+describe('Component: TestStationDetailsPage', () => {
   let component: TestStationDetailsPage;
   let fixture: ComponentFixture<TestStationDetailsPage>;
   let callNumberSpy: any;
