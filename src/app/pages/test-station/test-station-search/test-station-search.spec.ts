@@ -11,7 +11,7 @@ import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/tes
 import { TestStationDetailsPage } from '@app/pages/test-station/test-station-details/test-station-details';
 import { Router } from '@angular/router';
 
-fdescribe('Component: TestStationSearchPage', () => {
+describe('Component: TestStationSearchPage', () => {
   let comp: TestStationSearchPage;
   let fixture: ComponentFixture<TestStationSearchPage>;
   let testStationService: TestStationService;
