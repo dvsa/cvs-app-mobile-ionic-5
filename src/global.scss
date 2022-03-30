@@ -263,15 +263,18 @@ span[text-left] {
   }
 }
 
+.searchbar-input.sc-ion-searchbar-ios {
+  color: var(--light);
+  --placeholder-color: var(--light);
+}
+
 // Searchbars found in the header
 ion-header > ion-searchbar {
   background: var(--header-color);
   .searchbar-input {
     --background: rgba(255, 255, 255, 0.3);
-    --color: var(--light);
     height: 36px;
     --border-radius: 5px;
-    --placeholder-color: var(--light)
   }
 
   .searchbar-search-icon,
@@ -287,7 +290,6 @@ ion-header > ion-searchbar {
     background-size: 14px;
   }
 }
-
 
 .content-background-color-grey {
   background-color: var(--color-grey-3);

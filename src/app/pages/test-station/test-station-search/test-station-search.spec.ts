@@ -5,15 +5,20 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestStationService } from '@providers/test-station/test-station.service';
 import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
 import { AnalyticsService } from '@providers/global';
-import { ANALYTICS_SCREEN_NAMES } from '@app/app.enums';
+import { ANALYTICS_SCREEN_NAMES, PAGE_NAMES } from '@app/app.enums';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
+import { TestStationDetailsPage } from '@app/pages/test-station/test-station-details/test-station-details';
+import { Router } from '@angular/router';
 
-describe('Component: TestStationSearchPage', () => {
+fdescribe('Component: TestStationSearchPage', () => {
   let comp: TestStationSearchPage;
   let fixture: ComponentFixture<TestStationSearchPage>;
   let testStationService: TestStationService;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
+  const testStation = TestStationDataMock.TestStationData[0];
+  let router: Router;
 
   beforeEach(waitForAsync(async () => {
     const testStationServiceSpy = jasmine.createSpyObj('TestStationService', [
@@ -27,11 +32,13 @@ describe('Component: TestStationSearchPage', () => {
       declarations: [TestStationSearchPage],
       imports: [
         IonicModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: PAGE_NAMES.TEST_STATION_DETAILS_PAGE, component: TestStationDetailsPage}
+        ]),
       ],
       providers: [
         { provide: TestStationService, useValue: testStationServiceSpy },
-        { provide: AnalyticsService, useValue: analyticsServiceSpy }
+        { provide: AnalyticsService, useValue: analyticsServiceSpy },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
@@ -40,6 +47,7 @@ describe('Component: TestStationSearchPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestStationSearchPage);
     comp = fixture.componentInstance;
+    router = TestBed.inject(Router);
     testStationService = TestBed.inject(TestStationService);
     analyticsService = TestBed.inject(AnalyticsService);
   });
@@ -71,18 +79,14 @@ describe('Component: TestStationSearchPage', () => {
     }
   ));
 
-  it('should test keepCancelOn method', () => {
-    expect(comp.focusOut).toBeFalsy();
-    comp.keepCancelOn('ev');
-    expect(comp.focusOut).toBeTruthy();
-    comp.keepCancelOn('ev', true);
-    expect(comp.focusOut).toBeFalsy();
-  });
-
-  //@TODO - Ionic 5 - update expectation to include router navigation
-  it('should push TestStationDetailsPage', () => {
+  it('should go to TestStationDetailsPage', async () => {
+    const navigateSpy = spyOn(router, 'navigate');
     spyOn(comp, 'clearSearch');
-    comp.openTestStation({} as TestStationReferenceDataModel);
+    await comp.openTestStation(testStation as TestStationReferenceDataModel);
+    expect(await navigateSpy).toHaveBeenCalledWith(
+      [PAGE_NAMES.TEST_STATION_DETAILS_PAGE],
+      {state: {testStation}}
+    );
     expect(comp.clearSearch).toHaveBeenCalled();
   });
 
