@@ -158,8 +158,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           },
           {
             text: APP_STRINGS.END_VISIT_TITLE,
-            handler: () => {
-              this.confirmVisit$ = this.confirmEndVisit$();
+            handler: async () => {
+              this.confirmVisit$ = await this.confirmEndVisit$();
             }
           }
         ]
@@ -190,17 +190,17 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       : this.formatVrmPipe.transform(vehicle.vrm);
   }
 
-  confirmEndVisit$(): Observable<any> {
+  async confirmEndVisit$(): Promise<Observable<any>> {
     this.isCreateTestEnabled = false;
 
-    // this.showLoading(APP_STRINGS.END_VISIT_LOADING);
+    await this.showLoading(APP_STRINGS.END_VISIT_LOADING);
 
     this.oid = this.authenticationService.tokenInfo.oid;
 
     return this.visitService.endVisit(this.visit.id).pipe(
-      mergeMap((endVisitResp) => {
+      mergeMap(async (endVisitResp) => {
         console.log(endVisitResp);
-        const { wasVisitAlreadyClosed } = endVisitResp.body;
+        const {wasVisitAlreadyClosed} = endVisitResp.body;
 
         this.logProvider.dispatchLog({
           type: LOG_TYPES.INFO,
@@ -209,7 +209,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        this.analyticsService.logEvent({
+        await this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.VISIT,
           event: ANALYTICS_EVENTS.SUBMIT_VISIT
         });
@@ -225,7 +225,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         this.timeline, this.visit, this.oid,
       )),
       mergeMap((activities: ActivityModel[]) => this.createActivityReasonsToPost$(activities)),
-      catchError((error) => {
+      catchError(async (error) => {
         // this.showLoading('');
 
         this.logProvider.dispatchLog({
@@ -234,7 +234,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        this.analyticsService.logEvent({
+        await this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
@@ -279,8 +279,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             },
             {
               text: APP_STRINGS.TRY_AGAIN_BTN,
-              handler: () => {
-                this.confirmVisit$ = this.confirmEndVisit$();
+              handler: async () => {
+                this.confirmVisit$ = await this.confirmEndVisit$();
               }
             }
           ]
@@ -365,18 +365,19 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
    * @param activities
    * @return
    */
-  createActivityReasonsToPost$(activities: ActivityModel[]): Observable<any> {
+  async createActivityReasonsToPost$(activities: ActivityModel[]): Promise<Observable<any>> {
     const activityWithReasons = this.activityService.createActivitiesForUpdateCall(activities);
     if (activityWithReasons.length > 0) {
       return this.activityService.updateActivityReasons(activityWithReasons).pipe(
-        map((activityReasonResp) => {
+        map(async (activityReasonResp) => {
           this.logProvider.dispatchLog({
             type: LOG_TYPES.INFO,
             message: `${this.oid} - ${activityReasonResp.status} ${activityReasonResp.statusText}
             for API call to ${activityReasonResp.url}`,
             timestamp: Date.now()
           });
-          return this.onUpdateActivityReasonsSuccess();
+          const reasons = await this.onUpdateActivityReasonsSuccess();
+          return reasons;
         }),
         catchError(async (error) => {
           await this.showLoading('');
@@ -391,7 +392,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         })
       );
     } else {
-      return of(this.onUpdateActivityReasonsSuccess());
+      const reasons = await this.onUpdateActivityReasonsSuccess();
+      return of(reasons);
     }
   }
 }
