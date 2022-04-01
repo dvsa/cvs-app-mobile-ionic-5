@@ -49,6 +49,9 @@ export class TestStationDetailsPage {
     public appService: AppService,
     private logProvider: LogsProvider
   ) {
+  }
+
+  ionViewWillEnter(){
     this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
   }
 
