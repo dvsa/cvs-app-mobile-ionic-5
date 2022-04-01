@@ -199,7 +199,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.visitService.endVisit(this.visit.id).pipe(
       mergeMap(async (endVisitResp) => {
-        console.log(endVisitResp);
         const {wasVisitAlreadyClosed} = endVisitResp.body;
 
         this.logProvider.dispatchLog({
@@ -226,7 +225,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       )),
       mergeMap((activities: ActivityModel[]) => this.createActivityReasonsToPost$(activities)),
       catchError(async (error) => {
-        // this.showLoading('');
+        await this.showLoading('');
 
         this.logProvider.dispatchLog({
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',

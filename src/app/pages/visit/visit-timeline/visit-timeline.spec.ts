@@ -55,7 +55,7 @@ import { AnalyticsService, DurationService } from '@providers/global';
 import { VisitDataMock } from '@assets/data-mocks/visit-data.mock';
 import { CommonFunctionsService } from '../../../providers/utils/common-functions';
 import { LogsProvider } from '@store/logs/logs.service';
-import { HttpResponse } from '@angular/common/http';
+import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
@@ -193,11 +193,12 @@ fdescribe('Component: VisitTimelinePage', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should delete platformSubscription if it exists', () => {
-    component.platformSubscription = new Subscription();
-    component.ngOnDestroy();
-    expect(component.platformSubscription.closed).toBeTruthy();
-  });
+  // TODO reintroduce as part of wait times
+  // it('should delete platformSubscription if it exists', () => {
+  //   component.platformSubscription = new Subscription();
+  //   component.ngOnDestroy();
+  //   expect(component.platformSubscription.closed).toBeTruthy();
+  // });
 
   it('should set starting duration for new test report', () => {
     const startTime = 1620396073594;
@@ -262,18 +263,20 @@ fdescribe('Component: VisitTimelinePage', () => {
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  it('should show loading indicator if loading text is provided', () => {
-    component.showLoading(APP_STRINGS.END_VISIT_LOADING);
+  it('should show loading indicator if loading text is provided', async () => {
+    const loading = loadingCtrl.create({ message: APP_STRINGS.END_VISIT_LOADING });
+    spyOn(loadingCtrl, 'create').and.returnValue(loading);
 
+    await component.showLoading(APP_STRINGS.END_VISIT_LOADING);
+
+    expect(loadingCtrl.create).toHaveBeenCalledOnceWith({ message: APP_STRINGS.END_VISIT_LOADING });
     expect(component.loading.present).toHaveBeenCalled();
   });
 
-  it('should dimiss loading indicator if loading text is not provided', () => {
-    component.loading = loadingCtrl.create({
-      message: 'text'
-    });
-    component.showLoading('');
+  it('should dismiss loading indicator if loading text is not provided', async () => {
+    await component.showLoading('');
 
+    expect(loadingCtrl.create).toHaveBeenCalledOnceWith({ message: '' });
     expect(component.loading.dismiss).toHaveBeenCalled();
   });
 
@@ -307,10 +310,7 @@ fdescribe('Component: VisitTimelinePage', () => {
     });
 
     it('should display the try again alert if endVisit failed', async () => {
-      const receivedError = {
-        error: AUTH.INTERNET_REQUIRED
-      };
-      visitServiceSpy.endVisit.and.returnValue(throwError(receivedError));
+      spyOn(visitService, 'endVisit').and.returnValue(throwError(new HttpErrorResponse({ status: 404 })));
 
       await component.confirmEndVisit$();
 
@@ -326,57 +326,58 @@ fdescribe('Component: VisitTimelinePage', () => {
       expect(alertCtrl.create).toHaveBeenCalled();
     });
 
-    describe('createActivityReasonsToPost$', () => {
-      const activityReason = {
-        id: 'activity_id',
-        waitReason: 'having lunch',
-        notes: 'flat tyres'
-      };
-      beforeEach(() => {
-        spyOn(storageService, 'delete');
-      });
+    // TODO Re-enable when wait times re-introduced
+    // describe('createActivityReasonsToPost$', () => {
+      // const activityReason = {
+      //   id: 'activity_id',
+      //   waitReason: 'having lunch',
+      //   notes: 'flat tyres'
+      // };
+      // beforeEach(() => {
+      //   spyOn(storageService, 'delete');
+      // });
 
-      it('should post the activity with reasons if exist and clear storage', async () => {
-        activityServiceSpy.createActivitiesForUpdateCall.and.returnValue([activityReason]);
-        activityServiceSpy.updateActivityReasons.and.returnValue(
-          of(new HttpResponse({
-            status: 200
-          }))
-        );
+      // it('should post the activity with reasons if exist and clear storage', async () => {
+      //   // activityServiceSpy.createActivitiesForUpdateCall.and.returnValue([activityReason]);
+      //   // activityServiceSpy.updateActivityReasons.and.returnValue(
+      //   //   of(new HttpResponse({
+      //   //     status: 200
+      //   //   }))
+      //   // );
+      //   //
+      //   // await component.createActivityReasonsToPost$([getMockActivity()]);
+      //   //
+      //   // expect(logProvider.dispatchLog).toHaveBeenCalled();
+      //   // expect(storageService.delete).toHaveBeenCalledTimes(3);
+      //   // expect(component.showLoading).toHaveBeenCalled();
+      //   // expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.CONFIRMATION_PAGE, {
+      //   //   testStationName: TEST_STATION_NAME
+      //   // });
+      // });
 
-        await component.createActivityReasonsToPost$([getMockActivity()]);
-
-        expect(logProvider.dispatchLog).toHaveBeenCalled();
-        expect(storageService.delete).toHaveBeenCalledTimes(3);
-        expect(component.showLoading).toHaveBeenCalled();
-        // expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.CONFIRMATION_PAGE, {
-        //   testStationName: TEST_STATION_NAME
-        // });
-      });
-
-      it('should only clear storage if activity reason does not exist', async () => {
-        activityServiceSpy.createActivitiesForUpdateCall.and.returnValue([]);
-
-        await component.createActivityReasonsToPost$([getMockActivity()]);
-
-
-        expect(storageService.delete).toHaveBeenCalledTimes(3);
-        expect(component.showLoading).toHaveBeenCalled();
-        // expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.CONFIRMATION_PAGE, {
-        //   testStationName: TEST_STATION_NAME
-        // });
-      });
-
-      it('should log error if post activity with reason fails', async () => {
-        activityServiceSpy.createActivitiesForUpdateCall.and.returnValue([activityReason]);
-        activityServiceSpy.updateActivityReasons.and.returnValue(throwError('error'));
-
-        await component.createActivityReasonsToPost$([getMockActivity()]);
-
-        expect(component.showLoading).toHaveBeenCalledWith('');
-        expect(logProvider.dispatchLog).toHaveBeenCalled();
-      });
-    });
+      // it('should only clear storage if activity reason does not exist', async () => {
+      //   activityServiceSpy.createActivitiesForUpdateCall.and.returnValue([]);
+      //
+      //   await component.createActivityReasonsToPost$([getMockActivity()]);
+      //
+      //
+      //   expect(storageService.delete).toHaveBeenCalledTimes(3);
+      //   expect(component.showLoading).toHaveBeenCalled();
+      //   // expect(navCtrl.push).toHaveBeenCalledWith(PAGE_NAMES.CONFIRMATION_PAGE, {
+      //   //   testStationName: TEST_STATION_NAME
+      //   // });
+      // });
+      //
+      // it('should log error if post activity with reason fails', async () => {
+      //   activityServiceSpy.createActivitiesForUpdateCall.and.returnValue([activityReason]);
+      //   activityServiceSpy.updateActivityReasons.and.returnValue(throwError('error'));
+      //
+      //   await component.createActivityReasonsToPost$([getMockActivity()]);
+      //
+      //   expect(component.showLoading).toHaveBeenCalledWith('');
+      //   expect(logProvider.dispatchLog).toHaveBeenCalled();
+      // });
+    // });
   });
 
   // TODO re-introduce this with wait times
