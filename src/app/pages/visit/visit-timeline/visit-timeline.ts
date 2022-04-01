@@ -86,11 +86,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     // });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const testStation = this.router.getCurrentNavigation().extras.state.testStation;
     this.visit = Object.keys(this.visitService.visit).length
       ? this.visitService.visit
-      : this.visitService.createVisit(testStation);
+      : await this.visitService.createVisit(testStation);
     //@TODO - Ionic 5 - Reinstate this
     // this.stateReformingService.saveNavStack(this.navCtrl);
   }

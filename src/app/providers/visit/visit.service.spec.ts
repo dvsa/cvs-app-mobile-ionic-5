@@ -15,7 +15,7 @@ import { ActivityService } from '../activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 
-describe('Provider: VisitService', () => {
+fdescribe('Provider: VisitService', () => {
   let visitService: VisitService;
   let appService: AppService;
   let storageService: StorageService;
@@ -84,21 +84,21 @@ describe('Provider: VisitService', () => {
     expect(httpServiceParams).toContain('"startTime":"2020-02-01T00:00:00.000Z"');
   });
 
-  it('should start a new visit', () => {
+  it('should start a new visit', async () => {
     expect(Object.keys(visitService.visit).length).toBe(0);
     expect(visitService.visit.startTime).toBeFalsy();
-    visitService.visit = visitService.createVisit(TEST_STATION);
+    visitService.visit = await visitService.createVisit(TEST_STATION);
     expect(visitService.visit.startTime).toBeTruthy();
-    visitService.updateVisit();
+    await visitService.updateVisit();
     expect(storageService.update).toHaveBeenCalled();
   });
 
-  it('should start a new visit, with id given', () => {
+  it('should start a new visit, with id given', async () => {
     expect(Object.keys(visitService.visit).length).toBe(0);
     expect(visitService.visit.startTime).toBeFalsy();
-    visitService.visit = visitService.createVisit(TEST_STATION, '32fe');
+    visitService.visit = await visitService.createVisit(TEST_STATION, '32fe');
     expect(visitService.visit.startTime).toBeTruthy();
-    visitService.updateVisit();
+    await visitService.updateVisit();
     expect(storageService.update).toHaveBeenCalled();
   });
 

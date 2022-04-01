@@ -28,7 +28,7 @@ export class VisitService {
     this.visit = {} as VisitModel;
   }
 
-  createVisit(testStation, id?: string) {
+  async createVisit(testStation, id?: string): Promise<VisitModel> {
     this.visit.startTime = new Date().toISOString();
     this.visit.endTime = null;
     this.visit.testStationName = testStation.testStationName;
@@ -39,8 +39,10 @@ export class VisitService {
     this.visit.testerName = this.authenticationService.tokenInfo.testerName;
     this.visit.testerEmail = this.authenticationService.tokenInfo.testerEmail;
     this.visit.tests = [];
-    if (id) {this.visit.id = id;}
-    this.updateVisit();
+    if (id) {
+      this.visit.id = id;
+    }
+    await this.updateVisit();
     return this.visit;
   }
 
@@ -67,11 +69,11 @@ export class VisitService {
     return this.visit.tests[this.visit.tests.length - 1];
   }
 
-  addTest(test: TestModel) {
+  async addTest(test: TestModel) {
     this.visit.tests.push(test);
     const latestActivity = this.activityService.activities[
-      this.activityService.activities.length - 1
-    ];
+    this.activityService.activities.length - 1
+      ];
     if (
       latestActivity &&
       latestActivity.activityType === VISIT.ACTIVITY_TYPE_WAIT &&
@@ -82,25 +84,25 @@ export class VisitService {
       this.activityService.updateActivities();
       this.activityService.waitTimeStarted = false;
     }
-    this.updateVisit();
+    await this.updateVisit();
   }
 
-  removeTest(testToRemove: TestModel) {
+  async removeTest(testToRemove: TestModel) {
     this.visit.tests.forEach((testReport, index) => {
       if (testReport === testToRemove) {
         this.visit.tests.splice(index, 1);
       }
     });
-    this.updateVisit();
+    await this.updateVisit();
   }
 
   getTests(): TestModel[] {
     return this.visit.tests;
   }
 
-  updateVisit() {
+  async updateVisit() {
     if (this.appService.caching) {
-      this.storageService.update(STORAGE.VISIT, this.visit);
+      await this.storageService.update(STORAGE.VISIT, this.visit);
     }
   }
 
