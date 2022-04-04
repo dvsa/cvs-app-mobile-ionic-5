@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   NavController,
   NavParams,
@@ -28,7 +28,7 @@ import {Router} from '@angular/router';
   templateUrl: 'test-station-details.html',
   styleUrls: ['test-station-details.scss']
 })
-export class TestStationDetailsPage {
+export class TestStationDetailsPage implements OnInit {
   testStation: TestStationReferenceDataModel;
   changeOpacity = false;
   nextAlert = false;
@@ -51,7 +51,7 @@ export class TestStationDetailsPage {
   ) {
   }
 
-  ionViewWillEnter(){
+  ngOnInit(){
     this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
   }
 
@@ -78,7 +78,7 @@ export class TestStationDetailsPage {
         this.isNextPageLoading = false;
         await LOADING.dismiss();
         this.startVisitSubscription.unsubscribe();
-        this.visitService.createVisit(this.testStation, data.body.id);
+        await this.visitService.createVisit(this.testStation, data.body.id);
         await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE], {state: {testStation: this.testStation}});
       },
       async (error) => {
