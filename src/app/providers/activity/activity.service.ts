@@ -87,8 +87,8 @@ export class ActivityService {
   /**
    * @deprecated stop using in favour of equivalent method taken a @param activities as parameter
    */
-  updateActivities() {
-    if (this.appService.caching) {this.storageService.update(STORAGE.ACTIVITIES, this.activities);}
+  async updateActivities() {
+    if (this.appService.caching) {await this.storageService.update(STORAGE.ACTIVITIES, this.activities);}
   }
 
   /**
