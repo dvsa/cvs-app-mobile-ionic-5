@@ -33,7 +33,7 @@ import { ActivityModel } from '@models/visit/activity.model';
 import { ActivityService } from '@providers/activity/activity.service';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
-import { Observable, Subscription } from 'rxjs';
+import {from, Observable, Subscription} from 'rxjs';
 import { LogsProvider } from '@store/logs/logs.service';
 import { of } from 'rxjs/observable/of';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
@@ -364,7 +364,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
    * @param activities
    * @return
    */
-  async createActivityReasonsToPost$(activities: ActivityModel[]): Promise<Observable<any>> {
+  createActivityReasonsToPost$(activities: ActivityModel[]): Observable<any> {
     const activityWithReasons = this.activityService.createActivitiesForUpdateCall(activities);
     if (activityWithReasons.length > 0) {
       return this.activityService.updateActivityReasons(activityWithReasons).pipe(
@@ -391,8 +391,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         })
       );
     } else {
-      const reasons = await this.onUpdateActivityReasonsSuccess();
-      return of(reasons);
+      return from(this.onUpdateActivityReasonsSuccess());
     }
   }
 }
