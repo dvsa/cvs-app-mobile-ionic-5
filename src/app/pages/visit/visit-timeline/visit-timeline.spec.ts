@@ -9,8 +9,6 @@ import {
   ModalController
 } from '@ionic/angular';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
-import {Subscription, throwError} from 'rxjs';
-import { of } from 'rxjs/observable/of';
 import {
   LoadingControllerMock,
   AlertControllerMock,
@@ -35,13 +33,8 @@ import { ActivityDataMock } from '@assets/data-mocks/activity.data.mock';
 import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 import { TestModel } from '@models/tests/test.model';
 import {
-  ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_EVENTS,
-  ANALYTICS_VALUE,
   APP_STRINGS,
-  AUTH,
   DURATION_TYPE,
-  TEST_REPORT_STATUSES,
   VEHICLE_TYPE
 } from '@app/app.enums';
 import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
@@ -52,14 +45,12 @@ import { ActivityModel } from '@models/visit/activity.model';
 import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 import { AnalyticsService, DurationService } from '@providers/global';
-import { VisitDataMock } from '@assets/data-mocks/visit-data.mock';
 import { CommonFunctionsService } from '../../../providers/utils/common-functions';
 import { LogsProvider } from '@store/logs/logs.service';
-import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
-fdescribe('Component: VisitTimelinePage', () => {
+describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
   let fixture: ComponentFixture<VisitTimelinePage>;
   let openNativeSettingsSpy: any;

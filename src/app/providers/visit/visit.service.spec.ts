@@ -15,7 +15,7 @@ import { ActivityService } from '../activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 
-fdescribe('Provider: VisitService', () => {
+describe('Provider: VisitService', () => {
   let visitService: VisitService;
   let appService: AppService;
   let storageService: StorageService;
