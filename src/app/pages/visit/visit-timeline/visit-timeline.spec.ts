@@ -271,35 +271,35 @@ describe('Component: VisitTimelinePage', () => {
         })
       );
 
-      const sitePrevClosed = await component.confirmEndVisit$();
-
-      expect(sitePrevClosed).toBeUndefined();
-      expect(component.isCreateTestEnabled).toBeFalsy();
-      expect(component.showLoading).toHaveBeenCalledWith(APP_STRINGS.END_VISIT_LOADING);
-      expect(visitService.endVisit).toHaveBeenCalledWith(getMockVisit().id);
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: ANALYTICS_EVENT_CATEGORIES.VISIT,
-        event: ANALYTICS_EVENTS.SUBMIT_VISIT
+      const sitePrevClosed = component.confirmEndVisit$().subscribe(() => {
+        expect(sitePrevClosed).toBeUndefined();
+        expect(component.isCreateTestEnabled).toBeFalsy();
+        expect(component.showLoading).toHaveBeenCalledWith(APP_STRINGS.END_VISIT_LOADING);
+        expect(visitService.endVisit).toHaveBeenCalledWith(getMockVisit().id);
+        expect(analyticsService.logEvent).toHaveBeenCalledWith({
+          category: ANALYTICS_EVENT_CATEGORIES.VISIT,
+          event: ANALYTICS_EVENTS.SUBMIT_VISIT
+        });
+        expect(logProvider.dispatchLog).toHaveBeenCalled();
+        expect(alertCtrl.create).toHaveBeenCalled();
       });
-      expect(logProvider.dispatchLog).toHaveBeenCalled();
-      expect(alertCtrl.create).toHaveBeenCalled();
     });
 
-    it('should display the try again alert if endVisit failed', async () => {
+    it('should display the try again alert if endVisit failed', () => {
       spyOn(visitService, 'endVisit').and.returnValue(throwError(new HttpErrorResponse({ status: 404 })));
 
-      await component.confirmEndVisit$();
+      component.confirmEndVisit$().subscribe(() => {
+        expect(component.showLoading).toHaveBeenCalledWith('');
+        expect(logProvider.dispatchLog).toHaveBeenCalled();
 
-      expect(component.showLoading).toHaveBeenCalledWith('');
-      expect(logProvider.dispatchLog).toHaveBeenCalled();
+        expect(analyticsService.logEvent).toHaveBeenCalledWith({
+          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+          event: ANALYTICS_EVENTS.TEST_ERROR,
+          label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
+        });
 
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
-        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-        event: ANALYTICS_EVENTS.TEST_ERROR,
-        label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
+        expect(alertCtrl.create).toHaveBeenCalled();
       });
-
-      expect(alertCtrl.create).toHaveBeenCalled();
     });
 
     // TODO Re-enable when wait times re-introduced
