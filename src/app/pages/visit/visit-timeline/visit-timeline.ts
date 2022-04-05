@@ -12,14 +12,12 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENTS,
   ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
   STORAGE,
   TEST_REPORT_STATUSES,
   TEST_TYPE_RESULTS,
   AUTH,
-  PAGE_NAMES,
   VISIT,
   LOG_TYPES,
   VEHICLE_TYPE,
@@ -36,9 +34,8 @@ import { VehicleModel } from '@models/vehicle/vehicle.model';
 import {from, Observable, Subscription} from 'rxjs';
 import { LogsProvider } from '@store/logs/logs.service';
 import { of } from 'rxjs/observable/of';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
-import { CommonFunctionsService } from '@providers/utils/common-functions';
-import {Router} from '@angular/router';
+import {catchError, filter, map, mergeMap, tap} from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-visit-timeline',
@@ -190,14 +187,13 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       : this.formatVrmPipe.transform(vehicle.vrm);
   }
 
-  async confirmEndVisit$(): Promise<Observable<any>> {
+  confirmEndVisit$(): Observable<any> {
     this.isCreateTestEnabled = false;
-
-    await this.showLoading(APP_STRINGS.END_VISIT_LOADING);
 
     this.oid = this.authenticationService.tokenInfo.oid;
 
     return this.visitService.endVisit(this.visit.id).pipe(
+      tap(async () => { await this.showLoading(APP_STRINGS.END_VISIT_LOADING); }),
       mergeMap(async (endVisitResp) => {
         const {wasVisitAlreadyClosed} = endVisitResp.body;
 
@@ -251,8 +247,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       buttons: [
         {
           text: APP_STRINGS.OK,
-          handler: () => {
-            this.onUpdateActivityReasonsSuccess();
+          handler: async () => {
+            await this.onUpdateActivityReasonsSuccess();
           }
         }
       ]

@@ -33,6 +33,8 @@ import { ActivityDataMock } from '@assets/data-mocks/activity.data.mock';
 import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 import { TestModel } from '@models/tests/test.model';
 import {
+  ANALYTICS_EVENT_CATEGORIES,
+  ANALYTICS_EVENTS, ANALYTICS_VALUE,
   APP_STRINGS,
   DURATION_TYPE,
   VEHICLE_TYPE
@@ -45,10 +47,14 @@ import { ActivityModel } from '@models/visit/activity.model';
 import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 import { AnalyticsService, DurationService } from '@providers/global';
-import { CommonFunctionsService } from '../../../providers/utils/common-functions';
+import { CommonFunctionsService } from '@providers/utils/common-functions';
 import { LogsProvider } from '@store/logs/logs.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import {of} from 'rxjs/observable/of';
+import {throwError} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {VisitServiceMock} from '@test-config/services-mocks/visit-service.mock';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -63,7 +69,6 @@ describe('Component: VisitTimelinePage', () => {
   let activityService: ActivityService;
   let activityServiceSpy: jasmine.SpyObj<ActivityService>;
   let visitService: VisitService;
-  let visitServiceSpy: jasmine.SpyObj<VisitService>;
   let logProvider: LogsProvider;
   let logProviderSpy: any;
   let authenticationService: AuthenticationService;
@@ -116,12 +121,6 @@ describe('Component: VisitTimelinePage', () => {
       'createActivityToPost$',
       'checkWaitTimeReasons'
     ]);
-
-    visitServiceSpy = jasmine.createSpyObj('VisitService', [
-      'endVisit',
-      'getTests',
-      'createVisit',
-      'addTest']);
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
       'logEvent',
       'setCurrentPage'
@@ -146,7 +145,7 @@ describe('Component: VisitTimelinePage', () => {
         { provide: AppService, useClass: AppServiceMock },
         { provide: TestService, useClass: TestServiceMock },
         { provide: ActivityService, useValue: activityServiceSpy },
-        { provide: VisitService, useValue: visitServiceSpy },
+        { provide: VisitService, useClass: VisitServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: OpenNativeSettings, useValue: openNativeSettingsSpy },
@@ -218,7 +217,7 @@ describe('Component: VisitTimelinePage', () => {
 
   it('should create timeline', () => {
     activityServiceSpy.getActivities.and.returnValue([getMockActivity()] as ActivityModel[]);
-    visitServiceSpy.getTests.and.returnValue([getMockVisitTest()] as TestModel[]);
+    spyOn(visitService, 'getTests').and.returnValue([getMockVisitTest()] as TestModel[]);
 
     component.createTimeline();
 
@@ -263,45 +262,45 @@ describe('Component: VisitTimelinePage', () => {
       spyOn(component, 'showLoading');
     });
 
-    // it('should display the site closed alert if visit was previously closed', async () => {
-    //   visitServiceSpy.endVisit.and.returnValue(
-    //     of({
-    //       body: {
-    //         wasVisitAlreadyClosed: true
-    //       }
-    //     })
-    //   );
-    //
-    //   const sitePrevClosed = await component.confirmEndVisit$();
-    //
-    //   expect(sitePrevClosed).toBeUndefined();
-    //   expect(component.isCreateTestEnabled).toBeFalsy();
-    //   expect(component.showLoading).toHaveBeenCalledWith(APP_STRINGS.END_VISIT_LOADING);
-    //   expect(visitService.endVisit).toHaveBeenCalledWith(getMockVisit().id);
-    //   expect(analyticsService.logEvent).toHaveBeenCalledWith({
-    //     category: ANALYTICS_EVENT_CATEGORIES.VISIT,
-    //     event: ANALYTICS_EVENTS.SUBMIT_VISIT
-    //   });
-    //   expect(logProvider.dispatchLog).toHaveBeenCalled();
-    //   expect(alertCtrl.create).toHaveBeenCalled();
-    // });
+    it('should display the site closed alert if visit was previously closed', async () => {
+      spyOn(visitService, 'endVisit').and.returnValue(
+        of({
+          body: {
+            wasVisitAlreadyClosed: true
+          }
+        })
+      );
 
-    // it('should display the try again alert if endVisit failed', async () => {
-    //   visitServiceSpy.endVisit.and.returnValue(throwError(new HttpErrorResponse({ status: 404 })));
-    //
-    //   await component.confirmEndVisit$();
-    //
-    //   expect(component.showLoading).toHaveBeenCalledWith('');
-    //   expect(logProvider.dispatchLog).toHaveBeenCalled();
-    //
-    //   expect(analyticsService.logEvent).toHaveBeenCalledWith({
-    //     category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-    //     event: ANALYTICS_EVENTS.TEST_ERROR,
-    //     label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
-    //   });
-    //
-    //   expect(alertCtrl.create).toHaveBeenCalled();
-    // });
+      const sitePrevClosed = await component.confirmEndVisit$();
+
+      expect(sitePrevClosed).toBeUndefined();
+      expect(component.isCreateTestEnabled).toBeFalsy();
+      expect(component.showLoading).toHaveBeenCalledWith(APP_STRINGS.END_VISIT_LOADING);
+      expect(visitService.endVisit).toHaveBeenCalledWith(getMockVisit().id);
+      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+        category: ANALYTICS_EVENT_CATEGORIES.VISIT,
+        event: ANALYTICS_EVENTS.SUBMIT_VISIT
+      });
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+      expect(alertCtrl.create).toHaveBeenCalled();
+    });
+
+    it('should display the try again alert if endVisit failed', async () => {
+      spyOn(visitService, 'endVisit').and.returnValue(throwError(new HttpErrorResponse({ status: 404 })));
+
+      await component.confirmEndVisit$();
+
+      expect(component.showLoading).toHaveBeenCalledWith('');
+      expect(logProvider.dispatchLog).toHaveBeenCalled();
+
+      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+        category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+        event: ANALYTICS_EVENTS.TEST_ERROR,
+        label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
+      });
+
+      expect(alertCtrl.create).toHaveBeenCalled();
+    });
 
     // TODO Re-enable when wait times re-introduced
     // describe('createActivityReasonsToPost$', () => {
