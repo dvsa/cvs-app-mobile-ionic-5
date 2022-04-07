@@ -155,8 +155,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           },
           {
             text: APP_STRINGS.END_VISIT_TITLE,
-            handler: async () => {
-              this.confirmVisit$ = await this.confirmEndVisit$();
+            handler: () => {
+              this.confirmVisit$ = this.confirmEndVisit$();
             }
           }
         ]
@@ -274,8 +274,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             },
             {
               text: APP_STRINGS.TRY_AGAIN_BTN,
-              handler: async () => {
-                this.confirmVisit$ = await this.confirmEndVisit$();
+              handler: () => {
+                this.confirmVisit$ = this.confirmEndVisit$();
               }
             }
           ]
