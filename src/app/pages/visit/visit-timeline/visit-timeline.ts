@@ -194,7 +194,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     return this.visitService.endVisit(this.visit.id).pipe(
       tap(async () => { await this.showLoading(APP_STRINGS.END_VISIT_LOADING); }),
-      mergeMap(async (endVisitResp) => {
+      mergeMap( (endVisitResp) => {
         const {wasVisitAlreadyClosed} = endVisitResp.body;
 
         this.logProvider.dispatchLog({
@@ -204,7 +204,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        await this.analyticsService.logEvent({
+        this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.VISIT,
           event: ANALYTICS_EVENTS.SUBMIT_VISIT
         });
