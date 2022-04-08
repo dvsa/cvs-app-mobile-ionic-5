@@ -30,7 +30,6 @@ import { StorageService } from '@providers/natives/storage.service';
 import { StorageServiceMock } from '@test-config/services-mocks/storage-service.mock';
 import { ActivityService } from '@providers/activity/activity.service';
 import { ActivityDataMock } from '@assets/data-mocks/activity.data.mock';
-import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 import { TestModel } from '@models/tests/test.model';
 import {
   ANALYTICS_EVENT_CATEGORIES,
@@ -78,7 +77,6 @@ describe('Component: VisitTimelinePage', () => {
   let durationService: DurationService;
   let router: Router;
   const waitActivity = ActivityDataMock.WaitActivityData;
-  const testStation = TestStationDataMock.TestStationData[0];
 
   const TEST_STATION_NAME = 'Ashby';
   const getMockVisit = (): VisitModel => ({

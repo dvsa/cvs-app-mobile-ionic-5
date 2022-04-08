@@ -224,7 +224,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       catchError(async (error) => {
         await this.showLoading('');
 
-        await this.logProvider.dispatchLog({
+        this.logProvider.dispatchLog({
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
           message: `${this.oid} - ${JSON.stringify(error)}`,
           timestamp: Date.now()
@@ -255,6 +255,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       ]
     });
     NOTIFICATION_ALERT.then(async (alert) => {
+      await this.showLoading('');
       await alert.present();
     });
     return of(status);
@@ -369,8 +370,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             for API call to ${activityReasonResp.url}`,
             timestamp: Date.now()
           });
-          const reasons = await this.onUpdateActivityReasonsSuccess();
-          return reasons;
+          return await this.onUpdateActivityReasonsSuccess();
         }),
         catchError(async (error) => {
           await this.showLoading('');
