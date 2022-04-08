@@ -136,13 +136,13 @@ describe('Component: TestStationDetailsPage', () => {
   });
 
   it('should create reportIssue alert', async () => {
-    component.ionViewWillEnter();
+    component.ngOnInit();
     await component.reportIssueHandler();
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
   it('should create alert for starting a visit', async () => {
-    component.ionViewWillEnter();
+    component.ngOnInit();
     await component.startVisit();
     expect(alertCtrl.create).toHaveBeenCalled();
   });

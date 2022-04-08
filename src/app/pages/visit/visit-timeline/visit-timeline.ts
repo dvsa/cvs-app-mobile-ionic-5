@@ -12,18 +12,17 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENTS,
   ANALYTICS_EVENT_CATEGORIES,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
   STORAGE,
   TEST_REPORT_STATUSES,
   TEST_TYPE_RESULTS,
   AUTH,
-  PAGE_NAMES,
   VISIT,
   LOG_TYPES,
   VEHICLE_TYPE,
-  DURATION_TYPE
+  DURATION_TYPE,
+  PAGE_NAMES
 } from '@app/app.enums';
 import { StorageService } from '@providers/natives/storage.service';
 import { AppService, AnalyticsService, DurationService } from '@providers/global';
@@ -33,12 +32,11 @@ import { ActivityModel } from '@models/visit/activity.model';
 import { ActivityService } from '@providers/activity/activity.service';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
-import { Observable, Subscription } from 'rxjs';
+import {from, Observable, Subscription} from 'rxjs';
 import { LogsProvider } from '@store/logs/logs.service';
 import { of } from 'rxjs/observable/of';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
-import { CommonFunctionsService } from '@providers/utils/common-functions';
-import {Router} from '@angular/router';
+import {catchError, filter, map, mergeMap, tap} from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-visit-timeline',
@@ -86,11 +84,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     // });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const testStation = this.router.getCurrentNavigation().extras.state.testStation;
     this.visit = Object.keys(this.visitService.visit).length
       ? this.visitService.visit
-      : this.visitService.createVisit(testStation);
+      : await this.visitService.createVisit(testStation);
     //@TODO - Ionic 5 - Reinstate this
     // this.stateReformingService.saveNavStack(this.navCtrl);
   }
@@ -193,14 +191,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   confirmEndVisit$(): Observable<any> {
     this.isCreateTestEnabled = false;
 
-    // this.showLoading(APP_STRINGS.END_VISIT_LOADING);
-
     this.oid = this.authenticationService.tokenInfo.oid;
 
     return this.visitService.endVisit(this.visit.id).pipe(
-      mergeMap((endVisitResp) => {
-        console.log(endVisitResp);
-        const { wasVisitAlreadyClosed } = endVisitResp.body;
+      tap(async () => { await this.showLoading(APP_STRINGS.END_VISIT_LOADING); }),
+      mergeMap( (endVisitResp) => {
+        const {wasVisitAlreadyClosed} = endVisitResp.body;
 
         this.logProvider.dispatchLog({
           type: LOG_TYPES.INFO,
@@ -225,8 +221,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         this.timeline, this.visit, this.oid,
       )),
       mergeMap((activities: ActivityModel[]) => this.createActivityReasonsToPost$(activities)),
-      catchError((error) => {
-        // this.showLoading('');
+      catchError(async (error) => {
+        await this.showLoading('');
 
         this.logProvider.dispatchLog({
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
@@ -234,7 +230,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
           timestamp: Date.now()
         });
 
-        this.analyticsService.logEvent({
+        await this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
@@ -252,13 +248,14 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       buttons: [
         {
           text: APP_STRINGS.OK,
-          handler: () => {
-            this.onUpdateActivityReasonsSuccess();
+          handler: async () => {
+            await this.onUpdateActivityReasonsSuccess();
           }
         }
       ]
     });
     NOTIFICATION_ALERT.then(async (alert) => {
+      await this.showLoading('');
       await alert.present();
     });
     return of(status);
@@ -351,10 +348,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.activityService.activities = [];
     await this.showLoading('');
 
-    //@TODO - Ionic 5 - Reinstate this
-    // this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-    //   testStationName: this.visit.testStationName
-    // });
+    await this.router.navigate([PAGE_NAMES.CONFIRMATION_PAGE], {state: {testStationName: this.visit.testStationName}});
 
     return true;
   }
@@ -369,14 +363,14 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     const activityWithReasons = this.activityService.createActivitiesForUpdateCall(activities);
     if (activityWithReasons.length > 0) {
       return this.activityService.updateActivityReasons(activityWithReasons).pipe(
-        map((activityReasonResp) => {
+        map(async (activityReasonResp) => {
           this.logProvider.dispatchLog({
             type: LOG_TYPES.INFO,
             message: `${this.oid} - ${activityReasonResp.status} ${activityReasonResp.statusText}
             for API call to ${activityReasonResp.url}`,
             timestamp: Date.now()
           });
-          return this.onUpdateActivityReasonsSuccess();
+          return await this.onUpdateActivityReasonsSuccess();
         }),
         catchError(async (error) => {
           await this.showLoading('');
@@ -391,7 +385,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         })
       );
     } else {
-      return of(this.onUpdateActivityReasonsSuccess());
+      return from(this.onUpdateActivityReasonsSuccess());
     }
   }
 }

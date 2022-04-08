@@ -393,7 +393,7 @@ describe('Provider: ActivityService', () => {
     appService = null;
   });
 
-  it('should create an activity', () => {
+  it('should create an activity', async () => {
     const newActivity1 = activityService.createActivity(visit, null, false, false);
     expect(newActivity1).toBeTruthy();
     expect(newActivity1.activityType).toBe(VISIT.ACTIVITY_TYPE_UNACCOUNTABLE_TIME);
@@ -406,7 +406,7 @@ describe('Provider: ActivityService', () => {
       true
     );
     expect(newActivity2.activityType).toBe(VISIT.ACTIVITY_TYPE_WAIT);
-    expect(storageService.update).toHaveBeenCalled();
+    expect(await storageService.update).toHaveBeenCalled();
   });
 
   it('should check if activities are returned', () => {
@@ -415,12 +415,12 @@ describe('Provider: ActivityService', () => {
     expect(activitiesArr).toBeTruthy();
   });
 
-  it('should not update the storage', () => {
+  it('should not update the storage', async () => {
     appService.caching = false;
-    activityService.updateActivities();
+    await activityService.updateActivities();
     expect(storageService.update).not.toHaveBeenCalled();
     appService.caching = true;
-    activityService.updateActivities();
+    await activityService.updateActivities();
     expect(storageService.update).toHaveBeenCalled();
   });
 
@@ -471,9 +471,9 @@ describe('Provider: ActivityService', () => {
   });
 
   describe('isVisitStillOpen()', () => {
-    it('should refresh token info before attempting to check if visit still open', () => {
-      (httpService.getOpenVisitCheck as Spy).and.returnValue(of(new HttpResponse()));
+    it('should refresh token info before attempting to check if visit still open', async () => {
       spyOn(authService, 'getTesterID').and.returnValue(Promise.resolve(''));
+      (httpService.getOpenVisitCheck as Spy).and.returnValue(of(new HttpResponse()));
       activityService.isVisitStillOpen().subscribe(
         (response) => {
           expect(authService.getTesterID).toHaveBeenCalled();

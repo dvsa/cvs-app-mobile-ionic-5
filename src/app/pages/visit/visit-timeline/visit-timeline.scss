@@ -15,9 +15,9 @@
         }
 
         img {
-          position: relative;
-          top: 10px;
-          margin-left: 13px;
+          position: absolute;
+          bottom: 60px;
+          margin-left: 10px;
           margin-right: 0;
           z-index: 1;
           width: 30px;
@@ -29,19 +29,21 @@
           height: 100%;
           position: absolute;
           border-left: 2px solid;
-          left: 27px;
+          left: 24px;
         }
 
         .timeline-item-content {
-          margin: 15px 0;
+          margin: 15px 0 15px 50px;
 
           h2 {
             font-size: var(--font-size-medium);
-            font-weight: var(--font-weight-semi-bold);
+            font-weight: var(--font-weight-bold);
+            margin: 5px;
           }
 
           p {
             font-size: var(--font-size-normal);
+            margin: 5px;
           }
 
           .timeline-message {
@@ -77,18 +79,18 @@
         }
       }
 
-      button.timeline-checkin.item-block {
+      ion-item.timeline-checkin.item-block {
         align-items: start;
       }
 
-      button.timeline-checkin {
+      ion-item.timeline-checkin {
         .icon-ios {
           color: var(--color-grey-2);
         }
 
         .timeline-bar {
           border-left-color: var(--tertiary);
-          top: calc(10px + 8px); //first timeline bar has to start top + margin-top lower
+          top: 50px // first timeline bar has to start top + margin-top lower
         }
       }
 
