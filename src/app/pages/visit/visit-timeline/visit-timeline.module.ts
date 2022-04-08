@@ -5,7 +5,7 @@ import { PipesModule } from '@pipes/pipes.module';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { IonicModule } from '@ionic/angular';
 import { VisitTimelineRoutingModule } from '@app/pages/visit/visit-timeline/visit-timeline-routing-module';
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [VisitTimelinePage],

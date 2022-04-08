@@ -7,6 +7,7 @@ export class TestTypesReferenceDataMock {
         id: '1',
         name: 'annual test',
         testTypeName: 'Annual test',
+        suggestedTestTypeIds: ['1', '2', '4'],
         forVehicleType: ['psv'],
         forVehicleSize: ['small', 'large'],
         forVehicleConfiguration: ['articulated', 'rigid'],

@@ -66,7 +66,9 @@ export class VisitService {
   }
 
   getLatestTest(): TestModel {
-    return this.visit.tests[this.visit.tests.length - 1];
+    if (this.visit.tests) {
+      return this.visit.tests[this.visit.tests.length - 1];
+    }
   }
 
   async addTest(test: TestModel) {
@@ -142,4 +144,48 @@ export class VisitService {
     this.activityService.activities = [];
     clearTimeout(this.activityService.waitTimer);
   }
+
+  // @TODO - added in VTA-497
+  // getLatestVehicle(): VehicleModel {
+  //   if (this.getLatestTest()) {
+  //     return this.getLatestTest().vehicles[this.getLatestTest().vehicles.length -1];
+  //   }
+  // }
+  //
+  // getLatestTestType(): TestTypeModel {
+  //   if (this.getLatestVehicle()){
+  //     return this.getLatestVehicle().testTypes[this.getLatestVehicle().testTypes.length -1];
+  //   }
+  // }
+  //
+  // getCurrentATF(): string {
+  //   return this.visit.testStationName ? this.visit.testStationName : 'N/A';
+  // }
+  //
+  // getCurrentATFPNumber(): string {
+  //   return this.visit.testStationPNumber ? this.visit.testStationPNumber : 'N/A';
+  // }
+  //
+  // getCurrentVIN(): string {
+  //   const test = this.getLatestTest();
+  //   let vehicle;
+  //   if (test) {
+  //     vehicle = this.getLatestVehicle();
+  //   }
+  //   return vehicle && !test.status ? vehicle.vin : 'N/A';
+  // }
+  //
+  // getCurrentTestTypeID(): string {
+  //   const test = this.getLatestTest();
+  //   const vehicle = this.getLatestVehicle();
+  //   let testType;
+  //   if (test && vehicle) {
+  //     testType = this.getLatestTestType();
+  //   }
+  //   return testType && !test.status ? testType.testTypeId : 'N/A';
+  // }
+  //
+  // getCurrentTesterName(): string {
+  //   return this.visit.testerName? this.visit.testerName : 'N/A';
+  // }
 }

@@ -278,7 +278,11 @@ export class TestTypeService {
 
   getSuggestedTestTypeIds(id: string, flattenedTestTypes: TestTypesReferenceDataModel[]) {
     const result = flattenedTestTypes.find((testType) => testType.id === id);
-    return result.suggestedTestTypeIds || [];
+    try {
+      return result.suggestedTestTypeIds ? result.suggestedTestTypeIds : [];
+    } catch (e) {
+      return [];
+    }
   };
 
   sortSuggestedTestTypes(suggestedTestTypes: TestTypesReferenceDataModel[]): TestTypesReferenceDataModel[] {
