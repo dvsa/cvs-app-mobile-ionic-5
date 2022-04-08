@@ -36,6 +36,7 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS, ANALYTICS_VALUE,
   APP_STRINGS,
+  AUTH,
   DURATION_TYPE,
   VEHICLE_TYPE
 } from '@app/app.enums';
@@ -285,20 +286,20 @@ describe('Component: VisitTimelinePage', () => {
       expect(alertCtrl.create).toHaveBeenCalled();
     });
 
-    it('should display the try again alert if endVisit failed', () => {
-      spyOn(visitService, 'endVisit').and.returnValue(throwError(new HttpErrorResponse({ status: 404 })));
+    it('should display the try again alert on internet required error', async () => {
+      spyOn(visitService, 'endVisit').and.returnValue(throwError(new HttpErrorResponse({ error : AUTH.INTERNET_REQUIRED})));
 
       component.confirmEndVisit$().subscribe();
-      expect(component.showLoading).toHaveBeenCalledWith('');
-      expect(logProvider.dispatchLog).toHaveBeenCalled();
+      expect(await component.showLoading).toHaveBeenCalledWith('');
+      expect(await logProvider.dispatchLog).toHaveBeenCalled();
 
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      expect(await analyticsService.logEvent).toHaveBeenCalledWith({
         category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
         event: ANALYTICS_EVENTS.TEST_ERROR,
         label: ANALYTICS_VALUE.ENDING_ACTIVITY_FAILED
       });
 
-      expect(alertCtrl.create).toHaveBeenCalled();
+      expect(await alertCtrl.create).toHaveBeenCalled();
     });
 
     // TODO Re-enable when wait times re-introduced

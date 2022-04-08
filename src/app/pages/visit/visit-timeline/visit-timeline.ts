@@ -21,7 +21,8 @@ import {
   VISIT,
   LOG_TYPES,
   VEHICLE_TYPE,
-  DURATION_TYPE
+  DURATION_TYPE,
+  PAGE_NAMES
 } from '@app/app.enums';
 import { StorageService } from '@providers/natives/storage.service';
 import { AppService, AnalyticsService, DurationService } from '@providers/global';
@@ -223,7 +224,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
       catchError(async (error) => {
         await this.showLoading('');
 
-        this.logProvider.dispatchLog({
+        await this.logProvider.dispatchLog({
           type: 'error-visitService.endVisit-confirmEndVisit in visit-timeline.ts',
           message: `${this.oid} - ${JSON.stringify(error)}`,
           timestamp: Date.now()
@@ -346,10 +347,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.activityService.activities = [];
     await this.showLoading('');
 
-    //@TODO - Ionic 5 - Reinstate this
-    // this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-    //   testStationName: this.visit.testStationName
-    // });
+    await this.router.navigate([PAGE_NAMES.CONFIRMATION_PAGE], {state: {testStationName: this.visit.testStationName}});
 
     return true;
   }
