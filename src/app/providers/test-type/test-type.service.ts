@@ -99,19 +99,6 @@ export class TestTypeService {
     );
   }
 
-  private async trackDuration(label: string, value: string) {
-    await this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.DURATION,
-      event: ANALYTICS_EVENTS.ADD_DEFECT_TIME_TAKEN,
-      label: ANALYTICS_LABEL[label]
-    });
-
-    await this.analyticsService.addCustomDimension(
-      Object.keys(ANALYTICS_LABEL).indexOf(label) + 1,
-      value
-    );
-  }
-
   removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     const defIdx = testType.defects
       .map((e) => e.deficiencyRef)
