@@ -1,0 +1,166 @@
+:host {
+  ion-content {
+    ion-list {
+      ion-item {
+        --padding-bottom: 0;
+        --padding-top: 0;
+        border-bottom: 0.55px solid var(--color-grey-2);
+
+        .icon-ios {
+          margin-left: 12px;
+          margin-right: 0;
+          z-index: 1;
+          background-color: var(--light);
+          font-size: 40px;
+        }
+
+        img {
+          position: absolute;
+          bottom: 60px;
+          margin-left: 10px;
+          margin-right: 0;
+          z-index: 1;
+          width: 30px;
+          height: 32px;
+        }
+
+        .timeline-bar {
+          width: 5px;
+          height: 100%;
+          position: absolute;
+          border-left: 2px solid;
+          left: 24px;
+        }
+
+        .timeline-item-content {
+          margin: 15px 0 15px 50px;
+
+          h2 {
+            font-size: var(--font-size-medium);
+            font-weight: var(--font-weight-bold);
+            margin: 5px;
+          }
+
+          p {
+            font-size: var(--font-size-normal);
+            margin: 5px;
+          }
+
+          .timeline-message {
+            font-size: var(--font-size-medium);
+          }
+
+          span {
+            .pass {
+              color: var(--secondary);
+              font-weight: var(--font-weight-semi-bold);
+            }
+
+            .fail {
+              color: var(--danger);
+              font-weight: var(--font-weight-semi-bold);
+            }
+
+            .prs {
+              color: var(--tertiary);
+              font-weight: var(--font-weight-semi-bold);
+            }
+          }
+        }
+
+        .timeline-item-content-waitItem {
+          margin-left: 40px;
+        }
+
+        .input-wrapper {
+          .label-ios {
+            margin: 0;
+          }
+        }
+      }
+
+      ion-item.timeline-checkin.item-block {
+        align-items: start;
+      }
+
+      ion-item.timeline-checkin {
+        .icon-ios {
+          color: var(--color-grey-2);
+        }
+
+        .timeline-bar {
+          border-left-color: var(--tertiary);
+          top: 50px // first timeline bar has to start top + margin-top lower
+        }
+      }
+
+      button.timeline-test.hide-chevron .item-inner {
+        background-image: none;
+      }
+
+      button.timeline-test.item-block {
+        align-items: start;
+      }
+
+      button.timeline-test {
+        .icon-ios {
+          color: var(--primary);
+        }
+
+        img {
+          height: 20px;
+          width: 20px;
+          margin-left: 18px;
+        }
+
+        .timeline-bar {
+          border-left-color: var(--tertiary);
+        }
+
+        .timeline-bar-waitItem {
+          border-left-style: dashed;
+          border-left-color: var(--danger);
+        }
+
+        .timeline-bar-waitItem-tertiary {
+          border-left-style: dashed;
+          border-left-color: var(--tertiary);
+        }
+      }
+
+      .item-block {
+        .item-inner {
+          border-bottom: none;
+        }
+
+        &:last-child {
+          border-color: var(--color-grey-2);
+        }
+      }
+    }
+  }
+
+  .item-divider-ios {
+    -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+    margin-top: 1px;
+    border-top: 1px solid var(--color-grey-2);
+    border-bottom: 1px solid var(--color-grey-2);
+  }
+
+  .button-centered {
+    width: 25%;
+    margin: auto;
+  }
+
+  .divider-color {
+    color: var(--color-grey-1);
+  }
+
+  .test-station-name {
+    display: inline-block;
+  }
+
+  ion-footer {
+    -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+  }
+}

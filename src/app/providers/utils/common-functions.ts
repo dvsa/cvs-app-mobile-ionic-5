@@ -171,4 +171,21 @@ export class CommonFunctionsService {
 
     return obfuscated;
   }
+
+  fixDateFormat(timestamp: string): string {
+    if (timestamp && timestamp.includes(' ')) {
+      const dateTime = timestamp.split(' ');
+      return (dateTime[0] + 'T' + dateTime[1] + 'Z');
+    } else {
+      return timestamp;
+    }
+  }
+
+  millisecondsIntoMinutes(milliseconds: number): number {
+    return milliseconds / 60000;
+  }
+
+  minutesIntoMilliseconds(minutes: number): number {
+    return minutes / 1000 / 60;
+  }
 }

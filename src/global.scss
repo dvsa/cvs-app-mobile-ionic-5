@@ -61,7 +61,12 @@ body {
 
     ion-back-button {
       font-weight: var(--font-weight-normal);
-      color: white;
+      color: var(--light);
+    }
+
+    ion-button {
+      --font-weight: var(--font-weight-normal);
+      --color: var(--light);
     }
 
     //ion-searchbar {
@@ -88,7 +93,8 @@ body {
 
   }
 
-  //ion-navbar {
+  // USED TO BE ion-navbar
+  //ion-toolbar {
   //  min-height: 116px;
   //  height: inherit;
   //
@@ -257,15 +263,18 @@ span[text-left] {
   }
 }
 
+.searchbar-input.sc-ion-searchbar-ios {
+  color: var(--light);
+  --placeholder-color: var(--light);
+}
+
 // Searchbars found in the header
 ion-header > ion-searchbar {
   background: var(--header-color);
   .searchbar-input {
     --background: rgba(255, 255, 255, 0.3);
-    --color: var(--light);
     height: 36px;
     --border-radius: 5px;
-    --placeholder-color: var(--light)
   }
 
   .searchbar-search-icon,
@@ -282,7 +291,6 @@ ion-header > ion-searchbar {
   }
 }
 
-
 .content-background-color-grey {
   background-color: var(--color-grey-3);
 }
@@ -290,12 +298,9 @@ ion-header > ion-searchbar {
 // Global CSS for item-dividers
 ion-item-divider {
   white-space: normal !important;
-
-  .label-ios {
-    white-space: normal;
-    margin: 0 8px 0 0;
-    font-size: var(--item-ios-divider-font-size);
-  }
+  margin: 0 8px 0 0;
+  font-size: var(--item-ios-divider-font-size);
+  color: var(--color-grey-1);
 }
 
 // Global CSS for item-groups
