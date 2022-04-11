@@ -21,11 +21,10 @@ import {
   VISIT,
   LOG_TYPES,
   VEHICLE_TYPE,
-  DURATION_TYPE,
   PAGE_NAMES
 } from '@app/app.enums';
 import { StorageService } from '@providers/natives/storage.service';
-import { AppService, AnalyticsService, DurationService } from '@providers/global';
+import { AppService, AnalyticsService } from '@providers/global';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
 import { ActivityModel } from '@models/visit/activity.model';
@@ -70,7 +69,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private storageService: StorageService,
     private openNativeSettings: OpenNativeSettings,
     private analyticsService: AnalyticsService,
-    private durationService: DurationService,
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
     private logProvider: LogsProvider,
@@ -109,10 +107,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   createNewTestReport(): void {
-    this.durationService.setDuration(
-      { start: Date.now() },
-      DURATION_TYPE[DURATION_TYPE.SEARCH_VEHICLE]
-    );
 
     const test = this.testReportService.createTest();
     //@TODO - Ionic 5 Replace with Angular Router

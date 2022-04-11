@@ -36,7 +36,6 @@ import {
   ANALYTICS_EVENTS, ANALYTICS_VALUE,
   APP_STRINGS,
   AUTH,
-  DURATION_TYPE,
   VEHICLE_TYPE
 } from '@app/app.enums';
 import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
@@ -46,7 +45,7 @@ import { VisitModel } from '@models/visit/visit.model';
 import { ActivityModel } from '@models/visit/activity.model';
 import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
-import { AnalyticsService, DurationService } from '@providers/global';
+import { AnalyticsService } from '@providers/global';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import { LogsProvider } from '@store/logs/logs.service';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -74,7 +73,6 @@ describe('Component: VisitTimelinePage', () => {
   let authenticationService: AuthenticationService;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
-  let durationService: DurationService;
   let router: Router;
   const waitActivity = ActivityDataMock.WaitActivityData;
 
@@ -133,7 +131,6 @@ describe('Component: VisitTimelinePage', () => {
       ],
       providers: [
         FormatVrmPipe,
-        DurationService,
         CommonFunctionsService,
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
@@ -168,7 +165,6 @@ describe('Component: VisitTimelinePage', () => {
     authenticationService = TestBed.inject(AuthenticationService);
     logProvider = TestBed.inject(LogsProvider);
     analyticsService = TestBed.inject(AnalyticsService);
-    durationService = TestBed.inject(DurationService);
     router = TestBed.inject(Router);
   });
 
@@ -192,19 +188,6 @@ describe('Component: VisitTimelinePage', () => {
   //   component.ngOnDestroy();
   //   expect(component.platformSubscription.closed).toBeTruthy();
   // });
-
-  it('should set starting duration for new test report', () => {
-    const startTime = 1620396073594;
-    spyOn(Date, 'now').and.returnValue(startTime);
-    spyOn(durationService, 'setDuration');
-
-    component.createNewTestReport();
-
-    expect(durationService.setDuration).toHaveBeenCalledWith(
-      { start: startTime },
-      DURATION_TYPE[DURATION_TYPE.SEARCH_VEHICLE]
-    );
-  });
 
   it('should check ionViewDidEnter logic when timeline already has an wait activity', () => {
     component.timeline = [];
