@@ -6,7 +6,6 @@ import {
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL,
   DEFICIENCY_CATEGORY,
-  DURATION_TYPE,
   STORAGE,
   TEST_TYPE_RESULTS,
   VEHICLE_TYPE
@@ -19,7 +18,7 @@ import {
 import { VisitService } from '../visit/visit.service';
 import { TestTypesReferenceDataModel } from '@models/reference-data-models/test-types.model';
 import { CommonFunctionsService } from '../utils/common-functions';
-import { AnalyticsService, DurationService } from '../global';
+import { AnalyticsService } from '../global';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { AdrTestTypesData } from '@assets/app-data/test-types-data/adr-test-types.data';
 import { TirTestTypesData } from '@assets/app-data/test-types-data/tir-test-types.data';
@@ -33,7 +32,6 @@ export class TestTypeService {
     private storageService: StorageService,
     public visitService: VisitService,
     private analyticsService: AnalyticsService,
-    private durationService: DurationService,
     public commonFunctions: CommonFunctionsService
   ) {}
 
@@ -86,7 +84,6 @@ export class TestTypeService {
     testType.defects.push(defect);
     this.visitService.updateVisit();
     this.trackAddDefect(defect.deficiencyRef);
-    this.trackDefectDuration();
   }
 
   async trackAddDefect(deficiencyRef: string) {
@@ -100,17 +97,6 @@ export class TestTypeService {
       Object.keys(ANALYTICS_LABEL).indexOf('DEFICIENCY_REFERENCE') + 1,
       deficiencyRef
     );
-  }
-
-  async trackDefectDuration() {
-    const type: string = DURATION_TYPE[DURATION_TYPE.DEFECT_TIME];
-    this.durationService.setDuration({ end: Date.now() }, type);
-    const duration = this.durationService.getDuration(type);
-    const takenDuration = this.durationService.getTakenDuration(duration);
-
-    await this.trackDuration('ADD_DEFECT_START_TIME', duration.start.toString());
-    await this.trackDuration('ADD_DEFECT_END_TIME', duration.end.toString());
-    await this.trackDuration('ADD_DEFECT_TIME_TAKEN', takenDuration.toString());
   }
 
   private async trackDuration(label: string, value: string) {
@@ -263,6 +249,23 @@ export class TestTypeService {
         testTypeId
       ) !== -1
     );
+  }
+
+  fixDateFormatting(testType: TestTypeModel) {
+    testType.testTypeStartTimestamp =
+      this.commonFunctions.fixDateFormat(testType.testTypeStartTimestamp);
+    if (testType.testTypeEndTimestamp) {
+      testType.testTypeEndTimestamp =
+        this.commonFunctions.fixDateFormat(testType.testTypeEndTimestamp);
+    }
+    if (testType.testExpiryDate) {
+      testType.testExpiryDate =
+        this.commonFunctions.fixDateFormat(testType.testExpiryDate);
+    }
+    if (testType.lastSeatbeltInstallationCheckDate) {
+      testType.lastSeatbeltInstallationCheckDate =
+        this.commonFunctions.fixDateFormat(testType.lastSeatbeltInstallationCheckDate);
+    }
   }
 
   // Retrieve all nested Test Types and flatten into single array

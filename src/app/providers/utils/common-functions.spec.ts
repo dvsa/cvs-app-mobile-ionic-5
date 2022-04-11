@@ -203,4 +203,10 @@ describe('Provider: CommonFunctionsService', () => {
       expect(result).toEqual('');
     });
   });
+
+  it('should check that dates incorrectly formatted are fixed', () => {
+    const badDate = '2020-02-14 00:00:00.000000';
+    const goodDate = commonFunctionsService.fixDateFormat(badDate);
+    expect(goodDate).toEqual('2020-02-14T00:00:00.000000Z');
+  });
 });

@@ -33,7 +33,7 @@ export class VisitService {
     this.visit.endTime = null;
     this.visit.testStationName = testStation.testStationName;
     this.visit.testStationPNumber = testStation.testStationPNumber;
-    this.visit.testStationEmail = testStation.testStationEmails[0];
+    this.visit.testStationEmail = testStation.testStationEmails && testStation.testStationEmails[0] ? testStation.testStationEmails[0] : '';
     this.visit.testStationType = testStation.testStationType;
     this.visit.testerId = this.authenticationService.tokenInfo.testerId;
     this.visit.testerName = this.authenticationService.tokenInfo.testerName;
@@ -51,7 +51,7 @@ export class VisitService {
       activityType: VISIT.ACTIVITY_TYPE_VISIT,
       testStationName: testStation.testStationName,
       testStationPNumber: testStation.testStationPNumber,
-      testStationEmail: testStation.testStationEmails[0],
+      testStationEmail: testStation.testStationEmails && testStation.testStationEmails[0] ? testStation.testStationEmails[0] : '',
       testStationType: testStation.testStationType,
       testerName: this.authenticationService.tokenInfo.testerName,
       testerStaffId: this.authenticationService.tokenInfo.testerId,
