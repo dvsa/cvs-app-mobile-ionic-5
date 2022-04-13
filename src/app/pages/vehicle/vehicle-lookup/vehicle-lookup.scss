@@ -1,4 +1,4 @@
-page-vehicle-lookup {
+:host {
   ion-content[no-padding].content-background-color-grey ion-item {
     margin-top: 40px;
 
@@ -25,11 +25,11 @@ page-vehicle-lookup {
     }
   }
 
-  .header-ios ion-navbar button {
+  .header-ios ion-toolbar ion-button {
     font-weight: var(--font-weight-normal);
   }
 
-  ion-list-header.list-header-ios {
+  ion-list-header {
     border-bottom: none;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
@@ -50,7 +50,7 @@ page-vehicle-lookup {
     align-items: center;
   }
 
-  button[ion-item][padding-left] {
+  ion-item.ion-padding-start {
     border: 1px solid var(--color-grey-2);
 
     .item-inner {
@@ -63,7 +63,7 @@ page-vehicle-lookup {
   }
 }
 
-ion-navbar button[ion-button].custom-search-button {
+ion-toolbar ion-button.custom-search-button {
   font-weight: var(--font-weight-bold);
 }
 
