@@ -342,10 +342,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.activityService.activities = [];
     await this.showLoading('');
 
-    await this.router.navigate([PAGE_NAMES.VISIT_CONFIRMATION_PAGE], {state: {testStationName: this.visit.testStationName}})
-      .then(() => {})
-      .catch((error) => console.log(error));
-    alert('something');
+    await this.router.navigate([PAGE_NAMES.VISIT_CONFIRMATION_PAGE], {state: {testStationName: this.visit.testStationName}});
     return true;
   }
 
