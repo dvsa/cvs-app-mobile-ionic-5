@@ -1,0 +1,71 @@
+page-vehicle-lookup {
+  ion-content[no-padding].content-background-color-grey ion-item {
+    margin-top: 40px;
+
+    .item-inner {
+      padding: 0;
+      border-bottom: none;
+
+      ion-input {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .custom-input {
+    font-weight: 400;
+    border: 1px solid $color-grey-2;
+    border-width: 1px 0 1px 0;
+    padding: 4px 0 4px 16px;
+    background-color: color($colors, light);
+
+    ::placeholder {
+      text-transform: none;
+    }
+  }
+
+  .header-ios ion-navbar button {
+    font-weight: $font-weight-normal;
+  }
+
+  ion-list-header.list-header-ios {
+    border-bottom: none;
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+
+    ion-label {
+      margin-bottom: 0;
+    }
+  }
+
+  div[item-end] {
+    color: $color-grey-1;
+  }
+
+  [item-end].arrow-forward {
+    color: $color-grey-1;
+    font-size: $font-size-medium-2;
+    display: flex;
+    align-items: center;
+  }
+
+  button[ion-item][padding-left] {
+    border: 1px solid $color-grey-2;
+
+    .item-inner {
+      border: none;
+
+      .input-wrapper {
+        margin: 11px 0;
+      }
+    }
+  }
+}
+
+ion-navbar button[ion-button].custom-search-button {
+  font-weight: $font-weight-bold;
+}
+
+.autosize textarea {
+  height: 5em;
+}
