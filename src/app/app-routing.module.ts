@@ -39,6 +39,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/visit/visit-confirmation/visit-confirmation.module')
       .then( m => m.VisitConfirmationModule )
   },
+  {
+    path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
+    loadChildren: () => import('./pages/vehicle/vehicle-lookup/vehicle-lookup.module')
+      .then( m => m.VehicleLookupModule)
+  },
 ];
 
 @NgModule({

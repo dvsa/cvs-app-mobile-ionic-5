@@ -1,29 +1,28 @@
 <ion-header>
-  <ion-navbar hideBackButton="true">
-    <ion-buttons start>
-      <button ion-button (click)="close()" color="light">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()" color="light">
         Cancel
-      </button>
+      </ion-button>
     </ion-buttons>
-    <ion-title margin-left>
+    <ion-title class="ion-margin-start">
       {{title}}
     </ion-title>
-    <ion-buttons end>
+    <ion-buttons slot="end">
       <button ion-button class="custom-search-button" (click)="onSearchVehicle(searchVal)">
         Search
       </button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding class="content-background-color-grey">
   <ion-item>
     <ion-input
+      autocapitalize="true"
       *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
-      margin-top
-      text-uppercase
       [ngModelOptions]="{standalone: true}"
-      class="custom-input shadow"
+      class="custom-input shadow ios-margin-top"
       clearInput="true"
       type="search"
       [placeholder]="searchPlaceholder"
@@ -33,11 +32,8 @@
 
     <ng-template #accessibilityTextArea>
       <ion-textarea
-        text-uppercase
-        text-wrap
-        class="custom-input shadow autosize"
+        class="custom-input shadow autosize ion-text-capitalize ion-text-wrap input"
         [placeholder]="searchPlaceholder"
-        clearInput="true"
         type="search"
         rows="1"
         [(ngModel)]="searchVal"
@@ -46,10 +42,10 @@
     </ng-template>
   </ion-item>
 
-  <ion-list-header padding-left padding-right text-uppercase>SEARCH CRITERIA</ion-list-header>
-  <button ion-item detail-none padding-left (click)="onChangeSearchCriteria()">
+  <ion-list-header class="ion-padding-start ion-padding-end ion-text-capitalize">SEARCH CRITERIA</ion-list-header>
+  <ion-item button detail="false" class="ion-padding-start" (click)="onChangeSearchCriteria()">
     <ion-label>{{selectedSearchCriteria}}</ion-label>
     <div item-end>Change</div>
     <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
-  </button>
+  </ion-item>
 </ion-content>
