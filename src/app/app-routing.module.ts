@@ -34,6 +34,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/visit/visit-timeline/visit-timeline.module')
       .then( m => m.VisitTimelineModule)
   },
+  {
+    path: PAGE_NAMES.VISIT_CONFIRMATION_PAGE,
+    loadChildren: () => import('./pages/visit/visit-confirmation/visit-confirmation.module')
+      .then( m => m.VisitConfirmationModule )
+  },
 ];
 
 @NgModule({

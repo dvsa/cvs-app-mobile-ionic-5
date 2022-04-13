@@ -15,7 +15,7 @@ import {
   AnalyticsService,
   SyncService,
   AppAlertService
-} from '../../../providers/global';
+} from '@providers/global';
 import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
 import { LogsModel } from '@store/logs/logs.model';
 import { startSendingLogs } from '@store/logs/logs.actions';
