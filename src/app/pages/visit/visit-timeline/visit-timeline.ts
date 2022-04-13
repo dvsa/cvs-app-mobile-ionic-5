@@ -106,11 +106,9 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
    await this.showConfirm(this.visit);
   }
 
-  createNewTestReport(): void {
-
+  async createNewTestReport(): Promise<void> {
     const test = this.testReportService.createTest();
-    //@TODO - Ionic 5 Replace with Angular Router
-    // this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, { test });
+    await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {state: {test}});
   }
 
   createTimeline(): void {

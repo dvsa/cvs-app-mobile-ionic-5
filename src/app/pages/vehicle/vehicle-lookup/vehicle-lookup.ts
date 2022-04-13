@@ -1,7 +1,6 @@
 import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_VALUE
 } from '@app/app.enums';
@@ -11,7 +10,6 @@ import {
   LoadingController,
   ModalController,
   NavController,
-  NavParams
 } from '@ionic/angular';
 import { _throw } from 'rxjs/observable/throw';
 import { Observable, Observer } from 'rxjs';
@@ -24,7 +22,7 @@ import { VisitService } from '@providers/visit/visit.service';
 import { TestResultModel } from '@models/tests/test-result.model';
 import { APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE } from '@app/app.enums';
 import { StorageService } from '@providers/natives/storage.service';
-import { default as AppConfig } from '../../../../../config/application.hybrid';
+import { default as AppConfig } from '@config/application.hybrid';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
 import { AnalyticsService } from '@providers/global';
@@ -32,10 +30,12 @@ import { AppService } from '@providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from '@assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
 import { ActivityService } from '@providers/activity/activity.service';
 import { LogsProvider } from '@store/logs/logs.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'page-vehicle-lookup',
-  templateUrl: 'vehicle-lookup.html'
+  templateUrl: 'vehicle-lookup.html',
+  styleUrls: ['vehicle-lookup.scss'],
 })
 export class VehicleLookupPage {
   testData: TestModel;
@@ -48,7 +48,6 @@ export class VehicleLookupPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public visitService: VisitService,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
@@ -61,9 +60,10 @@ export class VehicleLookupPage {
     public appService: AppService,
     private modalCtrl: ModalController,
     private activityService: ActivityService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private router: Router,
   ) {
-    this.testData = navParams.get('test');
+    this.testData = this.router.getCurrentNavigation().extras.state.test;
   }
 
   ionViewWillEnter() {
@@ -201,42 +201,49 @@ export class VehicleLookupPage {
     });
   }
 
-  close(): void {
-    if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-      this.visitService.removeTest(this.testData);
-    }
-    this.navCtrl.pop();
-  }
+  // close(): void {
+  //
+  //   if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+  //     this.visitService.removeTest(this.testData);
+  //   }
+  //   this.navCtrl.pop();
+  // }
 
-  showAlert() {
-    const alert = this.alertCtrl.create({
-      title: APP_STRINGS.VEHICLE_NOT_FOUND,
+  async showAlert() {
+    let alert: any = null
+    alert = this.alertCtrl.create({
+      header: APP_STRINGS.VEHICLE_NOT_FOUND,
       message: APP_STRINGS.VEHICLE_NOT_FOUND_MESSAGE,
-      enableBackdropDismiss: false,
+      backdropDismiss: false,
       buttons: ['OK']
     });
-    alert.present();
-    this.trackErrorOnSearchRecord(ANALYTICS_VALUE.VEHICLE_NOT_FOUND);
+    await alert.present();
+    await this.trackErrorOnSearchRecord(ANALYTICS_VALUE.VEHICLE_NOT_FOUND);
   }
 
-  goToVehicleDetails(vehicleData: VehicleModel) {
-    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
-      test: this.testData,
-      vehicle: vehicleData
-    });
+  async goToVehicleDetails(vehicleData: VehicleModel) {
+    await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
+      state: {
+        test: this.testData,
+        vehicle: vehicleData
+      }
+    })
+
   }
 
-  goToMultipleTechRecordsSelection(multipleVehicleData: VehicleModel[]) {
-    return this.navCtrl.push(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
-      test: this.testData,
-      vehicles: multipleVehicleData
-    });
+  async goToMultipleTechRecordsSelection(multipleVehicleData: VehicleModel[]) {
+    await this.router.navigate([PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION], {
+      state: {
+        test: this.testData,
+        vehicles: multipleVehicleData
+      }
+    })
   }
 
-  private handleError(vehicleData: VehicleModel): Observable<any> {
-    let alert = this.alertCtrl.create({
-      title: 'Unable to load data',
-      enableBackdropDismiss: false,
+  private async handleError(vehicleData: VehicleModel): Promise<Observable<any>> {
+    let alert = await this.alertCtrl.create({
+      header: 'Unable to load data',
+      backdropDismiss: false,
       message: 'Make sure you are connected to the internet and try again',
       buttons: [
         {
@@ -264,7 +271,7 @@ export class VehicleLookupPage {
         }
       ]
     });
-    alert.present();
+    await alert.present();
     return _throw('Something bad happened; please try again later.');
   }
 
@@ -277,17 +284,17 @@ export class VehicleLookupPage {
     );
   }
 
-  onChangeSearchCriteria() {
-    const MODAL = this.modalCtrl.create(PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION, {
-      selectedSearchCriteria: this.selectedSearchCriteria,
-      trailersOnly: this.canSearchOnlyTrailers()
-    });
-    MODAL.present();
-    MODAL.onDidDismiss((data) => {
-      this.selectedSearchCriteria = data.selectedSearchCriteria;
-      this.searchPlaceholder = this.getSearchFieldPlaceholder();
-    });
-  }
+  // onChangeSearchCriteria() {
+  //   const MODAL = this.modalCtrl.create(PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION, {
+  //     selectedSearchCriteria: this.selectedSearchCriteria,
+  //     trailersOnly: this.canSearchOnlyTrailers()
+  //   });
+  //   MODAL.present();
+  //   MODAL.onDidDismiss((data) => {
+  //     this.selectedSearchCriteria = data.selectedSearchCriteria;
+  //     this.searchPlaceholder = this.getSearchFieldPlaceholder();
+  //   });
+  // }
 
   getTechRecordQueryParam() {
     return VehicleLookupSearchCriteriaData.VehicleLookupQueryParameters.find((queryParamItem) => {
