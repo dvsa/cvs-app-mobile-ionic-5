@@ -31,10 +31,10 @@ import { ActivityModel } from '@models/visit/activity.model';
 import { ActivityService } from '@providers/activity/activity.service';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
-import {from, Observable, Subscription} from 'rxjs';
+import { from, Observable, Subscription } from 'rxjs';
 import { LogsProvider } from '@store/logs/logs.service';
 import { of } from 'rxjs/observable/of';
-import {catchError, filter, map, mergeMap, tap} from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
