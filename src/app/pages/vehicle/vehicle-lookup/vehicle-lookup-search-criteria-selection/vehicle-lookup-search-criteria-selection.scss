@@ -1,0 +1,19 @@
+page-vehicle-lookup-search-criteria-selection {
+  .selected {
+    color: color($colors, primary);
+  }
+
+  ion-item.item-block {
+    min-height: 4.9rem;
+  }
+
+  ion-item:nth-child(6) {
+    div.item-inner {
+      border-bottom: none;
+    }
+  }
+
+  ion-list .input-wrapper ion-label {
+    margin: 16px 0;
+  }
+}
