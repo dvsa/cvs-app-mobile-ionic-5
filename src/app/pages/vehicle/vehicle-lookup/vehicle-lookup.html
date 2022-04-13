@@ -9,9 +9,9 @@
       {{title}}
     </ion-title>
     <ion-buttons slot="end">
-      <button ion-button class="custom-search-button" (click)="onSearchVehicle(searchVal)">
+      <ion-button class="custom-search-button" (click)="onSearchVehicle(searchVal)">
         Search
-      </button>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -19,10 +19,10 @@
 <ion-content no-padding class="content-background-color-grey">
   <ion-item>
     <ion-input
-      autocapitalize="true"
       *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
       [ngModelOptions]="{standalone: true}"
       class="custom-input shadow ios-margin-top"
+      autocapitalize="on"
       clearInput="true"
       type="search"
       [placeholder]="searchPlaceholder"
@@ -33,6 +33,7 @@
     <ng-template #accessibilityTextArea>
       <ion-textarea
         class="custom-input shadow autosize ion-text-capitalize ion-text-wrap input"
+        autocapitalize="on"
         [placeholder]="searchPlaceholder"
         type="search"
         rows="1"
@@ -42,8 +43,8 @@
     </ng-template>
   </ion-item>
 
-  <ion-list-header class="ion-padding-start ion-padding-end ion-text-capitalize">SEARCH CRITERIA</ion-list-header>
-  <ion-item button detail="false" class="ion-padding-start" (click)="onChangeSearchCriteria()">
+  <ion-list-header class="ion-padding-start ion-padding-end">SEARCH CRITERIA</ion-list-header>
+  <ion-item detail="false" class="ion-padding-start" (click)="onChangeSearchCriteria()">
     <ion-label>{{selectedSearchCriteria}}</ion-label>
     <div item-end>Change</div>
     <ion-icon item-end class="arrow-forward" name="arrow-forward"></ion-icon>
