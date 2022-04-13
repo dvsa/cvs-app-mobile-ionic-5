@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { APP_STRINGS } from '@app/app.enums';
+import {APP_STRINGS, PAGE_NAMES} from '@app/app.enums';
 import { StateReformingService } from '@providers/global/state-reforming.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
   templateUrl: 'visit-confirmation.html',
   styleUrls: ['visit-confirmation.scss']
 })
-export class VisitConfirmationPage {
+export class VisitConfirmationPage implements OnInit {
   testStationName: string;
   testerEmailAddress: string;
   message: string;
@@ -25,6 +25,9 @@ export class VisitConfirmationPage {
     private callNumber: CallNumber,
     private router: Router,
   ) {
+  }
+
+  ngOnInit(): void {
     this.testStationName = this.router.getCurrentNavigation().extras.state.testStationName;
     this.testerEmailAddress = this.router.getCurrentNavigation().extras.state.testerEmailAddress;
   }
@@ -40,10 +43,11 @@ export class VisitConfirmationPage {
     }
   }
 
-  pushPage() {
+  async pushPage() {
     if (this.testStationName) {
-      // this.navCtrl.popToRoot();
+      await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE]);
     } else if (this.testerEmailAddress) {
+      // TODO Reintroduce this alongside additional unit testing
       // const views = this.navCtrl.getViews();
       // for (let i = views.length - 1; i >= 0; i--) {
         // if (views[i].component.name === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
@@ -71,4 +75,5 @@ export class VisitConfirmationPage {
     });
     await confirm.present();
   }
+
 }
