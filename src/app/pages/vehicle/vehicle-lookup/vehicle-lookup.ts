@@ -13,8 +13,8 @@ import {
 } from '@ionic/angular';
 import { _throw } from 'rxjs/observable/throw';
 import { Observable, Observer } from 'rxjs';
-import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { CallNumber } from '@ionic-native/call-number';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { TestModel } from '@models/tests/test.model';
 import { VehicleService } from '@providers/vehicle/vehicle.service';
@@ -30,7 +30,7 @@ import { AppService } from '@providers/global/app.service';
 import { VehicleLookupSearchCriteriaData } from '@assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
 import { ActivityService } from '@providers/activity/activity.service';
 import { LogsProvider } from '@store/logs/logs.service';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-vehicle-lookup',
@@ -39,10 +39,10 @@ import {Router} from "@angular/router";
 })
 export class VehicleLookupPage {
   testData: TestModel;
-  searchVal: string = '';
-  title: string = '';
+  searchVal = '';
+  title = '';
   searchPlaceholder = '';
-  isCombinationTest: boolean = false;
+  isCombinationTest = false;
   selectedSearchCriteria: string;
   loading: any;
 
@@ -81,12 +81,11 @@ export class VehicleLookupPage {
   }
 
   doesHgvLgvExist() {
-    for (let vehicle of this.testData.vehicles) {
+    for (const vehicle of this.testData.vehicles) {
       if (
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ||
         vehicle.techRecord.vehicleType === VEHICLE_TYPE.LGV
-      )
-        return true;
+      ) {return true;}
     }
     return false;
   }
@@ -95,8 +94,8 @@ export class VehicleLookupPage {
     return this.isCombinationTest && this.doesHgvLgvExist();
   }
 
-  ionViewDidEnter() {
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_SEARCH);
+  async ionViewDidEnter() {
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_SEARCH);
   }
 
   /**
@@ -157,7 +156,7 @@ export class VehicleLookupPage {
               this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               this.goToVehicleDetails(vehicleData[0]);
             },
-            complete: function() {}
+            complete: () => {}
           };
           if (vehicleData.length > 1) {
             this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
@@ -201,16 +200,18 @@ export class VehicleLookupPage {
     });
   }
 
-  // close(): void {
-  //
-  //   if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-  //     this.visitService.removeTest(this.testData);
-  //   }
-  //   this.navCtrl.pop();
-  // }
+  async close(): Promise<void> {
+    // if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+    //   this.visitService.removeTest(this.testData);
+    // }
+    // this.navCtrl.pop();
+
+    //for now just to close visit
+    await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
+  }
 
   async showAlert() {
-    let alert: any = null
+    let alert: any = null;
     alert = this.alertCtrl.create({
       header: APP_STRINGS.VEHICLE_NOT_FOUND,
       message: APP_STRINGS.VEHICLE_NOT_FOUND_MESSAGE,
@@ -227,7 +228,7 @@ export class VehicleLookupPage {
         test: this.testData,
         vehicle: vehicleData
       }
-    })
+    });
 
   }
 
@@ -237,11 +238,11 @@ export class VehicleLookupPage {
         test: this.testData,
         vehicles: multipleVehicleData
       }
-    })
+    });
   }
 
   private async handleError(vehicleData: VehicleModel): Promise<Observable<any>> {
-    let alert = await this.alertCtrl.create({
+    const alert = await this.alertCtrl.create({
       header: 'Unable to load data',
       backdropDismiss: false,
       message: 'Make sure you are connected to the internet and try again',
@@ -284,21 +285,22 @@ export class VehicleLookupPage {
     );
   }
 
-  // onChangeSearchCriteria() {
-  //   const MODAL = this.modalCtrl.create(PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION, {
-  //     selectedSearchCriteria: this.selectedSearchCriteria,
-  //     trailersOnly: this.canSearchOnlyTrailers()
-  //   });
-  //   MODAL.present();
-  //   MODAL.onDidDismiss((data) => {
-  //     this.selectedSearchCriteria = data.selectedSearchCriteria;
-  //     this.searchPlaceholder = this.getSearchFieldPlaceholder();
-  //   });
-  // }
+  onChangeSearchCriteria() {
+    console.log('change criteria');
+    // const MODAL = this.modalCtrl.create(PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION, {
+    //   selectedSearchCriteria: this.selectedSearchCriteria,
+    //   trailersOnly: this.canSearchOnlyTrailers()
+    // });
+    // MODAL.present();
+    // MODAL.onDidDismiss((data) => {
+    //   this.selectedSearchCriteria = data.selectedSearchCriteria;
+    //   this.searchPlaceholder = this.getSearchFieldPlaceholder();
+    // });
+  }
 
   getTechRecordQueryParam() {
-    return VehicleLookupSearchCriteriaData.VehicleLookupQueryParameters.find((queryParamItem) => {
-      return queryParamItem.text === this.selectedSearchCriteria;
-    });
+    return VehicleLookupSearchCriteriaData.VehicleLookupQueryParameters.find(
+      (queryParamItem) => queryParamItem.text === this.selectedSearchCriteria
+    );
   }
 }
