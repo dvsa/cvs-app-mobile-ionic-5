@@ -4,44 +4,48 @@
       <ion-back-button [text]="APP_STRINGS.IDENTIFY_VEHICLE">
       </ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-margin-start">
+    <ion-title class="ion-margin-start ion-padding-vertical">
       Select Vehicle
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content no-padding class="content-background-color-grey">
+<ion-content class="content-background-color-grey ion-no-padding">
   <div class="skeleton-banner" *ngIf="isAtLeastOneSkeleton">
     {{ APP_STRINGS.SKELETON_BANNER }}
   </div>
-  <ion-list class="ion-text-wrap">
+  <ion-list>
     <ion-item-divider class="ion-padding-start">
-      <h3>Multiple vehicles found matching this search</h3>
+      <ion-label>
+        <h3>Multiple vehicles found matching this search</h3>
+      </ion-label>
     </ion-item-divider>
-    <ion-button
-      no-lines
-      class="full-border"
-      [ngClass]="{'skeleton-button': this.vehicleService.isVehicleSkeleton(vehicle)}"
+    <ion-item
       *ngFor="let vehicle of vehicles"
-      (click)="openVehicleDetails(vehicle)"
-    >
+      detail="true"
+      class="full-border ion-padding-vertical"
+      lines="none"
+      [ngClass]="{'skeleton-button': this.vehicleService.isVehicleSkeleton(vehicle)}"
+      (click)="openVehicleDetails(vehicle)">
       <img
-        item-start
-        class="vehicle-type-icon ion-margin-end"
+        slot="start"
+        class="vehicle-type-icon"
         src="./assets/imgs/{{vehicle.techRecord.vehicleType.toLowerCase()}}-icon.svg"
         *ngIf="!this.vehicleService.isVehicleSkeleton(vehicle)"
       />
-      <h2>
-        {{ !this.vehicleService.isVehicleSkeleton(vehicle) ? vehicle.techRecord.make ||
-        vehicle.techRecord.chassisMake : APP_STRINGS.SKELETON_ALERT_TITLE}}
-      </h2>
-      <p *ngIf="!this.vehicleService.isVehicleSkeleton(vehicle)">
-        {{ vehicle.techRecord.manufactureYear }} , {{ vehicle.techRecord.model ||
+      <div class="vehicle-detail-content">
+        <h2>
+          {{ !this.vehicleService.isVehicleSkeleton(vehicle) ? vehicle.techRecord.make ||
+          vehicle.techRecord.chassisMake : APP_STRINGS.SKELETON_ALERT_TITLE}}
+        </h2>
+        <p *ngIf="!this.vehicleService.isVehicleSkeleton(vehicle)">
+          {{ vehicle.techRecord.manufactureYear }} , {{ vehicle.techRecord.model ||
         vehicle.techRecord.chassisModel }}
-      </p>
-      <p *ngIf="this.vehicleService.isVehicleSkeleton(vehicle)">
-        {{ APP_STRINGS.SKELETON_INFO }}
-      </p>
-    </ion-button>
+        </p>
+        <p *ngIf="this.vehicleService.isVehicleSkeleton(vehicle)">
+          {{ APP_STRINGS.SKELETON_INFO }}
+        </p>
+      </div>
+    </ion-item>
   </ion-list>
 </ion-content>
