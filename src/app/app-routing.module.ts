@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {PAGE_NAMES} from '@app/app.enums';
+import { PAGE_NAMES } from '@app/app.enums';
 
 const routes: Routes = [
   // {
@@ -43,6 +43,11 @@ const routes: Routes = [
     path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
     loadChildren: () => import('./pages/vehicle/vehicle-lookup/vehicle-lookup.module')
       .then( m => m.VehicleLookupModule)
+  },
+  {
+    path: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
+    loadChildren: () => import('./pages/vehicle/vehicle-lookup/multiple-tech-records-selection/multiple-tech-records-selection.module')
+      .then( m => m.MultipleTechRecordsSelectionModule)
   },
 ];
 
