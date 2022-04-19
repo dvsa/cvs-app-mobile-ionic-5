@@ -49,6 +49,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/vehicle/vehicle-lookup/multiple-tech-records-selection/multiple-tech-records-selection.module')
       .then( m => m.MultipleTechRecordsSelectionModule)
   },
+  {
+    path: PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION,
+    loadChildren: () =>
+      import('./pages/vehicle/vehicle-lookup/vehicle-lookup-search-criteria-selection/vehicle-lookup-search-criteria-selection.module')
+      .then( m => m.VehicleLookupSearchCriteriaSelectionPageModule)
+  },
 ];
 
 @NgModule({

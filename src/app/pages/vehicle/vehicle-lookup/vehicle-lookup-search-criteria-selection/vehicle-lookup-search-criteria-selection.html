@@ -1,28 +1,25 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title margin-left>
+  <ion-toolbar>
+    <ion-title class="ion-margin-start">
       Search criteria
     </ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="onSave()">
+    <ion-buttons slot="end">
+      <ion-button (click)="onSave()">
         Save
-      </button>
+      </ion-button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="content-background-color-grey">
   <ion-list>
-    <ion-item
-      text-wrap
-      padding-left
+    <ion-item class="ion-text-wrap ion-padding-start"
       (click)="onCheck(searchCriteriaItem.text)"
       *ngFor="let searchCriteriaItem of searchCriteriaList"
     >
       <ion-label>{{searchCriteriaItem.text}}</ion-label>
       <ion-icon
-        item-end
-        class="selected"
+        class="selected ion-align-items-end"
         name="checkmark"
         *ngIf="searchCriteriaItem.isChecked"
       ></ion-icon>

@@ -31,11 +31,14 @@ import { VehicleLookupSearchCriteriaData } from '@assets/app-data/vehicle-lookup
 import { ActivityService } from '@providers/activity/activity.service';
 import { LogsProvider } from '@store/logs/logs.service';
 import { Router } from '@angular/router';
+import {
+  VehicleLookupSearchCriteriaSelectionPage
+} from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup-search-criteria-selection/vehicle-lookup-search-criteria-selection';
 
 @Component({
   selector: 'page-vehicle-lookup',
   templateUrl: 'vehicle-lookup.html',
-  styleUrls: ['vehicle-lookup.scss'],
+  styleUrls: ['vehicle-lookup.scss']
 })
 export class VehicleLookupPage {
   testData: TestModel;
@@ -285,17 +288,20 @@ export class VehicleLookupPage {
     );
   }
 
-  onChangeSearchCriteria() {
-    console.log('change criteria');
-    // const MODAL = this.modalCtrl.create(PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION, {
-    //   selectedSearchCriteria: this.selectedSearchCriteria,
-    //   trailersOnly: this.canSearchOnlyTrailers()
-    // });
-    // MODAL.present();
-    // MODAL.onDidDismiss((data) => {
-    //   this.selectedSearchCriteria = data.selectedSearchCriteria;
-    //   this.searchPlaceholder = this.getSearchFieldPlaceholder();
-    // });
+  async onChangeSearchCriteria() {
+    const MODAL = await this.modalCtrl.create({
+      component: VehicleLookupSearchCriteriaSelectionPage,
+      componentProps: {
+        selectedSearchCriteria: this.selectedSearchCriteria,
+        trailersOnly: this.canSearchOnlyTrailers()
+      }
+    });
+    await MODAL.present();
+    const { data: selectedSearchCriteria } = await MODAL.onWillDismiss();
+    if (selectedSearchCriteria) {
+      this.selectedSearchCriteria = selectedSearchCriteria;
+      this.searchPlaceholder = this.getSearchFieldPlaceholder();
+    }
   }
 
   getTechRecordQueryParam() {
