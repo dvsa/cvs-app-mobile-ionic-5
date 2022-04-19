@@ -1,30 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { VehicleLookupSearchCriteriaData } from '../../../../../assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
+import {Component, Input, OnInit} from '@angular/core';
+import {ModalController } from '@ionic/angular';
+import {
+  VehicleLookupSearchCriteriaData
+} from '@assets/app-data/vehicle-lookup-search-criteria/vehicle-lookup-search-criteria.data';
 
 export interface SearchCriteriaItemModel {
   text: string;
   isChecked: boolean;
 }
 
-@IonicPage()
 @Component({
   selector: 'page-vehicle-lookup-search-criteria-selection',
-  templateUrl: 'vehicle-lookup-search-criteria-selection.html'
+  templateUrl: 'vehicle-lookup-search-criteria-selection.html',
+  styleUrls: ['vehicle-lookup-search-criteria-selection.scss']
 })
 export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
-  selectedSearchCriteria: string;
-  trailersOnly: boolean;
+  @Input() selectedSearchCriteria: string;
+  @Input() trailersOnly: boolean;
   searchCriteriaList: SearchCriteriaItemModel[];
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private viewCtrl: ViewController
-  ) {
-    this.selectedSearchCriteria = this.navParams.get('selectedSearchCriteria');
-    this.trailersOnly = this.navParams.get('trailersOnly');
-  }
+    private modalCtrl: ModalController,
+  ) {}
 
   ngOnInit(): void {
     this.searchCriteriaList = this.trailersOnly
@@ -54,7 +51,7 @@ export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
     });
   }
 
-  onSave(): void {
-    this.viewCtrl.dismiss({ selectedSearchCriteria: this.selectedSearchCriteria });
+  async onSave(): Promise<void> {
+    await this.modalCtrl.dismiss(this.selectedSearchCriteria, 'selectedSearchCriteria');
   }
 }

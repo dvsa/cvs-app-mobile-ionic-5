@@ -1,6 +1,6 @@
-page-vehicle-lookup-search-criteria-selection {
+:host {
   .selected {
-    color: color($colors, primary);
+    color: var(--ion-color-primary);
   }
 
   ion-item.item-block {
