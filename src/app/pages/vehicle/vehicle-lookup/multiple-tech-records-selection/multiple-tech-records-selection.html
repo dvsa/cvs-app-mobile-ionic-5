@@ -1,21 +1,24 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title margin-left>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="APP_STRINGS.IDENTIFY_VEHICLE">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-margin-start">
       Select Vehicle
     </ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding class="content-background-color-grey">
   <div class="skeleton-banner" *ngIf="isAtLeastOneSkeleton">
     {{ APP_STRINGS.SKELETON_BANNER }}
   </div>
-  <ion-list text-wrap>
-    <ion-item-divider padding-left>
+  <ion-list class="ion-text-wrap">
+    <ion-item-divider class="ion-padding-start">
       <h3>Multiple vehicles found matching this search</h3>
     </ion-item-divider>
-    <button
-      ion-item
+    <ion-button
       no-lines
       class="full-border"
       [ngClass]="{'skeleton-button': this.vehicleService.isVehicleSkeleton(vehicle)}"
@@ -24,8 +27,7 @@
     >
       <img
         item-start
-        class="vehicle-type-icon"
-        margin-right
+        class="vehicle-type-icon ion-margin-end"
         src="./assets/imgs/{{vehicle.techRecord.vehicleType.toLowerCase()}}-icon.svg"
         *ngIf="!this.vehicleService.isVehicleSkeleton(vehicle)"
       />
@@ -40,6 +42,6 @@
       <p *ngIf="this.vehicleService.isVehicleSkeleton(vehicle)">
         {{ APP_STRINGS.SKELETON_INFO }}
       </p>
-    </button>
+    </ion-button>
   </ion-list>
 </ion-content>

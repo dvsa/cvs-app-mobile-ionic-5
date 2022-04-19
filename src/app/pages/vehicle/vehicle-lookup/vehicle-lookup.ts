@@ -129,7 +129,7 @@ export class VehicleLookupPage {
     );
   }
 
-  searchVehicle(searchedValue: string, LOADING) {
+  async searchVehicle(searchedValue: string, LOADING) {
     const { oid } = this.authenticationService.tokenInfo;
 
     this.vehicleService

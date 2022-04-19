@@ -1,12 +1,12 @@
-multiple-tech-records-selection {
+:host {
   ion-item-divider {
-    min-height: $list-header-height-medium;
+    min-height: var(--list-ios-item-height);
   }
 
   ion-list .input-wrapper ion-label {
     h3 {
-      font-size: $font-size-medium;
-      font-weight: $font-weight-semi-bold;
+      font-size: var(--font-size-medium);
+      font-weight: var(--font-weight-semi-bold);
     }
 
     margin: 16px 0;
@@ -18,15 +18,15 @@ multiple-tech-records-selection {
   }
 
   .item[no-lines].full-border {
-    border-bottom: 0.5px solid $color-grey-2;
-    border-top: 0.5px solid $color-grey-2;
+    border-bottom: 0.5px solid var(--color-grey-2);
+    border-top: 0.5px solid var(--color-grey-2);
   }
 
   .skeleton-banner {
     padding: 16px;
-    font-size: $font-size-medium;
-    color: color($colors, light);
-    background-color: color($colors, tertiary);
+    font-size: var(--font-size-medium);
+    color: var(--light);
+    //background-color: var(--tertiary);
   }
 
   .skeleton-button {

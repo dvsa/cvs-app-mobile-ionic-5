@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import {
   AlertController,
-  IonicPage,
-  LoadingController,
-  NavController,
-  NavParams,
-  ViewController
+  LoadingController
 } from '@ionic/angular';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { Observer } from 'rxjs';
@@ -13,7 +9,6 @@ import { TestResultModel } from '@models/tests/test-result.model';
 import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
   PAGE_NAMES,
@@ -25,11 +20,12 @@ import { StorageService } from '@providers/natives/storage.service';
 import { TestModel } from '@models/tests/test.model';
 import { LogsProvider } from '@store/logs/logs.service';
 import { AnalyticsService } from '@providers/global';
+import { Router } from '@angular/router';
 
-@IonicPage()
 @Component({
   selector: 'multiple-tech-records-selection',
-  templateUrl: 'multiple-tech-records-selection.html'
+  templateUrl: 'multiple-tech-records-selection.html',
+  styleUrls: ['multiple-tech-records-selection.scss'],
 })
 export class MultipleTechRecordsSelectionPage {
   combinationTestData: TestModel;
@@ -38,33 +34,30 @@ export class MultipleTechRecordsSelectionPage {
   isAtLeastOneSkeleton: boolean;
 
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private viewCtrl: ViewController,
     public loadingCtrl: LoadingController,
     private authenticationService: AuthenticationService,
     public vehicleService: VehicleService,
     public storageService: StorageService,
     private analyticsService: AnalyticsService,
     private alertCtrl: AlertController,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private router: Router
   ) {
-    this.vehicles = this.navParams.get('vehicles');
-    this.combinationTestData = navParams.get('test');
+    this.vehicles = this.router.getCurrentNavigation().extras.state.vehicles;
+    this.combinationTestData = this.router.getCurrentNavigation().extras.state.test;
   }
 
   ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText(APP_STRINGS.IDENTIFY_VEHICLE);
-    this.isAtLeastOneSkeleton = this.vehicles.some((vehicle) => {
-      return this.vehicleService.isVehicleSkeleton(vehicle);
-    });
+    this.isAtLeastOneSkeleton = this.vehicles.some((vehicle) =>
+      this.vehicleService.isVehicleSkeleton(vehicle)
+    );
   }
 
-  openVehicleDetails(selectedVehicle: VehicleModel): void {
-    const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
+  async openVehicleDetails(selectedVehicle: VehicleModel): Promise<void> {
+    const LOADING = await this.loadingCtrl.create({
+      message: 'loading....'
     });
-    LOADING.present();
+    await LOADING.present();
 
     const { oid } = this.authenticationService.tokenInfo;
 
@@ -85,12 +78,12 @@ export class MultipleTechRecordsSelectionPage {
         this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
         this.goToVehicleDetails(selectedVehicle);
       },
-      complete: function() {}
+      complete: () => {}
     };
 
     if (this.vehicleService.isVehicleSkeleton(selectedVehicle)) {
-      LOADING.dismiss();
-      this.vehicleService.createSkeletonAlert(this.alertCtrl);
+      await LOADING.dismiss();
+      await this.vehicleService.createSkeletonAlert(this.alertCtrl);
     } else {
       this.vehicleService
         .getTestResultsHistory(selectedVehicle.systemNumber)
@@ -109,10 +102,12 @@ export class MultipleTechRecordsSelectionPage {
     });
   }
 
-  goToVehicleDetails(selectedVehicle: VehicleModel) {
-    this.navCtrl.push(PAGE_NAMES.VEHICLE_DETAILS_PAGE, {
-      test: this.combinationTestData,
-      vehicle: selectedVehicle
+  async goToVehicleDetails(selectedVehicle: VehicleModel) {
+    await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
+      state: {
+        test: this.combinationTestData,
+        vehicle: selectedVehicle
+      }
     });
   }
 }
