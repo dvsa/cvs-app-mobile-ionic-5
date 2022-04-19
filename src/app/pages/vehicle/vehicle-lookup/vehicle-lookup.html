@@ -43,7 +43,11 @@
     </ng-template>
   </ion-item>
 
-  <ion-list-header class="ion-padding-start ion-padding-end">SEARCH CRITERIA</ion-list-header>
+  <ion-list-header class="ion-padding-start ion-padding-end">
+    <ion-label>
+      SEARCH CRITERIA
+    </ion-label>
+  </ion-list-header>
   <ion-item detail="false" class="ion-padding-start" (click)="onChangeSearchCriteria()">
     <ion-label>{{selectedSearchCriteria}}</ion-label>
     <div item-end>Change</div>
