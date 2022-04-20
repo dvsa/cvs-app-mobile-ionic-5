@@ -48,6 +48,7 @@ export class VehicleLookupPage {
   isCombinationTest = false;
   selectedSearchCriteria: string;
   loading: any;
+  previousPage: string;
 
   constructor(
     public navCtrl: NavController,
@@ -67,6 +68,7 @@ export class VehicleLookupPage {
     private router: Router,
   ) {
     this.testData = this.router.getCurrentNavigation().extras.state.test;
+    this.previousPage = this.router.getCurrentNavigation().extras.state.previousPage;
   }
 
   ionViewWillEnter() {
@@ -204,12 +206,9 @@ export class VehicleLookupPage {
   }
 
   async close(): Promise<void> {
-    // if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-    //   this.visitService.removeTest(this.testData);
-    // }
-    // this.navCtrl.pop();
-
-    //for now just to close visit
+    if (this.previousPage === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+      await this.visitService.removeTest(this.testData);
+    }
     await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
   }
 

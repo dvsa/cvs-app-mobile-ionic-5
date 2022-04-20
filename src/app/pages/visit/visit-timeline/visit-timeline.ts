@@ -108,7 +108,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
   async createNewTestReport(): Promise<void> {
     const test = this.testReportService.createTest();
-    await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {state: {test}});
+    await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {
+      state: {
+        test,
+        previousPage: PAGE_NAMES.VISIT_TIMELINE_PAGE
+      }
+    });
   }
 
   createTimeline(): void {
