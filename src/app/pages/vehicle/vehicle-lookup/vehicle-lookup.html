@@ -17,11 +17,11 @@
 </ion-header>
 
 <ion-content class="content-background-color-grey ion-no-padding">
-  <ion-item>
+  <ion-item lines="none">
     <ion-input
       *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
       [ngModelOptions]="{standalone: true}"
-      class="custom-input shadow ios-margin-top"
+      class="custom-input shadow ios-margin-top ion-no-padding"
       autocapitalize="on"
       clearInput="true"
       type="search"
@@ -43,14 +43,13 @@
     </ng-template>
   </ion-item>
 
-  <ion-list-header class="ion-padding-horizontal">
+  <ion-list-header>
     <ion-label>
       SEARCH CRITERIA
     </ion-label>
   </ion-list-header>
-  <ion-item detail="false" class="ion-padding-start" (click)="onChangeSearchCriteria()">
+  <ion-item detail="true" class="ion-no-margin" (click)="onChangeSearchCriteria()" lines="none">
     <ion-label>{{selectedSearchCriteria}}</ion-label>
-    <div item-end>Change</div>
-    <ion-icon slot="end" class="arrow-forward" name="arrow-forward"></ion-icon>
+    <div>Change</div>
   </ion-item>
 </ion-content>
