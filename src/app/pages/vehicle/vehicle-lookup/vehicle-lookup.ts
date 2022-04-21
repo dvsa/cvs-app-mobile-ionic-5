@@ -51,7 +51,7 @@ export class VehicleLookupPage implements OnInit {
   previousPage: string;
 
   constructor(
-    public navCtrl: NavController,
+    public navController: NavController,
     public visitService: VisitService,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
@@ -65,7 +65,7 @@ export class VehicleLookupPage implements OnInit {
     private modalCtrl: ModalController,
     private activityService: ActivityService,
     private logProvider: LogsProvider,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -211,8 +211,7 @@ export class VehicleLookupPage implements OnInit {
     if (this.previousPage === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
       await this.visitService.removeTest(this.testData);
     }
-    // TODO - fix animation to go backwards
-    await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
+    this.navController.back();
   }
 
   async showAlert() {
