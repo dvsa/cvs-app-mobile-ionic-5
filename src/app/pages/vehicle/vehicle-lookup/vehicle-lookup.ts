@@ -4,7 +4,7 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_VALUE
 } from '@app/app.enums';
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AlertController,
   LoadingController,
@@ -40,7 +40,7 @@ import {
   templateUrl: 'vehicle-lookup.html',
   styleUrls: ['vehicle-lookup.scss']
 })
-export class VehicleLookupPage {
+export class VehicleLookupPage implements OnInit {
   testData: TestModel;
   searchVal = '';
   title = '';
@@ -66,7 +66,9 @@ export class VehicleLookupPage {
     private activityService: ActivityService,
     private logProvider: LogsProvider,
     private router: Router,
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.testData = this.router.getCurrentNavigation().extras.state.test;
     this.previousPage = this.router.getCurrentNavigation().extras.state.previousPage;
   }
