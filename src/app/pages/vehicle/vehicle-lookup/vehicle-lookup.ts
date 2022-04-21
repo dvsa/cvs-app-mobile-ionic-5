@@ -298,9 +298,9 @@ export class VehicleLookupPage implements OnInit {
       }
     });
     await MODAL.present();
-    const { data: selectedSearchCriteria } = await MODAL.onWillDismiss();
-    if (selectedSearchCriteria) {
-      this.selectedSearchCriteria = selectedSearchCriteria;
+    const { data } = await MODAL.onWillDismiss();
+    if (data) {
+      this.selectedSearchCriteria = data;
       this.searchPlaceholder = this.getSearchFieldPlaceholder();
     }
   }

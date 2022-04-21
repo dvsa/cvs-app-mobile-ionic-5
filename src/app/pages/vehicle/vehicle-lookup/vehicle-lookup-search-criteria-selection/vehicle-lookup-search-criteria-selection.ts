@@ -50,6 +50,6 @@ export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
   }
 
   async onSave(): Promise<void> {
-    await this.modalCtrl.dismiss(this.selectedSearchCriteria, 'selectedSearchCriteria');
+    await this.modalCtrl.dismiss(this.selectedSearchCriteria);
   }
 }
