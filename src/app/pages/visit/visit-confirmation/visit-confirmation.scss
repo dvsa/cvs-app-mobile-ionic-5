@@ -1,0 +1,23 @@
+:host {
+  .scroll-content {
+    -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+  }
+  .msg-centered {
+    height: 45%;
+    text-align: center;
+    h3 {
+      font-size: var(--font-size-medium);
+      font-family: var(--sf-pro-font-family);
+      font-weight: var(--font-weight-bold);
+      span {
+        color: var(--primary);
+        text-decoration: underline;
+      }
+    }
+  }
+  .tick-icon {
+    width: 150px;
+    height: 150px;
+    margin: 120px auto 50px auto;
+  }
+}
