@@ -22,7 +22,7 @@
       *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
       [ngModelOptions]="{standalone: true}"
       class="custom-input shadow ios-margin-top ion-no-padding"
-      autocapitalize="on"
+      autocapitalize="characters"
       clearInput="true"
       type="search"
       [placeholder]="searchPlaceholder"
@@ -32,18 +32,18 @@
 
     <ng-template #accessibilityTextArea>
       <ion-textarea
-        class="custom-input shadow autosize ion-text-capitalize ion-text-wrap input"
-        autocapitalize="on"
+        class="custom-input shadow autosize input"
+        autocapitalize="characters"
         [placeholder]="searchPlaceholder"
         type="search"
-        rows="1"
+        rows="3"
         [(ngModel)]="searchVal"
         value=""
       ></ion-textarea>
     </ng-template>
   </ion-item>
 
-  <ion-list-header>
+  <ion-list-header lines="none">
     <ion-label>
       SEARCH CRITERIA
     </ion-label>

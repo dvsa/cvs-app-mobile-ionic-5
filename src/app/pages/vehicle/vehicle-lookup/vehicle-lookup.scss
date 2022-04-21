@@ -25,6 +25,10 @@
     }
   }
 
+  ion-textarea.custom-input {
+    padding: 8px 0 8px 0;
+  }
+
   ion-list-header {
     //border-bottom: none;
     font-size: var(--font-size-small);
@@ -44,7 +48,7 @@
   ion-item {
     border: 1px solid var(--color-grey-2);
     margin-top: 40px;
-    ion-input {
+    ion-input, ion-textarea {
       border: none;
     }
 
@@ -65,6 +69,6 @@ ion-toolbar ion-button.custom-search-button {
   font-weight: var(--font-weight-bold);
 }
 
-.autosize textarea {
+ion-textarea.autosize {
   height: 5em;
 }
