@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AlertController, ModalController,
   NavController,
@@ -28,7 +28,7 @@ import {Router} from "@angular/router";
   selector: 'page-vehicle-details',
   templateUrl: 'vehicle-details.html'
 })
-export class VehicleDetailsPage {
+export class VehicleDetailsPage implements OnInit {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   SPECIAL_VEHICLE_TYPES: VEHICLE_TYPE[] = [
     VEHICLE_TYPE.MOTORCYCLE,
@@ -44,8 +44,6 @@ export class VehicleDetailsPage {
   previousPageName: string;
 
   constructor(
-    public navCtrl: NavController,
-    private navParams: NavParams,
     public alertCtrl: AlertController,
     public storageService: StorageService,
     public commonFunc: CommonFunctionsService,
@@ -55,21 +53,25 @@ export class VehicleDetailsPage {
     private router: Router,
     public modalCtrl: ModalController,
   ) {
-    this.vehicleData = navParams.get('vehicle');
-    this.testData = navParams.get('test');
-    this.previousPageName = this.navCtrl.last().name;
   }
 
-  ionViewWillEnter() {
-    this.viewCtrl.setBackButtonText(this.getBackButtonText());
-    this.modalCtrl.setBack
-
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
+  ngOnInit(): void {
+    // TODO dig out page name from here somehow
+    // this.previousPageName = this.router.getCurrentNavigation().previousNavigation;
+    this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
+    this.testData = this.router.getCurrentNavigation().extras.state.testData;
   }
 
-  goToPreparerPage(): void {
+  async ionViewWillEnter() {
+    // this.viewCtrl.setBackButtonText(this.getBackButtonText());
+    // this.modalCtrl.setBack
+
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
+  }
+
+  async goToPreparerPage(): Promise<void> {
     this.changeOpacity = true;
-    let confirm = this.alertCtrl.create({
+    let confirm = await this.alertCtrl.create({
       header: APP_STRINGS.CONFIRM_VEHICLE,
       message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
       buttons: [
@@ -86,9 +88,9 @@ export class VehicleDetailsPage {
                 test: this.testData,
                 vehicle: this.vehicleData
               }
-            }).then((resp) => {
+            }).then(async (resp) => {
               if (!resp) {
-                const alert = this.alertCtrl.create({
+                const alert = await this.alertCtrl.create({
                   header: APP_STRINGS.UNAUTHORISED,
                   message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
                   buttons: [
@@ -108,31 +110,31 @@ export class VehicleDetailsPage {
                     }
                   ]
                 });
-                alert.present();
+                await alert.present();
               }
             });
           }
         }
       ]
     });
-    confirm.present();
-    confirm.onDidDismiss(() => (this.changeOpacity = false));
+    await confirm.present();
+    // confirm.onDidDismiss(() => (this.changeOpacity = false));
   }
 
-  showMoreDetails(pageName: string): void {
-    this.navCtrl.push(pageName, {
-      vehicleData: this.vehicleData
-    });
+  async showMoreDetails(pageName: string): Promise<void> {
+    await this.router.navigate([pageName], {state: {vehicleData: this.vehicleData}});
   }
 
   goToVehicleTestResultsHistory() {
     this.storageService
       .read(STORAGE.TEST_HISTORY + this.vehicleData.systemNumber)
-      .then((data) => {
-        this.navCtrl.push(PAGE_NAMES.VEHICLE_HISTORY_PAGE, {
-          vehicleData: this.vehicleData,
-          testResultsHistory: data ? data : []
-        });
+      .then(async (data) => {
+        await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
+          state: {
+            vehicleData: this.vehicleData,
+            testResultsHistory: data ? data : [],
+          }
+        })
       });
   }
 
