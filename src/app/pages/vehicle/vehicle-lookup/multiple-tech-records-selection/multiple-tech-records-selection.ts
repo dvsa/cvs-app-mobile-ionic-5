@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AlertController,
   LoadingController
@@ -27,7 +27,7 @@ import { Router } from '@angular/router';
   templateUrl: 'multiple-tech-records-selection.html',
   styleUrls: ['multiple-tech-records-selection.scss'],
 })
-export class MultipleTechRecordsSelectionPage {
+export class MultipleTechRecordsSelectionPage implements OnInit{
   combinationTestData: TestModel;
   vehicles: VehicleModel[];
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
@@ -42,7 +42,9 @@ export class MultipleTechRecordsSelectionPage {
     private alertCtrl: AlertController,
     private logProvider: LogsProvider,
     private router: Router
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.vehicles = this.router.getCurrentNavigation().extras.state.vehicles;
     this.combinationTestData = this.router.getCurrentNavigation().extras.state.test;
   }

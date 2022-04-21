@@ -211,6 +211,7 @@ export class VehicleLookupPage implements OnInit {
     if (this.previousPage === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
       await this.visitService.removeTest(this.testData);
     }
+    // TODO - fix animation to go backwards
     await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
   }
 
