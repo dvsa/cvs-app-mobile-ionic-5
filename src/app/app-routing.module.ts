@@ -55,6 +55,12 @@ const routes: Routes = [
       import('./pages/vehicle/vehicle-lookup/vehicle-lookup-search-criteria-selection/vehicle-lookup-search-criteria-selection.module')
       .then( m => m.VehicleLookupSearchCriteriaSelectionPageModule)
   },
+  {
+    path: PAGE_NAMES.VEHICLE_DETAILS_PAGE,
+    loadChildren: () =>
+      import('./pages/vehicle/vehicle-details/vehicle-details.module')
+      .then( m => m.VehicleDetailsModule)
+  },
 ];
 
 @NgModule({

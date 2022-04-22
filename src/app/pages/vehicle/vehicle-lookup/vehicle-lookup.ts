@@ -143,8 +143,8 @@ export class VehicleLookupPage {
       .subscribe(
         (vehicleData) => {
           const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-            next: () => {
-              this.goToVehicleDetails(vehicleData[0]);
+            next: async () => {
+              await this.goToVehicleDetails(vehicleData[0]);
             },
             error: (error) => {
               this.logProvider.dispatchLog({
@@ -226,12 +226,16 @@ export class VehicleLookupPage {
   }
 
   async goToVehicleDetails(vehicleData: VehicleModel) {
+    console.log(vehicleData);
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
         test: this.testData,
         vehicle: vehicleData
       }
-    });
+    }).catch((error) => {
+      console.log(error);
+      alert('blah')
+    })
 
   }
 

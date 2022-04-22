@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {
   AlertController, ModalController,
-  NavController,
-  NavParams,
 } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
@@ -26,7 +24,8 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'page-vehicle-details',
-  templateUrl: 'vehicle-details.html'
+  templateUrl: 'vehicle-details.html',
+  styleUrls: ['vehicle-details.scss']
 })
 export class VehicleDetailsPage implements OnInit {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
@@ -65,7 +64,6 @@ export class VehicleDetailsPage implements OnInit {
   async ionViewWillEnter() {
     // this.viewCtrl.setBackButtonText(this.getBackButtonText());
     // this.modalCtrl.setBack
-
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
   }
 

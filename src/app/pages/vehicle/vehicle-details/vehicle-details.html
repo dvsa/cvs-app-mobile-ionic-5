@@ -227,7 +227,7 @@
 
   <ion-list class="vehicle-list">
     <ion-list-header class="ion-padding-right ion-padding-left">VIEW MORE INFORMATION</ion-list-header>
-    <button ion-item class="ion-padding-left" (click)="goToVehicleTestResultsHistory()">
+    <ion-item button class="ion-padding-left" (click)="goToVehicleTestResultsHistory()">
       <ng-container>
         <h3>
           <span
@@ -242,41 +242,41 @@
           test history
         </h3>
       </ng-container>
-    </button>
-    <button
-      ion-item
+    </ion-item>
+    <ion-item
+      button
       class="ion-padding-left"
       *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL]) && vehicleData.techRecord.brakes"
       (click)="showMoreDetails('VehicleBrakesPage')"
     >
       <h3>Brakes</h3>
-    </button>
-    <button
-      ion-item
+    </ion-item>
+    <ion-item
+      button
       class="ion-padding-left"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
       (click)="showMoreDetails('VehicleWeightsPage')"
     >
       <h3>Weights</h3>
-    </button>
-    <button
-      ion-item
+    </ion-item>
+    <ion-item
+      button
       class="ion-padding-left"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
       (click)="showMoreDetails('VehicleTyresPage')"
     >
       <h3>Tyres</h3>
-    </button>
-    <button ion-item class="ion-padding-left" (click)="showMoreDetails('VehicleAdditionalPage')">
+    </ion-item>
+    <ion-item button class="ion-padding-left" (click)="showMoreDetails('VehicleAdditionalPage')">
       <h3>Additional vehicle details</h3>
-    </button>
-    <button
-      ion-item
+    </ion-item>
+    <ion-item
+      button
       class="ion-padding-left"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES) && vehicleData.techRecord.adrDetails"
       (click)="showMoreDetails('VehicleAdrDetailsPage')"
     >
       <h3>ADR details</h3>
-    </button>
+    </ion-item>
   </ion-list>
 </ion-content>

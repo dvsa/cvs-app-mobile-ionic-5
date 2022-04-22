@@ -1,7 +1,7 @@
 ion-app.ios page-vehicle-details {
   ion-content {
     .scroll-content {
-      background: $color-grey-3;
+      background: var(--color-grey-3);
     }
 
     .vehicle-header-vrm-number {
@@ -9,7 +9,7 @@ ion-app.ios page-vehicle-details {
     }
 
     ion-list-header.list-header {
-      min-height: $list-header-height-medium;
+      min-height: var(--list-header-height-medium);
 
       ion-label {
         margin-top: 32px;
