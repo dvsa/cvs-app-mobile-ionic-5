@@ -4,7 +4,7 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_VALUE
 } from '@app/app.enums';
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AlertController,
   LoadingController,
@@ -40,7 +40,7 @@ import {
   templateUrl: 'vehicle-lookup.html',
   styleUrls: ['vehicle-lookup.scss']
 })
-export class VehicleLookupPage {
+export class VehicleLookupPage implements OnInit {
   testData: TestModel;
   searchVal = '';
   title = '';
@@ -48,9 +48,10 @@ export class VehicleLookupPage {
   isCombinationTest = false;
   selectedSearchCriteria: string;
   loading: any;
+  previousPage: string;
 
   constructor(
-    public navCtrl: NavController,
+    public navController: NavController,
     public visitService: VisitService,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
@@ -64,9 +65,12 @@ export class VehicleLookupPage {
     private modalCtrl: ModalController,
     private activityService: ActivityService,
     private logProvider: LogsProvider,
-    private router: Router,
-  ) {
+    private router: Router
+  ) {}
+
+  ngOnInit() {
     this.testData = this.router.getCurrentNavigation().extras.state.test;
+    this.previousPage = this.router.getCurrentNavigation().extras.state.previousPage;
   }
 
   ionViewWillEnter() {
@@ -143,8 +147,8 @@ export class VehicleLookupPage {
       .subscribe(
         (vehicleData) => {
           const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-            next: async () => {
-              await this.goToVehicleDetails(vehicleData[0]);
+            next: () => {
+              this.goToVehicleDetails(vehicleData[0]);
             },
             error: (error) => {
               this.logProvider.dispatchLog({
@@ -204,13 +208,10 @@ export class VehicleLookupPage {
   }
 
   async close(): Promise<void> {
-    // if (this.navCtrl.getPrevious().component.name == PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-    //   this.visitService.removeTest(this.testData);
-    // }
-    // this.navCtrl.pop();
-
-    //for now just to close visit
-    await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
+    if (this.previousPage === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+      await this.visitService.removeTest(this.testData);
+    }
+    this.navController.back();
   }
 
   async showAlert() {
@@ -226,16 +227,12 @@ export class VehicleLookupPage {
   }
 
   async goToVehicleDetails(vehicleData: VehicleModel) {
-    console.log(vehicleData);
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
         test: this.testData,
         vehicle: vehicleData
       }
-    }).catch((error) => {
-      console.log(error);
-      alert('blah')
-    })
+    });
 
   }
 
@@ -301,9 +298,9 @@ export class VehicleLookupPage {
       }
     });
     await MODAL.present();
-    const { data: selectedSearchCriteria } = await MODAL.onWillDismiss();
-    if (selectedSearchCriteria) {
-      this.selectedSearchCriteria = selectedSearchCriteria;
+    const { data } = await MODAL.onWillDismiss();
+    if (data) {
+      this.selectedSearchCriteria = data;
       this.searchPlaceholder = this.getSearchFieldPlaceholder();
     }
   }

@@ -13,10 +13,11 @@
 
 <ion-content class="content-background-color-grey">
   <ion-list>
-    <ion-item class="ion-text-wrap ion-padding-start"
+    <ion-item
+      class="ion-text-wrap"
       (click)="onCheck(searchCriteriaItem.text)"
       *ngFor="let searchCriteriaItem of searchCriteriaList"
-    >
+      lines="full">
       <ion-label>{{searchCriteriaItem.text}}</ion-label>
       <ion-icon
         class="selected ion-align-items-end"

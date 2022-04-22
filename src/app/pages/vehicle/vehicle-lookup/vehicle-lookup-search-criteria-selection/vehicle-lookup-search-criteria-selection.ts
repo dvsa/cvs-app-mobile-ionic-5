@@ -36,12 +36,10 @@ export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
   getFormattedSearchCriteriaList(
     notFormattedSearchCriteriaList: string[]
   ): SearchCriteriaItemModel[] {
-    return notFormattedSearchCriteriaList.map((searchCriteriaValue) => {
-      return {
+    return notFormattedSearchCriteriaList.map((searchCriteriaValue) => ({
         text: searchCriteriaValue,
         isChecked: this.selectedSearchCriteria === searchCriteriaValue
-      };
-    });
+      }));
   }
 
   onCheck(searchCriteria: string): void {
@@ -52,6 +50,6 @@ export class VehicleLookupSearchCriteriaSelectionPage implements OnInit {
   }
 
   async onSave(): Promise<void> {
-    await this.modalCtrl.dismiss(this.selectedSearchCriteria, 'selectedSearchCriteria');
+    await this.modalCtrl.dismiss(this.selectedSearchCriteria);
   }
 }
