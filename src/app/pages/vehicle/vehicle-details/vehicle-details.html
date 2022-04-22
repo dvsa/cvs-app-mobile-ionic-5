@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="getBackButtonText()"></ion-back-button>
+    </ion-buttons>
     <ion-title class="ion-margin-start">
       <ng-container>
         <span
@@ -13,7 +16,7 @@
         </ng-template>
       </ng-container>
     </ion-title>
-    <ion-buttons class="ion-float-end"  *ngIf="testData">
+    <ion-buttons slot="end"  *ngIf="testData">
       <ion-button (click)="goToPreparerPage()" [ngClass]="{buttonOpacity: changeOpacity}">
         Confirm
       </ion-button>

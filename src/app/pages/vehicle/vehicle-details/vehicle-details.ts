@@ -55,15 +55,14 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    // TODO dig out page name from here somehow
-    // this.previousPageName = this.router.getCurrentNavigation().previousNavigation;
+    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
     this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
-    this.testData = this.router.getCurrentNavigation().extras.state.testData;
+    this.testData = this.router.getCurrentNavigation().extras.state.test;
   }
 
   async ionViewWillEnter() {
     // this.viewCtrl.setBackButtonText(this.getBackButtonText());
-    // this.modalCtrl.setBack
+
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
   }
 

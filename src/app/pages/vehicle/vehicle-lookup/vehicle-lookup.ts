@@ -230,7 +230,8 @@ export class VehicleLookupPage implements OnInit {
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
         test: this.testData,
-        vehicle: vehicleData
+        vehicle: vehicleData,
+        previousPageName: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
       }
     });
 
