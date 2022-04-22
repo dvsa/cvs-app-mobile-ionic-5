@@ -111,7 +111,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {
       state: {
         test,
-        previousPage: PAGE_NAMES.VISIT_TIMELINE_PAGE
+        previousPageName: PAGE_NAMES.VISIT_TIMELINE_PAGE
       }
     });
   }

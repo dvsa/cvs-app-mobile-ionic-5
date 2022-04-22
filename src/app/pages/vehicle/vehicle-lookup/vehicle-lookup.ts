@@ -48,7 +48,7 @@ export class VehicleLookupPage implements OnInit {
   isCombinationTest = false;
   selectedSearchCriteria: string;
   loading: any;
-  previousPage: string;
+  previousPageName: string;
 
   constructor(
     public navController: NavController,
@@ -70,7 +70,7 @@ export class VehicleLookupPage implements OnInit {
 
   ngOnInit() {
     this.testData = this.router.getCurrentNavigation().extras.state.test;
-    this.previousPage = this.router.getCurrentNavigation().extras.state.previousPage;
+    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
   }
 
   ionViewWillEnter() {
@@ -208,7 +208,7 @@ export class VehicleLookupPage implements OnInit {
   }
 
   async close(): Promise<void> {
-    if (this.previousPage === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+    if (this.previousPageName === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
       await this.visitService.removeTest(this.testData);
     }
     this.navController.back();
