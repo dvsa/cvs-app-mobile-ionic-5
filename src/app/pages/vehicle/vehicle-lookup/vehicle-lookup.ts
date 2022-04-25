@@ -216,7 +216,7 @@ export class VehicleLookupPage implements OnInit {
 
   async showAlert() {
     let alert: any = null;
-    alert = this.alertCtrl.create({
+    alert = await this.alertCtrl.create({
       header: APP_STRINGS.VEHICLE_NOT_FOUND,
       message: APP_STRINGS.VEHICLE_NOT_FOUND_MESSAGE,
       backdropDismiss: false,
