@@ -80,8 +80,6 @@ export class VehicleDetailsPage implements OnInit {
         {
           text: APP_STRINGS.CONFIRM,
           handler: async () => {
-            // this.loggingInAlertHandler();
-
             await this.router.navigate([PAGE_NAMES.ADD_PREPARER_PAGE], {
               state: {
                 test: this.testData,
