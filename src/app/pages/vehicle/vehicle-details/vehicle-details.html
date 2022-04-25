@@ -37,7 +37,7 @@
       *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle"
       >{{ vehicleData.trailerId }}</ng-container
     >
-    <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
+    <ng-template #isVehicle>{{ this.formattedVrm }}</ng-template>
   </div>
 
   <ion-list class="vehicle-list">

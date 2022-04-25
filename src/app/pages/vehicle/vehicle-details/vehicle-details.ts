@@ -20,7 +20,8 @@ import { StorageService } from '@providers/natives/storage.service';
 import { default as AppConfig } from '@config/application.hybrid';
 import { AppService } from '@providers/global/app.service';
 import { AnalyticsService } from '@providers/global';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
+import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 
 @Component({
   selector: 'page-vehicle-details',
@@ -41,6 +42,7 @@ export class VehicleDetailsPage implements OnInit {
   dateFormat: string = DATE_FORMAT.DD_MM_YYYY;
   changeOpacity: boolean = false;
   previousPageName: string;
+  formattedVrm: string;
 
   constructor(
     public alertCtrl: AlertController,
@@ -51,6 +53,7 @@ export class VehicleDetailsPage implements OnInit {
     public appService: AppService,
     private router: Router,
     public modalCtrl: ModalController,
+    public formatVrmPipe: FormatVrmPipe
   ) {
   }
 
@@ -62,6 +65,7 @@ export class VehicleDetailsPage implements OnInit {
 
   async ionViewWillEnter() {
     // this.viewCtrl.setBackButtonText(this.getBackButtonText());
+    this.formattedVrm = this.formatVrmPipe.transform(this.vehicleData.vrm);
 
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
   }
@@ -135,7 +139,7 @@ export class VehicleDetailsPage implements OnInit {
       });
   }
 
-  private getBackButtonText(): string {
+  getBackButtonText(): string {
     switch (this.previousPageName) {
       case PAGE_NAMES.TEST_CREATE_PAGE:
         return APP_STRINGS.TEST;
