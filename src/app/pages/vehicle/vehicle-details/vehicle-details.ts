@@ -3,7 +3,6 @@ import {
   AlertController, ModalController,
 } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-
 import { TestModel } from '@models/tests/test.model';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
@@ -40,7 +39,7 @@ export class VehicleDetailsPage implements OnInit {
   vehicleData: VehicleModel;
   testData: TestModel;
   dateFormat: string = DATE_FORMAT.DD_MM_YYYY;
-  changeOpacity: boolean = false;
+  changeOpacity = false;
   previousPageName: string;
   formattedVrm: string;
 
@@ -64,7 +63,6 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    // this.viewCtrl.setBackButtonText(this.getBackButtonText());
     this.formattedVrm = this.formatVrmPipe.transform(this.vehicleData.vrm);
 
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
@@ -72,7 +70,7 @@ export class VehicleDetailsPage implements OnInit {
 
   async goToPreparerPage(): Promise<void> {
     this.changeOpacity = true;
-    let confirm = await this.alertCtrl.create({
+    const confirm = await this.alertCtrl.create({
       header: APP_STRINGS.CONFIRM_VEHICLE,
       message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
       buttons: [
@@ -119,7 +117,10 @@ export class VehicleDetailsPage implements OnInit {
       ]
     });
     await confirm.present();
-    // confirm.onDidDismiss(() => (this.changeOpacity = false));
+    const didDismiss = await confirm.onDidDismiss();
+    if (didDismiss) {
+      this.changeOpacity = false;
+    }
   }
 
   async showMoreDetails(pageName: string): Promise<void> {

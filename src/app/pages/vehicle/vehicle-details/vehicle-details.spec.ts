@@ -140,7 +140,6 @@ describe('Component: VehicleDetailsPage', () => {
     it('should set the back button text to "Select Vehicle" when accessing from Multiple Tech records selection page', () => {
       component.previousPageName = PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION;
       expect(component.getBackButtonText()).toBe(APP_STRINGS.SELECT_VEHICLE);
-      // expect(viewController.setBackButtonText).toHaveBeenCalledWith(APP_STRINGS.SELECT_VEHICLE);
     });
     it('should set the back button text to "Identify Vehicle" when accessing from the Vehicle Lookup page', () => {
       component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
