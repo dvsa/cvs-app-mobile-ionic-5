@@ -15,6 +15,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import {Router} from '@angular/router';
 import {EventsService} from '@providers/events/events.service';
 import {Subscription} from 'rxjs';
+import {Capacitor} from '@capacitor/core';
+import {StatusBar, Style} from '@capacitor/status-bar';
 
 
 
@@ -44,6 +46,7 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     await this.platform.ready();
     await this.initApp();
+    await this.configureStatusBar();
   }
 
   async initApp() {
@@ -132,6 +135,12 @@ export class AppComponent implements OnInit {
     this.accessibilityFeatures();
     await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
   }
+
+  configureStatusBar = async (): Promise<void> => {
+    if (Capacitor.isPluginAvailable('StatusBar')) {
+      await StatusBar.setStyle({ style: Style.Dark });
+    }
+  };
 
   private accessibilityFeatures(): void {
     this.mobileAccessibility.updateTextZoom();
