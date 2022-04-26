@@ -48,6 +48,41 @@
 
   --header-color: #0b0c0c;
 
+  ion-content.content-background-color-grey {
+    --ion-background-color: var(--color-grey-3);
+  }
+  ion-item {
+     --ion-background-color: white;
+  }
+  // App iOS Variables
+  // --------------------------------------------------
+  // iOS only Sass variables can go here
+
+  --item-ios-divider-color: var(--color-grey-1);
+  --item-ios-divider-background: var(--color-grey-3);
+  --item-ios-paragraph-text-color: var(--color-grey-1);
+  --item-ios-detail-push-color: var(--color-grey-2);
+
+  --alert-ios-message-text-color: var(--dark);
+  --alert-ios-sub-title-text-color: var(--dark);
+
+  --action-sheet-ios-button-text-color: var(--primary);
+
+  --list-ios-header-color: var(--color-grey-1);
+  --list-ios-header-background-color: var(--color-grey-3);
+
+  --text-input-placeholder-color: var(--color-grey-1);
+
+  --list-header-height-small: 40px;
+  --list-header-height-medium: 60px;
+
+  --card-ios-border-radius: 5px;
+
+  --header-height-default: 116px;
+  --header-title-margin-top-default: 64px;
+
+  --toolbar-background: var(--dark);
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
