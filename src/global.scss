@@ -216,13 +216,10 @@ span[text-left] {
 .ios ion-tab > .ion-page > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-tabs > .ion-page.tab-subpage > ion-header > .toolbar.statusbar-padding:first-child,
 .ios ion-menu > .menu-inner > .toolbar.statusbar-padding:first-child,
-.ios ion-menu > .menu-inner > ion-header > ion-toolbar:first-child {
-  //padding-top: 24px;
-  padding-top: calc(env(safe-area-inset-top) + 4px);
+ion-header > ion-toolbar:first-child {
+  padding-top: 0px;
   padding-left: calc(env(safe-area-inset-left) + 4px);
   padding-right: calc(env(safe-area-inset-right) + 4px);
-  padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
-  min-height: 116px;
 
   .title-ios {
     margin-top: 46px;
