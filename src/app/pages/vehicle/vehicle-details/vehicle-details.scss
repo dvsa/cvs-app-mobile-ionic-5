@@ -43,6 +43,20 @@
   }
 }
 
-ion-toolbar ion-button.confirm-button {
-  font-weight: var(--font-weight-bold);
+ion-toolbar {
+  ion-button.confirm-button {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .ion-padding-start {
+    margin-left: 16px;
+    margin-top: 3px;
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-normal);
+  }
+}
+
+.provisional-record-toolbar {
+  height: 14px;
+  --background: var(--tertiary);
 }
