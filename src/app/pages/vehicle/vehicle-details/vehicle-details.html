@@ -34,8 +34,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding">
-  <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center">
+<ion-content class="ion-no-padding content-background-color-grey">
+  <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center ion-margin-bottom">
     <ng-container
       *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle"
       >{{ vehicleData.trailerId }}</ng-container
@@ -43,8 +43,7 @@
     <ng-template #isVehicle>{{ this.formattedVrm }}</ng-template>
   </div>
 
-  <ion-list class="vehicle-list">
-    <ion-list-header class="ion-padding-start ion-padding-end">
+    <ion-list-header class="ion-padding-horizontal">
       <ng-container>
         <span
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, 'trl');
@@ -57,159 +56,190 @@
         </ng-template>
       </ng-container>
     </ion-list-header>
-    <ion-item class="ion-margin-start">
+  <ion-list class="vehicle-list">
+    <ion-item lines="full">
       <ion-label>
-        <h3>VIN / Chassis number</h3>
+        <ion-text>
+          <h2>VIN / Chassis number</h2>
+        </ion-text>
       </ion-label>
-      <div item-content class="ion-padding-end">
+      <div item-content>
         <p>{{ vehicleData.vin }}</p>
       </div>
     </ion-item>
     <ng-container>
       <ng-container>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <h3>Chassis make</h3>
+            <ion-text>
+              <h2>Chassis make</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.chassisMake }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <h3>Chassis model</h3>
+            <ion-text>
+              <h2>Chassis model</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.chassisModel }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV])"
         >
           <ion-label>
-            <h3>Make</h3>
+            <ion-text>
+              <h2>Make</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.make }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV])"
         >
           <ion-label>
-            <h3>Model</h3>
+            <ion-text>
+              <h2>Model</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.model }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <h3>Body make</h3>
+            <ion-text>
+              <h2>Body make</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.bodyMake }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <h3>Body model</h3>
+            <ion-text>
+              <h2>Body model</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.bodyModel }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
         >
           <ion-label>
-            <h3>Body type</h3>
+            <ion-text>
+              <h2>Body type</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.bodyType?.description }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)"
         >
           <ion-label>
-            <h3>Function code</h3>
+            <ion-text>
+              <h2>Function code</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.functionCode }}</p>
           </div>
         </ion-item>
-        <ion-item class="ion-margin-start" *ngIf="vehicleData.techRecord.manufactureYear">
+        <ion-item
+          lines="full"
+          *ngIf="vehicleData.techRecord.manufactureYear">
           <ion-label>
-            <h3>Year of manufacture</h3>
+            <ion-text>
+              <h2>Year of manufacture</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.manufactureYear }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL) && vehicleData.techRecord.firstUseDate"
         >
           <ion-label>
-            <h3>Date of first use</h3>
+            <ion-text>
+              <h2>Date of first use</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.firstUseDate | date: dateFormat }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL) && vehicleData.techRecord.regnDate"
         >
           <ion-label>
-            <h3>Date of first registration</h3>
+            <ion-text>
+              <h2>Date of first registration</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.regnDate | date: dateFormat }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
         >
           <ion-label>
-            <h3>Axles</h3>
+            <ion-text>
+              <h2>Axles</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.noOfAxles }}</p>
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
         >
           <ion-label>
-            <h3>
-              <ng-container
-                *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV); else dtp"
+            <ion-text>
+              <h2>
+                <ng-container
+                  *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV); else dtp"
                 >Brake code
-              </ng-container>
-              <ng-template #dtp>DTP</ng-template>
-            </h3>
+                </ng-container>
+                <ng-template #dtp>DTP</ng-template>
+              </h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>
               {{ commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, VEHICLE_TYPE.PSV) ?
               vehicleData.techRecord.brakeCode : vehicleData.techRecord.brakes?.dtpNumber}}
@@ -217,13 +247,15 @@
           </div>
         </ion-item>
         <ion-item
-          class="ion-margin-start"
+          lines="full"
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.MOTORCYCLE)"
         >
           <ion-label>
-            <h3>Number of wheels</h3>
+            <ion-text>
+              <h2>Number of wheels</h2>
+            </ion-text>
           </ion-label>
-          <div item-content class="ion-padding-end">
+          <div item-content>
             <p>{{ vehicleData.techRecord.numberOfWheelsDriven || "Not entered" }}</p>
           </div>
         </ion-item>
@@ -231,58 +263,84 @@
     </ng-container>
   </ion-list>
 
+  <ion-list-header class="ion-padding-horizontal">VIEW MORE INFORMATION</ion-list-header>
   <ion-list class="vehicle-list">
-    <ion-list-header class="ion-padding-end ion-padding-start">VIEW MORE INFORMATION</ion-list-header>
-    <ion-item button class="ion-padding-start" (click)="goToVehicleTestResultsHistory()">
+    <ion-item detail="true" (click)="goToVehicleTestResultsHistory()">
       <ng-container>
-        <h3>
+        <ion-label class="ion-activatable">
+          <ion-text>
+            <h2>
           <span
             *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, VEHICLE_TYPE.TRL);
                       else showVehicleTestHistoryTitle"
           >
             Trailer
           </span>
-          <ng-template #showVehicleTestHistoryTitle>
-            Vehicle
-          </ng-template>
-          test history
-        </h3>
+              <ng-template #showVehicleTestHistoryTitle>
+                Vehicle
+              </ng-template>
+              test history
+            </h2>
+          </ion-text>
+          <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+        </ion-label>
       </ng-container>
     </ion-item>
     <ion-item
-      button
-      class="ion-padding-start"
+      detail="true"
       *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL]) && vehicleData.techRecord.brakes"
       (click)="showMoreDetails('VehicleBrakesPage')"
     >
-      <h3>Brakes</h3>
+      <ion-label class="ion-activatable">
+        <ion-text>
+          <h2>Brakes</h2>
+        </ion-text>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+      </ion-label>
     </ion-item>
     <ion-item
-      button
-      class="ion-padding-start"
+      detail="true"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
       (click)="showMoreDetails('VehicleWeightsPage')"
     >
-      <h3>Weights</h3>
+      <ion-label class="ion-activatable">
+        <ion-text>
+          <h2>Weights</h2>
+        </ion-text>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+      </ion-label>
     </ion-item>
     <ion-item
-      button
-      class="ion-padding-start"
+      detail="true"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
       (click)="showMoreDetails('VehicleTyresPage')"
     >
-      <h3>Tyres</h3>
+      <ion-label class="ion-activatable">
+        <ion-text>
+          <h2>Tyres</h2>
+        </ion-text>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+      </ion-label>
     </ion-item>
-    <ion-item button class="ion-padding-start" (click)="showMoreDetails('VehicleAdditionalPage')">
-      <h3>Additional vehicle details</h3>
+    <ion-item detail="true" (click)="showMoreDetails('VehicleAdditionalPage')">
+      <ion-label class="ion-activatable">
+        <ion-text>
+          <h2>Additional vehicle details</h2>
+        </ion-text>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+      </ion-label>
     </ion-item>
     <ion-item
-      button
-      class="ion-padding-start"
+      detail="true"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES) && vehicleData.techRecord.adrDetails"
       (click)="showMoreDetails('VehicleAdrDetailsPage')"
     >
-      <h3>ADR details</h3>
+      <ion-label class="ion-activatable">
+        <ion-text>
+          <h2>ADR Details</h2>
+        </ion-text>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

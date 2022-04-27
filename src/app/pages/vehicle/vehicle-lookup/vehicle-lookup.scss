@@ -1,6 +1,6 @@
 :host {
   ion-content.ion-no-padding.content-background-color-grey ion-item {
-    //margin-top: 40px;
+
 
     .item-inner {
       padding: 0;
@@ -30,10 +30,12 @@
   }
 
   ion-list-header {
-    //border-bottom: none;
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
     height: 28px;
+    ion-label {
+      letter-spacing: .75px;
+    }
   }
 
   ion-item.ion-no-margin {
