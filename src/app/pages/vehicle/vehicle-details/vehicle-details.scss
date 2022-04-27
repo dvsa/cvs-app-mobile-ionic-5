@@ -4,31 +4,28 @@
       background: var(--color-grey-3);
     }
 
-    //ion-item {
-    //  max-height: 55px;
-    //}
-
     ion-list.vehicle-list {
       margin-top: 5px;
     }
 
     .vehicle-header-vrm-number {
-      margin-bottom: 2px;
+      margin-bottom: 20px;
+      margin-top: 15px;
     }
 
     ion-list-header.list-header {
       min-height: var(--list-header-height-medium);
-
       ion-label {
         margin-top: 32px;
       }
     }
 
-    ion-list-header.ion-padding-horizontal {
+    ion-list-header {
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-normal);
       letter-spacing: .75px;
       height: 28px;
+      padding-left: 20px;
       background: var(--color-grey-3);
       ng-template {
         padding-bottom: 20px;
