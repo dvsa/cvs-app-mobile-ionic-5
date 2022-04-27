@@ -31,9 +31,7 @@
                   class="list-item-height ion-text-wrap"
         >
             <ion-label class="ion-activatable">
-              <ion-text>
-                <h2>{{ testStation.testStationName }}</h2>
-              </ion-text>
+              <h2>{{ testStation.testStationName }}</h2>
               <h3
                 *ngIf="testStation.searchProperty !== 'testStationAddress'"
                 [innerHTML]="boldSearchVal(testStation.testStationPNumber, searchVal)"

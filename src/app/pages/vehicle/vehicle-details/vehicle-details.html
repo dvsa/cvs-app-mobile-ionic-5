@@ -59,9 +59,7 @@
   <ion-list class="vehicle-list">
     <ion-item lines="full">
       <ion-label>
-        <ion-text>
-          <h2>VIN / Chassis number</h2>
-        </ion-text>
+        <h2>VIN / Chassis number</h2>
       </ion-label>
       <div item-content>
         <p>{{ vehicleData.vin }}</p>
@@ -74,9 +72,7 @@
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Chassis make</h2>
-            </ion-text>
+            <h2>Chassis make</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.chassisMake }}</p>
@@ -87,9 +83,7 @@
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Chassis model</h2>
-            </ion-text>
+            <h2>Chassis model</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.chassisModel }}</p>
@@ -100,9 +94,7 @@
           *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV])"
         >
           <ion-label>
-            <ion-text>
-              <h2>Make</h2>
-            </ion-text>
+            <h2>Make</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.make }}</p>
@@ -113,9 +105,7 @@
           *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.TRL, VEHICLE_TYPE.HGV])"
         >
           <ion-label>
-            <ion-text>
-              <h2>Model</h2>
-            </ion-text>
+            <h2>Model</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.model }}</p>
@@ -126,9 +116,7 @@
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Body make</h2>
-            </ion-text>
+            <h2>Body make</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.bodyMake }}</p>
@@ -139,9 +127,7 @@
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Body model</h2>
-            </ion-text>
+            <h2>Body model</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.bodyModel }}</p>
@@ -152,9 +138,7 @@
           *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Body type</h2>
-            </ion-text>
+            <h2>Body type</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.bodyType?.description }}</p>
@@ -165,9 +149,7 @@
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Function code</h2>
-            </ion-text>
+            <h2>Function code</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.functionCode }}</p>
@@ -177,9 +159,7 @@
           lines="full"
           *ngIf="vehicleData.techRecord.manufactureYear">
           <ion-label>
-            <ion-text>
-              <h2>Year of manufacture</h2>
-            </ion-text>
+            <h2>Year of manufacture</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.manufactureYear }}</p>
@@ -190,9 +170,7 @@
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL) && vehicleData.techRecord.firstUseDate"
         >
           <ion-label>
-            <ion-text>
-              <h2>Date of first use</h2>
-            </ion-text>
+            <h2>Date of first use</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.firstUseDate | date: dateFormat }}</p>
@@ -203,9 +181,7 @@
           *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL) && vehicleData.techRecord.regnDate"
         >
           <ion-label>
-            <ion-text>
-              <h2>Date of first registration</h2>
-            </ion-text>
+            <h2>Date of first registration</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.regnDate | date: dateFormat }}</p>
@@ -216,9 +192,7 @@
           *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Axles</h2>
-            </ion-text>
+            <h2>Axles</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.noOfAxles }}</p>
@@ -229,15 +203,13 @@
           *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
         >
           <ion-label>
-            <ion-text>
-              <h2>
-                <ng-container
-                  *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV); else dtp"
-                >Brake code
-                </ng-container>
-                <ng-template #dtp>DTP</ng-template>
-              </h2>
-            </ion-text>
+            <h2>
+              <ng-container
+                *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV); else dtp"
+              >Brake code
+              </ng-container>
+              <ng-template #dtp>DTP</ng-template>
+            </h2>
           </ion-label>
           <div item-content>
             <p>
@@ -251,9 +223,7 @@
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.MOTORCYCLE)"
         >
           <ion-label>
-            <ion-text>
-              <h2>Number of wheels</h2>
-            </ion-text>
+            <h2>Number of wheels</h2>
           </ion-label>
           <div item-content>
             <p>{{ vehicleData.techRecord.numberOfWheelsDriven || "Not entered" }}</p>
@@ -268,20 +238,18 @@
     <ion-item detail="true" (click)="goToVehicleTestResultsHistory()">
       <ng-container>
         <ion-label class="ion-activatable">
-          <ion-text>
-            <h2>
-          <span
-            *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, VEHICLE_TYPE.TRL);
-                      else showVehicleTestHistoryTitle"
-          >
-            Trailer
-          </span>
-              <ng-template #showVehicleTestHistoryTitle>
-                Vehicle
-              </ng-template>
-              test history
-            </h2>
-          </ion-text>
+          <h2>
+            <span
+              *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, VEHICLE_TYPE.TRL);
+                        else showVehicleTestHistoryTitle"
+            >
+              Trailer
+            </span>
+            <ng-template #showVehicleTestHistoryTitle>
+              Vehicle
+            </ng-template>
+            test history
+          </h2>
           <ion-ripple-effect type="unbounded"></ion-ripple-effect>
         </ion-label>
       </ng-container>
@@ -292,9 +260,7 @@
       (click)="showMoreDetails('VehicleBrakesPage')"
     >
       <ion-label class="ion-activatable">
-        <ion-text>
-          <h2>Brakes</h2>
-        </ion-text>
+        <h2>Brakes</h2>
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-label>
     </ion-item>
@@ -304,9 +270,7 @@
       (click)="showMoreDetails('VehicleWeightsPage')"
     >
       <ion-label class="ion-activatable">
-        <ion-text>
-          <h2>Weights</h2>
-        </ion-text>
+        <h2>Weights</h2>
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-label>
     </ion-item>
@@ -316,17 +280,13 @@
       (click)="showMoreDetails('VehicleTyresPage')"
     >
       <ion-label class="ion-activatable">
-        <ion-text>
-          <h2>Tyres</h2>
-        </ion-text>
+        <h2>Tyres</h2>
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-label>
     </ion-item>
     <ion-item detail="true" (click)="showMoreDetails('VehicleAdditionalPage')">
       <ion-label class="ion-activatable">
-        <ion-text>
-          <h2>Additional vehicle details</h2>
-        </ion-text>
+        <h2>Additional vehicle details</h2>
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-label>
     </ion-item>
@@ -336,9 +296,7 @@
       (click)="showMoreDetails('VehicleAdrDetailsPage')"
     >
       <ion-label class="ion-activatable">
-        <ion-text>
-          <h2>ADR Details</h2>
-        </ion-text>
+        <h2>ADR Details</h2>
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-label>
     </ion-item>
