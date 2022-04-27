@@ -8,6 +8,7 @@
     </ion-title>
     <ion-buttons slot="end" class="ion-text-end ion-align-items-end ion-float-right">
       <ion-button
+        class="start-visit-button"
         [ngClass]="{buttonOpacity: changeOpacity}"
         (click)="startVisit()"
         [disabled]="isNextPageLoading"

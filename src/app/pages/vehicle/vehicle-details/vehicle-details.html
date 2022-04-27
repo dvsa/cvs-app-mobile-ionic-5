@@ -17,7 +17,10 @@
       </ng-container>
     </ion-title>
     <ion-buttons slot="end"  *ngIf="testData">
-      <ion-button (click)="goToPreparerPage()" [ngClass]="{buttonOpacity: changeOpacity}">
+      <ion-button
+        class="confirm-button"
+        (click)="goToPreparerPage()"
+        [ngClass]="{buttonOpacity: changeOpacity}">
         Confirm
       </ion-button>
     </ion-buttons>
