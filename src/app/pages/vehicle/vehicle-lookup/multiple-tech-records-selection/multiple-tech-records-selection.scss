@@ -1,6 +1,7 @@
 :host {
   ion-item-divider {
     min-height: var(--list-ios-item-height);
+    background: var(--color-grey-3);
 
     ion-label {
       h3 {
@@ -8,20 +9,6 @@
         font-weight: var(--font-weight-semi-bold);
       }
     }
-  }
-
-  //ion-list .input-wrapper ion-label {
-  //  h3 {
-  //    font-size: var(--font-size-medium-2);
-  //    font-weight: var(--font-weight-bold);
-  //  }
-  //
-  //  margin: 16px 0;
-  //}
-
-  ion-item {
-    padding-top: 2px;
-    padding-bottom: 2px;
   }
 
   .vehicle-type-icon {
@@ -38,7 +25,6 @@
     padding: 16px;
     font-size: var(--font-size-medium);
     color: var(--light);
-    //background-color: var(--tertiary);
   }
 
   .skeleton-button {
@@ -46,6 +32,8 @@
   }
 
   .vehicle-detail-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
     h2 {
       font-size: var(--font-size-medium);
       font-weight: var(--font-weight-normal);

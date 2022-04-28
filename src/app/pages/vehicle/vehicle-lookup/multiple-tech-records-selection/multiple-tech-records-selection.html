@@ -23,7 +23,7 @@
     <ion-item
       *ngFor="let vehicle of vehicles"
       detail="true"
-      class="full-border ion-padding-vertical"
+      class="full-border"
       lines="none"
       [ngClass]="{'skeleton-button': this.vehicleService.isVehicleSkeleton(vehicle)}"
       (click)="openVehicleDetails(vehicle)">
