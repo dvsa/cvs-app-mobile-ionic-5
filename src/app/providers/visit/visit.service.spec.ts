@@ -14,6 +14,7 @@ import { AppServiceMock } from '@test-config/services-mocks/app-service.mock';
 import { ActivityService } from '../activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
+import {APP_STRINGS} from "@app/app.enums";
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -24,6 +25,8 @@ describe('Provider: VisitService', () => {
   let httpServiceSpy;
   let activityService: ActivityService;
   let appSpy;
+  let alertCtrl: AlertController;
+
 
   const TEST_STATION: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
   const TEST: TestModel = TestDataModelMock.TestData;
@@ -88,6 +91,7 @@ describe('Provider: VisitService', () => {
     storageService = TestBed.inject(StorageService);
     httpService = TestBed.inject(HTTPService);
     activityService = TestBed.inject(ActivityService);
+    alertCtrl = TestBed.inject(AlertController);
     jasmine.clock().uninstall();
     jasmine.clock().install();
   });
@@ -97,6 +101,7 @@ describe('Provider: VisitService', () => {
     appService = null;
     activityService = null;
     storageService = null;
+    alertCtrl = null;
     jasmine.clock().uninstall();
   });
 
@@ -223,12 +228,17 @@ describe('Provider: VisitService', () => {
     expect(storageService.update).not.toHaveBeenCalled();
   });
 
-  it('should create the alert with the dismiss logic', () => {
-    // @TODO - Ionic 5 - replace this
-    // const alert = visitService.createDataClearingAlert(
-    //   jasmine.createSpyObj('Loading', ['dismiss', 'present'])
-    // );
-    // expect(alert.onDidDismiss).toHaveBeenCalledTimes(1);
+  it('should create the alert with the dismiss logic', async () => {
+    await visitService.createDataClearingAlert(
+      jasmine.createSpyObj('Loading', ['dismiss', 'present'])
+    );
+    const alert = await alertCtrl.create({
+      header: APP_STRINGS.SITE_VISIT_CLOSED_TITLE,
+      message: APP_STRINGS.SITE_VISIT_CLOSED_MESSAGE,
+      buttons: [APP_STRINGS.OK],
+      backdropDismiss: false
+    });
+    expect(await alert.onDidDismiss).toHaveBeenCalledTimes(1);
   });
 
   // @TODO - added in VTA-497

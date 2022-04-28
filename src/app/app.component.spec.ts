@@ -23,9 +23,13 @@ import { ActivityServiceMock } from '@test-config/services-mocks/activity-servic
 import { STORAGE, PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
 import { LogsProvider } from '@store/logs/logs.service';
 import { TestStore } from '@store/logs/data-store.service.mock';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import {SignaturePadPage} from '@app/pages/signature-pad/signature-pad';
+import {TestStationHomePage} from '@app/pages/test-station/test-station-home/test-station-home';
 
-// @TODO - Ionic 5 - Enable and fix this spec
-xdescribe('Component: Root', () => {
+//TODO - add in SplashScreen + statusbar + Events + manageAppState when app component is finished
+describe('Component: Root', () => {
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let appService: AppService;
@@ -45,6 +49,8 @@ xdescribe('Component: Root', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let networkService: NetworkService;
+  let router: Router;
+
 
   beforeEach(waitForAsync(() => {
     syncServiceSpy = jasmine.createSpyObj('SyncService', {
@@ -57,7 +63,8 @@ xdescribe('Component: Root', () => {
 
     authenticationSpy = jasmine.createSpyObj('AuthenticationService', [
       'expireTokens',
-      'checkUserAuthStatus'
+      'checkUserAuthStatus',
+      'initialiseAuth'
     ]);
 
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
@@ -69,7 +76,20 @@ xdescribe('Component: Root', () => {
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [BrowserModule, HttpClientModule, IonicModule.forRoot()],
+      imports: [
+        BrowserModule,
+        HttpClientModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.SIGNATURE_PAD_PAGE,
+            component: SignaturePadPage
+          },
+          {
+            path: PAGE_NAMES.TEST_STATION_HOME_PAGE,
+            component: TestStationHomePage
+          }
+        ])
+      ],
       providers: [
         MobileAccessibility,
         NetworkService,
@@ -86,7 +106,7 @@ xdescribe('Component: Root', () => {
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: SyncService, useValue: syncServiceSpy },
         { provide: LogsProvider, useValue: logProviderSpy },
-        { provide: Store, useClass: TestStore }
+        { provide: Store, useClass: TestStore },
       ]
     }).compileComponents();
   }));
@@ -106,6 +126,7 @@ xdescribe('Component: Root', () => {
     analyticsService = TestBed.inject(AnalyticsService);
     logProvider = TestBed.inject(LogsProvider);
     networkService = TestBed.inject(NetworkService);
+    router = TestBed.inject(Router);
   });
 
   afterEach(() => {
@@ -127,8 +148,6 @@ xdescribe('Component: Root', () => {
     });
 
     it('should set app defaults and navigate to signature page', async () => {
-
-
       authenticationService.checkUserAuthStatus = jasmine
         .createSpy('authenticationService.checkUserAuthStatus')
         .and.returnValue(true);
@@ -166,71 +185,73 @@ xdescribe('Component: Root', () => {
     }
   ));
 
-  it('Should check manageAppState method state resp: true, visit resp: true, activities resp: false', () => {
-    storageService.read = jasmine.createSpy('read').and.callFake((key) => {
-      let keyReturn;
-      switch (key) {
-        case STORAGE.STATE: {
-          keyReturn = true;
-          break;
-        }
-        case STORAGE.VISIT: {
-          keyReturn = true;
-          break;
-        }
-        case STORAGE.ACTIVITIES: {
-          keyReturn = false;
-          break;
-        }
-      }
-      return new Promise((resolve) => resolve(keyReturn));
-    });
-    comp.manageAppState();
-    expect(storageService.read).toHaveBeenCalled();
-  });
+  //TODO - add the 3 following tests back when StateReformingService is implemented
 
-  it('Should check manageAppState method state resp: true, visit resp: true, activities resp: true', () => {
-    storageService.read = jasmine.createSpy('read').and.callFake((key) => {
-      let keyReturn;
-      switch (key) {
-        case STORAGE.STATE: {
-          keyReturn = true;
-          break;
-        }
-        case STORAGE.VISIT: {
-          keyReturn = true;
-          break;
-        }
-        case STORAGE.ACTIVITIES: {
-          keyReturn = true;
-          break;
-        }
-      }
-      return new Promise((resolve) => resolve(keyReturn));
-    });
-    comp.manageAppState();
-    expect(storageService.read).toHaveBeenCalled();
-  });
+  // it('Should check manageAppState method state resp: true, visit resp: true, activities resp: false', () => {
+  //   storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+  //     let keyReturn;
+  //     switch (key) {
+  //       case STORAGE.STATE: {
+  //         keyReturn = true;
+  //         break;
+  //       }
+  //       case STORAGE.VISIT: {
+  //         keyReturn = true;
+  //         break;
+  //       }
+  //       case STORAGE.ACTIVITIES: {
+  //         keyReturn = false;
+  //         break;
+  //       }
+  //     }
+  //     return new Promise((resolve) => resolve(keyReturn));
+  //   });
+  //   comp.manageAppState();
+  //   expect(storageService.read).toHaveBeenCalled();
+  // });
 
-  it('Should check manageAppState method false state response', () => {
-    storageService.read = jasmine.createSpy('read').and.callFake((key) => {
-      let keyReturn;
-      switch (key) {
-        case STORAGE.STATE: {
-          keyReturn = false;
-          break;
-        }
-        case STORAGE.VISIT: {
-          keyReturn = true;
-          break;
-        }
-        case STORAGE.ACTIVITIES: {
-          keyReturn = false;
-          break;
-        }
-      }
-      return new Promise((resolve) => resolve(keyReturn));
-    });
-    comp.manageAppState();
-  });
+  // it('Should check manageAppState method state resp: true, visit resp: true, activities resp: true', () => {
+  //   storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+  //     let keyReturn;
+  //     switch (key) {
+  //       case STORAGE.STATE: {
+  //         keyReturn = true;
+  //         break;
+  //       }
+  //       case STORAGE.VISIT: {
+  //         keyReturn = true;
+  //         break;
+  //       }
+  //       case STORAGE.ACTIVITIES: {
+  //         keyReturn = true;
+  //         break;
+  //       }
+  //     }
+  //     return new Promise((resolve) => resolve(keyReturn));
+  //   });
+  //   comp.manageAppState();
+  //   expect(storageService.read).toHaveBeenCalled();
+  // });
+
+  // it('Should check manageAppState method false state response', async () => {
+  //   storageService.read = jasmine.createSpy('read').and.callFake((key) => {
+  //     let keyReturn;
+  //     switch (key) {
+  //       case STORAGE.STATE: {
+  //         keyReturn = false;
+  //         break;
+  //       }
+  //       case STORAGE.VISIT: {
+  //         keyReturn = true;
+  //         break;
+  //       }
+  //       case STORAGE.ACTIVITIES: {
+  //         keyReturn = false;
+  //         break;
+  //       }
+  //     }
+  //     return new Promise((resolve) => resolve(keyReturn));
+  //   });
+  //   await comp.manageAppState();
+  // });
 });

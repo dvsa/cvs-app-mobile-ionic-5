@@ -26,7 +26,7 @@ describe('Provider: DefectsService', () => {
 
   beforeEach(() => {
     spy = jasmine.createSpyObj('StorageService', {
-      read: new Promise((resolve) => defectsCategories)
+      read: new Promise((resolve) => resolve(defectsCategories))
     });
 
     TestBed.configureTestingModule({
@@ -48,7 +48,7 @@ describe('Provider: DefectsService', () => {
     commonFunctionsService = null;
   });
 
-  it('should return data from local storage', () => {
+  it('should return data from local storage', async () => {
     defectsService.getDefectsFromStorage().subscribe((data) => {
       expect(data).toBeTruthy();
     });

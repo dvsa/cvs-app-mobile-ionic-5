@@ -30,7 +30,7 @@ describe('Provider: PreparerService', () => {
     storageService = null;
   });
 
-  it('should return data from local storage', () => {
+  it('should return data from local storage', async () => {
     preparerService.getPreparersFromStorage().subscribe((data) => {
       expect(data).toBe(preparerData as PreparersReferenceDataModel[]);
     });

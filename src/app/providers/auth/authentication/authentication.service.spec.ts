@@ -196,12 +196,8 @@ describe('AuthenticationService', () => {
             Promise.reject(new Error('something'))
           );
           authStatus.and.returnValue({ active: false, action: AUTH.RE_LOGIN });
-          try {
-            flushMicrotasks();
-            await authenticationService.checkUserAuthStatus();
-            expect(logProvider.dispatchLog).toHaveBeenCalled();
-            flushMicrotasks();
-          } catch {}
+          await authenticationService.checkUserAuthStatus();
+          expect(await logProvider.dispatchLog).toHaveBeenCalled();
         }
       ));
 
