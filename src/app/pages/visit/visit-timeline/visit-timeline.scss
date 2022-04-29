@@ -164,3 +164,7 @@
     -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
   }
 }
+
+ion-toolbar ion-button.start-test-button {
+  font-weight: var(--font-weight-bold);
+}

@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()" color="light">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-margin-start">
+      {{title}}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="custom-search-button" (click)="onSearchVehicle(searchVal)">
+        Search
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey ion-no-padding">
+  <ion-item lines="none">
+    <ion-input
+      *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
+      [ngModelOptions]="{standalone: true}"
+      class="custom-input shadow ios-margin-top ion-no-padding"
+      autocapitalize="characters"
+      clearInput="true"
+      type="search"
+      [placeholder]="searchPlaceholder"
+      [(ngModel)]="searchVal"
+      value=""
+    ></ion-input>
+
+    <ng-template #accessibilityTextArea>
+      <ion-textarea
+        class="custom-input shadow autosize input"
+        autocapitalize="characters"
+        [placeholder]="searchPlaceholder"
+        type="search"
+        rows="3"
+        [(ngModel)]="searchVal"
+        value=""
+      ></ion-textarea>
+    </ng-template>
+  </ion-item>
+
+  <ion-list-header lines="none">
+    <ion-label>
+      SEARCH CRITERIA
+    </ion-label>
+  </ion-list-header>
+  <ion-item detail="true" class="ion-no-margin" (click)="onChangeSearchCriteria()" lines="none">
+    <ion-label>{{selectedSearchCriteria}}</ion-label>
+    <div>Change</div>
+  </ion-item>
+</ion-content>

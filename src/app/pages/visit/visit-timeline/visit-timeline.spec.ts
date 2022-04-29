@@ -36,6 +36,7 @@ import {
   ANALYTICS_EVENTS, ANALYTICS_VALUE,
   APP_STRINGS,
   AUTH,
+  PAGE_NAMES,
   VEHICLE_TYPE
 } from '@app/app.enums';
 import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
@@ -50,10 +51,11 @@ import { CommonFunctionsService } from '@providers/utils/common-functions';
 import { LogsProvider } from '@store/logs/logs.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import {of} from 'rxjs/observable/of';
-import {throwError} from 'rxjs';
-import {HttpErrorResponse} from '@angular/common/http';
-import {VisitServiceMock} from '@test-config/services-mocks/visit-service.mock';
+import { of } from 'rxjs/observable/of';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
+import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -127,7 +129,12 @@ describe('Component: VisitTimelinePage', () => {
       declarations: [VisitTimelinePage],
       imports: [
         PipesModule,
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
+            component: VehicleLookupPage
+          }
+        ]),
       ],
       providers: [
         FormatVrmPipe,

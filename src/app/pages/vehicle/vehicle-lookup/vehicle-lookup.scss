@@ -1,0 +1,76 @@
+:host {
+  ion-content.ion-no-padding.content-background-color-grey ion-item {
+
+
+    .item-inner {
+      padding: 0;
+      border-bottom: none;
+
+      ion-input {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .custom-input {
+    font-weight: 400;
+    border: solid var(--color-grey-2);
+    border-top: 1px;
+    border-bottom: 1px;
+    padding: 4px 0 4px 16px;
+    background-color: var(--light);
+
+    ::placeholder {
+      text-transform: none;
+    }
+  }
+
+  ion-textarea.custom-input {
+    padding: 8px 0 8px 0;
+  }
+
+  ion-list-header {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    height: 28px;
+    ion-label {
+      letter-spacing: .75px;
+      color: var(--color-grey-1);
+    }
+  }
+
+  ion-item.ion-no-margin {
+    margin-top: 2px;
+  }
+
+  div {
+    color: var(--color-grey-1);
+    font-size: var(--font-size-normal);
+  }
+
+  ion-item {
+    border: 1px solid var(--color-grey-2);
+    margin-top: 40px;
+    ion-input, ion-textarea {
+      border: none;
+    }
+
+    ion-label {
+      font-size: var(--font-size-normal);
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+
+    .item-inner {
+      border: none;
+    }
+  }
+}
+
+ion-toolbar ion-button.custom-search-button {
+  font-weight: var(--font-weight-bold);
+}
+
+ion-textarea.autosize {
+  height: 5em;
+}

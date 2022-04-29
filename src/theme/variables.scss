@@ -28,6 +28,8 @@
   --popover-ios-width: 66%;
   --disable-accessibility-text-scaling: 100% !important;
   --alert-ios-button-group-flex-wrap: wrap-reverse;
+  --list-header-height-small: 40px;
+  --list-header-height-medium: 60px;
 
   /** custom colours **/
   --primary: #2b8cc4;
@@ -50,7 +52,7 @@
     --ion-background-color: var(--color-grey-3);
   }
   ion-item {
-     --ion-background-color: white;
+     --ion-background-color: var(--light);
   }
   // App iOS Variables
   // --------------------------------------------------
@@ -70,9 +72,6 @@
   --list-ios-header-background-color: var(--color-grey-3);
 
   --text-input-placeholder-color: var(--color-grey-1);
-
-  --list-header-height-small: 40px;
-  --list-header-height-medium: 60px;
 
   --card-ios-border-radius: 5px;
 

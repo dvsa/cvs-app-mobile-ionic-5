@@ -31,10 +31,10 @@ import { ActivityModel } from '@models/visit/activity.model';
 import { ActivityService } from '@providers/activity/activity.service';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
-import {from, Observable, Subscription} from 'rxjs';
+import { from, Observable, Subscription } from 'rxjs';
 import { LogsProvider } from '@store/logs/logs.service';
 import { of } from 'rxjs/observable/of';
-import {catchError, filter, map, mergeMap, tap} from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -106,11 +106,14 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
    await this.showConfirm(this.visit);
   }
 
-  createNewTestReport(): void {
-
+  async createNewTestReport(): Promise<void> {
     const test = this.testReportService.createTest();
-    //@TODO - Ionic 5 Replace with Angular Router
-    // this.navCtrl.push(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, { test });
+    await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {
+      state: {
+        test,
+        previousPageName: PAGE_NAMES.VISIT_TIMELINE_PAGE
+      }
+    });
   }
 
   createTimeline(): void {

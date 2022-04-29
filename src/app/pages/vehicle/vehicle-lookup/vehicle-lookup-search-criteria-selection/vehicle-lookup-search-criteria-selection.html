@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-margin-start">
+      Search criteria
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSave()" class="save-button">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey">
+  <ion-list>
+    <ion-item
+      class="ion-text-wrap"
+      (click)="onCheck(searchCriteriaItem.text)"
+      *ngFor="let searchCriteriaItem of searchCriteriaList"
+      lines="full">
+      <ion-label>{{searchCriteriaItem.text}}</ion-label>
+      <ion-icon
+        class="selected ion-align-items-end"
+        name="checkmark"
+        *ngIf="searchCriteriaItem.isChecked"
+      ></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

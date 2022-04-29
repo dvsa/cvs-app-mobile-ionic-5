@@ -1,0 +1,23 @@
+:host {
+  .selected {
+    color: var(--ion-color-primary);
+  }
+
+  ion-item.item-block {
+    min-height: 4.9rem;
+  }
+
+  ion-item:nth-child(6) {
+    div.item-inner {
+      border-bottom: none;
+    }
+  }
+
+  ion-list .input-wrapper ion-label {
+    margin: 16px 0;
+  }
+}
+
+ion-toolbar ion-button.save-button {
+  font-weight: var(--font-weight-bold);
+}

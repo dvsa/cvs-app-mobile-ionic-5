@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button (click)="createNewTestReport()" *ngIf="isCreateTestEnabled">
+      <ion-button
+        class="start-test-button"
+        (click)="createNewTestReport()"
+        *ngIf="isCreateTestEnabled">
         Start test
       </ion-button>
     </ion-buttons>
@@ -19,7 +22,7 @@
       >
     </ion-item-divider>
 
-    <ion-item class="timeline-checkin detail">
+    <ion-item class="timeline-checkin detail" lines="none">
       <div class="timeline-bar"></div>
       <img src="assets/timeline-pin-with-line.svg" class="ion-align-items-start"/>
       <div class="timeline-item-content">

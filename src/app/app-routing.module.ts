@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {PAGE_NAMES} from '@app/app.enums';
+import { PAGE_NAMES } from '@app/app.enums';
 
 const routes: Routes = [
   // {
@@ -38,6 +38,28 @@ const routes: Routes = [
     path: PAGE_NAMES.VISIT_CONFIRMATION_PAGE,
     loadChildren: () => import('./pages/visit/visit-confirmation/visit-confirmation.module')
       .then( m => m.VisitConfirmationModule )
+  },
+  {
+    path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
+    loadChildren: () => import('./pages/vehicle/vehicle-lookup/vehicle-lookup.module')
+      .then( m => m.VehicleLookupModule)
+  },
+  {
+    path: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
+    loadChildren: () => import('./pages/vehicle/vehicle-lookup/multiple-tech-records-selection/multiple-tech-records-selection.module')
+      .then( m => m.MultipleTechRecordsSelectionModule)
+  },
+  {
+    path: PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION,
+    loadChildren: () =>
+      import('./pages/vehicle/vehicle-lookup/vehicle-lookup-search-criteria-selection/vehicle-lookup-search-criteria-selection.module')
+      .then( m => m.VehicleLookupSearchCriteriaSelectionPageModule)
+  },
+  {
+    path: PAGE_NAMES.VEHICLE_DETAILS_PAGE,
+    loadChildren: () =>
+      import('./pages/vehicle/vehicle-details/vehicle-details.module')
+      .then( m => m.VehicleDetailsModule)
   },
 ];
 
