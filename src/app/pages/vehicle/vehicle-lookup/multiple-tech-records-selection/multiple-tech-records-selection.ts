@@ -64,10 +64,10 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
     const { oid } = this.authenticationService.tokenInfo;
 
     const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-      next: () => {
-        this.goToVehicleDetails(selectedVehicle);
+      next: async () => {
+        await this.goToVehicleDetails(selectedVehicle);
       },
-      error: (error) => {
+      error: async (error) => {
         this.logProvider.dispatchLog({
           type:
             'error-vehicleService.getTestResultsHistory-openVehicleDetails in multiple-tech-records-selection.ts',
@@ -75,10 +75,9 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
           timestamp: Date.now()
         });
 
-        this.trackErrorOnRetrieval(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
-
-        this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
-        this.goToVehicleDetails(selectedVehicle);
+        await this.trackErrorOnRetrieval(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
+        await this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
+        await this.goToVehicleDetails(selectedVehicle);
       },
       complete: () => {}
     };
