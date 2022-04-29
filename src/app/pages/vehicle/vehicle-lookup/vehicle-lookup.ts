@@ -147,10 +147,10 @@ export class VehicleLookupPage implements OnInit {
       .subscribe(
         (vehicleData) => {
           const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-            next: () => {
-              this.goToVehicleDetails(vehicleData[0]);
+            next: async () => {
+              await this.goToVehicleDetails(vehicleData[0]);
             },
-            error: (error) => {
+            error: async (error) => {
               this.logProvider.dispatchLog({
                 type:
                   'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
@@ -158,10 +158,9 @@ export class VehicleLookupPage implements OnInit {
                 timestamp: Date.now()
               });
 
-              this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
-
-              this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
-              this.goToVehicleDetails(vehicleData[0]);
+              await this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
+              await this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
+              await this.goToVehicleDetails(vehicleData[0]);
             },
             complete: () => {}
           };
@@ -184,7 +183,7 @@ export class VehicleLookupPage implements OnInit {
               });
           }
         },
-        (error) => {
+        async (error) => {
           this.logProvider.dispatchLog({
             type: 'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
             message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
@@ -193,8 +192,8 @@ export class VehicleLookupPage implements OnInit {
 
           this.searchVal = '';
           LOADING.dismiss();
-          this.showAlert();
-          this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RECORD_FAILED);
+          await this.showAlert();
+          await this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RECORD_FAILED);
         }
       );
   }
@@ -233,7 +232,6 @@ export class VehicleLookupPage implements OnInit {
         previousPageName: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
       }
     });
-
   }
 
   async goToMultipleTechRecordsSelection(multipleVehicleData: VehicleModel[]) {

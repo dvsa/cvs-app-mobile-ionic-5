@@ -177,8 +177,8 @@ describe('Component: VehicleLookupPage', () => {
 
     await component.searchVehicle('TESTVIN', component.loading);
 
-    expect(storageService.update).toHaveBeenCalledTimes(1);
-    expect(analyticsService.logEvent).toHaveBeenCalledWith({
+    expect(await storageService.update).toHaveBeenCalledTimes(1);
+    expect(await analyticsService.logEvent).toHaveBeenCalledWith({
       category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
       event: ANALYTICS_EVENTS.TEST_ERROR,
       label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
