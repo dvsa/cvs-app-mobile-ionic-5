@@ -112,7 +112,7 @@ describe('Component: VehicleDetailsPage', () => {
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  it('should not display the provisional label if the techRecord is current', () => {
+  it('should not display the provisional label if the techRecord is current', async () => {
     component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;
 
     fixture.detectChanges();
@@ -122,12 +122,12 @@ describe('Component: VehicleDetailsPage', () => {
     });
   });
 
-  it('should display the provisional label if the techRecord is provisional', () => {
+  it('should display the provisional label if the techRecord is provisional', async () => {
     component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.PROVISIONAL;
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      const title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      const title = fixture.debugElement.query(By.css('ion-toolbar .ion-padding-start'));
       expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
     });
   });

@@ -106,15 +106,15 @@ describe(`AppService: `, () => {
     expect(appService.getRefDataSync()).toBeTruthy();
   });
 
-  it('should manage application initialization', () => {
+  it('should manage application initialization', async () => {
     appService = new AppService(platform, toast, storageService);
 
-    appService.manageAppInit().then((data) => {
+    await appService.manageAppInit().then((data) => {
       expect(data).toBeTruthy();
     });
   });
 
-  it('should clear localStorage', () => {
+  it('should clear localStorage', async () => {
     appService = new AppService(platform, toast, storageService);
 
     appService.clearLocalStorage().then((data) => expect(data).toBeTruthy());

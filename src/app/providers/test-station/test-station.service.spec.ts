@@ -32,7 +32,7 @@ describe('Provider: TestStationService', () => {
     storageService = null;
   });
 
-  it('should return data from local storage', () => {
+  it('should return data from local storage', async () => {
     testStationService.getTestStationsFromStorage().subscribe((data) => {
       expect(data).toBe(testStationData);
     });

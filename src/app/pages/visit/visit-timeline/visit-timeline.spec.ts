@@ -213,22 +213,23 @@ describe('Component: VisitTimelinePage', () => {
     expect(component.timeline).toEqual([getMockActivity(), getMockVisitTest()]);
   });
 
-  it('should display the wait reason alert if an activity has wait time reason', () => {
-    const visit = getMockVisit();
-    activityServiceSpy.checkWaitTimeReasons.and.returnValue(true);
-    component.showConfirm(visit);
-
-    expect(alertCtrl.create).toHaveBeenCalled();
-  });
-
-  it('should display the end visit alert if there are no activity with wait time reason', () => {
-    const visit = getMockVisit();
-    activityServiceSpy.checkWaitTimeReasons.and.returnValue(false);
-
-    component.showConfirm(visit);
-
-    expect(alertCtrl.create).toHaveBeenCalled();
-  });
+  // TODO Re-enable when wait times re-introduced
+  // it('should display the wait reason alert if an activity has wait time reason', async () => {
+  //   const visit = getMockVisit();
+  //   activityServiceSpy.checkWaitTimeReasons.and.returnValue(true);
+  //   await component.showConfirm(visit);
+  //
+  //   expect(await alertCtrl.create).toHaveBeenCalled();
+  // });
+  //
+  // it('should display the end visit alert if there are no activity with wait time reason', async () => {
+  //   const visit = getMockVisit();
+  //   activityServiceSpy.checkWaitTimeReasons.and.returnValue(false);
+  //
+  //   await component.showConfirm(visit);
+  //
+  //   expect(await alertCtrl.create).toHaveBeenCalled();
+  // });
 
   it('should show loading indicator if loading text is provided', async () => {
     await component.showLoading(APP_STRINGS.END_VISIT_LOADING);

@@ -36,7 +36,7 @@ describe('Provider: TestTypeService', () => {
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', {
-      read: new Promise((resolve) => TEST_TYPES)
+      read: new Promise((resolve) => resolve(TEST_TYPES))
     });
     visitServiceSpy = jasmine.createSpyObj('VisitService', ['updateVisit']);
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
@@ -190,7 +190,7 @@ describe('Provider: TestTypeService', () => {
     expect(orderedTestTypes[0].testTypeId).toMatch('1');
   });
 
-  it('should return data from local storage', () => {
+  it('should return data from local storage', async () => {
     testTypeService.getTestTypesFromStorage().subscribe((data) => {
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       expect(data).toBe(<TestTypesReferenceDataModel[]>TEST_TYPES);
