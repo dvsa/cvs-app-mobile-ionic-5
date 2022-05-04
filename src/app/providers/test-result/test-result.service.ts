@@ -74,8 +74,8 @@ export class TestResultService {
       {newTestResult.vehicleSubclass = vehicle.techRecord.vehicleSubclass;}
     newTestResult.vehicleType = vehicle.techRecord.vehicleType;
     newTestResult.vehicleConfiguration = vehicle.techRecord.vehicleConfiguration;
-    newTestResult.preparerId = vehicle.preparerId;
-    newTestResult.preparerName = vehicle.preparerName;
+    newTestResult.preparerId = 'No preparer ID given';
+    newTestResult.preparerName = '';
     newTestResult.euVehicleCategory = vehicle.euVehicleCategory;
     newTestResult.countryOfRegistration = vehicle.countryOfRegistration;
     newTestResult.noOfAxles = vehicle.techRecord.noOfAxles;

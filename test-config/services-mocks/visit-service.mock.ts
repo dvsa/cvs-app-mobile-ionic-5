@@ -54,6 +54,8 @@ export class VisitServiceMock {
     return VisitDataMock.VisitTestDataArray[VisitDataMock.VisitTestDataArray.length - 1];
   }
 
+  public goToTestCreatePage() {}
+
   public updateVisit() {
     return new Promise((resolve) => (resolve(true)));
   }
