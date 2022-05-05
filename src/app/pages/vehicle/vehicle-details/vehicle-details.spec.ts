@@ -24,6 +24,11 @@ import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
+import { VisitService } from '@providers/visit/visit.service';
+import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
+import { TestService } from '@providers/test/test.service';
+import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
+import { TestModel } from '@models/tests/test.model';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -34,6 +39,8 @@ describe('Component: VehicleDetailsPage', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let router: any;
+  let testReportService: TestService;
+  let visitService: VisitService;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
@@ -49,7 +56,13 @@ describe('Component: VehicleDetailsPage', () => {
     TestBed.configureTestingModule({
       declarations: [VehicleDetailsPage],
       imports: [
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          // @TODO - add this back when test create page is migrated
+          // {
+          //   path: PAGE_NAMES.TEST_CREATE_PAGE,
+          //   component: TestCreatePage
+          // }
+        ])
       ],
       providers: [
         FormatVrmPipe,
@@ -60,6 +73,9 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: AppService, useClass: AppServiceMock },
+        { provide: VisitService, useClass: VisitServiceMock },
+        { provide: TestService, useClass: TestServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -72,6 +88,8 @@ describe('Component: VehicleDetailsPage', () => {
     alertCtrl = TestBed.inject(AlertController);
     analyticsService = TestBed.inject(AnalyticsService);
     router = TestBed.inject(Router);
+    testReportService = TestBed.inject(TestService);
+    visitService = TestBed.inject(VisitService);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
       { extras:
           {
@@ -106,11 +124,65 @@ describe('Component: VehicleDetailsPage', () => {
     );
   });
 
+  describe('confirmAndStartTest', () => {
 
-  it('should check if alertCtrl was called', () => {
-    component.goToPreparerPage();
-    expect(alertCtrl.create).toHaveBeenCalled();
+    it('should call alertCtrl.create', () => {
+      component.confirmAndStartTest();
+
+      expect(alertCtrl.create).toHaveBeenCalled();
+    });
   });
+
+  // @TODO - add this back when test create page is migrated
+  // describe('goToTestCreatePage', () => {
+  //   beforeEach(() => {
+  //     spyOn(testReportService, 'addVehicle').and.callFake(() => {});
+  //
+  //     visitService.visit = {
+  //       tests: [
+  //         {
+  //           startTime: null,
+  //           endTime: null,
+  //           status: null,
+  //           reasonForCancellation: null,
+  //           vehicles: null,
+  //         },
+  //       ],
+  //       startTime: null,
+  //       endTime: null,
+  //       testStationName: null,
+  //       testStationEmail: null,
+  //       testStationPNumber: null,
+  //       testStationType: null,
+  //       testerEmail: null,
+  //       testerId: null,
+  //       testerName: null,
+  //     };
+  //   });
+  //
+  //   it('should call testReportService.addVehicle', async () => {
+  //     await component.goToTestCreatePage();
+  //
+  //     expect(testReportService.addVehicle).toHaveBeenCalledTimes(1);
+  //   });
+  //
+  //   it('should call visitService.addTest if the latest test has an end time', async () => {
+  //     const mockData: TestModel = {
+  //       startTime: null,
+  //       endTime: 'something',
+  //       status: null,
+  //       reasonForCancellation: null,
+  //       vehicles: null,
+  //     };
+  //
+  //     spyOn(visitService, 'addTest').and.callFake(async () => {});
+  //     spyOn(visitService, 'getLatestTest').and.returnValue(mockData);
+  //
+  //     await component.goToTestCreatePage();
+  //
+  //     expect(await visitService.addTest).toHaveBeenCalledTimes(1);
+  //   });
+  // });
 
   it('should not display the provisional label if the techRecord is current', async () => {
     component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;

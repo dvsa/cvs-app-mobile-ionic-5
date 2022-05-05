@@ -21,6 +21,8 @@ import { AppService } from '@providers/global/app.service';
 import { AnalyticsService } from '@providers/global';
 import { Router } from '@angular/router';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
+import { VisitService } from '@providers/visit/visit.service';
+import { TestService } from '@providers/test/test.service';
 
 @Component({
   selector: 'page-vehicle-details',
@@ -52,7 +54,9 @@ export class VehicleDetailsPage implements OnInit {
     public appService: AppService,
     private router: Router,
     public modalCtrl: ModalController,
-    public formatVrmPipe: FormatVrmPipe
+    public formatVrmPipe: FormatVrmPipe,
+    private visitService: VisitService,
+    private testReportService: TestService
   ) {
   }
 
@@ -68,49 +72,18 @@ export class VehicleDetailsPage implements OnInit {
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
   }
 
-  async goToPreparerPage(): Promise<void> {
+  async confirmAndStartTest(): Promise<void> {
     this.changeOpacity = true;
     const confirm = await this.alertCtrl.create({
-      header: APP_STRINGS.CONFIRM_VEHICLE,
-      message: APP_STRINGS.CONFIRM_VEHICLE_MSG,
+      header: APP_STRINGS.START_TEST,
+      message: APP_STRINGS.CONFIRM_VEHICLE_AND_START_TEST_MSG,
       buttons: [
         {
           text: APP_STRINGS.CANCEL
         },
         {
-          text: APP_STRINGS.CONFIRM,
-          handler: async () => {
-            await this.router.navigate([PAGE_NAMES.ADD_PREPARER_PAGE], {
-              state: {
-                test: this.testData,
-                vehicle: this.vehicleData
-              }
-            }).then(async (resp) => {
-              if (!resp) {
-                const alert = await this.alertCtrl.create({
-                  header: APP_STRINGS.UNAUTHORISED,
-                  message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
-                  buttons: [
-                    {
-                      text: APP_STRINGS.CANCEL,
-                      role: 'cancel'
-                    },
-                    {
-                      text: APP_STRINGS.CALL,
-                      handler: () => {
-                        this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
-                          (data) => console.log(data),
-                          (err) => console.log(err)
-                        );
-                        return false;
-                      }
-                    }
-                  ]
-                });
-                await alert.present();
-              }
-            });
-          }
+          text: APP_STRINGS.START_TEST,
+          handler: async () => { await this.goToTestCreatePage(); }
         }
       ]
     });
@@ -135,6 +108,47 @@ export class VehicleDetailsPage implements OnInit {
             testResultsHistory: data ? data : [],
           }
         });
+      });
+  }
+
+  async goToTestCreatePage(): Promise<void> {
+    if (!this.visitService.visit.tests.length ||
+      this.visitService.getLatestTest().endTime) {
+      await this.visitService.addTest(this.testData);
+    }
+
+    this.testReportService.addVehicle(this.testData, this.vehicleData);
+
+    await this.router
+      .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
+        state: {
+          test: this.testData
+        }
+      })
+      .then( async (resp) => {
+        if (!resp) {
+          const alert = await this.alertCtrl.create({
+            header: APP_STRINGS.UNAUTHORISED,
+            message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
+            buttons: [
+              {
+                text: APP_STRINGS.CANCEL,
+                role: 'cancel'
+              },
+              {
+                text: APP_STRINGS.CALL,
+                handler: () => {
+                  this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
+                    (data) => console.log(data),
+                    (err) => console.log(err)
+                  );
+                  return false;
+                }
+              }
+            ]
+          });
+          await alert.present();
+        }
       });
   }
 
