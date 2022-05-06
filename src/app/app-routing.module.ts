@@ -57,9 +57,18 @@ const routes: Routes = [
   },
   {
     path: PAGE_NAMES.VEHICLE_DETAILS_PAGE,
-    loadChildren: () =>
-      import('./pages/vehicle/vehicle-details/vehicle-details.module')
+    loadChildren: () => import('./pages/vehicle/vehicle-details/vehicle-details.module')
       .then( m => m.VehicleDetailsModule)
+  },
+  {
+    path: PAGE_NAMES.TEST_CREATE_PAGE,
+    loadChildren: () => import('./pages/testing/test-creation/test-create/test-create.module')
+        .then( m => m.TestCreateModule)
+  },
+  {
+    path: PAGE_NAMES.TEST_CANCEL_PAGE,
+    loadChildren: () => import('./pages/testing/test-creation/test-cancel/test-cancel.module')
+        .then( m => m.TestCancelModule)
   },
 ];
 

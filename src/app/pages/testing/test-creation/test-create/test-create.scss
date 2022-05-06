@@ -1,0 +1,157 @@
+:host {
+  ion-item-options {
+    -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+  }
+
+  .card {
+    .item-ios h3 {
+      font-size: var(--font-size-medium);
+    }
+
+    .label-ios {
+      margin: 22px 8px 22px 0;
+    }
+
+    .ion-item-title {
+      h2 {
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-semi-bold);
+      }
+
+      p {
+        padding-top: 4px;
+        font-weight: normal;
+        font-size: var(--font-size-medium);
+
+        &.vehicle-vin {
+          font-size: var(--font-size-normal);
+          color: var(--dark)
+        }
+      }
+    }
+
+    ion-item.btn-add-test {
+      font-size: var(--font-size-medium);
+      color: var(--primary);
+    }
+
+    .item-ios.bottom-divider {
+      border-top: 0.55px solid var(--color-grey-2);
+    }
+
+    .item-ios {
+      .test-type {
+        font-weight: var(--font-weight-semi-bold);
+      }
+
+      .test-type,
+      .odometer-reading {
+        margin: 0;
+      }
+
+      .vehicle-type-icon {
+        margin: 8px 0 8px 16px;
+        background: none;
+        width: 65px;
+      }
+
+      .vehicle-details {
+        margin: 0px 8px 0px 4px;
+        color: var(--color-grey-1);
+
+        &.accessibility-no-margin {
+          margin: 0;
+        }
+      }
+
+      .arrow-forward {
+        color: var(--color-grey-2);
+        font-size: var(--font-size-medium);
+        display: flex;
+        align-items: center;
+      }
+
+      .ios-add-circle-outline {
+        margin-right: 16px;
+      }
+
+      .test-type-status {
+        margin: 0;
+        color: var(--color-grey-1);
+
+        &.text-ios-danger {
+          color: var(--danger);
+        }
+      }
+
+      .odometer-reading-status {
+        margin: 0;
+      }
+
+      .test-type-status.test-type-pass {
+        color: var(--secondary);
+      }
+
+      .test-type-status.test-type-fail {
+        color: var(--danger);
+      }
+
+      .test-type-status.test-type-inProgress {
+        color: var(--color-grey-1);
+      }
+
+      .odometer-reading-status.odometer-reading-start {
+        color: var(--color-grey-1);
+      }
+
+      .odometer-reading-icon {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        font-size: var(--font-size-medium);
+
+        &.accessibility-no-margin-left {
+          margin-left: 0;
+        }
+      }
+
+      .odometer-reading-icon.odometer-reading-icon-no-data {
+        color: var(--color-grey-2);
+      }
+
+      .odometer-reading-icon.odometer-reading-icon-data,
+      .vehicle-category-icon-data {
+        font-size: var(--font-size-extra-large);
+        color: var(--primary);
+      }
+
+      .vehicle-details {
+        color: var(--dark);
+        max-width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      p[ion-text].test-result {
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .error-banner {
+    padding: 16px;
+    margin: -16px -16px 24px -16px;
+    font-size: var(--font-size-medium);
+    color: var(--light);
+    background-color: var(--danger);
+  }
+
+  ion-footer {
+    -webkit-text-size-adjust: var(--disable-accessibility-text-scaling);
+  }
+}
+
+ion-toolbar ion-button.review-and-submit-button {
+  font-weight: var(--font-weight-bold);
+}

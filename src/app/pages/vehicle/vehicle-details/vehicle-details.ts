@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AlertController, ModalController,
 } from '@ionic/angular';
@@ -122,7 +122,8 @@ export class VehicleDetailsPage implements OnInit {
     await this.router
       .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
         state: {
-          test: this.testData
+          test: this.testData,
+          previousPageName: PAGE_NAMES.VEHICLE_DETAILS_PAGE
         }
       })
       .then( async (resp) => {

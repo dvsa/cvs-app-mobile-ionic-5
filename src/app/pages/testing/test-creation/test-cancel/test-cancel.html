@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cancel test</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        class="submit-button"
+        [ngClass]="{buttonOpacity: changeOpacity}"
+        (click)="onSubmit()"
+      >
+        Submit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey ion-no-padding">
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider class="ion-padding-start">
+        <ion-label class="ion-text-uppercase">
+          Reason for cancellation (required)
+        </ion-label>
+      </ion-item-divider>
+      <ion-item>
+        <ion-textarea
+          placeholder="Add reason for cancellation"
+          rows="5"
+          [(ngModel)]="cancellationReason"
+        ></ion-textarea>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+  <p class="cancellation-info">
+    You are about to cancel all tests for this vehicle. You will not be able to edit this test
+    later. The test will not be recorded against the vehicle and no certificate will be issued.
+  </p>
+</ion-content>

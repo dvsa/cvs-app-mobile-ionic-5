@@ -1,0 +1,29 @@
+:host {
+  .item-divider-ios {
+    font-size: var(--font-size-small);
+    text-transform: uppercase;
+  }
+
+  .list-ios {
+    margin-bottom: 0;
+  }
+
+  .cancellation-info {
+    padding: 0 16px;
+    font-size: var(--font-size-small);
+    color: var(--color-grey-1);
+  }
+
+  ion-item-divider {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-normal);
+    height: 28px;
+    ion-label {
+      color: var(--color-grey-1);
+    }
+  }
+}
+
+ion-toolbar ion-button.submit-button {
+  font-weight: var(--font-weight-bold);
+}
