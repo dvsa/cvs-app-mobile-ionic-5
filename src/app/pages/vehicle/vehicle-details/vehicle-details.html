@@ -35,7 +35,7 @@
 </ion-header>
 
 <ion-content class="ion-no-padding content-background-color-grey">
-  <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center ion-margin-bottom">
+  <div class="vehicle-header-vrm-number ion-text-uppercase ion-text-center ion-margin-bottom">
     <ng-container
       *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle"
       >{{ vehicleData.trailerId }}</ng-container

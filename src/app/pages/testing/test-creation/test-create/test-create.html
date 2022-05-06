@@ -24,49 +24,51 @@
     [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}"
   >
     <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
-      <ion-item class="ion-item-title" (click)="onVehicleDetails(vehicle)">
+      <ion-item class="ion-item-title ion-no-padding" (click)="onVehicleDetails(vehicle)">
         <img
-          class="vehicle-type-icon ion-align-items-start"
+          slot="start"
+          class="vehicle-type-icon"
           src="./assets/imgs/{{getVehicleTypeIconToShow(vehicle)}}-icon.svg"
         />
-        <h2 *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL">
-          <span class="ion-text-capitalize">{{ vehicle.vrm }}</span>
-          <span
-            class="ion-text-capitalize"
-            *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.CAR &&
-                       vehicle.techRecord.vehicleType !== VEHICLE_TYPE.MOTORCYCLE"
-            >({{vehicle.techRecord.vehicleType}})
-          </span>
-          <span
-            class="ion-text-capitalize"
-            *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
-                       vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE"
-            >({{vehicle.techRecord.vehicleType}})
-          </span>
-        </h2>
-        <h2 *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.TRL">
-          {{ vehicle.trailerId }} (Trailer)
-        </h2>
-        <p class="vehicle-vin">{{ vehicle.vin }}</p>
+        <div class="vehicle-detail-content">
+          <h2 *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL">
+            <span class="ion-text-uppercase">{{ vehicle.vrm }}</span>
+            <span
+              class="ion-text-uppercase"
+              *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.CAR &&
+                         vehicle.techRecord.vehicleType !== VEHICLE_TYPE.MOTORCYCLE"
+              >({{vehicle.techRecord.vehicleType}})
+            </span>
+            <span
+              class="ion-text-uppercase"
+              *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
+                         vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE"
+              >({{vehicle.techRecord.vehicleType}})
+            </span>
+          </h2>
+          <h2 *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.TRL">
+            {{ vehicle.trailerId }} (Trailer)
+          </h2>
+          <p class="vehicle-vin">{{ vehicle.vin }}</p>
+        </div>
         <h3 class="vehicle-details ion-align-items-end">Details</h3>
-        <ion-icon class="arrow-forward ion-align-items-end" name="arrow-forward"></ion-icon>
+        <ion-icon class="chevron-forward" slot="end" name="chevron-forward"></ion-icon>
       </ion-item>
       <ion-item
         class="bottom-divider"
         (click)="onCountryOfRegistration(vehicle)"
       >
         <div class="flex-wrapper-container">
-          <h3 class="odometer-reading ion-text-wrap">Country of registration</h3>
+          <h3 class="item-label">Country of registration</h3>
           <h3
-            text-nowrap
-            class="vehicle-details ion-align-items-end"
+            class="country-of-registration-status ion-align-items-end ion-text-nowrap"
             [ngClass]="{'accessibility-no-margin': appService.isAccessibilityTextZoomEnabled()}"
           >
             {{getCountryStringToBeDisplayed(vehicle)}}
           </h3>
         </div>
 
-        <ion-icon class="arrow-forward ion-align-items-end" name="arrow-forward"></ion-icon>
+        <ion-icon class="chevron-forward" slot="end" name="chevron-forward"></ion-icon>
       </ion-item>
       <ion-item
         class="bottom-divider"
@@ -74,10 +76,10 @@
         (click)="onVehicleCategory(vehicle)"
       >
         <div class="flex-wrapper-container">
-          <h3 class="odometer-reading ion-text-wrap">EU vehicle category</h3>
-          <h3 class="vehicle-details ion-align-items-end" *ngIf="!vehicle.euVehicleCategory">Select</h3>
+          <h3 class="item-label">EU vehicle category</h3>
+          <h3 class="eu-vehicle-category-status ion-align-items-end" *ngIf="!vehicle.euVehicleCategory">Select</h3>
           <h3
-            class="vehicle-details ion-text-capitalize ion-text-nowrap ion-align-items-end"
+            class="eu-vehicle-category-status ion-text-uppercase ion-text-nowrap ion-align-items-end"
             *ngIf="vehicle.euVehicleCategory"
           >
             {{displayVehicleCategoryKey(vehicle.euVehicleCategory)}}
@@ -85,10 +87,10 @@
         </div>
 
         <ion-icon
-          class="ion-align-items-end"
+          slot="end"
           [ngClass]="{'vehicle-category-icon-data': vehicle.euVehicleCategory,
-                          'arrow-forward': !vehicle.euVehicleCategory}"
-          [name]="vehicle.euVehicleCategory ? 'checkmark' : 'arrow-forward'"
+                          'chevron-forward': !vehicle.euVehicleCategory}"
+          [name]="vehicle.euVehicleCategory ? 'checkmark' : 'chevron-forward'"
         ></ion-icon>
       </ion-item>
       <ion-item
@@ -98,7 +100,7 @@
         *ngIf="!isVehicleOfType(vehicle,VEHICLE_TYPE.TRL)"
       >
         <div class="flex-wrapper-container">
-          <h3 class="odometer-reading ion-text-wrap">Odometer reading</h3>
+          <h3 class="item-label">Odometer reading</h3>
           <h3
             class="odometer-reading-status ion-align-items-end"
             [ngClass]="{'odometer-reading-start': !doesOdometerDataExist(i)}"
@@ -107,9 +109,10 @@
           </h3>
         </div>
         <ion-icon
-          class="odometer-reading-icon ion-align-items-end"
+          class="odometer-reading-icon"
+          slot="end"
           [ngClass]="{'odometer-reading-icon-data': doesOdometerDataExist(i), 'odometer-reading-icon-no-data': !doesOdometerDataExist(i)}"
-          [name]="doesOdometerDataExist(i) ? 'checkmark' : 'arrow-forward'"
+          [name]="doesOdometerDataExist(i) ? 'checkmark' : 'chevron-forward'"
         ></ion-icon>
       </ion-item>
       <ion-list class="full-dividers-list">
@@ -120,12 +123,12 @@
             [ngClass]="{'error-incomplete-item': errorIncomplete && getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.IN_PROGRESS)}"
           >
             <div class="flex-wrapper-container">
-              <h3 class="test-type ion-text-wrap">{{ vehicleTest.testTypeCategoryName }}</h3>
+              <h3 class="test-type">{{ vehicleTest.testTypeCategoryName }}</h3>
               <ion-text
                 [color]="commonFunc.getTestResultColor(vehicleTest.testResult)"
               >
                 <p
-                  class="test-type-status test-result ion-align-items-end ion-text-capitalize"
+                  class="test-type-status test-result ion-align-items-end ion-text-uppercase"
                   *ngIf="isTestAbandoned(vehicleTest)"
                 >
                   Abandoned
@@ -141,11 +144,12 @@
               </h3>
             </div>
             <ion-icon
-              class="odometer-reading-icon ion-align-items-end"
+              class="odometer-reading-icon"
+              slot="end"
               [ngClass]="{'odometer-reading-icon-data': getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.EDIT),
                                   'odometer-reading-icon-no-data': getTestTypeStatus(vehicle, vehicleTest) !== commonFunc.capitalizeString(testCompletionStatus.EDIT),
                                   'accessibility-no-margin-left': appService.isAccessibilityTextZoomEnabled()}"
-              [name]="getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.EDIT) ? 'checkmark' : 'arrow-forward'"
+              [name]="getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.EDIT) ? 'checkmark' : 'chevron-forward'"
               *ngIf="!isTestAbandoned(vehicleTest)"
             ></ion-icon>
           </ion-item>
@@ -173,7 +177,7 @@
       >
         <span *ngIf="vehicle.testTypes.length === 0">Add a test type</span>
         <span *ngIf="vehicle.testTypes.length !== 0">Add a linked test</span>
-        <ion-icon aria-hidden="true" name="ios-add-circle-outline ion-align-items-end"></ion-icon>
+        <ion-icon aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
       </ion-item>
     </ion-card>
 
@@ -183,7 +187,7 @@
         (click)="addTrailer(visitService.visit.tests)"
       >
         <span>Add a {{doesHgvLgvExist ? "trailer" : "vehicle"}}</span>
-        <ion-icon aria-hidden="true" name="ios-add-circle-outline ion-align-items-end"></ion-icon>
+        <ion-icon aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
       </ion-item>
     </ion-card>
   </ion-list>
