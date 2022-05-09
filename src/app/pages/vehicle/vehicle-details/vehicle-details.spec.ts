@@ -29,6 +29,7 @@ import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock
 import { TestService } from '@providers/test/test.service';
 import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { TestModel } from '@models/tests/test.model';
+import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -57,11 +58,10 @@ describe('Component: VehicleDetailsPage', () => {
       declarations: [VehicleDetailsPage],
       imports: [
         RouterTestingModule.withRoutes([
-          // @TODO - add this back when test create page is migrated
-          // {
-          //   path: PAGE_NAMES.TEST_CREATE_PAGE,
-          //   component: TestCreatePage
-          // }
+          {
+            path: PAGE_NAMES.TEST_CREATE_PAGE,
+            component: TestCreatePage
+          }
         ])
       ],
       providers: [
@@ -133,56 +133,55 @@ describe('Component: VehicleDetailsPage', () => {
     });
   });
 
-  // @TODO - add this back when test create page is migrated
-  // describe('goToTestCreatePage', () => {
-  //   beforeEach(() => {
-  //     spyOn(testReportService, 'addVehicle').and.callFake(() => {});
-  //
-  //     visitService.visit = {
-  //       tests: [
-  //         {
-  //           startTime: null,
-  //           endTime: null,
-  //           status: null,
-  //           reasonForCancellation: null,
-  //           vehicles: null,
-  //         },
-  //       ],
-  //       startTime: null,
-  //       endTime: null,
-  //       testStationName: null,
-  //       testStationEmail: null,
-  //       testStationPNumber: null,
-  //       testStationType: null,
-  //       testerEmail: null,
-  //       testerId: null,
-  //       testerName: null,
-  //     };
-  //   });
-  //
-  //   it('should call testReportService.addVehicle', async () => {
-  //     await component.goToTestCreatePage();
-  //
-  //     expect(testReportService.addVehicle).toHaveBeenCalledTimes(1);
-  //   });
-  //
-  //   it('should call visitService.addTest if the latest test has an end time', async () => {
-  //     const mockData: TestModel = {
-  //       startTime: null,
-  //       endTime: 'something',
-  //       status: null,
-  //       reasonForCancellation: null,
-  //       vehicles: null,
-  //     };
-  //
-  //     spyOn(visitService, 'addTest').and.callFake(async () => {});
-  //     spyOn(visitService, 'getLatestTest').and.returnValue(mockData);
-  //
-  //     await component.goToTestCreatePage();
-  //
-  //     expect(await visitService.addTest).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+  describe('goToTestCreatePage', () => {
+    beforeEach(() => {
+      spyOn(testReportService, 'addVehicle').and.callFake(() => {});
+
+      visitService.visit = {
+        tests: [
+          {
+            startTime: null,
+            endTime: null,
+            status: null,
+            reasonForCancellation: null,
+            vehicles: null,
+          },
+        ],
+        startTime: null,
+        endTime: null,
+        testStationName: null,
+        testStationEmail: null,
+        testStationPNumber: null,
+        testStationType: null,
+        testerEmail: null,
+        testerId: null,
+        testerName: null,
+      };
+    });
+
+    it('should call testReportService.addVehicle', async () => {
+      await component.goToTestCreatePage();
+
+      expect(testReportService.addVehicle).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call visitService.addTest if the latest test has an end time', async () => {
+      const mockData: TestModel = {
+        startTime: null,
+        endTime: 'something',
+        status: null,
+        reasonForCancellation: null,
+        vehicles: null,
+      };
+
+      spyOn(visitService, 'addTest').and.callFake(async () => {});
+      spyOn(visitService, 'getLatestTest').and.returnValue(mockData);
+
+      await component.goToTestCreatePage();
+
+      expect(await visitService.addTest).toHaveBeenCalledTimes(1);
+    });
+  });
 
   it('should not display the provisional label if the techRecord is current', async () => {
     component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;

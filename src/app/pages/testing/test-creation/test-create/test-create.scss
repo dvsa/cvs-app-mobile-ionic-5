@@ -5,12 +5,13 @@
 
   .card {
     .vehicle-detail-content {
-      padding-top: 10px;
-      padding-bottom: 10px;
       h2 {
         font-size: var(--font-size-medium);
         font-weight: var(--font-weight-normal);
         margin: 5px;
+        span {
+          padding-right: 5px;
+        }
       }
 
       p {
@@ -20,25 +21,21 @@
     }
 
     ion-item {
-      h3 {
+      padding-top: 7px;
+      padding-bottom: 7px;
+      background-color: var(--light);
+
+      ion-label {
         font-size: var(--font-size-normal);
-        margin: 0;
+        color: var(--dark);
       }
 
-      h3.item-label,
-      h3.country-of-registration-status,
-      h3.eu-vehicle-category-status {
-        color: var(--dark);
+      div.details {
+        font-size: var(--font-size-normal);
         max-width: 100px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-
-      h3.vehicle-details,
-      h3.odometer-reading-status {
-        //margin: 0px 8px 0px 4px;
-        color: var(--color-grey-1);
       }
     }
 
@@ -78,7 +75,7 @@
     }
 
     .vehicle-type-icon {
-      margin: 8px 0 8px 16px;
+      margin: 8px 16px 8px 0;
       background: none;
       width: 65px;
     }
@@ -117,17 +114,6 @@
 
     .odometer-reading-status.odometer-reading-start {
       color: var(--color-grey-1);
-    }
-
-    .odometer-reading-icon {
-      display: flex;
-      align-items: center;
-      margin-left: 10px;
-      font-size: var(--font-size-medium);
-
-      &.accessibility-no-margin-left {
-        margin-left: 0;
-      }
     }
 
     .odometer-reading-icon.odometer-reading-icon-no-data {
