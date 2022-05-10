@@ -165,6 +165,8 @@ export class VehicleDetailsPage implements OnInit {
           },
           complete: () => {
           }
+        }).catch((error) => {
+          console.log(error);
         });
   }
 
