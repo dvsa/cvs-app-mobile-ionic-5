@@ -1,0 +1,47 @@
+:host {
+  ion-content {
+    .scroll-content {
+      background: var(--color-grey-3);
+    }
+  }
+
+  .tests-list {
+    margin-top: 30px;
+
+      align-items: flex-start;
+      min-height: 105px;
+
+      p {
+        font-size: var(--font-size-medium);
+      }
+
+      ion-row {
+        ion-col {
+          padding: 2px 0;
+        }
+
+        &:first-of-type ion-col {
+          font-weight: var(--font-weight-semi-bold);
+        }
+
+        ion-col:first-of-type {
+          p {
+            color: var(--dark);
+          }
+        }
+      }
+  }
+
+  .no-result {
+    margin: auto;
+    width: 250px;
+    max-height: 50%;
+    text-align: center;
+    h3 {
+      color: var(--color-grey-1);
+      font-size: var(--font-size-medium);
+      font-weight: var(--font-weight-semi-bold);
+      font-family: var(--sf-pro-font-family);
+    }
+  }
+}

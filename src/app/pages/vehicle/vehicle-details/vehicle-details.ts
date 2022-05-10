@@ -118,6 +118,8 @@ export class VehicleDetailsPage implements OnInit {
             vehicleData: this.vehicleData,
             testResultsHistory: data ? data : [],
           }
+        }).catch((error) => {
+          console.log(error);
         });
       });
   }
