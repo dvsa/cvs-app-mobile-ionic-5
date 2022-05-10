@@ -88,7 +88,6 @@ describe('Component: SignaturePopoverComponent', () => {
     expect(loadingPresentSpy.present).toHaveBeenCalled();
   });
 
-  // TODO - this may need changing
   it('check confirmPop for error case on saveSignature method',async () => {
     spyOn(signatureService, 'saveSignature').and.returnValue(
       throwError(

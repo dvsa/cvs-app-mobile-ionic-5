@@ -65,9 +65,7 @@ describe('Component: TestCancelPage', () => {
       }
     ]);
 
-    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
-      dispatchLog: () => true
-    });
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', ['dispatchLog']);
 
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
       'setCurrentPage',
@@ -168,7 +166,6 @@ describe('Component: TestCancelPage', () => {
     expect(await alertCtrl.create).toHaveBeenCalled();
   });
 
-  // TODO - this may need changing
   it('should test submitting a test - error case on submitActivity', async () => {
     visitService.visit = VisitDataMock.VisitData;
     spyOn(testResultService, 'submitTestResult').and.returnValue(
