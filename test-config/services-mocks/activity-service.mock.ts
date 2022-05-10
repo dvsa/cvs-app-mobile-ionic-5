@@ -1,7 +1,7 @@
 import { ActivityModel } from '@models/visit/activity.model';
 import { TestResultModel } from '@models/tests/test-result.model';
 import { VisitModel } from '@models/visit/visit.model';
-import { Observable, of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 export class ActivityServiceMock {
   activities: ActivityModel[] = [];
@@ -46,7 +46,7 @@ export class ActivityServiceMock {
   }
 
   submitActivity() {
-    return this.isSubmitError ? Observable.throw({error: {error: ''}}) : of({body: {id: '123'}});
+    return this.isSubmitError ? throwError({error: {error: ''}}) : of({body: {id: '123'}});
   }
 
   getActivities(): ActivityModel[] {
@@ -58,7 +58,7 @@ export class ActivityServiceMock {
   }
 
   updateActivityReasons(activities) {
-    return this.isUpdateError ? Observable.throw({error: {error: ''}}) : of(true);
+    return this.isUpdateError ? throwError({error: {error: ''}}) : of(true);
   }
 
   isVisitStillOpen() {

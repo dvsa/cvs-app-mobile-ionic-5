@@ -25,7 +25,7 @@ import {
   ANALYTICS_EVENTS,
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_VALUE,
-  APP_STRINGS,
+  APP_STRINGS, PAGE_NAMES,
   VEHICLE_TYPE
 } from '@app/app.enums';
 import { CallNumber } from '@ionic-native/call-number/ngx';
@@ -43,6 +43,7 @@ import { ActivityServiceMock } from '@test-config/services-mocks/activity-servic
 import { LogsProvider } from '@store/logs/logs.service';
 import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
+import { VisitTimelinePage } from '@app/pages/visit/visit-timeline/visit-timeline';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;

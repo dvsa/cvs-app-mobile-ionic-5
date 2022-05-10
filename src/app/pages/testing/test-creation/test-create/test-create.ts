@@ -327,7 +327,7 @@ export class TestCreatePage implements OnInit {
       });
   }
 
-  getSuggestedTestTypes(testType: TestTypeModel) {
+  getSuggestedTestTypes(testType: TestTypeModel): TestTypesReferenceDataModel[] {
     const flattenedTestTypes = this.testTypeService.flattenTestTypesData(this.testTypeReferenceData);
     const suggestedTestTypeIds = this.testTypeService.getSuggestedTestTypeIds(testType.testTypeId, flattenedTestTypes);
     const testTypes = this.testTypeService.determineAssociatedTestTypes(flattenedTestTypes, suggestedTestTypeIds);
