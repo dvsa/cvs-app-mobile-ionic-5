@@ -13,7 +13,7 @@ import { TestTypeArrayDataMock } from '@assets/data-mocks/test-type-array-data.m
 import {
   ANALYTICS_SCREEN_NAMES,
   APP_STRINGS, PAGE_NAMES,
-  TECH_RECORD_STATUS
+  TECH_RECORD_STATUS, TESTER_ROLES
 } from '@app/app.enums';
 import { By } from '@angular/platform-browser';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
@@ -30,6 +30,9 @@ import { TestService } from '@providers/test/test.service';
 import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { TestModel } from '@models/tests/test.model';
 import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
+import { AuthenticationService } from '@providers/auth';
+import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
+import { TokenInfo } from '@providers/auth/authentication/auth-model';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -42,6 +45,7 @@ describe('Component: VehicleDetailsPage', () => {
   let router: any;
   let testReportService: TestService;
   let visitService: VisitService;
+  let authService: AuthenticationService;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
@@ -76,6 +80,7 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: AppService, useClass: AppServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -90,6 +95,7 @@ describe('Component: VehicleDetailsPage', () => {
     router = TestBed.inject(Router);
     testReportService = TestBed.inject(TestService);
     visitService = TestBed.inject(VisitService);
+    authService = TestBed.inject(AuthenticationService);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
       { extras:
           {
@@ -180,6 +186,18 @@ describe('Component: VehicleDetailsPage', () => {
       await component.goToTestCreatePage();
 
       expect(await visitService.addTest).toHaveBeenCalledTimes(1);
+    });
+
+    it('should allow the user to test the vehicle', async () => {
+      const navigateSpy = spyOn(router, 'navigate');
+      spyOn(component, 'canTestVehicle').and.returnValue(true);
+      await component.goToTestCreatePage();
+      expect(await navigateSpy).toHaveBeenCalled();
+    });
+    it('should not allow the user to test the vehicle', async () => {
+      spyOn(component, 'canTestVehicle').and.returnValue(false);
+      await component.goToTestCreatePage();
+      expect(await alertCtrl.create).toHaveBeenCalled();
     });
   });
 

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PAGE_NAMES } from '@app/app.enums';
-import { VehicleCheckGuard } from '@app/guards/vehicle-check.guard';
 
 const routes: Routes = [
   // {
@@ -64,8 +63,7 @@ const routes: Routes = [
   {
     path: PAGE_NAMES.TEST_CREATE_PAGE,
     loadChildren: () => import('./pages/testing/test-creation/test-create/test-create.module')
-        .then( m => m.TestCreateModule),
-    canActivate: [VehicleCheckGuard]
+        .then( m => m.TestCreateModule)
   },
   {
     path: PAGE_NAMES.TEST_CANCEL_PAGE,

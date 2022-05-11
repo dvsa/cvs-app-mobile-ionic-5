@@ -13,6 +13,7 @@ import {
   PAGE_NAMES,
   STORAGE,
   TECH_RECORD_STATUS,
+  TESTER_ROLES,
   VEHICLE_TYPE,
 } from '@app/app.enums';
 import { StorageService } from '@providers/natives/storage.service';
@@ -23,6 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { VisitService } from '@providers/visit/visit.service';
 import { TestService } from '@providers/test/test.service';
+import { AuthenticationService } from '@providers/auth';
 
 @Component({
   selector: 'page-vehicle-details',
@@ -59,7 +61,8 @@ export class VehicleDetailsPage implements OnInit {
     public formatVrmPipe: FormatVrmPipe,
     private visitService: VisitService,
     private testReportService: TestService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthenticationService
   ) {
   }
 
@@ -124,38 +127,37 @@ export class VehicleDetailsPage implements OnInit {
 
     this.testReportService.addVehicle(this.testData, this.vehicleData);
 
-    await this.router
-      .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
-        state: {
-          test: this.testData,
-          previousPageName: PAGE_NAMES.VEHICLE_DETAILS_PAGE
-        }
-      })
-      .then( async (resp) => {
-        if (!resp) {
-          const alert = await this.alertCtrl.create({
-            header: APP_STRINGS.UNAUTHORISED,
-            message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
-            buttons: [
-              {
-                text: APP_STRINGS.CANCEL,
-                role: 'cancel'
-              },
-              {
-                text: APP_STRINGS.CALL,
-                handler: () => {
-                  this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
-                    (data) => console.log(data),
-                    (err) => console.log(err)
-                  );
-                  return false;
-                }
-              }
-            ]
-          });
-          await alert.present();
-        }
+    if (this.canTestVehicle()) {
+      await this.router
+        .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
+          state: {
+            test: this.testData,
+            previousPageName: PAGE_NAMES.VEHICLE_DETAILS_PAGE
+          }
+        });
+    } else {
+      const alert = await this.alertCtrl.create({
+        header: APP_STRINGS.UNAUTHORISED,
+        message: APP_STRINGS.UNAUTHORISED_TEST_MSG,
+        buttons: [
+          {
+            text: APP_STRINGS.CANCEL,
+            role: 'cancel'
+          },
+          {
+            text: APP_STRINGS.CALL,
+            handler: () => {
+              this.callNumber.callNumber(AppConfig.app.KEY_PHONE_NUMBER, true).then(
+                (data) => console.log(data),
+                (err) => console.log(err)
+              );
+              return false;
+            }
+          }
+        ]
       });
+      await alert.present();
+    }
   }
 
   async back() {
@@ -172,6 +174,23 @@ export class VehicleDetailsPage implements OnInit {
         return APP_STRINGS.IDENTIFY_VEHICLE;
       default:
         return 'Back';
+    }
+  }
+
+  canTestVehicle(): boolean {
+    const { testerRoles: roles } = this.authService.tokenInfo;
+    switch (this.vehicleData.techRecord.vehicleType) {
+      case VEHICLE_TYPE.PSV: {
+        return roles.some(
+          (role) => role === TESTER_ROLES.PSV || role === TESTER_ROLES.FULL_ACCESS
+        );
+      }
+      case VEHICLE_TYPE.HGV:
+      case VEHICLE_TYPE.TRL: {
+        return roles.some(
+          (role) => role === TESTER_ROLES.HGV || role === TESTER_ROLES.FULL_ACCESS
+        );
+      }
     }
   }
 }
