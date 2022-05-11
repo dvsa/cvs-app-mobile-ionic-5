@@ -57,7 +57,8 @@ export class TestCreatePage implements OnInit {
   TEST_CREATE_ERROR_BANNER: typeof APP_STRINGS.TEST_CREATE_ERROR_BANNER =
     APP_STRINGS.TEST_CREATE_ERROR_BANNER;
   testTypeReferenceData: TestTypesReferenceDataModel[];
-  previousPageName: string;
+  // TODO - this may need adding back
+  // previousPageName: string;
 
 
   constructor(
@@ -88,7 +89,8 @@ export class TestCreatePage implements OnInit {
     this.testData = Object.keys(this.visitService.visit).length
       ? this.visitService.visit.tests[lastTestIndex]
       : this.router.getCurrentNavigation().extras.state.test;
-    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+    // TODO - this may need adding back
+    // this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
     this.getTestTypeReferenceData();
   }
 
@@ -122,7 +124,7 @@ export class TestCreatePage implements OnInit {
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_OVERVIEW);
   }
 
-  ionViewWillLeave() {
+  async ionViewWillLeave() {
     // TODO - does this need to be added back in?
     // this.events.unsubscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS);
     if (this.slidingItems.length) {
@@ -447,7 +449,7 @@ export class TestCreatePage implements OnInit {
   async onVehicleDetails(vehicle: VehicleModel) {
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
-        vehicleData: vehicle,
+        vehicle,
         previousPageName: PAGE_NAMES.TEST_CREATE_PAGE
       }
     });
@@ -688,15 +690,16 @@ export class TestCreatePage implements OnInit {
     } else {
       this.changeOpacity = false;
       this.errorIncomplete = false;
-      if (this.previousPageName === PAGE_NAMES.TEST_REVIEW_PAGE) {
-        await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE);
-      } else {
+      // TODO - need to emulate navCtrl.pop() here
+      // if (this.previousPageName === PAGE_NAMES.TEST_REVIEW_PAGE) {
+      //   await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE);
+      // } else {
         await this.router.navigate([PAGE_NAMES.TEST_REVIEW_PAGE], {
           state: {
             visit: this.visitService.visit
           }
         });
-      }
+      // }
     }
   }
 

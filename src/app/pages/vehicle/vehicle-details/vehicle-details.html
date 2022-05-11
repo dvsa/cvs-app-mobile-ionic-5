@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [text]="getBackButtonText()"></ion-back-button>
+      <ion-button (click)="back()" color="light">
+        <ion-icon class="chevron-back ion-no-margin large-icon" name="chevron-back"></ion-icon>
+        {{ backButtonText }}
+      </ion-button>
     </ion-buttons>
     <ion-title class="ion-margin-start">
       <ng-container>

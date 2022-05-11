@@ -20,7 +20,7 @@ import {
 } from '@app/app.enums';
 import { TestResultService } from '@providers/test-result/test-result.service';
 import { VisitService } from '@providers/visit/visit.service';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, throwError } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
 import { catchError } from 'rxjs/operators';
@@ -161,7 +161,7 @@ export class TestCancelPage implements OnInit {
               timestamp: Date.now()
             });
 
-            return Observable.throw(error);
+            return throwError(error);
           })
         )
       );

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AlertController, ModalController,
+  AlertController, ModalController, NavController,
 } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { TestModel } from '@models/tests/test.model';
@@ -19,7 +19,7 @@ import { StorageService } from '@providers/natives/storage.service';
 import { default as AppConfig } from '@config/application.hybrid';
 import { AppService } from '@providers/global/app.service';
 import { AnalyticsService } from '@providers/global';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { VisitService } from '@providers/visit/visit.service';
 import { TestService } from '@providers/test/test.service';
@@ -44,8 +44,10 @@ export class VehicleDetailsPage implements OnInit {
   changeOpacity = false;
   previousPageName: string;
   formattedVrm: string;
+  backButtonText: string;
 
   constructor(
+    public navController: NavController,
     public alertCtrl: AlertController,
     public storageService: StorageService,
     public commonFunc: CommonFunctionsService,
@@ -56,19 +58,22 @@ export class VehicleDetailsPage implements OnInit {
     public modalCtrl: ModalController,
     public formatVrmPipe: FormatVrmPipe,
     private visitService: VisitService,
-    private testReportService: TestService
+    private testReportService: TestService,
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
-    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
-    this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
-    this.testData = this.router.getCurrentNavigation().extras.state.test;
+    this.route.params.subscribe(val => {
+      this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+      this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
+      this.testData = this.router.getCurrentNavigation().extras.state.test;
+      this.backButtonText = this.getBackButtonText();
+    });
   }
 
   async ionViewWillEnter() {
     this.formattedVrm = this.formatVrmPipe.transform(this.vehicleData.vrm);
-
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_DETAILS);
   }
 
@@ -151,6 +156,10 @@ export class VehicleDetailsPage implements OnInit {
           await alert.present();
         }
       });
+  }
+
+  async back() {
+    await this.navController.navigateBack(this.previousPageName);
   }
 
   getBackButtonText(): string {
