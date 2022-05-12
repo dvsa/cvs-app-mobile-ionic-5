@@ -120,14 +120,13 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   async goToTestCreatePage(): Promise<void> {
-    if (!this.visitService.visit.tests.length ||
-      this.visitService.getLatestTest().endTime) {
-      await this.visitService.addTest(this.testData);
-    }
-
-    this.testReportService.addVehicle(this.testData, this.vehicleData);
-
     if (this.canTestVehicle()) {
+      if (!this.visitService.visit.tests.length ||
+        this.visitService.getLatestTest().endTime) {
+        await this.visitService.addTest(this.testData);
+      }
+      this.testReportService.addVehicle(this.testData, this.vehicleData);
+
       await this.router
         .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
           state: {

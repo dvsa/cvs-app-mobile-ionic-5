@@ -72,7 +72,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
     private logProvider: LogsProvider,
-    private router: Router,
+    private router: Router
   ) {
     this.timeline = [];
     // this.platform.ready().then(() => {
