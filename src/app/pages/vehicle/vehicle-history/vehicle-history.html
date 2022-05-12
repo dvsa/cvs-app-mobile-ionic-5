@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding">
+<ion-content class="ion-no-padding content-background-color-grey">
   <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center">
     <ng-container *ngIf="isVehicleOfType(vehicleData,VEHICLE_TYPE.TRL); else isVehicle"
     >{{ vehicleData.trailerId }}</ng-container
@@ -19,14 +19,14 @@
 
   <ion-list class="tests-list" *ngIf="testResultHistory.length">
     <ng-container *ngFor="let testType of testTypeArray">
-      <ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)">
+      <ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)" class="ion-no-padding">
         <ion-grid>
           <ion-row class="ion-padding-start ion-justify-content-between">
-            <ion-col size="auto">
+            <ion-col>
               <p text-wrap>{{ testType.name }}</p>
             </ion-col>
 
-            <ion-col size="auto" class="ion-text-right">
+            <ion-col class="ion-text-right">
               <ion-text
                 *ngIf="!haveProhibition(testType)"
                 class="test-result ion-text-capitalize"
@@ -44,18 +44,18 @@
           </ion-row>
 
           <ion-row class="ion-justify-content-between ion-padding-start">
-            <ion-col size="auto">
+            <ion-col>
               <p>Test date</p>
             </ion-col>
-            <ion-col size="auto" class="ion-text-right">
+            <ion-col class="ion-text-right">
               <p>{{ testType.testTypeStartTimestamp | date:'dd MMM yyyy' }}</p>
             </ion-col>
           </ion-row>
           <ion-row class="ion-justify-content-between ion-padding-start" *ngIf="testType.testExpiryDate">
-            <ion-col size="auto">
+            <ion-col >
               <p>Expiry date</p>
             </ion-col>
-            <ion-col size="auto" class="ion-text-right">
+            <ion-col class="ion-text-right">
               <p>{{ testType.testExpiryDate | date:'dd MMM yyyy' }}</p>
             </ion-col>
           </ion-row>

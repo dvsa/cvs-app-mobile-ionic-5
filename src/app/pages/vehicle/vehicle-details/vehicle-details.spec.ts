@@ -13,7 +13,7 @@ import { TestTypeArrayDataMock } from '@assets/data-mocks/test-type-array-data.m
 import {
   ANALYTICS_SCREEN_NAMES,
   APP_STRINGS, PAGE_NAMES,
-  TECH_RECORD_STATUS, TESTER_ROLES
+  TECH_RECORD_STATUS,
 } from '@app/app.enums';
 import { By } from '@angular/platform-browser';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
@@ -24,15 +24,17 @@ import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
+import {VehicleService} from '@providers/vehicle/vehicle.service';
+import {VehicleServiceMock} from '@test-config/services-mocks/vehicle-service.mock';
+import {LogsProvider} from '@store/logs/logs.service';
+import {AuthenticationService} from '@providers/auth';
+import {AuthenticationServiceMock} from '@test-config/services-mocks/authentication-service.mock';
 import { VisitService } from '@providers/visit/visit.service';
 import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
 import { TestService } from '@providers/test/test.service';
 import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { TestModel } from '@models/tests/test.model';
 import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
-import { AuthenticationService } from '@providers/auth';
-import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
-import { TokenInfo } from '@providers/auth/authentication/auth-model';
 import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
 import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 
@@ -49,6 +51,7 @@ describe('Component: VehicleDetailsPage', () => {
   let visitService: VisitService;
   let authService: AuthenticationService;
   let navController: NavController;
+  let logProviderSpy: any;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
@@ -56,6 +59,9 @@ describe('Component: VehicleDetailsPage', () => {
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
 
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
       'logEvent',
@@ -85,10 +91,12 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: AppService, useClass: AppServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
-        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });

@@ -7,13 +7,19 @@
 
   .tests-list {
     margin-top: 30px;
-
+    //.item-ios {
       align-items: flex-start;
       min-height: 105px;
 
       p {
         font-size: var(--font-size-medium);
+        margin: 0;
       }
+
+    ion-grid {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
 
       ion-row {
         ion-col {
@@ -30,6 +36,7 @@
           }
         }
       }
+    //}
   }
 
   .no-result {

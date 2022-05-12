@@ -166,26 +166,6 @@ describe('Component: VehicleLookupPage', () => {
     expect(component.getTechRecordQueryParam().queryParam).toEqual('trailerId');
   });
 
-  it('should empty ionic storage if the test history cannot be retrieved', async () => {
-    spyOn(storageService, 'update');
-    component.loading = loadingCtrl.create({ message: '' });
-
-
-    vehicleService.getVehicleTechRecords = jasmine.createSpy().and.callFake(() => of([VEHICLE]));
-    vehicleService.getTestResultsHistory = jasmine
-      .createSpy()
-      .and.callFake(() => _throw('Error'));
-
-    await component.searchVehicle('TESTVIN', component.loading);
-
-    expect(await storageService.update).toHaveBeenCalledTimes(1);
-    expect(await analyticsService.logEvent).toHaveBeenCalledWith({
-      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-      event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
-    });
-  });
-
   it('should dismiss the loading when the skeleton alert is displayed', async () => {
     const skeletonVehicle = JSON.parse(JSON.stringify(VEHICLE));
     component.loading = loadingCtrl.create({ message: '' });
