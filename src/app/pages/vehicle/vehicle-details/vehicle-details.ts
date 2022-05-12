@@ -122,6 +122,7 @@ export class VehicleDetailsPage implements OnInit {
       message: 'Loading...'
     });
     await loadingSpinner.present();
+
     this.vehicleService
       .getTestResultsHistory(this.vehicleData.systemNumber)
       .subscribe(

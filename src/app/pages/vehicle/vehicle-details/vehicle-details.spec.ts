@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VehicleDetailsPage } from './vehicle-details';
 import {
-  AlertController, ModalController, NavController,
+  NavController,
+  AlertController, LoadingController, ModalController,
 } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AlertControllerMock, ModalControllerMock } from 'ionic-mocks';
+import { AlertControllerMock, LoadingControllerMock, ModalControllerMock } from 'ionic-mocks';
 import { StorageService } from '@providers/natives/storage.service';
 import { StorageServiceMock } from '@test-config/services-mocks/storage-service.mock';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
@@ -55,6 +56,7 @@ describe('Component: VehicleDetailsPage', () => {
   let navController: NavController;
   let logProviderSpy: any;
   let vehicleService: VehicleService;
+  let loadingController: LoadingController;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
@@ -101,6 +103,7 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: AppService, useClass: AppServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -116,6 +119,7 @@ describe('Component: VehicleDetailsPage', () => {
     testReportService = TestBed.inject(TestService);
     visitService = TestBed.inject(VisitService);
     vehicleService = TestBed.inject(VehicleService);
+    loadingController = TestBed.inject(LoadingController);
     authService = TestBed.inject(AuthenticationService);
     navController = TestBed.inject(NavController);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
