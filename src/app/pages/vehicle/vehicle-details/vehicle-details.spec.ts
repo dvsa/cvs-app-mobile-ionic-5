@@ -221,7 +221,7 @@ describe('Component: VehicleDetailsPage', () => {
     });
   });
 
-  fdescribe('when pressing the back button', () => {
+  describe('when pressing the back button', () => {
     beforeEach( () => {
       spyOn(router, 'navigate');
     });
