@@ -107,7 +107,8 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
         test: this.combinationTestData,
-        vehicle: selectedVehicle
+        vehicle: selectedVehicle,
+        previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
       }
     });
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AlertController, ModalController, NavController,
+  AlertController,
+  ModalController
 } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { TestModel } from '@models/tests/test.model';
@@ -49,7 +50,6 @@ export class VehicleDetailsPage implements OnInit {
   backButtonText: string;
 
   constructor(
-    public navController: NavController,
     public alertCtrl: AlertController,
     public storageService: StorageService,
     public commonFunc: CommonFunctionsService,
@@ -160,7 +160,7 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   async back() {
-    await this.navController.navigateBack(this.previousPageName);
+    await this.router.navigate([this.previousPageName]);
   }
 
   getBackButtonText(): string {

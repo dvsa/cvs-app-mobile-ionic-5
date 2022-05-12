@@ -221,6 +221,35 @@ describe('Component: VehicleDetailsPage', () => {
     });
   });
 
+  fdescribe('when pressing the back button', () => {
+    beforeEach( () => {
+      spyOn(router, 'navigate');
+    });
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.TEST_CREATE_PAGE;
+      await component.back();
+      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.TEST_CREATE_PAGE]);
+    });
+
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
+      await component.back();
+      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.VEHICLE_LOOKUP_PAGE]);
+    });
+
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
+      await component.back();
+      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.VEHICLE_LOOKUP_PAGE]);
+    });
+
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION;
+      await component.back();
+      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION]);
+    });
+  });
+
   describe('when accessing the vehicle details page', () => {
     it('should set the back button text to "Test" when accessing from Test Create page', () => {
       component.previousPageName = PAGE_NAMES.TEST_CREATE_PAGE;
