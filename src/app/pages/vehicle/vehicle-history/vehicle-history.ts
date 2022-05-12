@@ -64,7 +64,6 @@ export class VehicleHistoryPage implements OnInit {
   }
 
   createTestTypeArray(): void {
-    console.log(this.testResultHistory);
     if (this.testResultHistory.length) {
       this.testResultHistoryClone.forEach((testResult, testIndex) => {
         if (

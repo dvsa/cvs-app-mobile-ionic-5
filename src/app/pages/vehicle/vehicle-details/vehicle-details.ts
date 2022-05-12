@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
   ModalController,
-  NavController
+  NavController,
+  LoadingController,
 } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { TestModel } from '@models/tests/test.model';
@@ -65,11 +66,12 @@ export class VehicleDetailsPage implements OnInit {
     public modalCtrl: ModalController,
     public vehicleService: VehicleService,
     public logProvider: LogsProvider,
-    private authenticationService: AuthenticationService,
     private visitService: VisitService,
     private testReportService: TestService,
     private route: ActivatedRoute,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    public loadingController: LoadingController,
+    public formatVrmPipe: FormatVrmPipe,
   ) {
   }
 
@@ -114,42 +116,49 @@ export class VehicleDetailsPage implements OnInit {
     await this.router.navigate([pageName], {state: {vehicleData: this.vehicleData}});
   }
 
-  goToVehicleTestResultsHistory() {
-    const { oid } = this.authenticationService.tokenInfo;
+  async goToVehicleTestResultsHistory() {
+    const {oid} = this.authService.tokenInfo;
+    const loadingSpinner = await this.loadingController.create({
+      message: 'Loading...'
+    });
+    await loadingSpinner.present();
     this.vehicleService
       .getTestResultsHistory(this.vehicleData.systemNumber)
       .subscribe(
         {
-      next: async (data) => {
-        await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
-          state: {
-            vehicleData: this.vehicleData,
-            testResultsHistory: data,
-          }
-        });
-      },
-      error: async (error) => {
-        this.logProvider.dispatchLog({
-          type:
-            'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
-          message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-          timestamp: Date.now()
-        });
+          next: async (data) => {
+            await loadingSpinner.dismiss();
+            await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
+              state: {
+                vehicleData: this.vehicleData,
+                testResultsHistory: data,
+              }
+            });
+          },
+          error: async (error) => {
+            await loadingSpinner.dismiss();
+            this.logProvider.dispatchLog({
+              type:
+                'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
+              message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+              timestamp: Date.now()
+            });
 
-        await this.analyticsService.logEvent({
-          category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-          event: ANALYTICS_EVENTS.TEST_ERROR,
-          label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
-        });
-        await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
-          state: {
-            vehicleData: this.vehicleData,
-            testResultsHistory: [],
+            await this.analyticsService.logEvent({
+              category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+              event: ANALYTICS_EVENTS.TEST_ERROR,
+              label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
+            });
+            await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
+              state: {
+                vehicleData: this.vehicleData,
+                testResultsHistory: [],
+              }
+            });
+          },
+          complete: () => {
           }
         });
-      },
-      complete: () => {}
-    });
   }
 
   async goToTestCreatePage(): Promise<void> {
