@@ -97,7 +97,6 @@ export class VehicleService {
             timestamp: Date.now()
           });
 
-          // this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
           return data.body;
         })
       );
