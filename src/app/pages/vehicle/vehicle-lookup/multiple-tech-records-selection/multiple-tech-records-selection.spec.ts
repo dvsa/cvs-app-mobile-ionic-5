@@ -106,7 +106,8 @@ describe('Component: ', () => {
       [PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
         state : {
           test: undefined,
-          vehicle: VehicleDataMock.VehicleData
+          vehicle: VehicleDataMock.VehicleData,
+          previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
         }
     });
   });
@@ -127,7 +128,8 @@ describe('Component: ', () => {
       [PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
         state : {
           test: undefined,
-          vehicle: VehicleDataMock.VehicleData
+          vehicle: VehicleDataMock.VehicleData,
+          previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
         }
       });
   });
