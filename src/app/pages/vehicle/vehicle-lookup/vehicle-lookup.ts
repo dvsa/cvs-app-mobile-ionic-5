@@ -49,6 +49,7 @@ export class VehicleLookupPage implements OnInit {
   selectedSearchCriteria: string;
   loading: any;
   previousPageName: string;
+  testStation: any;
 
   constructor(
     public navController: NavController,
@@ -71,6 +72,7 @@ export class VehicleLookupPage implements OnInit {
   ngOnInit() {
     this.testData = this.router.getCurrentNavigation().extras.state.test;
     this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+    this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
   }
 
   ionViewWillEnter() {
@@ -230,6 +232,7 @@ export class VehicleLookupPage implements OnInit {
         test: this.testData,
         vehicle: vehicleData,
         previousPageName: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
+        testStation: this.testStation
       }
     });
   }
@@ -238,7 +241,8 @@ export class VehicleLookupPage implements OnInit {
     await this.router.navigate([PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION], {
       state: {
         test: this.testData,
-        vehicles: multipleVehicleData
+        vehicles: multipleVehicleData,
+        testStation: this.testStation
       }
     });
   }

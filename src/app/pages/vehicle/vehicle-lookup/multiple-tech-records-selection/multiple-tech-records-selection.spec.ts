@@ -29,6 +29,7 @@ import { AuthenticationServiceMock } from '@test-config/services-mocks/authentic
 import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 
 describe('Component: ', () => {
   let component: MultipleTechRecordsSelectionPage;
@@ -42,6 +43,7 @@ describe('Component: ', () => {
   let navigateSpy;
   let router: Router;
 
+  const TEST_STATION = TestStationDataMock.TestStationData[0];
 
   beforeEach(() => {
     logProviderSpy = jasmine.createSpyObj('LogsProvider', {
@@ -78,6 +80,7 @@ describe('Component: ', () => {
     analyticsService = TestBed.inject(AnalyticsService);
     router = TestBed.inject(Router);
     navigateSpy = spyOn(router, 'navigate');
+    component.testStation = TEST_STATION;
   });
 
   afterEach(() => {
@@ -108,6 +111,7 @@ describe('Component: ', () => {
           test: undefined,
           vehicle: VehicleDataMock.VehicleData,
           previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
+          testStation: TEST_STATION
         }
     });
   });
@@ -115,7 +119,6 @@ describe('Component: ', () => {
   it('should open the vehicle details page if the call to test-results is failing', async () => {
     spyOn(vehicleService, 'getTestResultsHistory').and.returnValue(throwError('error'));
     spyOn(vehicleService, 'isVehicleSkeleton').and.returnValue(false);
-
     await component.openVehicleDetails(VehicleDataMock.VehicleData);
 
     expect(await analyticsService.logEvent).toHaveBeenCalledWith({
@@ -130,6 +133,7 @@ describe('Component: ', () => {
           test: undefined,
           vehicle: VehicleDataMock.VehicleData,
           previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
+          testStation: TEST_STATION
         }
       });
   });

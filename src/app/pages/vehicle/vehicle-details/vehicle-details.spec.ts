@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VehicleDetailsPage } from './vehicle-details';
 import {
-  AlertController, ModalController,
+  AlertController, ModalController, NavController,
 } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AlertControllerMock, ModalControllerMock } from 'ionic-mocks';
@@ -33,6 +33,8 @@ import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/tes
 import { AuthenticationService } from '@providers/auth';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 import { TokenInfo } from '@providers/auth/authentication/auth-model';
+import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
+import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -46,9 +48,11 @@ describe('Component: VehicleDetailsPage', () => {
   let testReportService: TestService;
   let visitService: VisitService;
   let authService: AuthenticationService;
+  let navController: NavController;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
+  const TEST_STATION = TestStationDataMock.TestStationData[0];
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
@@ -65,6 +69,10 @@ describe('Component: VehicleDetailsPage', () => {
           {
             path: PAGE_NAMES.TEST_CREATE_PAGE,
             component: TestCreatePage
+          },
+          {
+            path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
+            component: VehicleLookupPage
           }
         ])
       ],
@@ -96,13 +104,15 @@ describe('Component: VehicleDetailsPage', () => {
     testReportService = TestBed.inject(TestService);
     visitService = TestBed.inject(VisitService);
     authService = TestBed.inject(AuthenticationService);
+    navController = TestBed.inject(NavController);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
       { extras:
           {
             state: {
               previousPage: PAGE_NAMES.VISIT_TIMELINE_PAGE,
               vehicle: VEHICLE,
-              test: TEST
+              test: TEST,
+              testStation: TEST_STATION
             }
           }
       } as any
@@ -223,30 +233,47 @@ describe('Component: VehicleDetailsPage', () => {
 
   describe('when pressing the back button', () => {
     beforeEach( () => {
-      spyOn(router, 'navigate');
+      spyOn(navController, 'navigateBack');
+      component.testStation = TEST_STATION;
     });
     it('should navigate to the vehicle-lookup page', async () => {
       component.previousPageName = PAGE_NAMES.TEST_CREATE_PAGE;
       await component.back();
-      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.TEST_CREATE_PAGE]);
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.TEST_CREATE_PAGE, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
     });
 
     it('should navigate to the vehicle-lookup page', async () => {
       component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
       await component.back();
-      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.VEHICLE_LOOKUP_PAGE]);
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
     });
 
     it('should navigate to the vehicle-lookup page', async () => {
       component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
       await component.back();
-      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.VEHICLE_LOOKUP_PAGE]);
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
     });
 
     it('should navigate to the vehicle-lookup page', async () => {
       component.previousPageName = PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION;
       await component.back();
-      expect(await router.navigate).toHaveBeenCalledWith([PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION]);
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
     });
   });
 

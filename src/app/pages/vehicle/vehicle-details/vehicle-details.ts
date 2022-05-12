@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
-  ModalController
+  ModalController, NavController
 } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { TestModel } from '@models/tests/test.model';
@@ -48,8 +48,10 @@ export class VehicleDetailsPage implements OnInit {
   previousPageName: string;
   formattedVrm: string;
   backButtonText: string;
+  testStation: any;
 
   constructor(
+    private navController: NavController,
     public alertCtrl: AlertController,
     public storageService: StorageService,
     public commonFunc: CommonFunctionsService,
@@ -71,6 +73,7 @@ export class VehicleDetailsPage implements OnInit {
       this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
       this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
       this.testData = this.router.getCurrentNavigation().extras.state.test;
+      this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
       this.backButtonText = this.getBackButtonText();
     });
   }
@@ -131,7 +134,8 @@ export class VehicleDetailsPage implements OnInit {
         .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
           state: {
             test: this.testData,
-            previousPageName: PAGE_NAMES.VEHICLE_DETAILS_PAGE
+            previousPageName: PAGE_NAMES.VEHICLE_DETAILS_PAGE,
+            testStation: this.testStation
           }
         });
     } else {
@@ -160,7 +164,11 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   async back() {
-    await this.router.navigate([this.previousPageName]);
+    await this.navController.navigateBack(this.previousPageName, {
+      state: {
+        testStation: this.testStation
+      }
+    });
   }
 
   getBackButtonText(): string {

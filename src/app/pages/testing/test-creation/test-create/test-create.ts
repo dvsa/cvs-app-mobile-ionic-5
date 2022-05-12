@@ -59,6 +59,7 @@ export class TestCreatePage implements OnInit {
   testTypeReferenceData: TestTypesReferenceDataModel[];
   // TODO - this may need adding back
   // previousPageName: string;
+  testStation: any;
 
 
   constructor(
@@ -84,6 +85,7 @@ export class TestCreatePage implements OnInit {
   ngOnInit() {
     // TODO - add this back
     // this.stateReformingService.saveNavStack(this.navCtrl);
+    this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
     this.testCompletionStatus = TEST_COMPLETION_STATUS;
     const lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length
@@ -580,7 +582,8 @@ export class TestCreatePage implements OnInit {
   async onCancel() {
     await this.router.navigate([PAGE_NAMES.TEST_CANCEL_PAGE], {
       state: {
-        test: this.testData
+        test: this.testData,
+        testStation: this.testStation
       }
     });
   }

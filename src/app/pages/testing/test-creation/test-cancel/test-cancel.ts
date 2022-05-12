@@ -41,6 +41,7 @@ export class TestCancelPage implements OnInit {
   changeOpacity;
   nextAlert;
   tryAgain = false;
+  testStation: any;
 
   constructor(
     public navCtrl: NavController,
@@ -60,6 +61,7 @@ export class TestCancelPage implements OnInit {
 
   ngOnInit() {
     this.testData = this.router.getCurrentNavigation().extras.state.test;
+    this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
   }
 
   async ionViewDidEnter() {
@@ -223,7 +225,11 @@ export class TestCancelPage implements OnInit {
         }
         await LOADING.dismiss();
         if (activitiesSubmitted) {
-          await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
+          await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE], {
+            state: {
+              testStation: this.testStation
+            }
+          });
           // TODO - might need to change this
           // const views = this.navCtrl.getViews();
           // for (let i = views.length - 1; i >= 0; i--) {

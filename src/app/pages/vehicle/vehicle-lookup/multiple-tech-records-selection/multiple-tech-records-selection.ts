@@ -32,6 +32,7 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
   vehicles: VehicleModel[];
   APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
   isAtLeastOneSkeleton: boolean;
+  testStation: any;
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -47,6 +48,7 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
   ngOnInit() {
     this.vehicles = this.router.getCurrentNavigation().extras.state.vehicles;
     this.combinationTestData = this.router.getCurrentNavigation().extras.state.test;
+    this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
   }
 
   ionViewWillEnter() {
@@ -109,6 +111,7 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
         test: this.combinationTestData,
         vehicle: selectedVehicle,
         previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
+        testStation: this.testStation
       }
     });
   }
