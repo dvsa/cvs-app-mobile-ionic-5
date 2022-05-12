@@ -13,7 +13,7 @@ import { TestTypeArrayDataMock } from '@assets/data-mocks/test-type-array-data.m
 import {
   ANALYTICS_SCREEN_NAMES,
   APP_STRINGS, PAGE_NAMES,
-  TECH_RECORD_STATUS,
+  TECH_RECORD_STATUS
 } from '@app/app.enums';
 import { By } from '@angular/platform-browser';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
@@ -34,6 +34,8 @@ import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock
 import { TestService } from '@providers/test/test.service';
 import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { TestModel } from '@models/tests/test.model';
+import {of} from 'rxjs';
+import {TestResultsHistoryDataMock} from '@assets/data-mocks/test-results-history-data.mock';
 import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
 import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
 import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
@@ -52,10 +54,12 @@ describe('Component: VehicleDetailsPage', () => {
   let authService: AuthenticationService;
   let navController: NavController;
   let logProviderSpy: any;
+  let vehicleService: VehicleService;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
   const TEST_STATION = TestStationDataMock.TestStationData[0];
+  const TEST_HISTORY_DATA = TestResultsHistoryDataMock.TestResultHistoryData;
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
@@ -111,6 +115,7 @@ describe('Component: VehicleDetailsPage', () => {
     router = TestBed.inject(Router);
     testReportService = TestBed.inject(TestService);
     visitService = TestBed.inject(VisitService);
+    vehicleService = TestBed.inject(VehicleService);
     authService = TestBed.inject(AuthenticationService);
     navController = TestBed.inject(NavController);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
@@ -236,6 +241,27 @@ describe('Component: VehicleDetailsPage', () => {
     fixture.whenStable().then(() => {
       const title = fixture.debugElement.query(By.css('ion-toolbar .ion-padding-start'));
       expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
+    });
+  });
+
+  describe('goToTestVehicleTestResultsHistory', () => {
+    it('should pass data to router.navigate if vehicle history data is returned', async () => {
+      spyOn(vehicleService, 'getTestResultsHistory').and.returnValue(of(
+        TEST_HISTORY_DATA
+      ));
+      spyOn(router, 'navigate');
+
+      await component.goToVehicleTestResultsHistory();
+
+      expect(router.navigate).toHaveBeenCalledWith(
+        [PAGE_NAMES.VEHICLE_HISTORY_PAGE],
+        {
+          state: {
+            vehicleData: component.vehicleData,
+            testResultsHistory: TEST_HISTORY_DATA,
+          }
+        }
+      );
     });
   });
 

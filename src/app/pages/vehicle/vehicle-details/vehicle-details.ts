@@ -64,14 +64,14 @@ export class VehicleDetailsPage implements OnInit {
     public appService: AppService,
     private router: Router,
     public modalCtrl: ModalController,
+    public formatVrmPipe: FormatVrmPipe,
     public vehicleService: VehicleService,
     public logProvider: LogsProvider,
+    private authService: AuthenticationService,
     private visitService: VisitService,
     private testReportService: TestService,
     private route: ActivatedRoute,
-    private authService: AuthenticationService,
     public loadingController: LoadingController,
-    public formatVrmPipe: FormatVrmPipe,
   ) {
   }
 
