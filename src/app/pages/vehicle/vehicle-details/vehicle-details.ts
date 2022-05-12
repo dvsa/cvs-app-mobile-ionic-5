@@ -66,7 +66,6 @@ export class VehicleDetailsPage implements OnInit {
     public vehicleService: VehicleService,
     public logProvider: LogsProvider,
     private authenticationService: AuthenticationService,
-    public formatVrmPipe: FormatVrmPipe,
     private visitService: VisitService,
     private testReportService: TestService,
     private route: ActivatedRoute,
