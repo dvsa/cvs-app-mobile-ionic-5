@@ -88,9 +88,7 @@ describe('Component: TestCreatePage', () => {
     TestBed.configureTestingModule({
       declarations: [TestCreatePage],
       imports: [
-        RouterTestingModule.withRoutes([
-          // TODO - fix URL segments when other pages are added
-        ])
+        RouterTestingModule.withRoutes([])
       ],
       providers: [
         CommonFunctionsService,
@@ -371,7 +369,7 @@ describe('Component: TestCreatePage', () => {
     expect(component.getTestTypeStatus(VEHICLE, testType)).toEqual('Edit');
   });
 
-  // TODO - add back when TestReviewPage is added back
+  //@TODO - add back when TestReviewPage is added back
   // it('should not allow to review a test because not all mandatory fields completed', async () => {
   //   const newTest = testService.createTest();
   //   const newVehicle = vehicleService.createVehicle(vehicle);
@@ -436,7 +434,7 @@ describe('Component: TestCreatePage', () => {
     });
   });
 
-  // TODO - add back with VTA-62 + VTA-628 + VTA-629
+  //@TODO - add back with VTA-62 + VTA-628 + VTA-629
   // it('should test onOdometer logic', () => {
   //   const newTest = testService.createTest();
   //   const newVehicle = vehicleService.createVehicle(vehicle);
@@ -631,7 +629,7 @@ describe('Component: TestCreatePage', () => {
       await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
       expect(alertService.alertSuggestedTestTypes).toHaveBeenCalled();
     });
-    // TODO - add back after testTypesList page is added
+    //@TODO - add back when testTypesList page is added
     // it('should NOT inform the user if a test was failed over 20 days', async () => {
     //   jasmine.clock().mockDate(new Date('2021-09-22T13:00:00.000Z'));
     //   await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
