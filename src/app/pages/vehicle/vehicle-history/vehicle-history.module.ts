@@ -17,4 +17,4 @@ import {CommonModule} from "@angular/common";
   ],
   providers: [CommonFunctionsService, TestTypeService]
 })
-export class VehicleHistoryPageModule {}
+export class VehicleHistoryModule {}

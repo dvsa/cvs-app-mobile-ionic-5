@@ -92,8 +92,8 @@ describe('Component: VehicleHistoryPage', () => {
     done();
   });
 
-  it('should test ionViewDidEnterLogic', () => {
-    comp.ionViewDidEnter();
+  it('should test ionViewDidEnterLogic', async () => {
+    await comp.ionViewDidEnter();
 
     expect(analyticsService.setCurrentPage).toHaveBeenCalledWith(
       ANALYTICS_SCREEN_NAMES.VEHICLE_TEST_HISTORY

@@ -257,7 +257,7 @@ describe('Component: VehicleDetailsPage', () => {
 
       await component.goToVehicleTestResultsHistory();
 
-      expect(router.navigate).toHaveBeenCalledWith(
+      expect(await router.navigate).toHaveBeenCalledWith(
         [PAGE_NAMES.VEHICLE_HISTORY_PAGE],
         {
           state: {

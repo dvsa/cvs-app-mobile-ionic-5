@@ -76,7 +76,7 @@ const routes: Routes = [
     path: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
     loadChildren: () =>
       import('./pages/vehicle/vehicle-history/vehicle-history.module')
-        .then( m => m.VehicleHistoryPageModule)
+        .then( m => m.VehicleHistoryModule)
   }
 ];
 
