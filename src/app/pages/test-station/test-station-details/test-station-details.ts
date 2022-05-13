@@ -1,7 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  NavController,
-  NavParams,
   LoadingController,
   AlertController
 } from '@ionic/angular';
@@ -21,7 +19,7 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from '@providers/auth';
 import { AppService, AnalyticsService } from '@providers/global';
 import { LogsProvider } from '@store/logs/logs.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-test-station-details',
@@ -37,7 +35,6 @@ export class TestStationDetailsPage implements OnInit {
   backButtonText = APP_STRINGS.SEARCH_TEST_STATION;
 
   constructor(
-    // public navCtrl: NavController,
     private router: Router,
     public alertCtrl: AlertController,
     private callNumber: CallNumber,

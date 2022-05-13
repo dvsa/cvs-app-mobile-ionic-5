@@ -513,6 +513,21 @@ ion-list.vehicle-list {
   }
 }
 
+.small-icon {
+  margin-left: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+.large-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.dark {
+  color: var(--dark);
+}
+
 .color-grey-1 {
   color: var(--color-grey-1);
 }

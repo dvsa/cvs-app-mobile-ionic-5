@@ -4,6 +4,8 @@ import { AlertController } from '@ionic/angular';
 
 import { default as AppConfig } from '@config/application.hybrid';
 import { APP_STRINGS, AUTH } from '@app/app.enums';
+import { VehicleModel } from '@models/vehicle/vehicle.model';
+import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
 
 @Injectable()
 export class AppAlertService {
@@ -51,36 +53,35 @@ export class AppAlertService {
     await alert.present();
   }
 
-  // @TODO - added in VTA-497
-  // alertSuggestedTestTypes(
-  //   message: string,
-  //   vehicle: VehicleModel,
-  //   buttons: any[],
-  //   testCreatePage: TestCreatePage
-  // ) {
-  //   const alert = this.alertCtrl.create({
-  //     title: APP_STRINGS.RECENTLY_FAILED_TEST_TITLE,
-  //     message: message,
-  //     buttons: [...buttons,
-  //       {
-  //         text: 'Test History',
-  //         handler: () => {
-  //           testCreatePage.goToVehicleTestResultsHistory(vehicle);
-  //         }
-  //       },
-  //       {
-  //         text: 'Select a different test type',
-  //         handler: () => {
-  //           testCreatePage.addNewTestType(vehicle);
-  //         }
-  //       }
-  //     ],
-  //     enableBackdropDismiss: false,
-  //   });
-  //
-  //   alert.present();
-  // }
-  //
+  async alertSuggestedTestTypes(
+    recentlyFailedMessage: string,
+    vehicle: VehicleModel,
+    buttons: any[],
+    testCreatePage: TestCreatePage
+  ) {
+    const alert = await this.alertCtrl.create({
+      header: APP_STRINGS.RECENTLY_FAILED_TEST_TITLE,
+      message: recentlyFailedMessage,
+      buttons: [...buttons,
+        {
+          text: 'Test History',
+          handler: async () => {
+            await testCreatePage.goToVehicleTestResultsHistory(vehicle);
+          }
+        },
+        {
+          text: 'Select a different test type',
+          handler: async () => {
+            await testCreatePage.addNewTestType(vehicle);
+          }
+        }
+      ],
+      backdropDismiss: false,
+    });
+
+    await alert.present();
+  }
+
   // async callSupport() {
   //   const alert = this.alertCtrl.create({
   //     title: `${AppConfig.app.KEY_PHONE_NUMBER}`,

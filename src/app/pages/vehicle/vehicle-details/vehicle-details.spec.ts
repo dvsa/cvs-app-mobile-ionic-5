@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VehicleDetailsPage } from './vehicle-details';
 import {
-  AlertController, ModalController,
+  AlertController, ModalController, NavController,
 } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AlertControllerMock, ModalControllerMock } from 'ionic-mocks';
@@ -13,7 +13,7 @@ import { TestTypeArrayDataMock } from '@assets/data-mocks/test-type-array-data.m
 import {
   ANALYTICS_SCREEN_NAMES,
   APP_STRINGS, PAGE_NAMES,
-  TECH_RECORD_STATUS
+  TECH_RECORD_STATUS, TESTER_ROLES
 } from '@app/app.enums';
 import { By } from '@angular/platform-browser';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
@@ -29,6 +29,12 @@ import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock
 import { TestService } from '@providers/test/test.service';
 import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { TestModel } from '@models/tests/test.model';
+import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
+import { AuthenticationService } from '@providers/auth';
+import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
+import { TokenInfo } from '@providers/auth/authentication/auth-model';
+import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
+import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 
 describe('Component: VehicleDetailsPage', () => {
   let component: VehicleDetailsPage;
@@ -41,9 +47,12 @@ describe('Component: VehicleDetailsPage', () => {
   let router: any;
   let testReportService: TestService;
   let visitService: VisitService;
+  let authService: AuthenticationService;
+  let navController: NavController;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
+  const TEST_STATION = TestStationDataMock.TestStationData[0];
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
@@ -57,11 +66,14 @@ describe('Component: VehicleDetailsPage', () => {
       declarations: [VehicleDetailsPage],
       imports: [
         RouterTestingModule.withRoutes([
-          // @TODO - add this back when test create page is migrated
-          // {
-          //   path: PAGE_NAMES.TEST_CREATE_PAGE,
-          //   component: TestCreatePage
-          // }
+          {
+            path: PAGE_NAMES.TEST_CREATE_PAGE,
+            component: TestCreatePage
+          },
+          {
+            path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
+            component: VehicleLookupPage
+          }
         ])
       ],
       providers: [
@@ -76,6 +88,7 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: AppService, useClass: AppServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -90,13 +103,16 @@ describe('Component: VehicleDetailsPage', () => {
     router = TestBed.inject(Router);
     testReportService = TestBed.inject(TestService);
     visitService = TestBed.inject(VisitService);
+    authService = TestBed.inject(AuthenticationService);
+    navController = TestBed.inject(NavController);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
       { extras:
           {
             state: {
               previousPage: PAGE_NAMES.VISIT_TIMELINE_PAGE,
               vehicle: VEHICLE,
-              test: TEST
+              test: TEST,
+              testStation: TEST_STATION
             }
           }
       } as any
@@ -133,56 +149,67 @@ describe('Component: VehicleDetailsPage', () => {
     });
   });
 
-  // @TODO - add this back when test create page is migrated
-  // describe('goToTestCreatePage', () => {
-  //   beforeEach(() => {
-  //     spyOn(testReportService, 'addVehicle').and.callFake(() => {});
-  //
-  //     visitService.visit = {
-  //       tests: [
-  //         {
-  //           startTime: null,
-  //           endTime: null,
-  //           status: null,
-  //           reasonForCancellation: null,
-  //           vehicles: null,
-  //         },
-  //       ],
-  //       startTime: null,
-  //       endTime: null,
-  //       testStationName: null,
-  //       testStationEmail: null,
-  //       testStationPNumber: null,
-  //       testStationType: null,
-  //       testerEmail: null,
-  //       testerId: null,
-  //       testerName: null,
-  //     };
-  //   });
-  //
-  //   it('should call testReportService.addVehicle', async () => {
-  //     await component.goToTestCreatePage();
-  //
-  //     expect(testReportService.addVehicle).toHaveBeenCalledTimes(1);
-  //   });
-  //
-  //   it('should call visitService.addTest if the latest test has an end time', async () => {
-  //     const mockData: TestModel = {
-  //       startTime: null,
-  //       endTime: 'something',
-  //       status: null,
-  //       reasonForCancellation: null,
-  //       vehicles: null,
-  //     };
-  //
-  //     spyOn(visitService, 'addTest').and.callFake(async () => {});
-  //     spyOn(visitService, 'getLatestTest').and.returnValue(mockData);
-  //
-  //     await component.goToTestCreatePage();
-  //
-  //     expect(await visitService.addTest).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+  describe('goToTestCreatePage', () => {
+    beforeEach(() => {
+      spyOn(testReportService, 'addVehicle').and.callFake(() => {});
+
+      visitService.visit = {
+        tests: [
+          {
+            startTime: null,
+            endTime: null,
+            status: null,
+            reasonForCancellation: null,
+            vehicles: null,
+          },
+        ],
+        startTime: null,
+        endTime: null,
+        testStationName: null,
+        testStationEmail: null,
+        testStationPNumber: null,
+        testStationType: null,
+        testerEmail: null,
+        testerId: null,
+        testerName: null,
+      };
+    });
+
+    it('should call testReportService.addVehicle', async () => {
+      await component.goToTestCreatePage();
+
+      expect(testReportService.addVehicle).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call visitService.addTest if the latest test has an end time', async () => {
+      const mockData: TestModel = {
+        startTime: null,
+        endTime: 'something',
+        status: null,
+        reasonForCancellation: null,
+        vehicles: null,
+      };
+
+      spyOn(visitService, 'addTest').and.callFake(async () => {});
+      spyOn(visitService, 'getLatestTest').and.returnValue(mockData);
+
+      await component.goToTestCreatePage();
+
+      expect(await visitService.addTest).toHaveBeenCalledTimes(1);
+    });
+
+    it('should allow the user to test the vehicle', async () => {
+      const navigateSpy = spyOn(router, 'navigate');
+      spyOn(component, 'canTestVehicle').and.returnValue(true);
+      await component.goToTestCreatePage();
+      expect(await navigateSpy).toHaveBeenCalled();
+    });
+    it('should not allow the user to test the vehicle', async () => {
+      spyOn(component, 'canTestVehicle').and.returnValue(false);
+      await component.goToTestCreatePage();
+      expect(await alertCtrl.create).toHaveBeenCalled();
+    });
+  });
 
   it('should not display the provisional label if the techRecord is current', async () => {
     component.vehicleData.techRecord.statusCode = TECH_RECORD_STATUS.CURRENT;
@@ -201,6 +228,52 @@ describe('Component: VehicleDetailsPage', () => {
     fixture.whenStable().then(() => {
       const title = fixture.debugElement.query(By.css('ion-toolbar .ion-padding-start'));
       expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
+    });
+  });
+
+  describe('when pressing the back button', () => {
+    beforeEach( () => {
+      spyOn(navController, 'navigateBack');
+      component.testStation = TEST_STATION;
+    });
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.TEST_CREATE_PAGE;
+      await component.back();
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.TEST_CREATE_PAGE, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
+    });
+
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
+      await component.back();
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
+    });
+
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.VEHICLE_LOOKUP_PAGE;
+      await component.back();
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
+    });
+
+    it('should navigate to the vehicle-lookup page', async () => {
+      component.previousPageName = PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION;
+      await component.back();
+      expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
+        state: {
+          testStation: TEST_STATION
+        }
+      });
     });
   });
 

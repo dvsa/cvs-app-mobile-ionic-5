@@ -3,7 +3,7 @@ import { LoadingController, PopoverController } from '@ionic/angular';
 import { SignaturePopoverComponent } from './signature-popover';
 import { SignatureService } from '@providers/signature/signature.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { APP_STRINGS } from '@app/app.enums';
+import { APP_STRINGS, AUTH } from '@app/app.enums';
 import { SignatureServiceMock } from '@test-config/services-mocks/signature-service.mock';
 import { AppService } from '@providers/global/app.service';
 import { AppServiceMock } from '@test-config/services-mocks/app-service.mock';
@@ -13,6 +13,8 @@ import { LogsProvider } from '@store/logs/logs.service';
 import { AuthenticationService } from '@providers/auth';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 import { EventsService } from '@providers/events/events.service';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('Component: SignaturePopoverComponent', () => {
   let fixture: ComponentFixture<SignaturePopoverComponent>;
@@ -30,9 +32,7 @@ describe('Component: SignaturePopoverComponent', () => {
   let loadingControllerMock;
 
   beforeEach(fakeAsync(async () => {
-    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
-      dispatchLog: () => true
-    });
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', ['dispatchLog']);
 
     eventsSpy = jasmine.createSpyObj('Events', ['publish']);
     popoverControllerSpy = jasmine.createSpyObj('PopoverController', ['dismiss']);
@@ -81,15 +81,21 @@ describe('Component: SignaturePopoverComponent', () => {
     expect(popoverControllerSpy.dismiss).toHaveBeenCalled();
   });
 
-  it('check confirmPop for successful case on saveSignature method', async () => {
+
+  it('check confirmPop for successful case on saveSignature method',async () => {
     await comp.ngOnInit();
     await comp.confirmPop();
     expect(loadingPresentSpy.present).toHaveBeenCalled();
   });
 
-  it('check confirmPop for error case on saveSignature method', async () => {
+  it('check confirmPop for error case on saveSignature method',async () => {
+    spyOn(signatureService, 'saveSignature').and.returnValue(
+      throwError(
+        new HttpErrorResponse({ error : AUTH.INTERNET_REQUIRED })
+      )
+    );
     await comp.ngOnInit();
     await comp.confirmPop();
-    expect(loadingPresentSpy.present).toHaveBeenCalled();
+    expect(logProvider.dispatchLog).toHaveBeenCalled();
   });
 });
