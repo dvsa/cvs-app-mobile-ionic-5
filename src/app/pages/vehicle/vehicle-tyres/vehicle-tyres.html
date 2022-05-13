@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title margin-left>
+      <span>Tyres</span>
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar
+    color="tertiary"
+    *ngIf="vehicleData.techRecord.statusCode===TECH_RECORD_STATUS.PROVISIONAL"
+  >
+    <ion-title padding-left>{{ APP_STRINGS.PROVISIONAL_LABEL_TEXT }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+  <div text-uppercase text-center class="vehicle-header-vrm-number">
+    <ng-container
+      *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle"
+      >{{ vehicleData.trailerId }}</ng-container
+    >
+    <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
+  </div>
+
+  <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord.axles">
+    <ion-list-header padding-left padding-right>AXLE {{ axle?.axleNumber }}</ion-list-header>
+    <ion-item margin-left>
+      <ion-label>
+        <h3>Tyre size</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ axle?.tyres?.tyreSize }}</p>
+      </div>
+    </ion-item>
+    <ion-item margin-left>
+      <ion-label>
+        <h3>Ply</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ axle?.tyres?.plyRating }}</p>
+      </div>
+    </ion-item>
+    <ion-item margin-left>
+      <ion-label>
+        <h3>Fitment</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ axle?.tyres?.fitmentCode }}</p>
+      </div>
+    </ion-item>
+    <ion-item margin-left>
+      <ion-label>
+        <h3>S/D index</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ axle?.tyres?.dataTrAxles }}</p>
+      </div>
+    </ion-item>
+    <ion-item
+      margin-left
+      *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+    >
+      <ion-label>
+        <h3>Speed cat</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ axle?.tyres?.speedCategorySymbol }}</p>
+      </div>
+    </ion-item>
+    <ion-item margin-left>
+      <ion-label>
+        <h3>Tyre code</h3>
+      </ion-label>
+      <div item-content padding-right>
+        <p>{{ axle?.tyres?.tyreCode }}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-list
+    margin-bottom
+    class="vehicle-list"
+    *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+  >
+    <ion-list-header></ion-list-header>
+    <ion-item margin-left padding-right>
+      <ion-label>
+        <h3>Tyre use code</h3>
+      </ion-label>
+      <div item-content>
+        <p>{{ vehicleData.techRecord.tyreUseCode }}</p>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
