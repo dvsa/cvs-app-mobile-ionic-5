@@ -42,12 +42,6 @@
 }
 
 ion-toolbar {
-  .chevron-forward {
-    color: var(--light);
-    display: flex;
-    align-items: flex-start;
-  }
-
   ion-button.confirm-button {
     font-weight: var(--font-weight-bold);
   }

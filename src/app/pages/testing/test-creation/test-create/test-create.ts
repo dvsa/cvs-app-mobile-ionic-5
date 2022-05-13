@@ -36,6 +36,7 @@ import { StorageService } from '@providers/natives/storage.service';
 import { TestTypesReferenceDataModel } from '@models/reference-data-models/test-types.model';
 import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-test-create',
@@ -57,9 +58,10 @@ export class TestCreatePage implements OnInit {
   TEST_CREATE_ERROR_BANNER: typeof APP_STRINGS.TEST_CREATE_ERROR_BANNER =
     APP_STRINGS.TEST_CREATE_ERROR_BANNER;
   testTypeReferenceData: TestTypesReferenceDataModel[];
-  //@TODO - this may be needed for test review page navigation
-  // previousPageName: string;
+  previousPageName: string;
   testStation: any;
+  eventsSubscription: Subscription;
+
 
 
   constructor(
@@ -91,8 +93,7 @@ export class TestCreatePage implements OnInit {
     this.testData = Object.keys(this.visitService.visit).length
       ? this.visitService.visit.tests[lastTestIndex]
       : this.router.getCurrentNavigation().extras.state.test;
-    //@TODO - this may be needed for test review page navigation
-    // this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
     this.getTestTypeReferenceData();
   }
 
@@ -116,7 +117,7 @@ export class TestCreatePage implements OnInit {
       }
       this.autoAssignVehicleCategoryOnlyWhenOneCategoryAvailable(vehicle);
     }
-    this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
+    this.eventsSubscription = this.events.subscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, (completedFields) => {
       this.completedFields = completedFields;
     });
     this.computeErrorIncomplete();
@@ -127,8 +128,7 @@ export class TestCreatePage implements OnInit {
   }
 
   async ionViewWillLeave() {
-    //@TODO - does this need to be added back in?
-    // this.events.unsubscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS);
+    this.eventsSubscription.unsubscribe();
     if (this.slidingItems.length) {
       this.slidingItems.forEach((slidingItem) => {
         slidingItem.close();
@@ -366,10 +366,9 @@ export class TestCreatePage implements OnInit {
       });
       if (testTypes.length) {
         this.commonFunc.orderTestTypeArrayByDate(testTypes);
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
-        for (let i = 0; i < testTypes.length; i++) {
-          if (testTypes[i].testResult === TEST_TYPE_RESULTS.FAIL) {
-            failedTest = testTypes[i];
+        for (const item of testTypes) {
+          if (item.testResult === TEST_TYPE_RESULTS.FAIL) {
+            failedTest = item;
             break;
           }
         }
@@ -386,12 +385,11 @@ export class TestCreatePage implements OnInit {
     const suggestedTestTypes: TestTypesReferenceDataModel[] = this.getSuggestedTestTypes(failedTest);
 
     const buttons = [];
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < suggestedTestTypes.length; i++) {
+    for (const item of suggestedTestTypes) {
       buttons.push({
-        text: suggestedTestTypes[i].suggestedTestTypeDisplayName,
+        text: item.suggestedTestTypeDisplayName,
         handler: () => {
-          this.addSuggestedTestType(suggestedTestTypes[i], vehicle);
+          this.addSuggestedTestType(item, vehicle);
         }
       });
     }
@@ -693,16 +691,15 @@ export class TestCreatePage implements OnInit {
     } else {
       this.changeOpacity = false;
       this.errorIncomplete = false;
-      //@TODO - need to emulate navCtrl.pop() here when test review page is added
-      // if (this.previousPageName === PAGE_NAMES.TEST_REVIEW_PAGE) {
-      //   await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE);
-      // } else {
+      if (this.previousPageName === PAGE_NAMES.TEST_REVIEW_PAGE) {
+        await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE);
+      } else {
         await this.router.navigate([PAGE_NAMES.TEST_REVIEW_PAGE], {
           state: {
             visit: this.visitService.visit
           }
         });
-      // }
+      }
     }
   }
 
