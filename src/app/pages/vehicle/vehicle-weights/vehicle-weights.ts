@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
-import { NavController } from '@ionic/angular';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import { APP_STRINGS, VEHICLE_TYPE, TECH_RECORD_STATUS } from '@app/app.enums';
-import { get, orderBy } from 'lodash'
+import { get, orderBy } from 'lodash';
 import { AxelsModel } from '@models/vehicle/tech-record.model';
 import { Router } from '@angular/router';
 
@@ -19,9 +18,8 @@ export class VehicleWeightsPage implements OnInit {
   vehicleData: VehicleModel;
 
   constructor(
-    public navCtrl: NavController,
     public commonFunc: CommonFunctionsService,
-    private router: Router
+    public router: Router
   ) {
   }
 
@@ -29,7 +27,7 @@ export class VehicleWeightsPage implements OnInit {
     this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicleData;
     const axleData: AxelsModel[] = get(this.vehicleData, 'techRecord.axles', null);
     if(axleData && axleData.length) {
-      this.vehicleData.techRecord.axles = orderBy(axleData, ['axleNumber'], ['asc'])
+      this.vehicleData.techRecord.axles = orderBy(axleData, ['axleNumber'], ['asc']);
     }
   }
 }
