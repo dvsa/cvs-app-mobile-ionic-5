@@ -57,7 +57,7 @@ export class TestCreatePage implements OnInit {
   TEST_CREATE_ERROR_BANNER: typeof APP_STRINGS.TEST_CREATE_ERROR_BANNER =
     APP_STRINGS.TEST_CREATE_ERROR_BANNER;
   testTypeReferenceData: TestTypesReferenceDataModel[];
-  // TODO - this may need adding back
+  //@TODO - this may be needed for test review page navigation
   // previousPageName: string;
   testStation: any;
 
@@ -83,7 +83,7 @@ export class TestCreatePage implements OnInit {
   }
 
   ngOnInit() {
-    // TODO - add this back
+    //@TODO - add this back with stateReformingService
     // this.stateReformingService.saveNavStack(this.navCtrl);
     this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
     this.testCompletionStatus = TEST_COMPLETION_STATUS;
@@ -91,7 +91,7 @@ export class TestCreatePage implements OnInit {
     this.testData = Object.keys(this.visitService.visit).length
       ? this.visitService.visit.tests[lastTestIndex]
       : this.router.getCurrentNavigation().extras.state.test;
-    // TODO - this may need adding back
+    //@TODO - this may be needed for test review page navigation
     // this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
     this.getTestTypeReferenceData();
   }
@@ -127,7 +127,7 @@ export class TestCreatePage implements OnInit {
   }
 
   async ionViewWillLeave() {
-    // TODO - does this need to be added back in?
+    //@TODO - does this need to be added back in?
     // this.events.unsubscribe(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS);
     if (this.slidingItems.length) {
       this.slidingItems.forEach((slidingItem) => {
@@ -479,7 +479,7 @@ export class TestCreatePage implements OnInit {
   }
 
   async onOdometer(index: number) {
-    // TODO - Add modal back
+    //@TODO - Add modal back in VTA-628
     // const MODAL = await this.modalCtrl.create({
     //   component: OdometerReadingPage,
     //   componentProps: {
@@ -495,7 +495,7 @@ export class TestCreatePage implements OnInit {
   }
 
   async onCountryOfRegistration(vehicle: VehicleModel) {
-    // TODO - Add modal back
+    //@TODO - Add modal back in VTA-627
     // const MODAL = await this.modalCtrl.create({
     //   component: RegionReadingPage,
     //   componentProps: {
@@ -510,7 +510,7 @@ export class TestCreatePage implements OnInit {
   }
 
   async onVehicleCategory(vehicle: VehicleModel) {
-    // TODO - Add modal back
+    //@TODO - Add modal back in VTA-629
     // const MODAL = await this.modalCtrl.create({
     //   component: CategoryReadingPage,
     //   componentProps: {
@@ -693,7 +693,7 @@ export class TestCreatePage implements OnInit {
     } else {
       this.changeOpacity = false;
       this.errorIncomplete = false;
-      // TODO - need to emulate navCtrl.pop() here
+      //@TODO - need to emulate navCtrl.pop() here when test review page is added
       // if (this.previousPageName === PAGE_NAMES.TEST_REVIEW_PAGE) {
       //   await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE);
       // } else {

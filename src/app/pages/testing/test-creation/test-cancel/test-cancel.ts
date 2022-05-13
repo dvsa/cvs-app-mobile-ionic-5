@@ -230,13 +230,6 @@ export class TestCancelPage implements OnInit {
               testStation: this.testStation
             }
           });
-          // TODO - might need to change this
-          // const views = this.navCtrl.getViews();
-          // for (let i = views.length - 1; i >= 0; i--) {
-          //   if (views[i].component.name === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-          //     this.navCtrl.popTo(views[i]);
-          //   }
-          // }
         } else {
           await TRY_AGAIN_ALERT.present();
         }
