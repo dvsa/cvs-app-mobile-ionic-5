@@ -16,4 +16,4 @@ import { IonicModule } from '@ionic/angular';
     IonicModule,
   ]
 })
-export class VehicleLookupSearchCriteriaSelectionPageModule {}
+export class VehicleLookupSearchCriteriaSelectionModule {}

@@ -14,11 +14,13 @@ const routes: Routes = [
   },
   {
     path: PAGE_NAMES.TEST_STATION_HOME_PAGE,
-    loadChildren: () => import('./pages/test-station/test-station-home/test-station-home.module').then((m) => m.TestStationHomeModule)
+    loadChildren: () => import('./pages/test-station/test-station-home/test-station-home.module')
+      .then((m) => m.TestStationHomeModule)
   },
   {
     path: PAGE_NAMES.TEST_STATION_SEARCH_PAGE,
-    loadChildren: () => import('./pages/test-station/test-station-search/test-station-search.module').then((m) => m.TestStationSearchModule)
+    loadChildren: () => import('./pages/test-station/test-station-search/test-station-search.module')
+      .then((m) => m.TestStationSearchModule)
   },
   {
     path: PAGE_NAMES.SIGNATURE_PAD_PAGE,
@@ -53,7 +55,7 @@ const routes: Routes = [
     path: PAGE_NAMES.VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION,
     loadChildren: () =>
       import('./pages/vehicle/vehicle-lookup/vehicle-lookup-search-criteria-selection/vehicle-lookup-search-criteria-selection.module')
-      .then( m => m.VehicleLookupSearchCriteriaSelectionPageModule)
+      .then( m => m.VehicleLookupSearchCriteriaSelectionModule)
   },
   {
     path: PAGE_NAMES.VEHICLE_DETAILS_PAGE,
