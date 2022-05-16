@@ -326,31 +326,31 @@
 
           <ion-row *ngIf="defect?.additionalInformation?.location">
             <ion-col size="auto" class="ion-text-start ion-text-wrap additional-info">
-              <span *ngIf="defect.additionalInformation.location?.vertical" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.vertical" class="ion-text-capitalize">
                 <span class="forward-slash">/</span>
                 {{ defect.additionalInformation.location?.vertical }}
               </span>
-              <span *ngIf="defect.additionalInformation.location?.horizontal" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.horizontal" class="ion-text-capitalize">
                 <span class="forward-slash">/</span>
                 {{ defect.additionalInformation.location?.horizontal }}
               </span>
-              <span *ngIf="defect.additionalInformation.location?.lateral" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.lateral" class="ion-text-capitalize">
                 <span class="forward-slash">/</span>
                 {{ defect.additionalInformation.location?.lateral }}
               </span>
-              <span *ngIf="defect.additionalInformation.location?.longitudinal" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.longitudinal" class="ion-text-capitalize">
                 <span class="forward-slash">/</span>
                 {{ defect.additionalInformation.location?.longitudinal }}
               </span>
-              <span *ngIf="defect.additionalInformation.location?.rowNumber" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.rowNumber" class="ion-text-capitalize">
                 <span class="forward-slash">/</span>
                 {{ 'Row ' + defect.additionalInformation.location?.rowNumber }}
               </span>
-              <span *ngIf="defect.additionalInformation.location?.seatNumber" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.seatNumber" class="ion-text-capitalize">
                 <span class="forward-slash">/</span>
                 {{ 'Seat ' + defect.additionalInformation.location?.seatNumber }}
               </span>
-              <span *ngIf="defect.additionalInformation.location?.axleNumber" text-capitalize>
+              <span *ngIf="defect.additionalInformation.location?.axleNumber" class="ion-text-capitalize">
                 <span class="forward-slash">/</span>
                 {{ 'Axle ' + defect.additionalInformation.location?.axleNumber }}
               </span>
@@ -371,14 +371,12 @@
     </ng-container>
     <ng-container *ngIf="checkForDefects(selectedTestType.customDefects)">
       <ion-item
-        ion-item
-        detail-none
-        padding-left
-        class="defect"
+        detail="none"
+        class="defect ion-padding-start"
         *ngFor="let customDefect of selectedTestType.customDefects"
       >
-        <ion-grid no-padding>
-          <ion-row justify-content-between>
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
               <span class="defect-ref">
                 <span>{{customDefect.referenceNumber}}</span>
@@ -401,9 +399,9 @@
     <ng-container
       *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)"
     >
-      <ion-item ion-item detail-none padding-left>
-        <ion-grid no-padding>
-          <ion-row justify-content-between>
+      <ion-item detail="none" class="ion-padding-start">
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
               <span>
                 {{ defaultValues.NOT_ENTERED }}
@@ -416,12 +414,12 @@
   </ion-list>
 
   <ion-list class="list-margin">
-    <ion-list-header text-uppercase padding-left>VEHICLE DETAILS</ion-list-header>
+    <ion-list-header class="ion-text-capitalize ion-padding-start">VEHICLE DETAILS</ion-list-header>
 
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Country of registration</span>
           </ion-col>
           <ion-col
@@ -438,10 +436,10 @@
       </ion-grid>
     </ion-item>
 
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>EU vehicle category</span>
           </ion-col>
           <ion-col size="auto" text-end>
@@ -452,10 +450,10 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left *ngIf="selectedTestResult.odometerReading">
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestResult.odometerReading">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Odometer reading</span>
           </ion-col>
           <ion-col size="auto" text-end>
@@ -469,11 +467,11 @@
   </ion-list>
 
   <ion-list class="list-margin" *ngIf="!doesNotHaveBelts && vehicleType === 'psv'">
-    <ion-list-header text-uppercase padding-left>SEATBELT INSTALLATION CHECK</ion-list-header>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-list-header class="ion-text-capitalize ion-padding-start">SEATBELT INSTALLATION CHECK</ion-list-header>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Carried out during inspection</span>
           </ion-col>
           <ion-col size="auto" text-end>
@@ -485,10 +483,10 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Number of seatbelts</span>
           </ion-col>
           <ion-col size="auto" text-end>
@@ -499,10 +497,10 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Previous seatbelt installation check</span>
           </ion-col>
           <ion-col size="auto" text-end>
@@ -517,29 +515,29 @@
   </ion-list>
 
   <ion-list class="list-margin">
-    <ion-list-header text-uppercase padding-left>TEST STATION</ion-list-header>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-list-header class="ion-text-capitalize ion-padding-start">TEST STATION</ion-list-header>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Name</span>
           </ion-col>
           <ion-col size="auto" text-end>
-            <span text-capitalize>
+            <span class="ion-text-capitalize">
               {{ selectedTestResult.testStationName || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Test facility number</span>
           </ion-col>
           <ion-col size="auto" text-end>
-            <span text-capitalize
+            <span class="ion-text-capitalize"
               >{{ selectedTestResult.testStationPNumber || defaultValues.NONE }}</span
             >
           </ion-col>
@@ -549,25 +547,25 @@
   </ion-list>
 
   <ion-list class="list-margin">
-    <ion-list-header text-uppercase padding-left>TESTER</ion-list-header>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-list-header class="ion-text-capitalize ion-padding-start">TESTER</ion-list-header>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Name</span>
           </ion-col>
           <ion-col size="auto" text-end>
-            <span text-capitalize>
+            <span class="ion-text-capitalize">
               {{ selectedTestResult.testerName || defaultValues.NONE }}
             </span>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
             <span text-left>Staff ID</span>
           </ion-col>
           <ion-col
@@ -586,12 +584,12 @@
   </ion-list>
 
   <ion-list class="list-margin">
-    <ion-list-header text-uppercase padding-left>NOTES</ion-list-header>
-    <ion-item ion-item detail-none padding-left>
-      <ion-grid no-padding>
-        <ion-row justify-content-between>
-          <ion-col size="auto" text-start text-wrap>
-            <span text-left text-capitalize>
+    <ion-list-header class="ion-text-capitalize ion-padding-start">NOTES</ion-list-header>
+    <ion-item detail="none" class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start ion-text-wrap">
+            <span class="ion-text-capitalize ion-text-left">
               {{ selectedTestType.additionalNotesRecorded || defaultValues.NONE }}
             </span>
           </ion-col>

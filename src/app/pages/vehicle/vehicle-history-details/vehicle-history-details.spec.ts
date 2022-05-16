@@ -1,20 +1,20 @@
 import { VehicleHistoryDetailsPage } from './vehicle-history-details';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicModule, NavController, NavParams } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ViewControllerMock } from '../../../../../test-config/ionic-mocks/view-controller.mock';
-import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
-import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
-import { PipesModule } from '../../../../pipes/pipes.module';
-import { TestResultModel } from '../../../../models/tests/test-result.model';
-import { TestResultsHistoryDataMock } from '../../../../assets/data-mocks/test-results-history-data.mock';
-import { AppService } from '../../../../providers/global/app.service';
-import { AppServiceMock } from '../../../../../test-config/services-mocks/app-service.mock';
-import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { ANALYTICS_SCREEN_NAMES, DEFICIENCY_CATEGORY } from '../../../../app/app.enums';
-import { DefectDetailsModel } from '../../../../models/defects/defect-details.model';
-import { MOCK_UTILS } from '../../../../../test-config/mocks/mocks.utils';
-import { AnalyticsService } from '../../../../providers/global';
+import { ViewControllerMock } from '@test-config/ionic-mocks/view-controller.mock';
+import { NavParamsMock } from '@test-config/ionic-mocks/nav-params.mock';
+import { CommonFunctionsService } from '@providers/utils/common-functions';
+import { PipesModule } from '@pipes/pipes.module';
+import { TestResultModel } from '@models/tests/test-result.model';
+import { TestResultsHistoryDataMock } from '@assets/data-mocks/test-results-history-data.mock';
+import { AppService } from '@providers/global/app.service';
+import { AppServiceMock } from '@test-config/services-mocks/app-service.mock';
+import { TestTypeService } from '@providers/test-type/test-type.service';
+import { ANALYTICS_SCREEN_NAMES, DEFICIENCY_CATEGORY } from '@app/app.enums';
+import { DefectDetailsModel } from '@models/defects/defect-details.model';
+import { MOCK_UTILS } from '@test-config/mocks/mocks.utils';
+import { AnalyticsService } from '@providers/global';
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
@@ -39,12 +39,11 @@ describe('Component: VehicleHistoryDetailsPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [VehicleHistoryDetailsPage],
-      imports: [IonicModule.forRoot(VehicleHistoryDetailsPage), PipesModule],
+      imports: [PipesModule],
       providers: [
         NavController,
         CommonFunctionsService,
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: ViewController, useClass: ViewControllerMock },
         { provide: TestTypeService, useValue: testTypeServiceSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock }
@@ -56,11 +55,10 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VehicleHistoryDetailsPage);
     comp = fixture.componentInstance;
-    navCtrl = TestBed.get(NavController);
-    viewCtrl = TestBed.get(ViewController);
-    commonFunctionsService = TestBed.get(CommonFunctionsService);
-    analyticsService = TestBed.get(AnalyticsService);
-    testTypeService = TestBed.get(TestTypeService);
+    navCtrl = TestBed.inject(NavController);
+    commonFunctionsService = TestBed.inject(CommonFunctionsService);
+    analyticsService = TestBed.inject(AnalyticsService);
+    testTypeService = TestBed.inject(TestTypeService);
     comp.testIndex = 0;
     comp.testTypeIndex = 0;
     comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;
@@ -138,12 +136,5 @@ describe('Component: VehicleHistoryDetailsPage', () => {
     expect(comp.doesNotHaveCert).toEqual(false);
     expect(comp.doesNotHaveDefects).toEqual(false);
     expect(comp.doesNotHaveCert).toEqual(false);
-  });
-
-  it('should ionViewWillEnter', () => {
-    spyOn(viewCtrl, 'setBackButtonText');
-    comp.ionViewWillEnter();
-
-    expect(viewCtrl.setBackButtonText).toHaveBeenCalledWith('Test history');
   });
 });

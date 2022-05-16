@@ -1,22 +1,22 @@
-page-vehicle-history-details {
+:host {
   ion-list-header {
     .label-ios {
       margin: 11px 8px 7px 0;
-      color: $color-grey-1;
-      font-size: $font-size-small;
+      color: var(--color-grey-1);
+      font-size: var(--font-size-small);
     }
   }
 
   ion-content {
     .scroll-content {
-      background: $color-grey-3;
+      background: var(--color-grey-3);
       padding-bottom: 32px;
     }
   }
 
   [text-end],
   div[text-left][text-wrap] {
-    color: $color-grey-1;
+    color: var(color-grey-1);
   }
 
   div[text-left][text-wrap] {
@@ -33,9 +33,9 @@ page-vehicle-history-details {
   }
 
   .defect-ref {
-    color: color($colors, dark);
-    font-weight: $font-weight-bold;
-    font-size: $font-size-medium;
+    color: var(--dark);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-medium);
     margin-right: 8px;
   }
 
