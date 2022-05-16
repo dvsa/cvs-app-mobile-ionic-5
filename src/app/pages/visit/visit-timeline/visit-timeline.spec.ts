@@ -56,6 +56,7 @@ import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
 import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
+import { VisitConfirmationPage } from '@app/pages/visit/visit-confirmation/visit-confirmation';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -133,6 +134,10 @@ describe('Component: VisitTimelinePage', () => {
           {
             path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
             component: VehicleLookupPage
+          },
+          {
+            path: PAGE_NAMES.VISIT_CONFIRMATION_PAGE,
+            component: VisitConfirmationPage
           }
         ]),
       ],
@@ -265,14 +270,14 @@ describe('Component: VisitTimelinePage', () => {
 
       expect(sitePrevClosed).toBeUndefined();
       expect(component.isCreateTestEnabled).toBeFalsy();
-      expect(component.showLoading).toHaveBeenCalledWith(APP_STRINGS.END_VISIT_LOADING);
-      expect(visitService.endVisit).toHaveBeenCalledWith(getMockVisit().id);
-      expect(analyticsService.logEvent).toHaveBeenCalledWith({
+      expect(await component.showLoading).toHaveBeenCalledWith(APP_STRINGS.END_VISIT_LOADING);
+      expect(await visitService.endVisit).toHaveBeenCalledWith(getMockVisit().id);
+      expect(await analyticsService.logEvent).toHaveBeenCalledWith({
         category: ANALYTICS_EVENT_CATEGORIES.VISIT,
         event: ANALYTICS_EVENTS.SUBMIT_VISIT
       });
       expect(logProvider.dispatchLog).toHaveBeenCalled();
-      expect(alertCtrl.create).toHaveBeenCalled();
+      expect(await alertCtrl.create).toHaveBeenCalled();
     });
 
     it('should display the try again alert on internet required error', async () => {

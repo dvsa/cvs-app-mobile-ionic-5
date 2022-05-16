@@ -9,7 +9,7 @@ import { TestTypeModel } from '@models/tests/test-type.model';
 import { VehicleTechRecordModel } from '@models/vehicle/tech-record.model';
 import { PreparersReferenceDataModel } from '@models/reference-data-models/preparers.model';
 import { CountryOfRegistrationData } from '@assets/app-data/country-of-registration/country-of-registration.data';
-import { APP_STRINGS, STORAGE, TEST_TYPE_INPUTS } from '@app/app.enums';
+import { APP_STRINGS, TEST_TYPE_INPUTS } from '@app/app.enums';
 import { HttpResponse } from '@angular/common/http';
 import { TestResultModel } from '@models/tests/test-result.model';
 import { StorageService } from '../natives/storage.service';
@@ -97,7 +97,6 @@ export class VehicleService {
             timestamp: Date.now()
           });
 
-          this.storageService.update(STORAGE.TEST_HISTORY + systemNumber, data.body);
           return data.body;
         })
       );

@@ -116,25 +116,4 @@ describe('Component: ', () => {
     });
   });
 
-  it('should open the vehicle details page if the call to test-results is failing', async () => {
-    spyOn(vehicleService, 'getTestResultsHistory').and.returnValue(throwError('error'));
-    spyOn(vehicleService, 'isVehicleSkeleton').and.returnValue(false);
-    await component.openVehicleDetails(VehicleDataMock.VehicleData);
-
-    expect(await analyticsService.logEvent).toHaveBeenCalledWith({
-      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-      event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
-    });
-
-    expect(await navigateSpy).toHaveBeenCalledWith(
-      [PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
-        state : {
-          test: undefined,
-          vehicle: VehicleDataMock.VehicleData,
-          previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
-          testStation: TEST_STATION
-        }
-      });
-  });
 });

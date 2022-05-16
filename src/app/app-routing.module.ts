@@ -72,6 +72,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/testing/test-creation/test-cancel/test-cancel.module')
         .then( m => m.TestCancelModule)
   },
+  {
+    path: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
+    loadChildren: () =>
+      import('./pages/vehicle/vehicle-history/vehicle-history.module')
+        .then( m => m.VehicleHistoryModule)
+  }
 ];
 
 @NgModule({

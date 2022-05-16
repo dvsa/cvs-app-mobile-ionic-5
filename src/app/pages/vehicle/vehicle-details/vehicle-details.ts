@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
-  ModalController, NavController
+  ModalController,
+  NavController,
+  LoadingController,
 } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { TestModel } from '@models/tests/test.model';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import {
-  ANALYTICS_SCREEN_NAMES,
+  ANALYTICS_EVENT_CATEGORIES, ANALYTICS_EVENTS,
+  ANALYTICS_SCREEN_NAMES, ANALYTICS_VALUE,
   APP_STRINGS,
   DATE_FORMAT,
   PAGE_NAMES,
-  STORAGE,
   TECH_RECORD_STATUS,
   TESTER_ROLES,
   VEHICLE_TYPE,
@@ -26,6 +28,8 @@ import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
 import { VisitService } from '@providers/visit/visit.service';
 import { TestService } from '@providers/test/test.service';
 import { AuthenticationService } from '@providers/auth';
+import { VehicleService } from '@providers/vehicle/vehicle.service';
+import {LogsProvider} from '@store/logs/logs.service';
 
 @Component({
   selector: 'page-vehicle-details',
@@ -61,19 +65,26 @@ export class VehicleDetailsPage implements OnInit {
     private router: Router,
     public modalCtrl: ModalController,
     public formatVrmPipe: FormatVrmPipe,
+    public vehicleService: VehicleService,
+    public logProvider: LogsProvider,
+    private authService: AuthenticationService,
     private visitService: VisitService,
     private testReportService: TestService,
     private route: ActivatedRoute,
-    private authService: AuthenticationService
+    public loadingController: LoadingController,
   ) {
   }
 
   ngOnInit(): void {
+    // this mess will be fixed with the ngrx implementation
     this.route.params.subscribe(val => {
-      this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
-      this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
-      this.testData = this.router.getCurrentNavigation().extras.state.test;
-      this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
+      try {
+        this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+        this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
+        this.testData = this.router.getCurrentNavigation().extras.state.test;
+        this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
+      } catch {
+      }
       this.backButtonText = this.getBackButtonText();
     });
   }
@@ -109,17 +120,52 @@ export class VehicleDetailsPage implements OnInit {
     await this.router.navigate([pageName], {state: {vehicleData: this.vehicleData}});
   }
 
-  goToVehicleTestResultsHistory() {
-    this.storageService
-      .read(STORAGE.TEST_HISTORY + this.vehicleData.systemNumber)
-      .then(async (data) => {
-        await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
-          state: {
-            vehicleData: this.vehicleData,
-            testResultsHistory: data ? data : [],
+  async goToVehicleTestResultsHistory() {
+    const {oid} = this.authService.tokenInfo;
+    const loadingSpinner = await this.loadingController.create({
+      message: 'Loading...'
+    });
+    await loadingSpinner.present();
+
+    this.vehicleService
+      .getTestResultsHistory(this.vehicleData.systemNumber)
+      .subscribe(
+        {
+          next: async (data) => {
+            await loadingSpinner.dismiss();
+            await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
+              state: {
+                vehicleData: this.vehicleData,
+                testResultsHistory: data,
+                previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
+              }
+            });
+          },
+          error: async (error) => {
+            await loadingSpinner.dismiss();
+            this.logProvider.dispatchLog({
+              type:
+                'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
+              message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+              timestamp: Date.now()
+            });
+
+            await this.analyticsService.logEvent({
+              category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+              event: ANALYTICS_EVENTS.TEST_ERROR,
+              label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
+            });
+            await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
+              state: {
+                vehicleData: this.vehicleData,
+                testResultsHistory: [],
+                previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
+              }
+            });
+          },
+          complete: () => {
           }
         });
-      });
   }
 
   async goToTestCreatePage(): Promise<void> {

@@ -63,46 +63,13 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
     });
     await LOADING.present();
 
-    const { oid } = this.authenticationService.tokenInfo;
-
-    const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-      next: async () => {
-        await this.goToVehicleDetails(selectedVehicle);
-      },
-      error: async (error) => {
-        this.logProvider.dispatchLog({
-          type:
-            'error-vehicleService.getTestResultsHistory-openVehicleDetails in multiple-tech-records-selection.ts',
-          message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-          timestamp: Date.now()
-        });
-
-        await this.trackErrorOnRetrieval(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
-        await this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
-        await this.goToVehicleDetails(selectedVehicle);
-      },
-      complete: () => {}
-    };
-
     if (this.vehicleService.isVehicleSkeleton(selectedVehicle)) {
       await LOADING.dismiss();
       await this.vehicleService.createSkeletonAlert(this.alertCtrl);
     } else {
-      this.vehicleService
-        .getTestResultsHistory(selectedVehicle.systemNumber)
-        .subscribe(testHistoryResponseObserver)
-        .add(() => {
-          LOADING.dismiss();
-        });
+      await this.goToVehicleDetails(selectedVehicle);
+      await LOADING.dismiss();
     }
-  }
-
-  private async trackErrorOnRetrieval(value: string) {
-    await this.analyticsService.logEvent({
-      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-      event: ANALYTICS_EVENTS.TEST_ERROR,
-      label: value
-    });
   }
 
   async goToVehicleDetails(selectedVehicle: VehicleModel) {

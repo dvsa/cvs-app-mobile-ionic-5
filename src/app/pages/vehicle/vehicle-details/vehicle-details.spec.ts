@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VehicleDetailsPage } from './vehicle-details';
 import {
-  AlertController, ModalController, NavController,
+  NavController,
+  AlertController, LoadingController, ModalController,
 } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AlertControllerMock, ModalControllerMock } from 'ionic-mocks';
+import { AlertControllerMock, LoadingControllerMock, ModalControllerMock } from 'ionic-mocks';
 import { StorageService } from '@providers/natives/storage.service';
 import { StorageServiceMock } from '@test-config/services-mocks/storage-service.mock';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
@@ -13,7 +14,7 @@ import { TestTypeArrayDataMock } from '@assets/data-mocks/test-type-array-data.m
 import {
   ANALYTICS_SCREEN_NAMES,
   APP_STRINGS, PAGE_NAMES,
-  TECH_RECORD_STATUS, TESTER_ROLES
+  TECH_RECORD_STATUS
 } from '@app/app.enums';
 import { By } from '@angular/platform-browser';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
@@ -24,15 +25,19 @@ import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
+import {VehicleService} from '@providers/vehicle/vehicle.service';
+import {VehicleServiceMock} from '@test-config/services-mocks/vehicle-service.mock';
+import {LogsProvider} from '@store/logs/logs.service';
+import {AuthenticationService} from '@providers/auth';
+import {AuthenticationServiceMock} from '@test-config/services-mocks/authentication-service.mock';
 import { VisitService } from '@providers/visit/visit.service';
 import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
 import { TestService } from '@providers/test/test.service';
 import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { TestModel } from '@models/tests/test.model';
+import {of} from 'rxjs';
+import {TestResultsHistoryDataMock} from '@assets/data-mocks/test-results-history-data.mock';
 import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
-import { AuthenticationService } from '@providers/auth';
-import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
-import { TokenInfo } from '@providers/auth/authentication/auth-model';
 import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
 import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
 
@@ -49,13 +54,20 @@ describe('Component: VehicleDetailsPage', () => {
   let visitService: VisitService;
   let authService: AuthenticationService;
   let navController: NavController;
+  let logProviderSpy: any;
+  let vehicleService: VehicleService;
+  let loadingController: LoadingController;
 
   const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
   const TEST = TestTypeArrayDataMock.TestTypeArrayData[0];
   const TEST_STATION = TestStationDataMock.TestStationData[0];
+  const TEST_HISTORY_DATA = TestResultsHistoryDataMock.TestResultHistoryData;
 
   beforeEach(() => {
     callNumberSpy = jasmine.createSpyObj('CallNumber', ['callNumber']);
+    logProviderSpy = jasmine.createSpyObj('LogsProvider', {
+      dispatchLog: () => true
+    });
 
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', [
       'logEvent',
@@ -85,10 +97,13 @@ describe('Component: VehicleDetailsPage', () => {
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: VehicleService, useClass: VehicleServiceMock },
+        { provide: LogsProvider, useValue: logProviderSpy },
+        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
         { provide: AppService, useClass: AppServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
-        { provide: AuthenticationService, useClass: AuthenticationServiceMock },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -103,6 +118,8 @@ describe('Component: VehicleDetailsPage', () => {
     router = TestBed.inject(Router);
     testReportService = TestBed.inject(TestService);
     visitService = TestBed.inject(VisitService);
+    vehicleService = TestBed.inject(VehicleService);
+    loadingController = TestBed.inject(LoadingController);
     authService = TestBed.inject(AuthenticationService);
     navController = TestBed.inject(NavController);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
@@ -228,6 +245,28 @@ describe('Component: VehicleDetailsPage', () => {
     fixture.whenStable().then(() => {
       const title = fixture.debugElement.query(By.css('ion-toolbar .ion-padding-start'));
       expect(title.nativeElement.innerText).toBe(APP_STRINGS.PROVISIONAL_LABEL_TEXT);
+    });
+  });
+
+  describe('goToTestVehicleTestResultsHistory', () => {
+    it('should pass data to router.navigate if vehicle history data is returned', async () => {
+      spyOn(vehicleService, 'getTestResultsHistory').and.returnValue(of(
+        TEST_HISTORY_DATA
+      ));
+      spyOn(router, 'navigate');
+
+      await component.goToVehicleTestResultsHistory();
+
+      expect(await router.navigate).toHaveBeenCalledWith(
+        [PAGE_NAMES.VEHICLE_HISTORY_PAGE],
+        {
+          state: {
+            vehicleData: component.vehicleData,
+            testResultsHistory: TEST_HISTORY_DATA,
+            previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
+          }
+        }
+      );
     });
   });
 

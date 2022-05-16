@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="previousPageName"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-margin-start">
+      <span>Test history</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center">
+    <ng-container *ngIf="isVehicleOfType(vehicleData,VEHICLE_TYPE.TRL); else isVehicle"
+    >{{ vehicleData.trailerId }}</ng-container
+    >
+    <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
+  </div>
+
+  <ion-list class="tests-list" *ngIf="testResultHistory.length">
+    <ng-container *ngFor="let testType of testTypeArray">
+      <ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)" class="ion-no-padding">
+        <ion-grid>
+          <ion-row class="ion-padding-start ion-justify-content-between">
+            <ion-col>
+              <p text-wrap>{{ testType.name }}</p>
+            </ion-col>
+
+            <ion-col class="ion-text-right">
+              <ion-text
+                *ngIf="!haveProhibition(testType)"
+                class="test-result ion-text-capitalize"
+                [color]="commonFunc.getTestResultColor(testType.testResult)"
+              >
+                {{ testType.testResult }}
+              </ion-text>
+              <ion-text
+                *ngIf="haveProhibition(testType)"
+                class="test-result ion-text-capitalize ion-color-dark"
+              >
+                PROHIBITION
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-between ion-padding-start">
+            <ion-col>
+              <p>Test date</p>
+            </ion-col>
+            <ion-col class="ion-text-right">
+              <p>{{ testType.testTypeStartTimestamp | date:'dd MMM yyyy' }}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-justify-content-between ion-padding-start" *ngIf="testType.testExpiryDate">
+            <ion-col >
+              <p>Expiry date</p>
+            </ion-col>
+            <ion-col class="ion-text-right">
+              <p>{{ testType.testExpiryDate | date:'dd MMM yyyy' }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+  <div *ngIf="!testResultHistory.length" class="no-result">
+    <h3>{{ noHistory }}</h3>
+  </div>
+</ion-content>

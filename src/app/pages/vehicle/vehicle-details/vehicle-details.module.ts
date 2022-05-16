@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { VehicleDetailsPageRoutingModule } from '@app/pages/vehicle/vehicle-details/vehicle-details-routing.module';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
+import { VehicleService } from '@providers/vehicle/vehicle.service';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
     CommonFunctionsService,
     TestService,
     FormatVrmPipe,
+    VehicleService,
   ]
 })
 export class VehicleDetailsModule {}

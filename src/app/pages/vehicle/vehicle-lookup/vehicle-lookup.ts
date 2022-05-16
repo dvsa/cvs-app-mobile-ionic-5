@@ -148,24 +148,6 @@ export class VehicleLookupPage implements OnInit {
       )
       .subscribe(
         (vehicleData) => {
-          const testHistoryResponseObserver: Observer<TestResultModel[]> = {
-            next: async () => {
-              await this.goToVehicleDetails(vehicleData[0]);
-            },
-            error: async (error) => {
-              this.logProvider.dispatchLog({
-                type:
-                  'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
-                message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-                timestamp: Date.now()
-              });
-
-              await this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
-              await this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
-              await this.goToVehicleDetails(vehicleData[0]);
-            },
-            complete: () => {}
-          };
           if (vehicleData.length > 1) {
             this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
               LOADING.dismiss();
@@ -177,12 +159,8 @@ export class VehicleLookupPage implements OnInit {
             this.vehicleService.createSkeletonAlert(this.alertCtrl);
             LOADING.dismiss();
           } else {
-            this.vehicleService
-              .getTestResultsHistory(vehicleData[0].systemNumber)
-              .subscribe(testHistoryResponseObserver)
-              .add(() => {
-                LOADING.dismiss();
-              });
+            this.goToVehicleDetails(vehicleData[0]);
+            LOADING.dismiss();
           }
         },
         async (error) => {

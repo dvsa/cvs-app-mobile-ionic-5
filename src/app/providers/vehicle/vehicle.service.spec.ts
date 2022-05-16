@@ -185,18 +185,6 @@ describe('Provider: VehicleService', () => {
     expect(onlyOne).toBeTruthy();
   });
 
-  it('should update ionic storage when retrieving test results history', waitForAsync(() => {
-    const systemNumber = '10000000';
-    spyOn(storageService, 'update');
-    vehicleService.getTestResultsHistory(systemNumber).subscribe(() => {
-      expect(storageService.update).toHaveBeenCalledTimes(1);
-      expect(storageService.update).toHaveBeenCalledWith(
-        STORAGE.TEST_HISTORY + systemNumber,
-        TestResultsHistoryDataMock.TestResultHistoryData
-      );
-    });
-  }));
-
   it('should check if a specific vehicle is a skeleton record or not', () => {
     const testVehicle = { ...VehicleDataMock.VehicleData };
     expect(vehicleService.isVehicleSkeleton(testVehicle)).toBeFalsy();
