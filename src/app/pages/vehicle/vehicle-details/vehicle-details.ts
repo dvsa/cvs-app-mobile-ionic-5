@@ -133,6 +133,7 @@ export class VehicleDetailsPage implements OnInit {
               state: {
                 vehicleData: this.vehicleData,
                 testResultsHistory: data,
+                previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
               }
             });
           },
@@ -154,6 +155,7 @@ export class VehicleDetailsPage implements OnInit {
               state: {
                 vehicleData: this.vehicleData,
                 testResultsHistory: [],
+                previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
               }
             });
           },

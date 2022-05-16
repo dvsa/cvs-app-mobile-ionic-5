@@ -263,6 +263,7 @@ describe('Component: VehicleDetailsPage', () => {
           state: {
             vehicleData: component.vehicleData,
             testResultsHistory: TEST_HISTORY_DATA,
+            previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
           }
         }
       );

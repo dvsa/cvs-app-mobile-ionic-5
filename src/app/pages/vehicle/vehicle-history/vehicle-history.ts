@@ -36,6 +36,7 @@ export class VehicleHistoryPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
     this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicleData;
     this.testResultHistory = this.router.getCurrentNavigation().extras.state.testResultsHistory;
     this.testResultHistoryClone = this.commonFunc.cloneObject(this.testResultHistory);
