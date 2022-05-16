@@ -1,0 +1,63 @@
+page-vehicle-history-details {
+  ion-list-header {
+    .label-ios {
+      margin: 11px 8px 7px 0;
+      color: $color-grey-1;
+      font-size: $font-size-small;
+    }
+  }
+
+  ion-content {
+    .scroll-content {
+      background: $color-grey-3;
+      padding-bottom: 32px;
+    }
+  }
+
+  [text-end],
+  div[text-left][text-wrap] {
+    color: $color-grey-1;
+  }
+
+  div[text-left][text-wrap] {
+    margin-top: 5px;
+  }
+
+  .additional-info span:first-child .forward-slash {
+    display: none;
+  }
+
+  .test-type {
+    min-height: 70px;
+    align-items: flex-start;
+  }
+
+  .defect-ref {
+    color: color($colors, dark);
+    font-weight: $font-weight-bold;
+    font-size: $font-size-medium;
+    margin-right: 8px;
+  }
+
+  .list-margin {
+    margin: 10px 0 0 0;
+
+    ion-list-header {
+      min-height: 50px;
+      align-items: flex-end;
+    }
+  }
+
+  .country-of-registration {
+    max-width: 50%; //accessibility ellipsis limit
+  }
+
+  .staff-id {
+    max-width: 80%; //accessibility ellipsis limit
+  }
+
+  .country-of-registration.accessibility-max-width,
+  .staff-id.accessibility-max-width {
+    text-align: left !important;
+  }
+}
