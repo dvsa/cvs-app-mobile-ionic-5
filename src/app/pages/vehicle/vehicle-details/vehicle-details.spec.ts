@@ -233,7 +233,7 @@ describe('Component: VehicleDetailsPage', () => {
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      const title = fixture.debugElement.query(By.css('ion-toolbar ion-title div.toolbar-title'));
+      const title = fixture.debugElement.query(By.css('ion-toolbar .ion-padding-start'));
       expect(title).toBeNull();
     });
   });
