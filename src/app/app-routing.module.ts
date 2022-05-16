@@ -77,7 +77,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/vehicle/vehicle-history/vehicle-history.module')
         .then( m => m.VehicleHistoryModule)
-  }
+  },
   {
     path: PAGE_NAMES.VEHICLE_WEIGHTS_PAGE,
     loadChildren: () =>
