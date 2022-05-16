@@ -76,11 +76,15 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   ngOnInit(): void {
+    // this mess will be fixed with the ngrx implementation
     this.route.params.subscribe(val => {
-      this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
-      this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
-      this.testData = this.router.getCurrentNavigation().extras.state.test;
-      this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
+      try {
+        this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+        this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
+        this.testData = this.router.getCurrentNavigation().extras.state.test;
+        this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
+      } catch {
+      }
       this.backButtonText = this.getBackButtonText();
     });
   }
