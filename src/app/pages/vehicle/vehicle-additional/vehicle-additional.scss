@@ -1,0 +1,37 @@
+:host {
+  ion-content {
+    .scroll-content {
+      background: var(--color-grey-3);
+    }
+
+    ion-list {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    ion-list-header {
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-normal);
+      letter-spacing: .75px;
+      height: 28px;
+      min-height: 28px;
+      padding-left: 20px;
+      color: var(--color-grey-1);
+      background: var(--color-grey-3);
+    }
+  }
+
+  ion-toolbar {
+    .ion-padding-start {
+      margin-left: 16px;
+      margin-top: 3px;
+      font-size: var(--font-size-medium);
+      font-weight: var(--font-weight-normal);
+    }
+  }
+
+  .provisional-record-toolbar {
+    height: 14px;
+    --background: var(--tertiary);
+  }
+}
