@@ -9,7 +9,7 @@
   </ion-toolbar>
 
   <ion-toolbar
-    color="tertiary"
+    class="provisional-record-toolbar"
     *ngIf="vehicleData.techRecord.statusCode===TECH_RECORD_STATUS.PROVISIONAL"
   >
     <ion-title class="ion-padding-start">{{ APP_STRINGS.PROVISIONAL_LABEL_TEXT }}</ion-title>
@@ -25,73 +25,76 @@
     <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
   </div>
 
-  <ion-list class="vehicle-list" *ngFor="let axle of vehicleData.techRecord.axles">
+  <ng-container *ngFor="let axle of vehicleData.techRecord.axles">
     <ion-list-header class="ion-padding-start ion-padding-end">AXLE {{ axle?.axleNumber }}</ion-list-header>
-    <ion-item class="ion-margin-start">
-      <ion-label>
-        <h2>Tyre size</h2>
-      </ion-label>
-      <div item-content class="ion-padding-end">
-        <p>{{ axle?.tyres?.tyreSize }}</p>
-      </div>
-    </ion-item>
-    <ion-item class="ion-margin-start">
-      <ion-label>
-        <h2>Ply</h2>
-      </ion-label>
-      <div item-content class="ion-padding-end">
-        <p>{{ axle?.tyres?.plyRating }}</p>
-      </div>
-    </ion-item>
-    <ion-item class="ion-margin-start">
-      <ion-label>
-        <h2>Fitment</h2>
-      </ion-label>
-      <div item-content class="ion-padding-end">
-        <p>{{ axle?.tyres?.fitmentCode }}</p>
-      </div>
-    </ion-item>
-    <ion-item class="ion-margin-start">
-      <ion-label>
-        <h2>S/D index</h2>
-      </ion-label>
-      <div item-content class="ion-padding-end">
-        <p>{{ axle?.tyres?.dataTrAxles }}</p>
-      </div>
-    </ion-item>
-    <ion-item
-      class="ion-margin-start"
-      *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
-    >
-      <ion-label>
-        <h2>Speed cat</h2>
-      </ion-label>
-      <div item-content class="ion-padding-end">
-        <p>{{ axle?.tyres?.speedCategorySymbol }}</p>
-      </div>
-    </ion-item>
-    <ion-item class="ion-margin-start">
-      <ion-label>
-        <h2>Tyre code</h2>
-      </ion-label>
-      <div item-content class="ion-padding-end">
-        <p>{{ axle?.tyres?.tyreCode }}</p>
-      </div>
-    </ion-item>
-  </ion-list>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Tyre size</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ axle?.tyres?.tyreSize }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Ply</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ axle?.tyres?.plyRating }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Fitment</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ axle?.tyres?.fitmentCode }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>S/D index</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ axle?.tyres?.dataTrAxles }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>Speed cat</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ axle?.tyres?.speedCategorySymbol }}</p>
+        </div>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Tyre code</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ axle?.tyres?.tyreCode }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 
-  <ion-list
-    class="ion-margin-bottom vehicle-list"
-    *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+  <ng-container *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
   >
     <ion-list-header></ion-list-header>
-    <ion-item class="ion-margin-start ion-padding-end">
-      <ion-label>
-        <h2>Tyre use code</h2>
-      </ion-label>
-      <div item-content>
-        <p>{{ vehicleData.techRecord.tyreUseCode }}</p>
-      </div>
-    </ion-item>
-  </ion-list>
+    <ion-list
+      class="ion-margin-bottom vehicle-list"
+    >
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Tyre use code</h2>
+        </ion-label>
+        <div item-content>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.tyreUseCode }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 </ion-content>
