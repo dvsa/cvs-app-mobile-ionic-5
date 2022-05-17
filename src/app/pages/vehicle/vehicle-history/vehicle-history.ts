@@ -54,6 +54,7 @@ export class VehicleHistoryPage implements OnInit {
   }
 
   async showTestDetails(testIndex: number, testTypeIndex: number): Promise<void> {
+    console.log('details')
     await this.router.navigate(['VehicleHistoryDetailsPage'], {
       state: {
         testResultHistory: this.testResultHistory,
@@ -61,6 +62,9 @@ export class VehicleHistoryPage implements OnInit {
         testTypeIndex,
         vehicleType: this.vehicleData.techRecord.vehicleType
       }
+    }).catch((error) => {
+      console.log('error');
+      console.log(error);
     });
   }
 

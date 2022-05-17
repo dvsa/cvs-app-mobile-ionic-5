@@ -19,10 +19,12 @@ import { CountryOfRegistrationData } from '../../../../assets/app-data/country-o
 import { AppService } from '@providers/global/app.service';
 import { TestTypeService } from '@providers/test-type/test-type.service';
 import { AnalyticsService } from '@providers/global';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-vehicle-history-details',
-  templateUrl: 'vehicle-history-details.html'
+  templateUrl: 'vehicle-history-details.html',
+  styleUrls: ['vehicle-history-details.scss'],
 })
 export class VehicleHistoryDetailsPage {
   testResultHistory: any;
@@ -50,16 +52,16 @@ export class VehicleHistoryDetailsPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
+    public router: Router,
     public commonFunc: CommonFunctionsService,
     private analyticsService: AnalyticsService,
     public appService: AppService,
     public testTypeService: TestTypeService
   ) {
-    this.testResultHistory = navParams.get('testResultHistory');
-    this.testIndex = navParams.get('testIndex');
-    this.testTypeIndex = navParams.get('testTypeIndex');
-    this.vehicleType = navParams.get('vehicleType');
+    // this.testResultHistory = navParams.get('testResultHistory');
+    // this.testIndex = navParams.get('testIndex');
+    // this.testTypeIndex = navParams.get('testTypeIndex');
+    // this.vehicleType = navParams.get('vehicleType');
   }
 
   ngOnInit() {
