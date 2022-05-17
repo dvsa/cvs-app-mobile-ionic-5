@@ -1,0 +1,362 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="APP_STRINGS.VEHICLE_DETAILS"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-margin-start">
+      <span>Additional details</span>
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar
+    class="provisional-record-toolbar"
+    *ngIf="vehicleData.techRecord.statusCode===TECH_RECORD_STATUS.PROVISIONAL"
+  >
+    <ion-title class="ion-padding-start">{{ APP_STRINGS.PROVISIONAL_LABEL_TEXT }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center">
+    <ng-container
+      *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else isVehicle"
+      >{{ vehicleData.trailerId }}</ng-container
+    >
+    <ng-template #isVehicle>{{ vehicleData.vrm | formatVrm }}</ng-template>
+  </div>
+
+  <ng-container *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,SPECIAL_VEHICLE_TYPES)">
+    <ion-list-header> </ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>COIF date</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.coifDate | date: dateFormat }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>NTA number</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.ntaNumber }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Conversion number</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.conversionRefNo }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>Seats on lower deck</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.seatsLowerDeck }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>Seats on upper deck</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.seatsUpperDeck }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>Standing capacity</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.standingCapacity }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>Speed restriction</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.speedRestriction }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)"
+      >
+        <ion-label>
+          <h2>Speed limiter</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.speedLimiterMrk ? appStrings.YES : appStrings.NO }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        [lines]="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV) ? 'none' : 'inset'"
+        *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)"
+      >
+        <ion-label>
+          <h2>Tacho exempt</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.tachoExemptMrk ? appStrings.YES : appStrings.NO }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item
+        *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>Road friendly</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.roadFriendly ? appStrings.YES : appStrings.NO }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item
+        *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)"
+      >
+        <ion-label>
+          <h2>Drawbar coupling fitted</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.drawbarCouplingFitted ? appStrings.YES : appStrings.NO }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none"
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)"
+      >
+        <ion-label>
+          <h2>Euro standard</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.euroStandard }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)"
+      >
+        <ion-label>
+          <h2>Suspension type</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.suspensionType }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none"
+        *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)"
+      >
+        <ion-label>
+          <h2>Coupling type</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.couplingType }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+    <ion-list-header class="ion-padding-start ion-padding-end">DISPENSATIONS</ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item lines="none">
+        <p class="ion-text-wrap ion-text-start dark">{{ vehicleData.techRecord.dispensations }}</p>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.PSV)">
+    <ion-list-header class="ion-padding-start ion-padding-end">REMARKS</ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item lines="none">
+        <p class="ion-text-wrap ion-text-start dark">{{ vehicleData.techRecord.remarks }}</p>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+
+  <ng-container *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.HGV, VEHICLE_TYPE.TRL])">
+    <ion-list-header class="ion-padding-start ion-padding-end">DIMENSIONS</ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Length</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord?.dimensions?.length }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Width</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord?.dimensions?.width }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)">
+    <ion-list-header class="ion-padding-start ion-padding-end">FRONT AXLE TO 5TH WHEEL</ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Min</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.frontAxleTo5thWheelMin }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Max</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.frontAxleTo5thWheelMax }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.HGV)">
+    <ion-list-header class="ion-padding-start ion-padding-end">FRONT AXLE TO 5TH WHEEL COUPLING</ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Min</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.frontAxleTo5thWheelCouplingMin }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Max</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.frontAxleTo5thWheelCouplingMax }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
+    <ion-list-header></ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item *ngFor="let spacing of vehicleData.techRecord?.dimensions?.axleSpacing">
+        <ion-label>
+          <h2>{{ 'Axle spacing ' + spacing?.axles }}</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ spacing?.value }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>Front axle centre to rear axle centre (Drawbars)</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.frontAxleToRearAxle }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Rear axle centre to rear of the trailer</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.rearAxleToRearTrl }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
+    <ion-list-header class="ion-text-wrap ion-padding-start ion-padding-end">
+      COUPLING CENTRE TO THE REAR AXLE CENTRE (MM)
+    </ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Min</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.couplingCenterToRearAxleMin }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Max</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.couplingCenterToRearAxleMax }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL)">
+    <ion-list-header class="ion-text-wrap ion-padding-start ion-padding-end">
+      COUPLING CENTRE TO THE REAR OF THE TRAILER (MM)
+    </ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Min</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.couplingCenterToRearTrlMin }}</p>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>
+          <h2>Max</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.couplingCenterToRearTrlMax }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container>
+    <ion-list-header>NOTES</ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item lines="none">
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-justify-content-between">
+            <ion-col class="ion-text-start ion-text-wrap" size="12">
+              <div>
+                <p class="ion-no-margin">{{ vehicleData.techRecord.notes || 'Not entered'}}</p>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</ion-content>

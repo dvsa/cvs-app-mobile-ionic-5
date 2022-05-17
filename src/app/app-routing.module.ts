@@ -90,6 +90,12 @@ const routes: Routes = [
       import('./pages/vehicle/vehicle-tyres/vehicle-tyres.module')
         .then( m => m.VehicleTyresModule)
   },
+  {
+    path: PAGE_NAMES.VEHICLE_ADDITIONAL_PAGE,
+    loadChildren: () =>
+      import('./pages/vehicle/vehicle-additional/vehicle-additional.module')
+        .then( m => m.VehicleAdditionalModule)
+  },
 ];
 
 @NgModule({
