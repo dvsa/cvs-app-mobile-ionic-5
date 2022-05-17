@@ -84,6 +84,12 @@ const routes: Routes = [
       import('./pages/vehicle/vehicle-weights/vehicle-weights.module')
         .then( m => m.VehicleWeightsModule)
   },
+  {
+    path: PAGE_NAMES.VEHICLE_TYRES_PAGE,
+    loadChildren: () =>
+      import('./pages/vehicle/vehicle-tyres/vehicle-tyres.module')
+        .then( m => m.VehicleTyresModule)
+  },
 ];
 
 @NgModule({
