@@ -57,14 +57,13 @@ export class VehicleHistoryDetailsPage {
     private analyticsService: AnalyticsService,
     public appService: AppService,
     public testTypeService: TestTypeService
-  ) {
-    // this.testResultHistory = navParams.get('testResultHistory');
-    // this.testIndex = navParams.get('testIndex');
-    // this.testTypeIndex = navParams.get('testTypeIndex');
-    // this.vehicleType = navParams.get('vehicleType');
-  }
+  ) { }
 
   ngOnInit() {
+    this.testResultHistory = this.router.getCurrentNavigation().extras.state.testResultHistory;
+    this.testIndex = this.router.getCurrentNavigation().extras.state.testIndex;
+    this.testTypeIndex = this.router.getCurrentNavigation().extras.state.testTypeIndex;
+    this.vehicleType = this.router.getCurrentNavigation().extras.state.vehicleType;
     this.selectedTestResult = this.testResultHistory[this.testIndex];
     this.selectedTestType = this.testResultHistory[this.testIndex].testTypes[this.testTypeIndex];
     this.testTypeResults = TEST_TYPE_RESULTS;

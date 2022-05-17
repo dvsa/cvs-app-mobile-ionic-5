@@ -1,10 +1,10 @@
 :host {
   ion-list-header {
-    .label-ios {
+    //.label-ios {
       margin: 11px 8px 7px 0;
       color: var(--color-grey-1);
       font-size: var(--font-size-small);
-    }
+    //}
   }
 
   ion-content {
@@ -14,8 +14,11 @@
     }
   }
 
-  [text-end],
-  div[text-left][text-wrap] {
+  ion-item {
+    padding-left: 0;
+  }
+
+  .ion-text-end span {
     color: var(color-grey-1);
   }
 

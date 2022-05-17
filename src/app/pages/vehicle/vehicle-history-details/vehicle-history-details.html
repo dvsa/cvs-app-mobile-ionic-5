@@ -9,14 +9,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding">
+<ion-content class="ion-no-padding content-background-color-grey">
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-uppercase ion-padding-start">TEST TYPE</ion-list-header>
-    <ion-item  detail="none" class="test-type ion-padding-start">
+    <ion-item class="test-type ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
-          <ion-col size="auto" class="ion-text-start ion-text-wrap">
-            <span class="ion-text-capitalize" text-left>
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-capitalize ion-text-left">
               {{ selectedTestType.testTypeName || defaultValues.NONE }}
             </span>
           </ion-col>
@@ -27,7 +27,7 @@
 
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-uppercase ion-padding-start">TEST DETAILS</ion-list-header>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -42,13 +42,13 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Test time</span>
+            <span class="ion-text-left">Test time</span>
           </ion-col>
-          <ion-col size="auto" text-end>
+          <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-uppercase">
               {{ (selectedTestType.testTypeStartTimestamp | date:'HH:mm') || defaultValues.NONE }}
               - {{ (selectedTestType.testTypeEndTimestamp | date:'HH:mm') || defaultValues.NONE }}
@@ -57,11 +57,13 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
-          <ion-col size="auto" class="ion-text-start"><span text-left>Test result</span></ion-col>
-          <ion-col size="auto" text-end>
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Test result</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
             <span class="test-result ion-text-uppercase" [color]="testResultColor">
               {{ selectedTestType.testResult || defaultValues.NONE }}
             </span>
@@ -69,7 +71,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.prohibitionIssued">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.prohibitionIssued">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -84,7 +86,6 @@
       </ion-grid>
     </ion-item>
     <ion-item
-      detail="none"
       class="ion-padding-start"
       *ngIf="!doesNotHaveCert && !isTestResultAbandon && !isTestResultFail && !testTypeService.isSpecialistWithoutCertificateNumberCapturedIds(selectedTestType.testTypeId); else showTestNumber"
     >
@@ -108,7 +109,7 @@
       </ion-grid>
     </ion-item>
     <ng-template #showTestNumber>
-      <ion-item detail="none" class="ion-padding-start">
+      <ion-item class="ion-padding-start">
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start">
@@ -124,7 +125,6 @@
       </ion-item>
     </ng-template>
     <ion-item
-      detail="none"
       class="ion-padding-start"
       *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId) && selectedTestType.secondaryCertificateNumber"
     >
@@ -141,7 +141,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.testExpiryDate">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.testExpiryDate">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -155,7 +155,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.emissionStandard">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.emissionStandard">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col col-3 class="ion-text-start">
@@ -169,7 +169,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.smokeTestKLimitApplied">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.smokeTestKLimitApplied">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col col-3 class="ion-text-start">
@@ -183,7 +183,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.fuelType">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.fuelType">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col col-3 class="ion-text-start">
@@ -197,7 +197,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.modType">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.modType">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col col-3 class="ion-text-start">
@@ -211,7 +211,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.particulateTrapFitted">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.particulateTrapFitted">
       <ion-grid class="ion-no-padding">
         <ion-row>
           <span text-left>Particulate trap fitted</span>
@@ -221,7 +221,7 @@
         </div>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start"
+    <ion-item class="ion-padding-start"
       *ngIf="selectedTestType.particulateTrapSerialNumber"
     >
       <ion-grid class="ion-no-padding">
@@ -233,7 +233,7 @@
         </div>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestType.modificationTypeUsed">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.modificationTypeUsed">
       <ion-grid class="ion-no-padding">
         <ion-row>
           <span text-left>Modification type used</span>
@@ -247,7 +247,7 @@
 
   <ion-list class="list-margin" *ngIf="isTestResultAbandon">
     <ion-list-header class="ion-text-capitalize ion-padding-start">REASON(S) FOR ABANDONING</ion-list-header>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start ion-text-wrap">
@@ -262,7 +262,7 @@
 
   <ion-list class="list-margin" *ngIf="isTestResultAbandon">
     <ion-list-header class="ion-text-capitalize ion-padding-start">Notes</ion-list-header>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-wrap ion-text-start">
@@ -284,7 +284,6 @@
     <ion-list-header class="ion-padding-start ion-text-capitalize">DEFECTS</ion-list-header>
     <ng-container *ngIf="doDefectsExist">
       <ion-item
-        detail="none"
         class="defect ion-padding-start"
         *ngFor="let defect of selectedTestType.defects"
       >
@@ -371,7 +370,6 @@
     </ng-container>
     <ng-container *ngIf="checkForDefects(selectedTestType.customDefects)">
       <ion-item
-        detail="none"
         class="defect ion-padding-start"
         *ngFor="let customDefect of selectedTestType.customDefects"
       >
@@ -399,7 +397,7 @@
     <ng-container
       *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)"
     >
-      <ion-item detail="none" class="ion-padding-start">
+      <ion-item class="ion-padding-start">
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
@@ -416,7 +414,7 @@
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-capitalize ion-padding-start">VEHICLE DETAILS</ion-list-header>
 
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -436,7 +434,7 @@
       </ion-grid>
     </ion-item>
 
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -450,7 +448,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start" *ngIf="selectedTestResult.odometerReading">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestResult.odometerReading">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -468,7 +466,7 @@
 
   <ion-list class="list-margin" *ngIf="!doesNotHaveBelts && vehicleType === 'psv'">
     <ion-list-header class="ion-text-capitalize ion-padding-start">SEATBELT INSTALLATION CHECK</ion-list-header>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -483,7 +481,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -497,7 +495,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -516,7 +514,7 @@
 
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-capitalize ion-padding-start">TEST STATION</ion-list-header>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -530,7 +528,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -548,7 +546,7 @@
 
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-capitalize ion-padding-start">TESTER</ion-list-header>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -562,7 +560,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -585,7 +583,7 @@
 
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-capitalize ion-padding-start">NOTES</ion-list-header>
-    <ion-item detail="none" class="ion-padding-start">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start ion-text-wrap">
