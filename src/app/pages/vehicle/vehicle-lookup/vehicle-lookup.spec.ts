@@ -155,8 +155,8 @@ describe('Component: VehicleLookupPage', () => {
     expect(component.getSearchFieldPlaceholder()).toEqual('Enter full VIN');
   });
 
-  it('should call modal.create when pressing on changeSearchCriteria', () => {
-    component.onChangeSearchCriteria();
+  it('should call modal.create when pressing on changeSearchCriteria', async () => {
+    await component.onChangeSearchCriteria();
     expect(modalCtrl.create).toHaveBeenCalled();
   });
 
