@@ -1,0 +1,221 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="APP_STRINGS.VEHICLE_DETAILS"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-margin-start">
+      <span>Brakes</span>
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar
+    class="provisional-record-toolbar"
+    *ngIf="vehicleData.techRecord.statusCode===TECH_RECORD_STATUS.PROVISIONAL"
+  >
+    <ion-title class="ion-padding-start">{{ APP_STRINGS.PROVISIONAL_LABEL_TEXT }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content
+  class="ion-no-padding content-background-color-grey"
+  *ngIf="!commonFunc.checkForMatch(vehicleData.techRecord.vehicleType,VEHICLE_TYPE.TRL); else showTrailerBrakesPage"
+>
+  <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center">
+    {{ vehicleData.vrm | formatVrm }}
+  </div>
+
+  <ng-container>
+    <ion-list-header class="first-header"> </ion-list-header>
+    <ion-list class="vehicle-list ion-text-wrap">
+      <ion-item>
+        <ion-label>
+          <h2>Brake code</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.brakeCode }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Service</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.dataTrBrakeOne }}</p>
+        </div>
+      </ion-item>
+      <ion-item
+        [ngClass]="{'flex-direction-column': vehicleData.techRecord.brakes.dataTrBrakeTwo && vehicleData.techRecord.brakes.dataTrBrakeTwo.length > 35}"
+      >
+        <ion-label>
+          <h2>Secondary</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.dataTrBrakeTwo }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Parking</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.dataTrBrakeThree }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Retarder 1</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.retarderBrakeOne }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Retarder 2</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.retarderBrakeTwo }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container>
+    <ion-list-header class="ion-padding-start ion-padding-end ion-text-wrap">
+      BRAKE FORCE<br />
+      NO WHEELS LOCKED
+    </ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Service</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked?.serviceBrakeForceA }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Secondary</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked?.secondaryBrakeForceA }}</p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Parking</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">{{ vehicleData.techRecord.brakes.brakeForceWheelsNotLocked?.parkingBrakeForceA }}</p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+
+  <ng-container>
+    <ion-list-header class="ion-padding-start ion-padding-end ion-text-wrap">
+      BRAKE FORCE<br />
+      UP TO AND INCLUDING HALF WHEELS LOCKED
+    </ion-list-header>
+    <ion-list class="vehicle-list">
+      <ion-item>
+        <ion-label>
+          <h2>Service</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">
+            {{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked?.serviceBrakeForceB }}
+          </p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Secondary</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">
+            {{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked?.secondaryBrakeForceB }}
+          </p>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h2>Parking</h2>
+        </ion-label>
+        <div>
+          <p class="ion-no-margin">
+            {{ vehicleData.techRecord.brakes.brakeForceWheelsUpToHalfLocked?.parkingBrakeForceB }}
+          </p>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</ion-content>
+
+<ng-template #showTrailerBrakesPage
+  ><!-- Brakes page only for trailers -->
+  <ion-content class="ion-no-padding content-background-color-grey">
+    <div class="vehicle-header-vrm-number ion-text-capitalize ion-text-center">
+      {{ vehicleData.trailerId }}
+    </div>
+
+    <ng-container *ngFor="let axle of vehicleData.techRecord?.axles">
+      <ion-list-header>AXLE {{ axle?.axleNumber }}</ion-list-header>
+      <ion-list class="vehicle-list">
+        <ion-item>
+          <ion-label>
+            <h2>Brake actuator</h2>
+          </ion-label>
+          <div>
+            <p class="ion-no-margin">{{ axle?.brakes?.brakeActuator }}</p>
+          </div>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h2>Lever length</h2>
+          </ion-label>
+          <div>
+            <p class="ion-no-margin">{{ axle?.brakes?.leverLength }}</p>
+          </div>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h2>Spring brake parking</h2>
+          </ion-label>
+          <div>
+            <p class="ion-no-margin">
+              {{ axle?.brakes?.springBrakeParking !== null ? (axle?.brakes?.springBrakeParking |
+              formatBoolean) : '' }}
+            </p>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+
+    <ng-container>
+      <ion-list class="vehicle-list">
+        <ion-list-header> </ion-list-header>
+        <ion-item>
+          <ion-label>
+            <h2>Load sensing valve</h2>
+          </ion-label>
+          <div>
+            <p class="ion-no-margin">{{ vehicleData.techRecord?.brakes?.loadSensingValve | formatBoolean }}</p>
+          </div>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <h2>Antilock braking system</h2>
+          </ion-label>
+          <div>
+            <p>{{ vehicleData.techRecord?.brakes?.antilockBrakingSystem | formatBoolean }}</p>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+  </ion-content>
+</ng-template>
