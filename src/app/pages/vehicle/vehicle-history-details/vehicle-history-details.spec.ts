@@ -67,7 +67,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
               previousPage: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
               testIndex: 0,
               testTypeIndex: 0,
-              testResultHistory: TestResultsHistoryDataMock,
+              testResultHistory: TestResultsHistoryDataMock.TestResultHistoryData,
             }
           }
       } as any
@@ -75,9 +75,6 @@ describe('Component: VehicleHistoryDetailsPage', () => {
   }));
 
   beforeEach(() => {
-    // comp.testIndex = 0;
-    // comp.testTypeIndex = 0;
-    // comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;
     comp.testsWithoutCertificate = ['test'];
     comp.testsWithoutDefects = ['test'];
     comp.testsWithoutSeatbelts = ['test'];

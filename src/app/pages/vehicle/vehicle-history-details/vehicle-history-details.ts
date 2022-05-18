@@ -62,6 +62,7 @@ export class VehicleHistoryDetailsPage {
     this.testResultHistory = this.router.getCurrentNavigation().extras.state.testResultHistory;
     this.testIndex = this.router.getCurrentNavigation().extras.state.testIndex;
     this.testTypeIndex = this.router.getCurrentNavigation().extras.state.testTypeIndex;
+    console.log(this.testResultHistory)
     this.selectedTestResult = this.testResultHistory[this.testIndex];
     this.selectedTestType = this.testResultHistory[this.testIndex].testTypes[this.testTypeIndex];
     this.testTypeResults = TEST_TYPE_RESULTS;
