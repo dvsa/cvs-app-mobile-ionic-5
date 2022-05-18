@@ -1,10 +1,8 @@
 :host {
   ion-list-header {
-    //.label-ios {
-      margin: 11px 8px 7px 0;
+      margin: 0px 8px 7px 0;
       color: var(--color-grey-1);
       font-size: var(--font-size-small);
-    //}
   }
 
   ion-content {
@@ -31,6 +29,7 @@
   }
 
   .test-type {
+    padding-top: 5px;
     min-height: 70px;
     align-items: flex-start;
   }
@@ -46,7 +45,6 @@
     margin: 10px 0 0 0;
 
     ion-list-header {
-      //min-height: 50px;
       align-items: flex-end;
     }
   }

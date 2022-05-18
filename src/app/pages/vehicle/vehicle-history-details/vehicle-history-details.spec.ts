@@ -1,8 +1,7 @@
 import { VehicleHistoryDetailsPage } from './vehicle-history-details';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController, NavParams } from '@ionic/angular';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { NavController, NavParams } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ViewControllerMock } from '@test-config/ionic-mocks/view-controller.mock';
 import { NavParamsMock } from '@test-config/ionic-mocks/nav-params.mock';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import { PipesModule } from '@pipes/pipes.module';
@@ -11,25 +10,27 @@ import { TestResultsHistoryDataMock } from '@assets/data-mocks/test-results-hist
 import { AppService } from '@providers/global/app.service';
 import { AppServiceMock } from '@test-config/services-mocks/app-service.mock';
 import { TestTypeService } from '@providers/test-type/test-type.service';
-import { ANALYTICS_SCREEN_NAMES, DEFICIENCY_CATEGORY } from '@app/app.enums';
+import { ANALYTICS_SCREEN_NAMES, DEFICIENCY_CATEGORY, PAGE_NAMES } from '@app/app.enums';
 import { DefectDetailsModel } from '@models/defects/defect-details.model';
 import { MOCK_UTILS } from '@test-config/mocks/mocks.utils';
 import { AnalyticsService } from '@providers/global';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
   let fixture: ComponentFixture<VehicleHistoryDetailsPage>;
   let navCtrl: NavController;
   let commonFunctionsService: CommonFunctionsService;
-  let viewCtrl: ViewController;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let testTypeService: TestTypeService;
   let testTypeServiceSpy: any;
+  let router: any;
 
   const defects: DefectDetailsModel[] = [MOCK_UTILS.mockDefectsDetails()];
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
     testTypeServiceSpy = jasmine.createSpyObj('TestTypeService', [
       'fixDateFormatting',
@@ -39,29 +40,44 @@ describe('Component: VehicleHistoryDetailsPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [VehicleHistoryDetailsPage],
-      imports: [PipesModule],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        PipesModule
+      ],
       providers: [
         NavController,
         CommonFunctionsService,
-        { provide: NavParams, useClass: NavParamsMock },
         { provide: TestTypeService, useValue: testTypeServiceSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: AppService, useClass: AppServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    }).compileComponents();
-  }));
-
-  beforeEach(() => {
+    });
     fixture = TestBed.createComponent(VehicleHistoryDetailsPage);
     comp = fixture.componentInstance;
     navCtrl = TestBed.inject(NavController);
     commonFunctionsService = TestBed.inject(CommonFunctionsService);
     analyticsService = TestBed.inject(AnalyticsService);
     testTypeService = TestBed.inject(TestTypeService);
-    comp.testIndex = 0;
-    comp.testTypeIndex = 0;
-    comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;
+    router = TestBed.inject(Router);
+    spyOn(router, 'getCurrentNavigation').and.returnValue(
+      { extras:
+          {
+            state: {
+              previousPage: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
+              testIndex: 0,
+              testTypeIndex: 0,
+              testResultHistory: TestResultsHistoryDataMock,
+            }
+          }
+      } as any
+    );
+  }));
+
+  beforeEach(() => {
+    // comp.testIndex = 0;
+    // comp.testTypeIndex = 0;
+    // comp.testResultHistory = TestResultsHistoryDataMock.TestResultHistoryData;
     comp.testsWithoutCertificate = ['test'];
     comp.testsWithoutDefects = ['test'];
     comp.testsWithoutSeatbelts = ['test'];

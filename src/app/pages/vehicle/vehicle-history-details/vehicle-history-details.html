@@ -12,7 +12,7 @@
 <ion-content class="ion-no-padding content-background-color-grey">
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-uppercase ion-padding-start">TEST TYPE</ion-list-header>
-    <ion-item class="ion-padding-start">
+    <ion-item class="ion-padding-start" lines="none">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="test-type ion-text-start">
@@ -235,7 +235,7 @@
         </div>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start" *ngIf="selectedTestType.modificationTypeUsed">
+    <ion-item class="ion-padding-start" lines="none" *ngIf="selectedTestType.modificationTypeUsed">
       <ion-grid class="ion-no-padding">
         <ion-row>
           <span text-left>Modification type used</span>
@@ -249,7 +249,7 @@
 
   <ion-list class="list-margin" *ngIf="isTestResultAbandon">
     <ion-list-header class="ion-text-capitalize ion-padding-start">REASON(S) FOR ABANDONING</ion-list-header>
-    <ion-item class="ion-padding-start">
+    <ion-item class="ion-padding-start" lines="none">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start ion-text-wrap">
@@ -264,7 +264,7 @@
 
   <ion-list class="list-margin" *ngIf="isTestResultAbandon">
     <ion-list-header class="ion-text-capitalize ion-padding-start">Notes</ion-list-header>
-    <ion-item class="ion-padding-start">
+    <ion-item class="ion-padding-start" lines="none">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-wrap ion-text-start">
@@ -399,7 +399,7 @@
     <ng-container
       *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)"
     >
-      <ion-item class="ion-padding-start">
+      <ion-item class="ion-padding-start" lines="none">
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
@@ -449,7 +449,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start" *ngIf="selectedTestResult.odometerReading">
+    <ion-item class="ion-padding-start" lines="none" *ngIf="selectedTestResult.odometerReading">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -496,7 +496,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start">
+    <ion-item class="ion-padding-start" lines="none">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
@@ -529,7 +529,7 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start">
+    <ion-item class="ion-padding-start" lines="none">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NavController, NavParams } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -35,7 +35,7 @@ describe('Component: VehicleHistoryPage', () => {
   const vehicleData: VehicleModel = VehicleDataMock.VehicleData;
   const testTypeArray = TestTypeArrayDataMock.TestTypeArrayData;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     analyticsServiceSpy = jasmine.createSpyObj('AnalyticsService', ['setCurrentPage']);
     testTypeServiceSpy = jasmine.createSpyObj('TestTypeService', ['fixDateFormatting']);
 

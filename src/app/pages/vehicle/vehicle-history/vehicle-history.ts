@@ -60,7 +60,6 @@ export class VehicleHistoryPage implements OnInit {
         testResultHistory: this.testResultHistory,
         testIndex,
         testTypeIndex,
-        vehicleType: this.vehicleData.techRecord.vehicleType
       }
     }).catch((error) => {
       console.log('error');

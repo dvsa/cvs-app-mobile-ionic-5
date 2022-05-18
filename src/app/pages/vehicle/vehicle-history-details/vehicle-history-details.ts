@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import {
   TEST_TYPE_RESULTS,
@@ -47,7 +47,6 @@ export class VehicleHistoryDetailsPage {
   testResultColor: string;
   countryOfRegistration: string;
   distanceType: string;
-  vehicleType: string;
   previousPageName: string = APP_STRINGS.TEST_HISTORY;
 
   constructor(
@@ -63,7 +62,6 @@ export class VehicleHistoryDetailsPage {
     this.testResultHistory = this.router.getCurrentNavigation().extras.state.testResultHistory;
     this.testIndex = this.router.getCurrentNavigation().extras.state.testIndex;
     this.testTypeIndex = this.router.getCurrentNavigation().extras.state.testTypeIndex;
-    this.vehicleType = this.router.getCurrentNavigation().extras.state.vehicleType;
     this.selectedTestResult = this.testResultHistory[this.testIndex];
     this.selectedTestType = this.testResultHistory[this.testIndex].testTypes[this.testTypeIndex];
     this.testTypeResults = TEST_TYPE_RESULTS;
