@@ -19,7 +19,7 @@
 
   <ion-list class="tests-list" *ngIf="testResultHistory.length">
     <ng-container *ngFor="let testType of testTypeArray">
-      <ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)" class="ion-no-padding">
+      <ion-item (click)="showTestDetails(testType.testIndex, testType.testTypeIndex)" class="ion-no-padding ion-activatable">
         <ion-grid>
           <ion-row class="ion-padding-start ion-justify-content-between">
             <ion-col>
@@ -60,6 +60,7 @@
             </ion-col>
           </ion-row>
         </ion-grid>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
     </ng-container>
   </ion-list>
