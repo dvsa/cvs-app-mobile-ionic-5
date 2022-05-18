@@ -486,7 +486,7 @@ export class TestCreatePage implements OnInit {
     //   }
     // });
     // await MODAL.present();
-    // const didDismiss = await MODAL.onWillDismiss();
+    // const didDismiss = await MODAL.onDidDismiss();
     // if (didDismiss) {
     //   this.computeErrorIncomplete();
     // }
@@ -501,7 +501,7 @@ export class TestCreatePage implements OnInit {
     //   }
     // });
     // await MODAL.present();
-    // const didDismiss = await MODAL.onWillDismiss();
+    // const didDismiss = await MODAL.onDidDismiss();
     // if (didDismiss) {
     //   this.computeErrorIncomplete();
     // }
@@ -517,7 +517,7 @@ export class TestCreatePage implements OnInit {
     //   }
     // });
     // await MODAL.present();
-    // const didDismiss = await MODAL.onWillDismiss();
+    // const didDismiss = await MODAL.onDidDismiss();
     // if (didDismiss) {
     //   this.computeErrorIncomplete();
     // }
