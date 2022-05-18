@@ -12,6 +12,13 @@
     }
   }
 
+  ion-list {
+    ion-item:last-child {
+      --border-width: 0;
+      --border-color: transparent;
+    }
+  }
+
   ion-item {
     padding-left: 0;
   }
