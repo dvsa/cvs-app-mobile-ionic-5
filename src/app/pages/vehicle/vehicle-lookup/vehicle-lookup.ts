@@ -12,15 +12,14 @@ import {
   NavController,
 } from '@ionic/angular';
 import { _throw } from 'rxjs/observable/throw';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { TestModel } from '@models/tests/test.model';
 import { VehicleService } from '@providers/vehicle/vehicle.service';
 import { VisitService } from '@providers/visit/visit.service';
-import { TestResultModel } from '@models/tests/test-result.model';
-import { APP_STRINGS, PAGE_NAMES, STORAGE, VEHICLE_TYPE } from '@app/app.enums';
+import { APP_STRINGS, PAGE_NAMES, VEHICLE_TYPE } from '@app/app.enums';
 import { StorageService } from '@providers/natives/storage.service';
 import { default as AppConfig } from '@config/application.hybrid';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
@@ -278,7 +277,7 @@ export class VehicleLookupPage implements OnInit {
       }
     });
     await MODAL.present();
-    const { data } = await MODAL.onWillDismiss();
+    const { data } = await MODAL.onDidDismiss();
     if (data) {
       this.selectedSearchCriteria = data;
       this.searchPlaceholder = this.getSearchFieldPlaceholder();

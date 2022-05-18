@@ -419,6 +419,7 @@ export enum PAGE_NAMES {
   VEHICLE_HISTORY_PAGE = 'VehicleHistoryPage',
   VEHICLE_WEIGHTS_PAGE = 'VehicleWeightsPage',
   VEHICLE_ADDITIONAL_PAGE = 'VehicleAdditionalPage',
+  VEHICLE_BRAKES_PAGE = 'VehicleBrakesPage',
   TEST_TYPES_LIST_PAGE = 'TestTypesListPage',
   REASONS_SELECTION_PAGE = 'ReasonsSelectionPage',
   TEST_CANCEL_PAGE = 'TestCancelPage',
