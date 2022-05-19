@@ -228,9 +228,9 @@
     >
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <span text-left>Particulate trap serial number</span>
+          <span class="ion-text-left">Particulate trap serial number</span>
         </ion-row>
-        <div text-left text-wrap>
+        <div class="ion-text-left ion-text-wrap">
           {{ selectedTestType.particulateTrapSerialNumber }}
         </div>
       </ion-grid>
@@ -238,9 +238,9 @@
     <ion-item class="ion-padding-start" lines="none" *ngIf="selectedTestType.modificationTypeUsed">
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <span text-left>Modification type used</span>
+          <span class="ion-text-left">Modification type used</span>
         </ion-row>
-        <div text-left text-wrap>
+        <div class="ion-text-left ion-text-wrap">
           {{ selectedTestType.modificationTypeUsed }}
         </div>
       </ion-grid>
@@ -289,7 +289,7 @@
         class="defect ion-padding-start"
         *ngFor="let defect of selectedTestType.defects"
       >
-        <ion-grid class="ion-no-padding">
+        <ion-grid class="ion-no-padding defect-grid">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
               <span class="defect-ref">
@@ -299,7 +299,7 @@
               </span>
               <ion-badge
                 *ngIf="defect.deficiencyCategory"
-                class="ion-text-capitalize"
+                class="ion-text-capitalize defect-badge"
                 [color]="getDeficiencyColor(defect.deficiencyCategory)"
               >
                 {{ defect.deficiencyCategory }}
@@ -375,7 +375,7 @@
         class="defect ion-padding-start"
         *ngFor="let customDefect of selectedTestType.customDefects"
       >
-        <ion-grid class="ion-no-padding">
+        <ion-grid class="ion-no-padding defect-grid">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
               <span class="defect-ref">
@@ -420,7 +420,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Country of registration</span>
+            <span class="ion-text-left">Country of registration</span>
           </ion-col>
           <ion-col
             size="auto"

@@ -16,6 +16,7 @@ import { MOCK_UTILS } from '@test-config/mocks/mocks.utils';
 import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
 
 describe('Component: VehicleHistoryDetailsPage', () => {
   let comp: VehicleHistoryDetailsPage;
@@ -64,7 +65,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
       { extras:
           {
             state: {
-              previousPage: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
+              vehicleType: VehicleDataMock.VehicleData.techRecord.vehicleType,
               testIndex: 0,
               testTypeIndex: 0,
               testResultHistory: TestResultsHistoryDataMock.TestResultHistoryData,

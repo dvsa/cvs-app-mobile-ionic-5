@@ -14,8 +14,8 @@ import {
   TestsWithoutDefects
 } from '@assets/app-data/test-required-fields/test-required-fields.data';
 import { TestTypeModel } from '@models/tests/test-type.model';
-import { TestResultModel } from '../../../../models/tests/test-result.model';
-import { CountryOfRegistrationData } from '../../../../assets/app-data/country-of-registration/country-of-registration.data';
+import { TestResultModel } from '@models/tests/test-result.model';
+import { CountryOfRegistrationData } from '@assets/app-data/country-of-registration/country-of-registration.data';
 import { AppService } from '@providers/global/app.service';
 import { TestTypeService } from '@providers/test-type/test-type.service';
 import { AnalyticsService } from '@providers/global';
@@ -48,6 +48,7 @@ export class VehicleHistoryDetailsPage {
   countryOfRegistration: string;
   distanceType: string;
   previousPageName: string = APP_STRINGS.TEST_HISTORY;
+  vehicleType: any;
 
   constructor(
     public navCtrl: NavController,
@@ -62,7 +63,7 @@ export class VehicleHistoryDetailsPage {
     this.testResultHistory = this.router.getCurrentNavigation().extras.state.testResultHistory;
     this.testIndex = this.router.getCurrentNavigation().extras.state.testIndex;
     this.testTypeIndex = this.router.getCurrentNavigation().extras.state.testTypeIndex;
-    console.log(this.testResultHistory)
+    this.vehicleType = this.router.getCurrentNavigation().extras.state.vehicleType;
     this.selectedTestResult = this.testResultHistory[this.testIndex];
     this.selectedTestType = this.testResultHistory[this.testIndex].testTypes[this.testTypeIndex];
     this.testTypeResults = TEST_TYPE_RESULTS;
