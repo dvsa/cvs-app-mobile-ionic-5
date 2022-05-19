@@ -12,7 +12,7 @@
 <ion-content class="ion-no-padding content-background-color-grey">
   <ion-list class="list-margin">
     <ion-list-header class="ion-text-uppercase ion-padding-start">TEST TYPE</ion-list-header>
-    <ion-item class="ion-padding-start" lines="none">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="test-type ion-text-start">
@@ -31,7 +31,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Test date</span>
+            <span class="ion-text-left">Test date</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize">
@@ -77,7 +77,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Prohibition issued</span>
+            <span class="ion-text-left">Prohibition issued</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize">
@@ -94,7 +94,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left
+            <span class="ion-text-left"
               >Certificate number<span
                 *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId)"
               >
@@ -115,7 +115,7 @@
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start">
-              <span text-left>Test number</span>
+              <span class="ion-text-left">Test number</span>
             </ion-col>
             <ion-col size="auto" class="ion-text-end">
               <span class="ion-text-capitalize">
@@ -133,7 +133,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Certificate number (COIF)</span>
+            <span class="ion-text-left">Certificate number (COIF)</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize">
@@ -147,7 +147,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Test expiry</span>
+            <span class="ion-text-left">Test expiry</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span>
@@ -160,10 +160,10 @@
     <ion-item class="ion-padding-start" *ngIf="selectedTestType.emissionStandard">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
-          <ion-col size="3" class="ion-text-start">
-            <span text-left>Emission standard</span>
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Emission standard</span>
           </ion-col>
-          <ion-col size="3" class="ion-text-end">
+          <ion-col size="6" class="ion-text-end">
             <span>
               {{ selectedTestType.emissionStandard }}
             </span>
@@ -174,8 +174,8 @@
     <ion-item class="ion-padding-start" *ngIf="selectedTestType.smokeTestKLimitApplied">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
-          <ion-col size="3" class="ion-text-start">
-            <span text-left>Smoke test "K" limit applied</span>
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Smoke test "K" limit applied</span>
           </ion-col>
           <ion-col size="3" class="ion-text-end">
             <span>
@@ -188,8 +188,8 @@
     <ion-item class="ion-padding-start" *ngIf="selectedTestType.fuelType">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
-          <ion-col size="3" class="ion-text-start">
-            <span text-left>Fuel type</span>
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Fuel type</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize">
@@ -202,10 +202,10 @@
     <ion-item class="ion-padding-start" *ngIf="selectedTestType.modType">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
-          <ion-col size="3" class="ion-text-start">
-            <span text-left>Modification type</span>
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Modification type</span>
           </ion-col>
-          <ion-col size="9" class="ion-text-end">
+          <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize">
               {{ selectedTestType.modType.code }}
             </span>
@@ -216,11 +216,15 @@
     <ion-item class="ion-padding-start" *ngIf="selectedTestType.particulateTrapFitted">
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <span text-left>Particulate trap fitted</span>
+          <ion-col size="6">
+            <span class="ion-text-left">Particulate trap fitted</span>
+          </ion-col>
+          <ion-col size="6"  class="ion-text-end">
+            <span>
+              {{ selectedTestType.particulateTrapFitted }}
+            </span>
+          </ion-col>
         </ion-row>
-        <div text-left text-wrap>
-          {{ selectedTestType.particulateTrapFitted }}
-        </div>
       </ion-grid>
     </ion-item>
     <ion-item class="ion-padding-start"
@@ -228,28 +232,36 @@
     >
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <span class="ion-text-left">Particulate trap serial number</span>
-        </ion-row>
-        <div class="ion-text-left ion-text-wrap">
+          <ion-col size="6">
+            <span class="ion-text-left">Particulate trap serial number</span>
+          </ion-col>
+          <ion-col size="6"  class="ion-text-end">
+            <span>
           {{ selectedTestType.particulateTrapSerialNumber }}
-        </div>
+            </span>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start" lines="none" *ngIf="selectedTestType.modificationTypeUsed">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.modificationTypeUsed">
       <ion-grid class="ion-no-padding">
         <ion-row>
-          <span class="ion-text-left">Modification type used</span>
+          <ion-col size="6">
+            <span class="ion-text-left">Modification type used</span>
+          </ion-col>
+          <ion-col size="6" class="ion-text-end">
+            <span>
+              {{ selectedTestType.modificationTypeUsed }}
+            </span>
+          </ion-col>
         </ion-row>
-        <div class="ion-text-left ion-text-wrap">
-          {{ selectedTestType.modificationTypeUsed }}
-        </div>
       </ion-grid>
     </ion-item>
   </ion-list>
 
   <ion-list class="list-margin" *ngIf="isTestResultAbandon">
     <ion-list-header class="ion-text-capitalize ion-padding-start">REASON(S) FOR ABANDONING</ion-list-header>
-    <ion-item class="ion-padding-start" lines="none">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start ion-text-wrap">
@@ -264,7 +276,7 @@
 
   <ion-list class="list-margin" *ngIf="isTestResultAbandon">
     <ion-list-header class="ion-text-capitalize ion-padding-start">Notes</ion-list-header>
-    <ion-item class="ion-padding-start" lines="none">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-wrap ion-text-start">
@@ -292,19 +304,19 @@
         <ion-grid class="ion-no-padding defect-grid">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
-              <span class="defect-ref">
-                <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
-                <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
-                <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
-              </span>
-              <ion-badge
-                *ngIf="defect.deficiencyCategory"
-                class="ion-text-capitalize defect-badge"
-                [color]="getDeficiencyColor(defect.deficiencyCategory)"
-              >
-                {{ defect.deficiencyCategory }}
-              </ion-badge>
-              <ion-badge *ngIf="defect.prs" color="tertiary">PRS</ion-badge>
+                <span class="defect-ref">
+                  <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
+                  <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                  <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+                </span>
+                <ion-badge
+                  *ngIf="defect.deficiencyCategory"
+                  class="ion-text-capitalize defect-badge"
+                  [color]="getDeficiencyColor(defect.deficiencyCategory)"
+                >
+                  {{ defect.deficiencyCategory }}
+                </ion-badge>
+                <ion-badge *ngIf="defect.prs" color="tertiary">PRS</ion-badge>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -399,7 +411,7 @@
     <ng-container
       *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)"
     >
-      <ion-item class="ion-padding-start" lines="none">
+      <ion-item class="ion-padding-start">
         <ion-grid class="ion-no-padding">
           <ion-row class="ion-justify-content-between">
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
@@ -439,7 +451,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>EU vehicle category</span>
+            <span class="ion-text-left">EU vehicle category</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span>
@@ -449,11 +461,11 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start" lines="none" *ngIf="selectedTestResult.odometerReading">
+    <ion-item class="ion-padding-start" *ngIf="selectedTestResult.odometerReading">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Odometer reading</span>
+            <span class="ion-text-left">Odometer reading</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span>
@@ -471,7 +483,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Carried out during inspection</span>
+            <span class="ion-text-left">Carried out during inspection</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span>
@@ -486,7 +498,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Number of seatbelts</span>
+            <span class="ion-text-left">Number of seatbelts</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span>
@@ -496,11 +508,11 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start" lines="none">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Previous seatbelt installation check</span>
+            <span class="ion-text-left">Previous seatbelt installation check</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span>
@@ -519,7 +531,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Name</span>
+            <span class="ion-text-left">Name</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize">
@@ -529,11 +541,11 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-    <ion-item class="ion-padding-start" lines="none">
+    <ion-item class="ion-padding-start">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Test facility number</span>
+            <span class="ion-text-left">Test facility number</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize"
@@ -551,7 +563,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Name</span>
+            <span class="ion-text-left">Name</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
             <span class="ion-text-capitalize">
@@ -565,7 +577,7 @@
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
           <ion-col size="auto" class="ion-text-start">
-            <span text-left>Staff ID</span>
+            <span class="ion-text-left">Staff ID</span>
           </ion-col>
           <ion-col
             size="auto"
