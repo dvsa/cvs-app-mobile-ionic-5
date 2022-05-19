@@ -19,4 +19,4 @@ import {
   ],
   providers: [CommonFunctionsService, TestTypeService]
 })
-export class VehicleHistoryDetailsPageModule {}
+export class VehicleHistoryDetailsModule {}

@@ -105,7 +105,7 @@ const routes: Routes = [
   {
     path: PAGE_NAMES.VEHICLE_HISTORY_DETAILS_PAGE,
     loadChildren: () => import('./pages/vehicle/vehicle-history-details/vehicle-history-details.module')
-      .then( m => m.VehicleHistoryDetailsPageModule)
+      .then( m => m.VehicleHistoryDetailsModule)
   }
 ];
 
