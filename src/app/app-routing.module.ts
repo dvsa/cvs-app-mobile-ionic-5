@@ -102,6 +102,11 @@ const routes: Routes = [
       import('./pages/vehicle/vehicle-brakes/vehicle-brakes.module')
         .then( m => m.VehicleBrakesModule)
   },
+  {
+    path: PAGE_NAMES.VEHICLE_HISTORY_DETAILS_PAGE,
+    loadChildren: () => import('./pages/vehicle/vehicle-history-details/vehicle-history-details.module')
+      .then( m => m.VehicleHistoryDetailsModule)
+  }
 ];
 
 @NgModule({

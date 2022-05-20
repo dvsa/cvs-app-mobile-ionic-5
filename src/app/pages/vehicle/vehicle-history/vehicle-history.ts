@@ -59,7 +59,7 @@ export class VehicleHistoryPage implements OnInit {
         testResultHistory: this.testResultHistory,
         testIndex,
         testTypeIndex,
-        vehicleType: this.vehicleData.techRecord.vehicleType
+        vehicleType: this.vehicleData.techRecord.vehicleType,
       }
     });
   }

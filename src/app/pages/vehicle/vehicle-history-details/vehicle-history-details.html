@@ -1,0 +1,610 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="previousPageName"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-margin-start">
+      <span>Test history details</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list class="list-margin">
+    <ion-list-header class="ion-text-uppercase ion-padding-start">TEST TYPE</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="test-type ion-text-start">
+            <span class="ion-text-capitalize ion-text-left">
+              {{ selectedTestType.testTypeName || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin">
+    <ion-list-header class="ion-text-uppercase ion-padding-start">TEST DETAILS</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Test date</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              {{ (selectedTestType.testTypeStartTimestamp | date:'dd MMM yyyy') ||
+              defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Test time</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-uppercase">
+              {{ (selectedTestType.testTypeStartTimestamp | date:'HH:mm') || defaultValues.NONE }}
+              - {{ (selectedTestType.testTypeEndTimestamp | date:'HH:mm') || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Test result</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="test-result ion-text-uppercase">
+              <ion-text [color]="testResultColor">
+                {{ selectedTestType.testResult || defaultValues.NONE }}
+              </ion-text>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.prohibitionIssued">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Prohibition issued</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              Yes
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item
+      class="ion-padding-start"
+      *ngIf="!doesNotHaveCert && !isTestResultAbandon && !isTestResultFail && !testTypeService.isSpecialistWithoutCertificateNumberCapturedIds(selectedTestType.testTypeId); else showTestNumber"
+    >
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left"
+              >Certificate number<span
+                *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId)"
+              >
+                (Annual test)</span
+              ></span
+            >
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              {{ selectedTestType.certificateNumber || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ng-template #showTestNumber>
+      <ion-item class="ion-padding-start">
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-justify-content-between">
+            <ion-col size="auto" class="ion-text-start">
+              <span class="ion-text-left">Test number</span>
+            </ion-col>
+            <ion-col size="auto" class="ion-text-end">
+              <span class="ion-text-capitalize">
+                {{ selectedTestType.testNumber || defaultValues.NONE }}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-template>
+    <ion-item
+      class="ion-padding-start"
+      *ngIf="testTypeService.isSpecialistCoifWithAnnualTest(selectedTestType.testTypeId) && selectedTestType.secondaryCertificateNumber"
+    >
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Certificate number (COIF)</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              {{ selectedTestType.secondaryCertificateNumber }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.testExpiryDate">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Test expiry</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span>
+              {{ (selectedTestType.testExpiryDate | date:'dd MMM yyyy') || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.emissionStandard">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Emission standard</span>
+          </ion-col>
+          <ion-col size="6" class="ion-text-end">
+            <span>
+              {{ selectedTestType.emissionStandard }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.smokeTestKLimitApplied">
+      <ion-grid class="ion-no-padding smoke-test">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Smoke test "K" limit applied</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span>
+              {{ selectedTestType.smokeTestKLimitApplied }}<span> (m<sup>-1</sup>)</span>
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.fuelType">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Fuel type</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              {{ selectedTestType.fuelType }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.modType">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="6" class="ion-text-start">
+            <span class="ion-text-left">Modification type</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              {{ selectedTestType.modType.code }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.particulateTrapFitted">
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="6">
+            <span class="ion-text-left">Particulate trap fitted</span>
+          </ion-col>
+          <ion-col size="6"  class="ion-text-end">
+            <span>
+              {{ selectedTestType.particulateTrapFitted }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start"
+      *ngIf="selectedTestType.particulateTrapSerialNumber"
+    >
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="6">
+            <span class="ion-text-left">Particulate trap serial number</span>
+          </ion-col>
+          <ion-col size="6"  class="ion-text-end">
+            <span>
+          {{ selectedTestType.particulateTrapSerialNumber }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestType.modificationTypeUsed">
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col size="6">
+            <span class="ion-text-left">Modification type used</span>
+          </ion-col>
+          <ion-col size="6" class="ion-text-end">
+            <span>
+              {{ selectedTestType.modificationTypeUsed }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin" *ngIf="isTestResultAbandon">
+    <ion-list-header class="ion-text-capitalize ion-padding-start">REASON(S) FOR ABANDONING</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start ion-text-wrap">
+            <span>
+              {{ selectedTestType.reasonForAbandoning || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin" *ngIf="isTestResultAbandon">
+    <ion-list-header class="ion-text-capitalize ion-padding-start">Notes</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-wrap ion-text-start">
+            <span *ngIf="selectedTestType.additionalCommentsForAbandon; else noAbandonedComments">
+              {{ selectedTestType.additionalCommentsForAbandon || defaultValues.NONE }}
+            </span>
+            <ng-template #noAbandonedComments>
+              <span>
+                {{ defaultValues.NOT_ENTERED }}
+              </span>
+            </ng-template>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin" *ngIf="!doesNotHaveDefects">
+    <ion-list-header class="ion-padding-start ion-text-capitalize">DEFECTS</ion-list-header>
+    <ng-container *ngIf="doDefectsExist">
+      <ion-item
+        class="defect ion-padding-start"
+        *ngFor="let defect of selectedTestType.defects"
+      >
+        <ion-grid class="ion-no-padding defect-grid">
+          <ion-row class="ion-justify-content-between">
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+                <span class="defect-ref">
+                  <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
+                  <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                  <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+                </span>
+                <ion-badge
+                  *ngIf="defect.deficiencyCategory"
+                  class="ion-text-capitalize defect-badge"
+                  [color]="getDeficiencyColor(defect.deficiencyCategory)"
+                >
+                  {{ defect.deficiencyCategory }}
+                </ion-badge>
+                <ion-badge *ngIf="defect.prs" color="tertiary">PRS</ion-badge>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              {{ defect.imNumber }}. {{ defect.imDescription }}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              {{ defect.itemNumber }}. {{ defect.itemDescription }}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+              <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+              {{ defect.deficiencyText }}
+            </ion-col>
+          </ion-row>
+
+          <ion-row *ngIf="defect?.additionalInformation?.location">
+            <ion-col size="auto" class="ion-text-start ion-text-wrap additional-info">
+              <span *ngIf="defect.additionalInformation.location?.vertical" class="ion-text-capitalize">
+                <span class="forward-slash">/</span>
+                {{ defect.additionalInformation.location?.vertical }}
+              </span>
+              <span *ngIf="defect.additionalInformation.location?.horizontal" class="ion-text-capitalize">
+                <span class="forward-slash">/</span>
+                {{ defect.additionalInformation.location?.horizontal }}
+              </span>
+              <span *ngIf="defect.additionalInformation.location?.lateral" class="ion-text-capitalize">
+                <span class="forward-slash">/</span>
+                {{ defect.additionalInformation.location?.lateral }}
+              </span>
+              <span *ngIf="defect.additionalInformation.location?.longitudinal" class="ion-text-capitalize">
+                <span class="forward-slash">/</span>
+                {{ defect.additionalInformation.location?.longitudinal }}
+              </span>
+              <span *ngIf="defect.additionalInformation.location?.rowNumber" class="ion-text-capitalize">
+                <span class="forward-slash">/</span>
+                {{ 'Row ' + defect.additionalInformation.location?.rowNumber }}
+              </span>
+              <span *ngIf="defect.additionalInformation.location?.seatNumber" class="ion-text-capitalize">
+                <span class="forward-slash">/</span>
+                {{ 'Seat ' + defect.additionalInformation.location?.seatNumber }}
+              </span>
+              <span *ngIf="defect.additionalInformation.location?.axleNumber" class="ion-text-capitalize">
+                <span class="forward-slash">/</span>
+                {{ 'Axle ' + defect.additionalInformation.location?.axleNumber }}
+              </span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              {{ defect?.additionalInformation?.notes || defaultValues.NONE }}
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="defect.prohibitionIssued">
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              Prohibition issued - Yes
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-container>
+    <ng-container *ngIf="checkForDefects(selectedTestType.customDefects)">
+      <ion-item
+        class="defect ion-padding-start"
+        *ngFor="let customDefect of selectedTestType.customDefects"
+      >
+        <ion-grid class="ion-no-padding defect-grid">
+          <ion-row class="ion-justify-content-between">
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              <span class="defect-ref">
+                <span>{{customDefect.referenceNumber}}</span>
+              </span>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              {{ customDefect.defectName }}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              {{ customDefect.defectNotes || defaultValues.NONE }}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-container>
+    <ng-container
+      *ngIf="!checkForDefects(selectedTestType.defects) && !checkForDefects(selectedTestType.customDefects)"
+    >
+      <ion-item class="ion-padding-start">
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-justify-content-between">
+            <ion-col size="auto" class="ion-text-start ion-text-wrap">
+              <span>
+                {{ defaultValues.NOT_ENTERED }}
+              </span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+
+  <ion-list class="list-margin">
+    <ion-list-header class="ion-text-capitalize ion-padding-start">VEHICLE DETAILS</ion-list-header>
+
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Country of registration</span>
+          </ion-col>
+          <ion-col
+            size="auto"
+            class="wrap-ellipsis country-of-registration ion-text-end"
+            [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}"
+          >
+            <span>
+              {{ countryOfRegistration }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">EU vehicle category</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span>
+              {{ selectedTestResult.euVehicleCategory | uppercase }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start" *ngIf="selectedTestResult.odometerReading">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Odometer reading</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span>
+              {{selectedTestResult.odometerReading | number}} {{distanceType}}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin" *ngIf="!doesNotHaveBelts && vehicleType === 'psv'">
+    <ion-list-header class="ion-text-capitalize ion-padding-start">SEATBELT INSTALLATION CHECK</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Carried out during inspection</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span>
+              {{ (selectedTestType.seatbeltInstallationCheckDate | formatBoolean) ||
+              defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Number of seatbelts</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span>
+              {{ selectedTestType.numberOfSeatbeltsFitted || defaultValues.NOT_ENTERED }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Previous seatbelt installation check</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span>
+              {{ (selectedTestType.lastSeatbeltInstallationCheckDate | date:'dd MMM yyyy') ||
+              defaultValues.NOT_ENTERED }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin">
+    <ion-list-header class="ion-text-capitalize ion-padding-start">TEST STATION</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Name</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              {{ selectedTestResult.testStationName || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Test facility number</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize"
+              >{{ selectedTestResult.testStationPNumber || defaultValues.NONE }}</span
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin">
+    <ion-list-header class="ion-text-capitalize ion-padding-start">TESTER</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Name</span>
+          </ion-col>
+          <ion-col size="auto" class="ion-text-end">
+            <span class="ion-text-capitalize">
+              {{ selectedTestResult.testerName || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start">
+            <span class="ion-text-left">Staff ID</span>
+          </ion-col>
+          <ion-col
+            size="auto"
+            class="staff-id ion-text-end"
+            [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled(), 'wrap-ellipsis': !appService.isAccessibilityTextZoomEnabled()}"
+          >
+            <span>
+              {{ selectedTestResult.testerStaffId || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="list-margin">
+    <ion-list-header class="ion-text-capitalize ion-padding-start">NOTES</ion-list-header>
+    <ion-item class="ion-padding-start">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="auto" class="ion-text-start ion-text-wrap">
+            <span class="ion-text-capitalize ion-text-left">
+              {{ selectedTestType.additionalNotesRecorded || defaultValues.NONE }}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>

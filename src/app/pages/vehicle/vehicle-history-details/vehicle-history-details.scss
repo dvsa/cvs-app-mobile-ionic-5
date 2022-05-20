@@ -1,0 +1,85 @@
+:host {
+  ion-list-header {
+      margin: 0px 8px 7px 0;
+      color: var(--color-grey-1);
+      font-size: var(--font-size-small);
+  }
+
+  ion-content {
+    .scroll-content {
+      background: var(--color-grey-3);
+      padding-bottom: 32px;
+    }
+  }
+
+  ion-list {
+    ion-item:last-child {
+      --border-width: 0;
+      --border-color: transparent;
+    }
+  }
+
+  ion-item {
+    padding-left: 0;
+  }
+
+  .smoke-test {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .ion-text-end span {
+    color: var(--color-grey-1);
+  }
+
+  div[text-left][text-wrap] {
+    margin-top: 5px;
+  }
+
+  .additional-info span:first-child .forward-slash {
+    display: none;
+  }
+
+  .test-type {
+    padding-top: 5px;
+    min-height: 70px;
+    align-items: flex-start;
+  }
+
+  .defect-ref {
+    color: var(--dark);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-medium);
+    margin-right: 8px;
+  }
+
+  .defect-badge {
+    margin-bottom: -4px;
+  }
+
+  .defect-grid {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .list-margin {
+    margin: 10px 0 0 0;
+
+    ion-list-header {
+      align-items: flex-end;
+    }
+  }
+
+  .country-of-registration {
+    max-width: 50%; //accessibility ellipsis limit
+  }
+
+  .staff-id {
+    max-width: 80%; //accessibility ellipsis limit
+  }
+
+  .country-of-registration.accessibility-max-width,
+  .staff-id.accessibility-max-width {
+    text-align: left !important;
+  }
+}
