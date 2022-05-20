@@ -82,6 +82,7 @@ export class TestTypesListPage implements OnInit {
     }
 
     if (testType.nextTestTypesOrCategories) {
+      console.log('navigate to', testType.name);
       await this.router.navigate([PAGE_NAMES.TEST_TYPES_LIST_PAGE], {
         state: {
           vehicleData,
