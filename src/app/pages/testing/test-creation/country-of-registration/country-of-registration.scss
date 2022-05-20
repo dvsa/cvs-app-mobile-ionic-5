@@ -1,0 +1,27 @@
+:host {
+  ion-list {
+    margin-bottom: 0;
+
+    ion-item {
+      margin: 22px 8px 22px 0;
+
+      h3 {
+        font-size: var(--font-size-medium);
+      }
+    }
+  }
+
+  ion-item-divider {
+    font-size: var(--font-size-medium);
+  }
+
+  .no-border {
+    div.item-inner {
+      border-bottom: none !important;
+    }
+  }
+
+  .selected {
+    color: var(--primary);
+  }
+}
