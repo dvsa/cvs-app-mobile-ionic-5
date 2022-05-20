@@ -107,6 +107,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/vehicle/vehicle-history-details/vehicle-history-details.module')
       .then( m => m.VehicleHistoryDetailsModule)
   }
+  {
+    path: PAGE_NAMES.COUNTRY_OF_REGISTRATION_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-creation/country-of-registration/country-of-registration.module')
+  }
 ];
 
 @NgModule({
