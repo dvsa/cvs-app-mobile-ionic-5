@@ -146,7 +146,7 @@
     <ion-item class="ion-padding-start" *ngIf="selectedTestType.testExpiryDate">
       <ion-grid class="ion-no-padding">
         <ion-row class="ion-justify-content-between">
-          <ion-col size="auto" class="ion-text-start">
+          <ion-col size="6" class="ion-text-start">
             <span class="ion-text-left">Test expiry</span>
           </ion-col>
           <ion-col size="auto" class="ion-text-end">
@@ -172,12 +172,12 @@
       </ion-grid>
     </ion-item>
     <ion-item class="ion-padding-start" *ngIf="selectedTestType.smokeTestKLimitApplied">
-      <ion-grid class="ion-no-padding">
+      <ion-grid class="ion-no-padding smoke-test">
         <ion-row class="ion-justify-content-between">
           <ion-col size="6" class="ion-text-start">
             <span class="ion-text-left">Smoke test "K" limit applied</span>
           </ion-col>
-          <ion-col size="3" class="ion-text-end">
+          <ion-col size="auto" class="ion-text-end">
             <span>
               {{ selectedTestType.smokeTestKLimitApplied }}<span> (m<sup>-1</sup>)</span>
             </span>
