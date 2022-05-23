@@ -14,7 +14,7 @@ import {
   ANALYTICS_SCREEN_NAMES, ANALYTICS_VALUE,
   APP_STRINGS,
   DATE_FORMAT,
-  PAGE_NAMES,
+  PAGE_NAMES, STORAGE,
   TECH_RECORD_STATUS,
   TESTER_ROLES,
   VEHICLE_TYPE,
@@ -121,51 +121,17 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   async goToVehicleTestResultsHistory() {
-    const {oid} = this.authService.tokenInfo;
-    const loadingSpinner = await this.loadingController.create({
-      message: 'Loading...'
-    });
-    await loadingSpinner.present();
 
-    this.vehicleService
-      .getTestResultsHistory(this.vehicleData.systemNumber)
-      .subscribe(
-        {
-          next: async (data) => {
-            await loadingSpinner.dismiss();
-            await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
-              state: {
-                vehicleData: this.vehicleData,
-                testResultsHistory: data,
-                previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
-              }
-            });
-          },
-          error: async (error) => {
-            await loadingSpinner.dismiss();
-            this.logProvider.dispatchLog({
-              type:
-                'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
-              message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
-              timestamp: Date.now()
-            });
-
-            await this.analyticsService.logEvent({
-              category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
-              event: ANALYTICS_EVENTS.TEST_ERROR,
-              label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
-            });
-            await this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
-              state: {
-                vehicleData: this.vehicleData,
-                testResultsHistory: [],
-                previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
-              }
-            });
-          },
-          complete: () => {
+    this.storageService
+      .read(STORAGE.TEST_HISTORY + this.vehicleData.systemNumber)
+      .then((data) => {
+        this.router.navigate([PAGE_NAMES.VEHICLE_HISTORY_PAGE], {
+          state: {
+            vehicleData: this.vehicleData,
+            testResultsHistory: data ? data : []
           }
         });
+      });
   }
 
   async goToTestCreatePage(): Promise<void> {

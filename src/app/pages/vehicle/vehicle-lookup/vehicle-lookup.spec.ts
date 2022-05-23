@@ -20,8 +20,9 @@ import { VehicleServiceMock } from '@test-config/services-mocks/vehicle-service.
 import { TestDataModelMock } from '@assets/data-mocks/data-model/test-data-model.mock';
 import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
 import {
-  ANALYTICS_SCREEN_NAMES,
-  APP_STRINGS,
+  ANALYTICS_EVENT_CATEGORIES, ANALYTICS_EVENTS,
+  ANALYTICS_SCREEN_NAMES, ANALYTICS_VALUE,
+  APP_STRINGS, STORAGE,
   VEHICLE_TYPE
 } from '@app/app.enums';
 import { CallNumber } from '@ionic-native/call-number/ngx';
@@ -56,6 +57,7 @@ describe('Component: VehicleLookupPage', () => {
   let analyticsServiceSpy: any;
   let callNumberSpy: any;
   let loadingCtrl: LoadingController;
+  let loading: any;
 
   const TEST_DATA = TestDataModelMock.TestData;
   const VEHICLE = VehicleDataMock.VehicleData;
@@ -163,6 +165,23 @@ describe('Component: VehicleLookupPage', () => {
     component.selectedSearchCriteria =
       VehicleLookupSearchCriteriaData.VehicleLookupSearchCriteria[4];
     expect(component.getTechRecordQueryParam().queryParam).toEqual('trailerId');
+  });
+
+  it('should empty ionic storage if the test history cannot be retrieved', async () => {
+    spyOn(storageService, 'update');
+    vehicleService.getVehicleTechRecords = jasmine.createSpy().and.callFake(() => of([VEHICLE]));
+    vehicleService.getTestResultsHistory = jasmine
+      .createSpy()
+      .and.callFake(() => _throw('Error'));
+
+    await component.searchVehicle('TESTVIN', loading);
+
+    expect(await storageService.update).toHaveBeenCalledTimes(1);
+    expect(await analyticsService.logEvent).toHaveBeenCalledWith({
+      category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
+      event: ANALYTICS_EVENTS.TEST_ERROR,
+      label: ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED
+    });
   });
 
   it('should dismiss the loading when the skeleton alert is displayed', async () => {

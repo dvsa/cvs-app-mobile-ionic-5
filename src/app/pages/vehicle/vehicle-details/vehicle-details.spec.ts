@@ -248,28 +248,6 @@ describe('Component: VehicleDetailsPage', () => {
     });
   });
 
-  describe('goToTestVehicleTestResultsHistory', () => {
-    it('should pass data to router.navigate if vehicle history data is returned', async () => {
-      spyOn(vehicleService, 'getTestResultsHistory').and.returnValue(of(
-        TEST_HISTORY_DATA
-      ));
-      spyOn(router, 'navigate');
-
-      await component.goToVehicleTestResultsHistory();
-
-      expect(await router.navigate).toHaveBeenCalledWith(
-        [PAGE_NAMES.VEHICLE_HISTORY_PAGE],
-        {
-          state: {
-            vehicleData: component.vehicleData,
-            testResultsHistory: TEST_HISTORY_DATA,
-            previousPageName: PAGE_NAMES.VEHICLE_HISTORY_PAGE,
-          }
-        }
-      );
-    });
-  });
-
   describe('when pressing the back button', () => {
     beforeEach( () => {
       spyOn(navController, 'navigateBack');
