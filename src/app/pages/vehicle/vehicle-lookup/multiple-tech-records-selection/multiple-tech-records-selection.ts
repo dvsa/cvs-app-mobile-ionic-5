@@ -83,7 +83,7 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
         await this.storageService.update(STORAGE.TEST_HISTORY + selectedVehicle.systemNumber, []);
         await this.goToVehicleDetails(selectedVehicle);
       },
-      complete: function () {
+      complete: () => {
       }
     };
 
