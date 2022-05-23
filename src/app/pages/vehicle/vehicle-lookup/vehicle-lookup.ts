@@ -2,7 +2,7 @@ import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
   ANALYTICS_SCREEN_NAMES,
-  ANALYTICS_VALUE
+  ANALYTICS_VALUE, STORAGE
 } from '@app/app.enums';
 import {Component, OnInit} from '@angular/core';
 import {
@@ -12,7 +12,7 @@ import {
   NavController,
 } from '@ionic/angular';
 import { _throw } from 'rxjs/observable/throw';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
@@ -33,6 +33,7 @@ import { Router } from '@angular/router';
 import {
   VehicleLookupSearchCriteriaSelectionPage
 } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup-search-criteria-selection/vehicle-lookup-search-criteria-selection';
+import { TestResultModel } from '@models/tests/test-result.model';
 
 @Component({
   selector: 'page-vehicle-lookup',
@@ -147,6 +148,26 @@ export class VehicleLookupPage implements OnInit {
       )
       .subscribe(
         (vehicleData) => {
+          const testHistoryResponseObserver: Observer<TestResultModel[]> = {
+            next: async () => {
+              await this.goToVehicleDetails(vehicleData[0]);
+            },
+            error: async (error) => {
+              this.logProvider.dispatchLog({
+                type:
+                  'error-vehicleService.getTestResultsHistory-searchVehicle in vehicle-lookup.ts',
+                message: `${oid} - ${error.status} ${error.error} for API call to ${error.url}`,
+                timestamp: Date.now()
+              });
+
+              await this.trackErrorOnSearchRecord(ANALYTICS_VALUE.TEST_RESULT_HISTORY_FAILED);
+
+              await this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
+              await this.goToVehicleDetails(vehicleData[0]);
+            },
+            complete: function() {
+            }
+          };
           if (vehicleData.length > 1) {
             this.goToMultipleTechRecordsSelection(vehicleData).then(() => {
               LOADING.dismiss();
@@ -158,8 +179,12 @@ export class VehicleLookupPage implements OnInit {
             this.vehicleService.createSkeletonAlert(this.alertCtrl);
             LOADING.dismiss();
           } else {
-            this.goToVehicleDetails(vehicleData[0]);
-            LOADING.dismiss();
+            this.vehicleService
+              .getTestResultsHistory(vehicleData[0].systemNumber)
+              .subscribe(testHistoryResponseObserver)
+              .add(() => {
+                LOADING.dismiss();
+              });
           }
         },
         async (error) => {
