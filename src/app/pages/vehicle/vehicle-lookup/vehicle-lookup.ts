@@ -214,7 +214,7 @@ export class VehicleLookupPage implements OnInit {
   }
 
   async close(): Promise<void> {
-    if (this.previousPageName === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
+    if (this.previousPageName === PAGE_NAMES.VISIT_TIMELINE_PAGE || !this.isCombinationTest) {
       await this.visitService.removeTest(this.testData);
       await this.navController.navigateBack(PAGE_NAMES.VISIT_TIMELINE_PAGE);
     } else {
