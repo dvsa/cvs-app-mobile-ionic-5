@@ -8,7 +8,7 @@ import {
   PAGE_NAMES
 } from '@app/app.enums';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -30,38 +30,42 @@ export class TestTypesListPage implements OnInit {
     private vehicleService: VehicleService,
     public commonFunctions: CommonFunctionsService,
     private router: Router,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicleData;
-    this.testTypeReferenceData = this.router.getCurrentNavigation().extras.state.testTypeData;
-    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
-    this.testTypeCategoryName = this.router.getCurrentNavigation().extras.state.testTypeCategoryName;
-    if (this.testTypeReferenceData) {
-      this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
-        this.testTypeReferenceData,
-        'sortId',
-        'asc'
-      );
-    } else {
-      this.getTestTypeRefByStorage();
-    }
+    this.route.params.subscribe(val => {
+      this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicleData;
+      this.testTypeReferenceData = this.router.getCurrentNavigation().extras.state.testTypeData;
+      this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+      this.testTypeCategoryName = this.router.getCurrentNavigation().extras.state.testTypeCategoryName;
+      if (this.testTypeReferenceData) {
+        this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
+          this.testTypeReferenceData,
+          'sortId',
+          'asc'
+        );
+      } else {
+        this.getTestTypeRefByStorage();
+      }
 
-    // probably not needed
-    // this.backBtn = this.navParams.get('backBtn');
-    // let previousView = this.navCtrl.getPrevious();
-    this.firstPage = this.previousPageName !== PAGE_NAMES.TEST_TYPES_LIST_PAGE;
+      try {
+        this.backBtn = this.router.getCurrentNavigation().extras.state.backBtn;
+      } catch {
+        console.log('no back button');
+      }
+      this.firstPage = this.previousPageName !== PAGE_NAMES.TEST_TYPES_LIST_PAGE;
+    });
   }
 
   ionViewWillEnter() {
-    // if (this.firstPage) {
-    //   this.viewCtrl.setBackButtonText(APP_STRINGS.TEST_TYPE);
-    // } else {
-    //   this.backBtnName = this.commonFunctions.capitalizeString(this.backBtn);
-    //   this.viewCtrl.setBackButtonText(this.backBtnName);
-    // }
+    if (this.firstPage) {
+      this.backBtnName = APP_STRINGS.TEST_TYPE;
+    } else {
+      this.backBtnName = this.commonFunctions.capitalizeString(this.backBtn);
+    }
   }
 
   getTestTypeRefByStorage(): void {
@@ -82,7 +86,8 @@ export class TestTypesListPage implements OnInit {
     }
 
     if (testType.nextTestTypesOrCategories) {
-      console.log('navigate to', testType.name);
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
       await this.router.navigate([PAGE_NAMES.TEST_TYPES_LIST_PAGE], {
         state: {
           vehicleData,

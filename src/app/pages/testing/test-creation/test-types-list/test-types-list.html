@@ -3,7 +3,8 @@
 <!--    [hideBackButton]="firstPage">-->
     <ion-buttons slot="start" *ngIf="firstPage">
       <ion-button (click)="cancelTypes()" color="light">
-        Cancel
+        <ion-icon class="chevron-back ion-no-margin large-icon" name="chevron-back" [hidden]="!backBtn"></ion-icon>
+        {{ backBtnName }}
       </ion-button>
     </ion-buttons>
     <ion-title>

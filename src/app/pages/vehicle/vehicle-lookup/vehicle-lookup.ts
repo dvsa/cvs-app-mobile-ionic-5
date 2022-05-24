@@ -168,7 +168,7 @@ export class VehicleLookupPage implements OnInit {
               await this.storageService.update(STORAGE.TEST_HISTORY + vehicleData[0].systemNumber, []);
               await this.goToVehicleDetails(vehicleData[0]);
             },
-            complete: function() {
+            complete: () => {
             }
           };
           if (vehicleData.length > 1) {
