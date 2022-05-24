@@ -1,15 +1,17 @@
 <ion-header>
   <ion-toolbar>
-<!--    [hideBackButton]="firstPage">-->
-    <ion-buttons slot="start" *ngIf="firstPage">
-      <ion-button (click)="cancelTypes()" color="light">
-        <ion-icon class="chevron-back ion-no-margin large-icon" name="chevron-back" [hidden]="!backBtn"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelTypes()" *ngIf="firstPage">
+        Cancel
+      </ion-button>
+      <ion-button (click)="cancelTypes()" *ngIf="!firstPage" color="light">
+        <ion-icon class="chevron-back ion-no-margin large-icon" name="chevron-back"></ion-icon>
         {{ backBtnName }}
       </ion-button>
     </ion-buttons>
     <ion-title>
       <span *ngIf="firstPage">Test type</span>
-      <span *ngIf="!firstPage">{{ previousPageName }}</span>
+      <span *ngIf="!firstPage">{{ previousTestTypeName }}</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>

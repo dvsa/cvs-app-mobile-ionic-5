@@ -24,6 +24,7 @@ export class TestTypesListPage implements OnInit {
   backBtn: string;
   backBtnName: string;
   testTypeCategoryName: string;
+  previousTestTypeName: string;
 
   constructor(
     private testTypeService: TestTypeService,
@@ -39,8 +40,10 @@ export class TestTypesListPage implements OnInit {
     this.route.params.subscribe(val => {
       this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicleData;
       this.testTypeReferenceData = this.router.getCurrentNavigation().extras.state.testTypeData;
+      this.previousTestTypeName = this.router.getCurrentNavigation().extras.state.previousTestTypeName;
       this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
       this.testTypeCategoryName = this.router.getCurrentNavigation().extras.state.testTypeCategoryName;
+      this.backBtn = this.router.getCurrentNavigation().extras.state.backBtn;
       if (this.testTypeReferenceData) {
         this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
           this.testTypeReferenceData,
@@ -50,22 +53,14 @@ export class TestTypesListPage implements OnInit {
       } else {
         this.getTestTypeRefByStorage();
       }
-
-      try {
-        this.backBtn = this.router.getCurrentNavigation().extras.state.backBtn;
-      } catch {
-        console.log('no back button');
-      }
       this.firstPage = this.previousPageName !== PAGE_NAMES.TEST_TYPES_LIST_PAGE;
-    });
-  }
 
-  ionViewWillEnter() {
-    if (this.firstPage) {
-      this.backBtnName = APP_STRINGS.TEST_TYPE;
-    } else {
-      this.backBtnName = this.commonFunctions.capitalizeString(this.backBtn);
-    }
+      if (this.firstPage) {
+        this.backBtnName = APP_STRINGS.TEST_TYPE;
+      } else {
+        this.backBtnName = this.commonFunctions.capitalizeString(this.backBtn);
+      }
+    });
   }
 
   getTestTypeRefByStorage(): void {
@@ -92,9 +87,10 @@ export class TestTypesListPage implements OnInit {
         state: {
           vehicleData,
           testTypeData: testType.nextTestTypesOrCategories,
-          previousPageName: testType.name,
+          previousTestTypeName: testType.name,
+          previousPageName: PAGE_NAMES.TEST_TYPES_LIST_PAGE,
           testTypeCategoryName: this.testTypeCategoryName,
-          backBtn: this.previousPageName || APP_STRINGS.TEST_TYPE
+          backBtn: this.previousTestTypeName || APP_STRINGS.TEST_TYPE
         }
       });
     } else {
