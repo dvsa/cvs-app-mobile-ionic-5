@@ -8,7 +8,7 @@ import {
   PAGE_NAMES
 } from '@app/app.enums';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
 @Component({
@@ -25,6 +25,8 @@ export class TestTypesListPage implements OnInit {
   backBtnName: string;
   testTypeCategoryName: string;
   previousTestTypeName: string;
+  extras: NavigationExtras;
+  previousExtras: NavigationExtras;
 
   constructor(
     private testTypeService: TestTypeService,
@@ -38,12 +40,14 @@ export class TestTypesListPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(val => {
-      this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicleData;
-      this.testTypeReferenceData = this.router.getCurrentNavigation().extras.state.testTypeData;
-      this.previousTestTypeName = this.router.getCurrentNavigation().extras.state.previousTestTypeName;
-      this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
-      this.testTypeCategoryName = this.router.getCurrentNavigation().extras.state.testTypeCategoryName;
-      this.backBtn = this.router.getCurrentNavigation().extras.state.backBtn;
+      this.extras = this.router.getCurrentNavigation().extras;
+      this.previousExtras = this.extras.state.previousExtras;
+      this.vehicleData = this.extras.state.vehicleData;
+      this.testTypeReferenceData = this.extras.state.testTypeData;
+      this.previousTestTypeName = this.extras.state.previousTestTypeName;
+      this.previousPageName = this.extras.state.previousPageName;
+      this.testTypeCategoryName = this.extras.state.testTypeCategoryName;
+      this.backBtn = this.extras.state.backBtn;
       if (this.testTypeReferenceData) {
         this.testTypeReferenceData = this.testTypeService.orderTestTypesArray(
           this.testTypeReferenceData,
@@ -90,7 +94,8 @@ export class TestTypesListPage implements OnInit {
           previousTestTypeName: testType.name,
           previousPageName: PAGE_NAMES.TEST_TYPES_LIST_PAGE,
           testTypeCategoryName: this.testTypeCategoryName,
-          backBtn: this.previousTestTypeName || APP_STRINGS.TEST_TYPE
+          backBtn: this.previousTestTypeName || APP_STRINGS.TEST_TYPE,
+          previousExtras: this.extras
         }
       });
     } else {
@@ -106,7 +111,11 @@ export class TestTypesListPage implements OnInit {
   }
 
   async cancelTypes() {
-    await this.navCtrl.pop();
+    if (this.firstPage) {
+      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_CREATE_PAGE]);
+    } else {
+      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_TYPES_LIST_PAGE], this.previousExtras);
+    }
   }
 
   canDisplay(addedTestsIds: string[], testToDisplay: TestTypesReferenceDataModel | any): boolean {
