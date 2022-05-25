@@ -42,7 +42,7 @@
     </ion-item>
     <ion-item
       detail="none"
-      class="list-item-height no-border ion-padding-start"
+      class="list-item-height no-border"
       (click)="setVehicleRegCountry(topElem[0])"
     >
       <h3>{{ topElem[0].value }}</h3>
@@ -60,7 +60,7 @@
         </ion-item-divider>
         <ion-item
           detail="none"
-          class="list-item-height ion-padding-start"
+          class="list-item-height"
           [ngClass]="{'no-border': i === countryGroup.length - 1}"
           (click)="setVehicleRegCountry(country)"
         >
@@ -77,7 +77,7 @@
     <ion-item-divider class="ion-padding-start"></ion-item-divider>
     <ion-item
       detail="none"
-      class="list-item-height ion-padding-start"
+      class="list-item-height"
       (click)="setVehicleRegCountry(elem)"
       *ngFor="let elem of botElem"
     >

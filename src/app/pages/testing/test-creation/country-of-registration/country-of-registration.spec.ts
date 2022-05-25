@@ -1,26 +1,34 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Events, IonicModule, NavParams, ViewController } from 'ionic-angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NavParamsMock } from '../../../../../test-config/ionic-mocks/nav-params.mock';
-import { RegionReadingPage } from './country-of-registration';
-import { VisitService } from '../../../../providers/visit/visit.service';
-import { VisitServiceMock } from '../../../../../test-config/services-mocks/visit-service.mock';
-import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
-import { ViewControllerMock } from '../../../../../test-config/ionic-mocks/view-controller.mock';
+import { CountryOfRegistrationPage } from './country-of-registration';
+import { VisitService } from '@providers/visit/visit.service';
+import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
+import { CommonFunctionsService } from '@providers/utils/common-functions';
+import { EventsService } from '@providers/events/events.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { PAGE_NAMES } from '@app/app.enums';
+import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
+import { ModalControllerMock } from '@test-config/mocks/modal-controller.mock';
+import { ModalController } from '@ionic/angular';
 
-describe('Component: RegionReadingPage', () => {
-  let comp: RegionReadingPage;
-  let fixture: ComponentFixture<RegionReadingPage>;
+describe('Component: CountryOfRegistrationPage', () => {
+  let comp: CountryOfRegistrationPage;
+  let fixture: ComponentFixture<CountryOfRegistrationPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RegionReadingPage],
-      imports: [IonicModule.forRoot(RegionReadingPage)],
+      declarations: [CountryOfRegistrationPage],
+      imports: [
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.TEST_CREATE_PAGE,
+            component: TestCreatePage
+          }
+        ])],
       providers: [
         CommonFunctionsService,
-        Events,
-        { provide: ViewController, useClass: ViewControllerMock },
-        { provide: NavParams, useClass: NavParamsMock },
+        EventsService,
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: VisitService, useClass: VisitServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -28,7 +36,7 @@ describe('Component: RegionReadingPage', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegionReadingPage);
+    fixture = TestBed.createComponent(CountryOfRegistrationPage);
     comp = fixture.componentInstance;
     comp.countriesArr = [];
   });
