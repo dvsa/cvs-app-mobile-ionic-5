@@ -92,7 +92,7 @@ export class TestTypesListPage implements OnInit {
       //non-async so animation is correct
       this.nativePageTransitions.slide({
         direction: 'left',
-        duration: 400,
+        duration: 200,
       });
       await this.router.navigate([PAGE_NAMES.TEST_TYPES_LIST_PAGE], {
         state: {
@@ -124,7 +124,7 @@ export class TestTypesListPage implements OnInit {
       //non-async so animation is correct
       this.nativePageTransitions.slide({
         direction: 'right',
-        duration: 400,
+        duration: 200,
       });
       await this.navCtrl.navigateBack([PAGE_NAMES.TEST_TYPES_LIST_PAGE], this.previousExtras);
     }
