@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import {
   TestTypesListRoutingModule
 } from '@app/pages/testing/test-creation/test-types-list/test-types-list-routing.module';
+import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {
   ],
   providers: [
     TestTypeService,
-    VehicleService
+    VehicleService,
+    NativePageTransitions
   ]
 })
 export class TestTypesListModule {}

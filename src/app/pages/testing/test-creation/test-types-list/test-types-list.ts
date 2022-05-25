@@ -10,6 +10,7 @@ import {
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
 
 @Component({
   selector: 'page-tests-types-list',
@@ -34,7 +35,8 @@ export class TestTypesListPage implements OnInit {
     public commonFunctions: CommonFunctionsService,
     private router: Router,
     private navCtrl: NavController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private nativePageTransitions: NativePageTransitions
   ) {
   }
 
@@ -87,6 +89,11 @@ export class TestTypesListPage implements OnInit {
     if (testType.nextTestTypesOrCategories) {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = 'reload';
+      //non-async so animation is correct
+      this.nativePageTransitions.slide({
+        direction: 'left',
+        duration: 400,
+      });
       await this.router.navigate([PAGE_NAMES.TEST_TYPES_LIST_PAGE], {
         state: {
           vehicleData,
@@ -114,6 +121,11 @@ export class TestTypesListPage implements OnInit {
     if (this.firstPage) {
       await this.navCtrl.navigateBack([PAGE_NAMES.TEST_CREATE_PAGE]);
     } else {
+      //non-async so animation is correct
+      this.nativePageTransitions.slide({
+        direction: 'right',
+        duration: 400,
+      });
       await this.navCtrl.navigateBack([PAGE_NAMES.TEST_TYPES_LIST_PAGE], this.previousExtras);
     }
   }
