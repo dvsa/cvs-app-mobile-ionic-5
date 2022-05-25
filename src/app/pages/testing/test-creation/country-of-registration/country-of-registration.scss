@@ -11,6 +11,11 @@
     }
   }
 
+  .header-ios ion-toolbar .searchbar-toolbar {
+    --max-height: 40px;
+    --min-height: none;
+  }
+
   ion-item-divider {
     font-size: var(--font-size-medium);
   }
