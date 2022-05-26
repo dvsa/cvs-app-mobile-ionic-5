@@ -119,25 +119,21 @@
             lines="none"
             [ngClass]="{'error-incomplete-item': errorIncomplete && getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.IN_PROGRESS)}"
           >
-              <h3 class="test-type">{{ vehicleTest.testTypeCategoryName }}</h3>
-              <ion-text
-                [color]="commonFunc.getTestResultColor(vehicleTest.testResult)"
-              >
-                <p
-                  class="test-type-status test-result ion-text-uppercase"
-                  *ngIf="isTestAbandoned(vehicleTest)"
-                >
-                  Abandoned
-                </p>
-              </ion-text>
-
-              <h3
-                class="test-type-status"
+              <ion-label class="test-type">{{ vehicleTest.testTypeCategoryName }}</ion-label>
+              <ng-container *ngIf="isTestAbandoned(vehicleTest)">
+                <ion-text [color]="commonFunc.getTestResultColor(vehicleTest.testResult)">
+                  <p class="test-type-status test-result ion-text-uppercase">
+                    Abandoned
+                  </p>
+                </ion-text>
+              </ng-container>
+              <div
+                class="details color-grey-1"
                 [ngClass]="{'test-type-inProgress': getTestTypeStatus(vehicle, vehicleTest) !== commonFunc.capitalizeString(testCompletionStatus.EDIT)}"
                 *ngIf="!isTestAbandoned(vehicleTest)"
               >
                 {{getTestTypeStatus(vehicle, vehicleTest)}}
-              </h3>
+              </div>
             <ion-icon
               class="odometer-reading-icon small-icon ion-no-margin"
               slot="end"

@@ -62,8 +62,6 @@ export class TestCreatePage implements OnInit {
   testStation: any;
   eventsSubscription: Subscription;
 
-
-
   constructor(
     public navCtrl: NavController,
     public callNumber: CallNumber,
