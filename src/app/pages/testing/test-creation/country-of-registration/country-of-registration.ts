@@ -22,7 +22,6 @@ export class CountryOfRegistrationPage implements OnInit {
   filteredCountries = [];
   groupedCountries = [];
   @Input() vehicle: VehicleModel;
-  focusOut: boolean = false;
 
   constructor(
     private commonFunctionsService: CommonFunctionsService,
@@ -61,7 +60,6 @@ export class CountryOfRegistrationPage implements OnInit {
   }
 
   setVehicleRegCountry(regCountryItem) {
-    this.focusOut = false;
     this.vehicle.countryOfRegistration = regCountryItem.key;
     this.events.publish(APP.NAV_OUT);
   }
@@ -69,9 +67,5 @@ export class CountryOfRegistrationPage implements OnInit {
   async onSave() {
     await this.visitService.updateVisit();
     await this.modalCtrl.dismiss();
-  }
-
-  keepCancelOn(ev, hideCancel?: boolean) {
-    this.focusOut = !hideCancel;
   }
 }

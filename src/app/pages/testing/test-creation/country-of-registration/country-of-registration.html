@@ -14,9 +14,8 @@
       (ionInput)="searchList($event)"
       (ionFocus)="keepCancelOn($event)"
       (ionCancel)="keepCancelOn($event, true)"
-      [ngClass]="{'keep-cancel-on': focusOut}"
       [(ngModel)]="searchVal"
-      [showCancelButton]="true"
+      showCancelButton="focus"
       [cancelButtonText]="'Cancel'"
       placeholder="Search for country"
       #searchBar
@@ -41,8 +40,8 @@
       ></ion-icon>
     </ion-item>
     <ion-item
-      detail="none"
-      class="list-item-height no-border"
+      lines="none"
+      class="list-item-height"
       (click)="setVehicleRegCountry(topElem[0])"
     >
       <h3>{{ topElem[0].value }}</h3>
@@ -54,14 +53,14 @@
       ></ion-icon>
     </ion-item>
     <div *ngFor="let countryGroup of groupedCountries">
-      <div *ngFor="let country of countryGroup; let i = index">
+      <div *ngFor="let country of countryGroup; let i = index; let last = last;">
         <ion-item-divider class="ion-padding-start" *ngIf="i == 0">
           <b>{{ country.value | slice:0:1 }}</b>
         </ion-item-divider>
         <ion-item
           detail="none"
           class="list-item-height"
-          [ngClass]="{'no-border': i === countryGroup.length - 1}"
+          [lines]="last ? 'none' : 'inset'"
           (click)="setVehicleRegCountry(country)"
         >
           <h3>{{ country.value }}</h3>

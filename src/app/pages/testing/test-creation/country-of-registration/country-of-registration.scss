@@ -11,19 +11,13 @@
     }
   }
 
-  .header-ios ion-toolbar .searchbar-toolbar {
+  ion-toolbar.searchbar-toolbar {
     --max-height: 40px;
     --min-height: none;
   }
 
   ion-item-divider {
     font-size: var(--font-size-medium);
-  }
-
-  .no-border {
-    div.item-inner {
-      border-bottom: none !important;
-    }
   }
 
   .selected {
