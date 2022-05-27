@@ -37,6 +37,7 @@ import { TestTypesReferenceDataModel } from '@models/reference-data-models/test-
 import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
 import { Subscription } from 'rxjs';
+import { OdometerReadingPage } from '@app/pages/testing/test-creation/odometer-reading/odometer-reading';
 
 @Component({
   selector: 'page-test-create',
@@ -447,6 +448,7 @@ export class TestCreatePage implements OnInit {
   }
 
   async onVehicleDetails(vehicle: VehicleModel) {
+    console.log('test-create vehicle: ', vehicle);
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
         vehicle,
@@ -478,18 +480,19 @@ export class TestCreatePage implements OnInit {
 
   async onOdometer(index: number) {
     //@TODO - Add modal back in VTA-628
-    // const MODAL = await this.modalCtrl.create({
-    //   component: OdometerReadingPage,
-    //   componentProps: {
-    //     vehicle: this.testData.vehicles[index],
-    //     errorIncomplete: this.errorIncomplete
-    //   }
-    // });
-    // await MODAL.present();
-    // const didDismiss = await MODAL.onDidDismiss();
-    // if (didDismiss) {
-    //   this.computeErrorIncomplete();
-    // }
+    const MODAL = await this.modalCtrl.create({
+      component: OdometerReadingPage,
+      componentProps: {
+        vehicle: this.testData.vehicles[index],
+        errorIncomplete: this.errorIncomplete
+      }
+    });
+    await MODAL.present();
+    const didDismiss = await MODAL.onDidDismiss();
+    if (didDismiss) {
+      this.computeErrorIncomplete();
+
+    }
   }
 
   async onCountryOfRegistration(vehicle: VehicleModel) {

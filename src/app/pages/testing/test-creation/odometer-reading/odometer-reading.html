@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-margin-start">
+      Odometer reading
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSave()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey">
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider class="ion-padding-start">Reading</ion-item-divider>
+      <ion-item
+        lines="none"
+        [ngClass]="{'error-incomplete-item': errorIncomplete && !odometerReading}"
+      >
+        <ion-input
+          placeholder="Enter value"
+          type="number"
+          [pattern]="patterns.NUMERIC"
+          maxlength="7"
+          (ngModelChange)="valueInputChange($event)"
+          [(ngModel)]="odometerReading"
+          #valueInput
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider class="ion-padding-start">Unit</ion-item-divider>
+      <ion-item (click)="onEdit()" detail="true" lines="none">
+        <h3 class="unit">{{displayOdometerMetricCapitalized()}}</h3>
+        <h3 class="unit-edit" slot="end">Edit</h3>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
