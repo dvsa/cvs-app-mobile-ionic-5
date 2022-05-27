@@ -106,6 +106,11 @@ const routes: Routes = [
     path: PAGE_NAMES.VEHICLE_HISTORY_DETAILS_PAGE,
     loadChildren: () => import('./pages/vehicle/vehicle-history-details/vehicle-history-details.module')
       .then( m => m.VehicleHistoryDetailsModule)
+  },
+  {
+    path: PAGE_NAMES.ODOMETER_READING_PAGE,
+    loadChildren: () => import('./pages/testing/test-creation/odometer-reading/odometer-reading.module')
+      .then( m => m.OdometerReadingPageModule)
   }
 ];
 

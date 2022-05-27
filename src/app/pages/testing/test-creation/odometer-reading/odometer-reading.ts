@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -37,8 +36,7 @@ export class OdometerReadingPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
     private router: Router,
-    private vehicleService: VehicleService,
-    private cdRef: ChangeDetectorRef
+    private vehicleService: VehicleService
   ) {}
 
   ngOnInit() {
@@ -56,17 +54,8 @@ export class OdometerReadingPage implements OnInit {
     }
   }
 
-  ionViewDidEnter() {
-    // setTimeout(() => {
-    //   this.valueInput.focus();
-    // }, 150);
-  }
-
-  valueInputChange(value) {
-    this.cdRef.detectChanges();
-    console.log('valueInputChange fired');
-    console.log(value)
-    this.odometerReading = value.length > 7 ? value.substring(0, 7) : value;
+  valueInputChange(event) {
+    this.odometerReading = event.value.length > 7 ? event.value.substring(0, 7) : event.value;
   }
 
   displayOdometerMetricCapitalized() {

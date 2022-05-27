@@ -24,8 +24,8 @@
           type="number"
           [pattern]="patterns.NUMERIC"
           maxlength="7"
-          (ngModelChange)="valueInputChange($event)"
           [(ngModel)]="odometerReading"
+          (ionChange)="valueInputChange($event.detail)"
           #valueInput
         ></ion-input>
       </ion-item>
