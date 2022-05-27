@@ -14,7 +14,7 @@
 <ion-content class="content-background-color-grey">
   <ion-list>
     <ion-item-group>
-      <ion-item-divider class="ion-padding-start">Reading</ion-item-divider>
+      <ion-item-divider>Reading</ion-item-divider>
       <ion-item
         lines="none"
         [ngClass]="{'error-incomplete-item': errorIncomplete && !odometerReading}"
@@ -31,7 +31,7 @@
       </ion-item>
     </ion-item-group>
     <ion-item-group>
-      <ion-item-divider class="ion-padding-start">Unit</ion-item-divider>
+      <ion-item-divider>Unit</ion-item-divider>
       <ion-item (click)="onEdit()" detail="true" lines="none">
         <h3 class="unit">{{displayOdometerMetricCapitalized()}}</h3>
         <h3 class="unit-edit" slot="end">Edit</h3>

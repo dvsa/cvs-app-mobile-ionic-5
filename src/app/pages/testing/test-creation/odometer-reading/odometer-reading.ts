@@ -54,12 +54,6 @@ export class OdometerReadingPage implements OnInit {
     if (this.vehicle.odometerReading) {
       this.errorIncomplete = false;
     }
-    // console.log('vehicle odom reading: ', this.vehicle.odometerReading)
-    // console.log('odom reading length: ', this.vehicle.odometerReading.length)
-    // console.log('ngOnInit: ', this.odometerReading)
-    // console.log('ngOnInit: ', this.vehicle.odometerReading)
-    // console.log('ngOnInit: ', this.odometerMetric)
-    // console.log('ngOnInit vehicle: ', this.vehicle)
   }
 
   ionViewDidEnter() {
@@ -85,9 +79,7 @@ export class OdometerReadingPage implements OnInit {
       this.odometerReading,
       this.odometerMetric
     );
-    // console.log('onSave Func: ', this.odometerReading)
-    // console.log('onSave Func: ', this.vehicle.odometerReading)
-    // console.log('onSave Func: ', this.odometerMetric)
+
     await this.modalCtrl.dismiss();
   }
 
