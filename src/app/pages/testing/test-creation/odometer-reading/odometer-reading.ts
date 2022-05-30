@@ -15,7 +15,6 @@ import {
 } from '@app/app.enums';
 import { VisitService } from '@providers/visit/visit.service';
 import { VehicleService } from '@providers/vehicle/vehicle.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-odometer-reading',
@@ -35,7 +34,6 @@ export class OdometerReadingPage implements OnInit {
     public visitService: VisitService,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private router: Router,
     private vehicleService: VehicleService
   ) {}
 
