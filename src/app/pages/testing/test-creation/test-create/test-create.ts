@@ -448,7 +448,6 @@ export class TestCreatePage implements OnInit {
   }
 
   async onVehicleDetails(vehicle: VehicleModel) {
-    console.log('test-create vehicle: ', vehicle);
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
         vehicle,
