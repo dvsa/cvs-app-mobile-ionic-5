@@ -3,10 +3,12 @@
     margin-bottom: 0;
 
     ion-item {
-      margin: 0px 8px 0px 0;
 
       h3 {
+        font-weight: var(--font-weight-normal);
         font-size: var(--font-size-medium);
+        color: var(--dark);
+        margin-bottom: 16px;
       }
     }
   }
@@ -17,10 +19,16 @@
   }
 
   ion-item-divider {
+    padding-left: 20px;
+    background: var(--color-grey-3);
     font-size: var(--font-size-medium);
   }
 
   .selected {
     color: var(--primary);
   }
+}
+
+ion-toolbar ion-button.save-button {
+  font-weight: var(--font-weight-bold);
 }

@@ -14,7 +14,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class CountryOfRegistrationPage implements OnInit {
   @ViewChild('searchBar') searchBar;
-  searchVal: string = '';
+  searchVal = '';
   topElem = [];
   botElem = [];
   notApplicableElem = [];
