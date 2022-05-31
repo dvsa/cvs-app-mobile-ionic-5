@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelTypes()" *ngIf="firstPage">
+        Cancel
+      </ion-button>
+      <ion-button (click)="cancelTypes()" *ngIf="!firstPage" color="light">
+        <ion-icon class="chevron-back ion-no-margin back-button-icon" name="chevron-back"></ion-icon>
+        {{ backBtnName }}
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <span *ngIf="firstPage">Test type</span>
+      <span *ngIf="!firstPage">{{ previousTestTypeName }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list>
+    <ion-item-group>
+      <ng-container
+        *ngFor="let testType of testTypeReferenceData | filterTestTypeByVehicle: vehicleData; let last = last;"
+      >
+        <ion-item
+          [lines]="last ? 'none' : 'inset'"
+          detail="false"
+          class="list-item-height ion-text-wrap ion-no-margin"
+          *ngIf="vehicleData.testTypes.length === 0 || canDisplay(addedTestTypesIds(vehicleData), testType) && canDisplayCategory(testType, addedTestTypesIds(vehicleData))"
+          (click)="selectedItem(testType, vehicleData)"
+        >
+          <h3>{{ testType.name }}</h3>
+          <ion-icon
+            class="small-icon ion-no-margin chevron-forward"
+            slot="end"
+            *ngIf="testType.nextTestTypesOrCategories"
+            name="chevron-forward"
+          ></ion-icon>
+        </ion-item>
+      </ng-container>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

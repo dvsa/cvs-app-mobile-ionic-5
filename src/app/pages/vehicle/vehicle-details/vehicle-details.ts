@@ -178,7 +178,8 @@ export class VehicleDetailsPage implements OnInit {
   async back() {
     await this.navController.navigateBack(this.previousPageName, {
       state: {
-        testStation: this.testStation
+        testStation: this.testStation,
+        test: this.testData
       }
     });
   }

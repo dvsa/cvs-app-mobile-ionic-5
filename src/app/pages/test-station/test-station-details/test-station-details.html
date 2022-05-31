@@ -32,6 +32,7 @@
       </ion-label>
     </ion-item>
     <ion-item
+      lines="none"
       [ngClass]="{'accessibility-display-flex-column': appService.isAccessibilityTextZoomEnabled()}"
     >
       <ion-label>
@@ -41,16 +42,16 @@
       </div>
       </ion-label>
     </ion-item>
-    <ion-item-divider class="ion-text-uppercase">Address</ion-item-divider>
-    <ion-item>
+    <ion-item-divider class="ion-padding-start ion-text-uppercase">Address</ion-item-divider>
+    <ion-item lines="none">
       <ion-label>
       <div class="label-custom-style">{{ testStation.testStationAddress }}</div>
       <div class="label-custom-style">{{ testStation.testStationTown}}</div>
       <div class="label-custom-style">{{ testStation.testStationPostcode }}</div>
       </ion-label>
     </ion-item>
-    <ion-item-divider class="ion-text-uppercase">Phone number</ion-item-divider>
-    <ion-item class="number-custom-style">
+    <ion-item-divider class="ion-text-uppercase ion-padding-start">Phone number</ion-item-divider>
+    <ion-item lines="none" class="number-custom-style">
       <ion-label class="ion-text-left" (click)="callPhoneNumber()"
         >{{ testStation.testStationContactNumber}}</ion-label
       >

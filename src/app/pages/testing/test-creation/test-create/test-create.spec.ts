@@ -435,16 +435,16 @@ describe('Component: TestCreatePage', () => {
   });
 
   //@TODO - add back with VTA-62 + VTA-628 + VTA-629
-  // it('should test onOdometer logic', () => {
-  //   const newTest = testService.createTest();
-  //   const newVehicle = vehicleService.createVehicle(vehicle);
-  //   newTest.vehicles.push(newVehicle);
-  //   component.testData = newTest;
-  //
-  //   component.onOdometer(0);
-  //
-  //   expect(modalCtrl.create).toHaveBeenCalled();
-  // });
+  it('should test onOdometer logic', () => {
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(newVehicle);
+    component.testData = newTest;
+
+    component.onOdometer(0);
+
+    expect(modalCtrl.create).toHaveBeenCalled();
+  });
   //
   // it('should test onVehicleCategory logic', () => {
   //   component.onCountryOfRegistration(VEHICLE);

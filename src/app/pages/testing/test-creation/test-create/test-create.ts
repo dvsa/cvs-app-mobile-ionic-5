@@ -37,6 +37,7 @@ import { TestTypesReferenceDataModel } from '@models/reference-data-models/test-
 import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
 import { Subscription } from 'rxjs';
+import { OdometerReadingPage } from '@app/pages/testing/test-creation/odometer-reading/odometer-reading';
 import {
   CountryOfRegistrationPage
 } from '@app/pages/testing/test-creation/country-of-registration/country-of-registration';
@@ -64,8 +65,6 @@ export class TestCreatePage implements OnInit {
   previousPageName: string;
   testStation: any;
   eventsSubscription: Subscription;
-
-
 
   constructor(
     public navCtrl: NavController,
@@ -480,19 +479,19 @@ export class TestCreatePage implements OnInit {
   }
 
   async onOdometer(index: number) {
-    //@TODO - Add modal back in VTA-628
-    // const MODAL = await this.modalCtrl.create({
-    //   component: OdometerReadingPage,
-    //   componentProps: {
-    //     vehicle: this.testData.vehicles[index],
-    //     errorIncomplete: this.errorIncomplete
-    //   }
-    // });
-    // await MODAL.present();
-    // const didDismiss = await MODAL.onDidDismiss();
-    // if (didDismiss) {
-    //   this.computeErrorIncomplete();
-    // }
+    const MODAL = await this.modalCtrl.create({
+      component: OdometerReadingPage,
+      componentProps: {
+        vehicle: this.testData.vehicles[index],
+        errorIncomplete: this.errorIncomplete
+      }
+    });
+    await MODAL.present();
+    const didDismiss = await MODAL.onDidDismiss();
+    if (didDismiss) {
+      this.computeErrorIncomplete();
+
+    }
   }
 
   async onCountryOfRegistration(vehicle: VehicleModel) {
@@ -591,7 +590,9 @@ export class TestCreatePage implements OnInit {
   async addTrailer(tests) {
     await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {
       state: {
-        test: tests[tests.length - 1]
+        test: tests[tests.length - 1],
+        previousPageName: PAGE_NAMES.TEST_CREATE_PAGE,
+        testStation: this.testStation
       }
     });
   }

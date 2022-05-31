@@ -22,7 +22,7 @@ import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
 import {
   ANALYTICS_EVENT_CATEGORIES, ANALYTICS_EVENTS,
   ANALYTICS_SCREEN_NAMES, ANALYTICS_VALUE,
-  APP_STRINGS, STORAGE,
+  APP_STRINGS, PAGE_NAMES,
   VEHICLE_TYPE
 } from '@app/app.enums';
 import { CallNumber } from '@ionic-native/call-number/ngx';
@@ -41,6 +41,7 @@ import { LogsProvider } from '@store/logs/logs.service';
 import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ModalControllerMock } from '@test-config/mocks/modal-controller.mock';
+import { VehicleDetailsPage } from '@app/pages/vehicle/vehicle-details/vehicle-details';
 
 describe('Component: VehicleLookupPage', () => {
   let component: VehicleLookupPage;
@@ -78,7 +79,12 @@ describe('Component: VehicleLookupPage', () => {
     TestBed.configureTestingModule({
       declarations: [VehicleLookupPage],
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.VEHICLE_DETAILS_PAGE,
+            component: VehicleDetailsPage
+          }
+        ]),
       ],
       providers: [
         { provide: VisitService, useClass: VisitServiceMock },
@@ -168,13 +174,14 @@ describe('Component: VehicleLookupPage', () => {
   });
 
   it('should empty ionic storage if the test history cannot be retrieved', async () => {
+    component.loading = loadingCtrl.create({ message: '' });
     spyOn(storageService, 'update');
     vehicleService.getVehicleTechRecords = jasmine.createSpy().and.callFake(() => of([VEHICLE]));
     vehicleService.getTestResultsHistory = jasmine
       .createSpy()
       .and.callFake(() => _throw('Error'));
 
-    await component.searchVehicle('TESTVIN', loading);
+    await component.searchVehicle('TESTVIN', component.loading);
 
     expect(await storageService.update).toHaveBeenCalledTimes(1);
     expect(await analyticsService.logEvent).toHaveBeenCalledWith({
