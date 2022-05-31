@@ -111,7 +111,7 @@
           [name]="doesOdometerDataExist(i) ? 'checkmark' : 'chevron-forward'"
         ></ion-icon>
       </ion-item>
-      <ion-list class="full-dividers-list">
+      <ng-container class="full-dividers-list">
         <ion-item-sliding *ngFor="let vehicleTest of vehicle.testTypes" #slidingItem>
           <ion-item
             (click)="openTest(vehicle, vehicleTest)"
@@ -119,25 +119,21 @@
             lines="none"
             [ngClass]="{'error-incomplete-item': errorIncomplete && getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.IN_PROGRESS)}"
           >
-              <h3 class="test-type">{{ vehicleTest.testTypeCategoryName }}</h3>
-              <ion-text
-                [color]="commonFunc.getTestResultColor(vehicleTest.testResult)"
-              >
-                <p
-                  class="test-type-status test-result ion-text-uppercase"
-                  *ngIf="isTestAbandoned(vehicleTest)"
-                >
-                  Abandoned
-                </p>
-              </ion-text>
-
-              <h3
-                class="test-type-status"
+              <ion-label class="test-type">{{ vehicleTest.testTypeCategoryName }}</ion-label>
+              <ng-container *ngIf="isTestAbandoned(vehicleTest)">
+                <ion-text [color]="commonFunc.getTestResultColor(vehicleTest.testResult)">
+                  <p class="test-type-status test-result ion-text-uppercase">
+                    Abandoned
+                  </p>
+                </ion-text>
+              </ng-container>
+              <div
+                class="details color-grey-1"
                 [ngClass]="{'test-type-inProgress': getTestTypeStatus(vehicle, vehicleTest) !== commonFunc.capitalizeString(testCompletionStatus.EDIT)}"
                 *ngIf="!isTestAbandoned(vehicleTest)"
               >
                 {{getTestTypeStatus(vehicle, vehicleTest)}}
-              </h3>
+              </div>
             <ion-icon
               class="odometer-reading-icon small-icon ion-no-margin"
               slot="end"
@@ -149,21 +145,19 @@
             ></ion-icon>
           </ion-item>
           <ion-item-options *ngIf="!isTestAbandoned(vehicleTest)">
-            <ion-button
+            <ion-item-option
               color="dark"
-              (click)="onAbandonVehicleTest(vehicle.techRecord.vehicleType, vehicleTest)"
-            >
+              (click)="onAbandonVehicleTest(vehicle.techRecord.vehicleType, vehicleTest)">
               Abandon
-            </ion-button>
-            <ion-button
+            </ion-item-option>
+            <ion-item-option
               color="danger"
-              (click)="onRemoveVehicleTest(vehicle, vehicleTest, slidingItem)"
-            >
+              (click)="onRemoveVehicleTest(vehicle, vehicleTest, slidingItem)">
               Remove
-            </ion-button>
+            </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
-      </ion-list>
+      </ng-container>
 
       <ion-item
         class="btn-add-test"

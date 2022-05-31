@@ -258,7 +258,8 @@ describe('Component: VehicleDetailsPage', () => {
       await component.back();
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.TEST_CREATE_PAGE, {
         state: {
-          testStation: TEST_STATION
+          testStation: TEST_STATION,
+          test: component.testData
         }
       });
     });
@@ -268,7 +269,8 @@ describe('Component: VehicleDetailsPage', () => {
       await component.back();
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
         state: {
-          testStation: TEST_STATION
+          testStation: TEST_STATION,
+          test: component.testData
         }
       });
     });
@@ -278,7 +280,8 @@ describe('Component: VehicleDetailsPage', () => {
       await component.back();
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
         state: {
-          testStation: TEST_STATION
+          testStation: TEST_STATION,
+          test: component.testData
         }
       });
     });
@@ -288,7 +291,8 @@ describe('Component: VehicleDetailsPage', () => {
       await component.back();
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
         state: {
-          testStation: TEST_STATION
+          testStation: TEST_STATION,
+          test: component.testData
         }
       });
     });

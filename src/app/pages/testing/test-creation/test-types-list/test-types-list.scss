@@ -1,0 +1,19 @@
+:host {
+  ion-content {
+    .chevron-forward {
+      color: var(--color-grey-2);
+    }
+
+    ion-item.list-item-height {
+      min-height: var(--list-header-height-small);
+
+      h3 {
+        font-size: var(--font-size-medium);
+        font-weight: var(--font-weight-normal);
+        min-height: var(--list-header-height-small);
+        color: var(--dark);
+        padding-top: 6px;
+      }
+    }
+  }
+}
