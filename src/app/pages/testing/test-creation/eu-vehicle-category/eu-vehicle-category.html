@@ -4,7 +4,7 @@
       EU vehicle category
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="onSave()">
+      <ion-button class="save-btn" (click)="onSave()">
         Save
       </ion-button>
     </ion-buttons>
@@ -12,23 +12,23 @@
 </ion-header>
 
 <ion-content class="content-background-color-grey">
-  <p class="subtitle ion-padding-horizontal">{{categorySubtitle}}</p>
+  <p class="subtitle ion-padding-start">{{categorySubtitle}}</p>
   <ion-list class="eu-cat">
     <ion-item
-      class="ion-padding-start"
-      detail="false"
-      [ngClass]="{'error-incomplete-item': errorIncomplete}"
-      *ngFor="let elem of categoriesArr"
+      *ngFor="let elem of categoriesArr; let last = last"
+      [lines]="last ? 'none' : 'full'"
+      [detail]="vehicle.euVehicleCategory === elem.key"
+      detail-icon="checkmark"
+      [ngClass]="{
+      'error-incomplete-item': errorIncomplete,
+      'selected' : vehicle.euVehicleCategory === elem.key
+      }"
       (click)="setVehicleCategory(elem.key)"
     >
-      <h3 class="ion-text-capitalize">{{displayVehicleCategoryKey(elem.key)}}</h3>
-      <p class="ion-text-wrap">{{elem.value}}</p>
-      <ion-icon
-        item-end
-        class="selected"
-        name="checkmark"
-        *ngIf="vehicle.euVehicleCategory === elem.key"
-      ></ion-icon>
+      <ion-label>
+        <h2 class="ion-text-capitalize">{{displayVehicleCategoryKey(elem.key)}}</h2>
+        <p class="ion-text-wrap">{{elem.value}}</p>
+      </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

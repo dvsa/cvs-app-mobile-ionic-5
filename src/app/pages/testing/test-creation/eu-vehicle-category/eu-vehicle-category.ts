@@ -8,7 +8,8 @@ import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'page-eu-vehicle-category',
-  templateUrl: 'eu-vehicle-category.html'
+  templateUrl: 'eu-vehicle-category.html',
+  styleUrls: ['eu-vehicle-category.scss']
 })
 export class CategoryReadingPage implements OnInit {
   @Input() vehicle: VehicleModel;

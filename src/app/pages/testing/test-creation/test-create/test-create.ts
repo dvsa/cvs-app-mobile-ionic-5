@@ -510,7 +510,6 @@ export class TestCreatePage implements OnInit {
   }
 
   async onVehicleCategory(vehicle: VehicleModel) {
-    //@TODO - Add modal back in VTA-629
     const MODAL = await this.modalCtrl.create({
       component: CategoryReadingPage,
       componentProps: {

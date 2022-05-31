@@ -7,41 +7,42 @@
         font-size: var(--font-size-extra-large);
       }
     }
-  }
-
-  .subtitle {
-    font-size: var(--font-size-medium);
-    font-weight: var(--font-weight-bold);
-    margin: 8px 0;
-  }
-
-  .selected {
-    color: var(--primary);
-  }
-
-  .eu-cat {
-    .label-ios {
-      margin: 16px 28px 16px 0;
+    ion-toolbar ion-button.save-btn {
+      font-weight: var(--font-weight-bold);
     }
+  }
 
-    h3 {
+  ion-content {
+
+    .subtitle {
       font-size: var(--font-size-medium);
+      font-weight: var(--font-weight-bold);
+      margin: 8px 0;
     }
 
-    p {
-      font-size: var(--font-size-normal);
+    .selected {
+      --detail-icon-color: var(--primary);
+      --detail-icon-opacity: 1;
     }
 
-    ion-icon[item-end] {
-      display: flex;
-      align-items: center;
-      margin: 0;
-      position: absolute;
-      right: 16px;
-      height: 100%;
+    .eu-cat {
+      .label-ios {
+        margin: 16px 28px 16px 0;
+      }
 
-      &::before {
-        font-size: 34px;
+      ion-label {
+        padding-top: 4px;
+        padding-bottom: 4px;
+
+        h2 {
+          font-size: var(--font-size-medium);
+          color: var(--dark);
+        }
+
+        p {
+          padding-top: 3px;
+          font-size: var(--font-size-normal);
+        }
       }
     }
   }
