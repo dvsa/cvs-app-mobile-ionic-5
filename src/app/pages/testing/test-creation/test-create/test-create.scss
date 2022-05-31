@@ -20,6 +20,22 @@
       }
     }
 
+    ion-item-sliding {
+      min-height: 44px;
+
+      ion-item {
+        height: auto;
+
+        h3 {
+          margin-top: 10px;
+        }
+      }
+    }
+
+    ion-item-sliding:last-of-type {
+      border-bottom: 0.55px solid var(--color-grey-2);
+    }
+
     ion-item {
       padding-top: 7px;
       padding-bottom: 7px;
@@ -71,6 +87,8 @@
     }
 
     .test-type {
+      color: var(--dark);
+      font-size: var(--font-size-medium);
       font-weight: var(--font-weight-semi-bold);
     }
 

@@ -63,8 +63,6 @@ export class TestCreatePage implements OnInit {
   testStation: any;
   eventsSubscription: Subscription;
 
-
-
   constructor(
     public navCtrl: NavController,
     public callNumber: CallNumber,
@@ -591,7 +589,9 @@ export class TestCreatePage implements OnInit {
   async addTrailer(tests) {
     await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {
       state: {
-        test: tests[tests.length - 1]
+        test: tests[tests.length - 1],
+        previousPageName: PAGE_NAMES.TEST_CREATE_PAGE,
+        testStation: this.testStation
       }
     });
   }

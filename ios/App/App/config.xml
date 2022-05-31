@@ -20,6 +20,10 @@
     <param name="ios-package" value="CFCallNumber"/>
   </feature>
 
+  <feature name="NativePageTransitions">
+    <param name="ios-package" value="NativePageTransitions"/>
+  </feature>
+
   <feature name="NativeSettings">
     <param name="ios-package" value="NativeSettings"/>
   </feature>
