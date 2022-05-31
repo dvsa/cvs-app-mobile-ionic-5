@@ -117,6 +117,11 @@ const routes: Routes = [
     path: PAGE_NAMES.ODOMETER_READING_PAGE,
     loadChildren: () => import('./pages/testing/test-creation/odometer-reading/odometer-reading.module')
       .then( m => m.OdometerReadingPageModule)
+  },
+  {
+    path: PAGE_NAMES.COUNTRY_OF_REGISTRATION_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-creation/country-of-registration/country-of-registration.module')
   }
 ];
 

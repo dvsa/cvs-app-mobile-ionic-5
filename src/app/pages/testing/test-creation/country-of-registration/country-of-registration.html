@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-margin-start">
+      Country of registration
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="save-button" (click)="onSave()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-searchbar
+    (ionInput)="searchList($event)"
+    [(ngModel)]="searchVal"
+    showCancelButton="focus"
+    placeholder="Search for country"
+    #searchBar
+  >
+  </ion-searchbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey ion-no-padding">
+  <ion-list *ngIf="filteredCountries.length" class="ion-text-wrap">
+    <ion-item
+      detail="false"
+      class="list-item-height"
+      (click)="setVehicleRegCountry(notApplicableElem[0])"
+    >
+      <h3>{{ notApplicableElem[0].value }}</h3>
+      <ion-icon
+        slot="end"
+        class="selected small-icon"
+        name="checkmark"
+        *ngIf="vehicle.countryOfRegistration === notApplicableElem[0].key"
+      ></ion-icon>
+    </ion-item>
+    <ion-item
+      detail="false"
+      lines="none"
+      class="list-item-height"
+      (click)="setVehicleRegCountry(topElem[0])"
+    >
+      <h3>{{ topElem[0].value }}</h3>
+      <ion-icon
+        slot="end"
+        class="selected small-icon"
+        name="checkmark"
+        *ngIf="vehicle.countryOfRegistration === topElem[0].key"
+      ></ion-icon>
+    </ion-item>
+    <div *ngFor="let countryGroup of groupedCountries">
+      <div *ngFor="let country of countryGroup; let i = index; let last = last;">
+        <ion-item-divider *ngIf="i === 0">
+          <b>{{ country.value | slice:0:1 }}</b>
+        </ion-item-divider>
+        <ion-item
+          detail="false"
+          class="list-item-height"
+          [lines]="last ? 'none' : 'inset'"
+          (click)="setVehicleRegCountry(country)"
+        >
+          <h3>{{ country.value }}</h3>
+          <ion-icon
+            slot="end"
+            class="selected small-icon"
+            name="checkmark"
+            *ngIf="vehicle.countryOfRegistration === country.key"
+          ></ion-icon>
+        </ion-item>
+      </div>
+    </div>
+    <ion-item-divider></ion-item-divider>
+    <ion-item
+      detail="false"
+      class="list-item-height"
+      (click)="setVehicleRegCountry(elem)"
+      *ngFor="let elem of botElem"
+    >
+      <h3>{{ elem.value }}</h3>
+      <ion-icon
+        slot="end"
+        class="selected small-icon"
+        name="checkmark"
+        *ngIf="vehicle.countryOfRegistration === elem.key"
+      ></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="!filteredCountries.length" class="no-result">
+    <h3>No results found</h3>
+  </div>
+</ion-content>

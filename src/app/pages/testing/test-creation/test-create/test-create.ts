@@ -38,6 +38,9 @@ import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
 import { Subscription } from 'rxjs';
 import { OdometerReadingPage } from '@app/pages/testing/test-creation/odometer-reading/odometer-reading';
+import {
+  CountryOfRegistrationPage
+} from '@app/pages/testing/test-creation/country-of-registration/country-of-registration';
 
 @Component({
   selector: 'page-test-create',
@@ -476,7 +479,6 @@ export class TestCreatePage implements OnInit {
   }
 
   async onOdometer(index: number) {
-    //@TODO - Add modal back in VTA-628
     const MODAL = await this.modalCtrl.create({
       component: OdometerReadingPage,
       componentProps: {
@@ -493,18 +495,17 @@ export class TestCreatePage implements OnInit {
   }
 
   async onCountryOfRegistration(vehicle: VehicleModel) {
-    //@TODO - Add modal back in VTA-627
-    // const MODAL = await this.modalCtrl.create({
-    //   component: RegionReadingPage,
-    //   componentProps: {
-    //     vehicle
-    //   }
-    // });
-    // await MODAL.present();
-    // const didDismiss = await MODAL.onDidDismiss();
-    // if (didDismiss) {
-    //   this.computeErrorIncomplete();
-    // }
+    const MODAL = await this.modalCtrl.create({
+      component: CountryOfRegistrationPage,
+      componentProps: {
+        vehicle
+      }
+    });
+    await MODAL.present();
+    const didDismiss = await MODAL.onDidDismiss();
+    if (didDismiss) {
+      this.computeErrorIncomplete();
+    }
   }
 
   async onVehicleCategory(vehicle: VehicleModel) {
