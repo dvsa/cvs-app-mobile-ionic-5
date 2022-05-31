@@ -315,7 +315,7 @@ export class ActivityService {
     );
 
     return this.submitActivity(activity).pipe(
-      map((submitActivityResp) => {
+      map(async (submitActivityResp) => {
 
         this.logProvider.dispatchLog({
           type: LOG_TYPES.INFO,
@@ -330,11 +330,11 @@ export class ActivityService {
           activities[latestActivityPos].id = submitActivityResp.body.id;
 
         }
-        this.updateActivitiesArgs(activities);
+        await this.updateActivitiesArgs(activities);
         return activities;
       }),
-      catchError((error) => {
-        this.showLoading('');
+      catchError(async (error) => {
+        await this.showLoading('');
 
         this.logProvider.dispatchLog({
           type: `${LOG_TYPES.ERROR}-activityService.submitActivity in visit-timeline.ts`,
@@ -342,7 +342,7 @@ export class ActivityService {
           timestamp: Date.now()
         });
 
-        this.analyticsService.logEvent({
+        await this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.ERRORS,
           event: ANALYTICS_EVENTS.TEST_ERROR,
           label: ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED

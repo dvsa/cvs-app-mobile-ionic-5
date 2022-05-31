@@ -159,8 +159,8 @@ export class SyncService {
     this.oid = this.authenticationService.tokenInfo.oid;
 
     return this.httpService['get' + microservice]().pipe(
-      map((data: any) => {
-        this.storageService.update(STORAGE[microservice.toUpperCase()], data.body);
+      map(async (data: any) => {
+        await this.storageService.update(STORAGE[microservice.toUpperCase()], data.body);
         return data.body;
       }),
       catchError((error) => {

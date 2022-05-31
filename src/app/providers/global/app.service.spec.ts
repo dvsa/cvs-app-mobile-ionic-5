@@ -128,34 +128,34 @@ describe(`AppService: `, () => {
     expect(localStorage.getItem(LOCAL_STORAGE.CACHING)).toBe('true');
   });
 
-  it('testing enableCache method: easterEgg = true, caching = true', () => {
+  it('testing enableCache method: easterEgg = true, caching = true', async () => {
     appService = new AppService(platform, toast, storageService);
     appService.count = 0;
     appService.easterEgg = true;
     appService.caching = true;
-    appService.enableCache();
+    await appService.enableCache();
     expect(appService.count).toEqual(1);
     expect(appService.caching).toBeTruthy();
-    appService.enableCache();
+    await appService.enableCache();
     expect(appService.count).toEqual(2);
     expect(appService.caching).toBeTruthy();
-    appService.enableCache();
+    await appService.enableCache();
     expect(appService.count).toEqual(0);
     expect(appService.caching).toBeFalsy();
   });
 
-  it('testing enableCache method: easterEgg = true, caching = false', () => {
+  it('testing enableCache method: easterEgg = true, caching = false', async () => {
     appService = new AppService(platform, toast, storageService);
     appService.count = 0;
     appService.easterEgg = true;
     appService.caching = false;
-    appService.enableCache();
+    await appService.enableCache();
     expect(appService.count).toEqual(1);
     expect(appService.caching).toBeFalsy();
-    appService.enableCache();
+    await appService.enableCache();
     expect(appService.count).toEqual(2);
     expect(appService.caching).toBeFalsy();
-    appService.enableCache();
+    await appService.enableCache();
     expect(appService.count).toEqual(0);
     expect(appService.caching).toBeTruthy();
   });

@@ -66,9 +66,9 @@ describe('Provider: TestTypeService', () => {
     visitService = null;
   });
 
-  it('create a testType', () => {
+  it('create a testType', async () => {
     const testType: TestTypesReferenceDataModel = TEST_TYPES[0];
-    const newTestType = testTypeService.createTestType(testType, VEHICLE_TYPE.PSV);
+    const newTestType = await testTypeService.createTestType(testType, VEHICLE_TYPE.PSV);
     expect(newTestType.testTypeName).toMatch('Annual test');
   });
 

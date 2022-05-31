@@ -49,21 +49,21 @@ export class VehicleService {
     return newVehicle;
   }
 
-  addTestType(vehicle: VehicleModel, testType: TestTypeModel): void {
+  async addTestType(vehicle: VehicleModel, testType: TestTypeModel): Promise<void> {
     vehicle.testTypes.push(testType);
-    this.visitService.updateVisit();
+    await this.visitService.updateVisit();
   }
 
-  removeTestType(vehicle: VehicleModel, testType: TestTypeModel): void {
+  async removeTestType(vehicle: VehicleModel, testType: TestTypeModel): Promise<void> {
     const foundIndex = vehicle.testTypes.indexOf(testType);
     vehicle.testTypes.splice(foundIndex, 1);
-    this.visitService.updateVisit();
+    await this.visitService.updateVisit();
   }
 
-  addPreparer(vehicle: VehicleModel, value: PreparersReferenceDataModel): void {
+  async addPreparer(vehicle: VehicleModel, value: PreparersReferenceDataModel): Promise<void> {
     vehicle.preparerId = value.preparerId;
     vehicle.preparerName = value.preparerName;
-    this.visitService.updateVisit();
+    await this.visitService.updateVisit();
   }
 
   getVehicleTechRecords(
@@ -103,10 +103,10 @@ export class VehicleService {
       );
   }
 
-  setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): VehicleModel {
+  async setOdometer(vehicle: VehicleModel, odomReading: string, odomMetric: string): Promise<VehicleModel> {
     vehicle.odometerReading = odomReading;
     vehicle.odometerMetric = odomMetric;
-    this.visitService.updateVisit();
+    await this.visitService.updateVisit();
     return vehicle;
   }
 

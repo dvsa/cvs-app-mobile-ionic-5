@@ -70,21 +70,21 @@ export class AppService {
     return Promise.resolve(true);
   }
 
-  enableCache() {
+  async enableCache() {
     this.count++;
     if (this.easterEgg && this.count === 3) {
       if (this.caching) {
         localStorage.setItem(LOCAL_STORAGE.CACHING, 'false');
         this.caching = false;
-        this.storageService.delete(STORAGE.STATE);
-        this.storageService.delete(STORAGE.VISIT);
+        await this.storageService.delete(STORAGE.STATE);
+        await this.storageService.delete(STORAGE.VISIT);
         this.count = 0;
-        this.presentToast('Storage was cleared and caching was disabled. Ride on');
+        await this.presentToast('Storage was cleared and caching was disabled. Ride on');
       } else {
         localStorage.setItem(LOCAL_STORAGE.CACHING, 'true');
         this.caching = true;
         this.count = 0;
-        this.presentToast('Caching was enabled');
+        await this.presentToast('Caching was enabled');
       }
     }
   }

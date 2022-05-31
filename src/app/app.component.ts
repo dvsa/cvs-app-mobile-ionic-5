@@ -147,9 +147,9 @@ export class AppComponent implements OnInit {
 
     this.mobileAccessibility
       .getTextZoom()
-      .then((result) => {
+      .then(async (result) => {
         if (result !== ACCESSIBILITY_DEFAULT_VALUES.TEXT_SIZE) {
-          this.analyticsService.logEvent({
+          await this.analyticsService.logEvent({
             category: ANALYTICS_EVENT_CATEGORIES.MOBILE_ACCESSIBILITY,
             event: ANALYTICS_EVENTS.IOS_FONT_SIZE_USAGE
           });
@@ -158,9 +158,9 @@ export class AppComponent implements OnInit {
       })
       .catch(() => this.appService.setAccessibilityTextZoom(106));
 
-    this.mobileAccessibility.isVoiceOverRunning().then((result) => {
+    this.mobileAccessibility.isVoiceOverRunning().then(async (result) => {
       if (result) {
-        this.analyticsService.logEvent({
+        await this.analyticsService.logEvent({
           category: ANALYTICS_EVENT_CATEGORIES.MOBILE_ACCESSIBILITY,
           event: ANALYTICS_EVENTS.IOS_VOICEOVER_USAGE
         });

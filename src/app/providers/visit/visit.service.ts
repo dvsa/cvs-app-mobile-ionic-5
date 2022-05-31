@@ -83,7 +83,7 @@ export class VisitService {
     ) {
       this.activityService.activities[this.activityService.activities.length - 1].endTime =
         test.startTime;
-      this.activityService.updateActivities();
+      await this.activityService.updateActivities();
       this.activityService.waitTimeStarted = false;
     }
     await this.updateVisit();
