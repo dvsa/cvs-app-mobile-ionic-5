@@ -1,0 +1,48 @@
+:host {
+  ion-header {
+    ion-title.title-ios {
+      padding-top: 20px;
+
+      .toolbar-title.toolbar-title-ios {
+        font-size: var(--font-size-extra-large);
+      }
+    }
+  }
+
+  ion-item-divider{
+    padding-left: 20px;
+    background: var(--color-grey-3);
+    font-weight: var(--font-weight-normal);
+  }
+
+  h3 {
+    margin-top: 10px;
+  }
+
+  h3.unit {
+    font-size: var(--font-size-normal);
+    color: var(--dark);
+  }
+
+  h3.unit-edit {
+    color: var(--color-grey-1);
+    font-size: var(--font-size-normal);
+    margin-right: -1px;
+  }
+
+  .item-divider-ios {
+    font-size: var(--font-size-small);
+    text-transform: uppercase;
+  }
+
+  ion-item.error-incomplete-item ::placeholder {
+    color: var(--danger) !important;
+  }
+
+  ion-item.error-incomplete-item.input-has-focus ::placeholder {
+    color: var(--color-grey-1) !important;
+  }
+}
+ion-toolbar ion-button.save-btn {
+  font-weight: var(--font-weight-bold);
+}

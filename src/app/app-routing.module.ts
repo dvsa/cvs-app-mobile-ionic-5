@@ -113,6 +113,11 @@ const routes: Routes = [
       import('./pages/testing/test-creation/test-types-list/test-types-list.module')
         .then( m => m.TestTypesListModule)
   },
+  {
+    path: PAGE_NAMES.ODOMETER_READING_PAGE,
+    loadChildren: () => import('./pages/testing/test-creation/odometer-reading/odometer-reading.module')
+      .then( m => m.OdometerReadingPageModule)
+  }
 ];
 
 @NgModule({
