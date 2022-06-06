@@ -128,6 +128,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category.module')
         .then( m => m.EuVehicleCategoryPageModule)
+  },
+  {
+    path: PAGE_NAMES.TEST_COMPLETE_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-creation/test-complete/test-complete.module')
+        .then(m => m.TestCompleteModule)
   }
 ];
 
