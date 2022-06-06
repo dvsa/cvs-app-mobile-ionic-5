@@ -1,4 +1,3 @@
-import { CategoryReadingPage } from './eu-vehicle-category';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { VisitService } from '@providers/visit/visit.service';
 import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
@@ -11,16 +10,17 @@ import { VehicleServiceMock } from '@test-config/services-mocks/vehicle-service.
 import { RouterTestingModule } from '@angular/router/testing';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from 'ionic-mocks';
+import { EuVehicleCategoryPage } from '@app/pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category';
 
 describe('Component: EuVehicleCategoryPage', () => {
-  let component: CategoryReadingPage;
-  let fixture: ComponentFixture<CategoryReadingPage>;
+  let component: EuVehicleCategoryPage;
+  let fixture: ComponentFixture<EuVehicleCategoryPage>;
 
   const VEHICLE_DATA: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach( waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CategoryReadingPage],
+      declarations: [EuVehicleCategoryPage],
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
         { provide: VisitService, useClass: VisitServiceMock },
@@ -32,7 +32,7 @@ describe('Component: EuVehicleCategoryPage', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CategoryReadingPage);
+    fixture = TestBed.createComponent(EuVehicleCategoryPage);
     component = fixture.componentInstance;
   });
 

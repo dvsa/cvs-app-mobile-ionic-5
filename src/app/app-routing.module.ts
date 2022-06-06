@@ -124,10 +124,10 @@ const routes: Routes = [
       import('./pages/testing/test-creation/country-of-registration/country-of-registration.module')
   },
   {
-    path: PAGE_NAMES.CATEGORY_READING_PAGE,
+    path: PAGE_NAMES.EU_VEHICLE_CATEGORY_PAGE,
     loadChildren: () =>
       import('./pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category.module')
-        .then( m => m.RegionReadingPageModule)
+        .then( m => m.EuVehicleCategoryPageModule)
   }
 ];
 

@@ -41,7 +41,7 @@ import { OdometerReadingPage } from '@app/pages/testing/test-creation/odometer-r
 import {
   CountryOfRegistrationPage
 } from '@app/pages/testing/test-creation/country-of-registration/country-of-registration';
-import { CategoryReadingPage } from '@app/pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category';
+import { EuVehicleCategoryPage } from '@app/pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category';
 
 @Component({
   selector: 'page-test-create',
@@ -511,7 +511,7 @@ export class TestCreatePage implements OnInit {
 
   async onVehicleCategory(vehicle: VehicleModel) {
     const MODAL = await this.modalCtrl.create({
-      component: CategoryReadingPage,
+      component: EuVehicleCategoryPage,
       componentProps: {
         vehicle,
         errorIncomplete: this.errorIncomplete

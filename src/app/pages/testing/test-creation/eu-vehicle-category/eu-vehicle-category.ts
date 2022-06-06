@@ -11,11 +11,11 @@ import { ModalController } from '@ionic/angular';
   templateUrl: 'eu-vehicle-category.html',
   styleUrls: ['eu-vehicle-category.scss']
 })
-export class CategoryReadingPage implements OnInit {
+export class EuVehicleCategoryPage implements OnInit {
   @Input() vehicle: VehicleModel;
   @Input() errorIncomplete: boolean;
   vehicleType: string;
-  categorySubtitle: string = '';
+  categorySubtitle = '';
   categoriesArr = [];
 
 
@@ -26,7 +26,9 @@ export class CategoryReadingPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.vehicle.euVehicleCategory) this.errorIncomplete = false;
+    if (this.vehicle.euVehicleCategory) {
+      this.errorIncomplete = false;
+    }
     this.vehicleType = this.vehicle.techRecord.vehicleType;
     this.getSpecificDataBasedOnVehicleType();
   }
