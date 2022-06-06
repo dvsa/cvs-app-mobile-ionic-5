@@ -107,12 +107,12 @@ export class TestTypesListPage implements OnInit {
       });
     } else {
       testType.name = this.testTypeCategoryName;
-      const test = this.testTypeService.createTestType(
+      const test = await this.testTypeService.createTestType(
         testType,
         this.vehicleData.techRecord.vehicleType
       );
       test.testTypeCategoryName = this.testTypeCategoryName;
-      this.vehicleService.addTestType(vehicleData, test);
+      await this.vehicleService.addTestType(vehicleData, test);
       await this.navCtrl.navigateBack(PAGE_NAMES.TEST_CREATE_PAGE);
     }
   }

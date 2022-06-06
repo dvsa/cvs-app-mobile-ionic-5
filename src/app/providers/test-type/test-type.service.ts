@@ -35,7 +35,7 @@ export class TestTypeService {
     public commonFunctions: CommonFunctionsService
   ) {}
 
-  createTestType(testType: TestTypesReferenceDataModel, vehicleType: string): TestTypeModel {
+  async createTestType(testType: TestTypesReferenceDataModel, vehicleType: string): Promise<TestTypeModel> {
     const newTestType = {} as TestTypeModel;
     newTestType.name = testType.name;
     newTestType.testTypeName = testType.testTypeName;
@@ -72,7 +72,7 @@ export class TestTypeService {
       newTestType.customDefects = null;
     }
     newTestType.linkedIds = testType.linkedIds;
-    this.visitService.updateVisit();
+    await this.visitService.updateVisit();
     return newTestType;
   }
 
@@ -80,10 +80,10 @@ export class TestTypeService {
     testType.testTypeEndTimestamp = new Date().toISOString();
   }
 
-  addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
+  async addDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     testType.defects.push(defect);
-    this.visitService.updateVisit();
-    this.trackAddDefect(defect.deficiencyRef);
+    await this.visitService.updateVisit();
+    await this.trackAddDefect(defect.deficiencyRef);
   }
 
   async trackAddDefect(deficiencyRef: string) {
@@ -99,19 +99,19 @@ export class TestTypeService {
     );
   }
 
-  removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
+  async removeDefect(testType: TestTypeModel, defect: DefectDetailsModel) {
     const defIdx = testType.defects
       .map((e) => e.deficiencyRef)
       .indexOf(defect.deficiencyRef);
     testType.defects.splice(defIdx, 1);
-    this.visitService.updateVisit();
-    this.trackRemoveDefect(defect.deficiencyRef);
+    await this.visitService.updateVisit();
+    await this.trackRemoveDefect(defect.deficiencyRef);
   }
 
-  removeSpecialistCustomDefect(testType: TestTypeModel, index: number) {
+  async removeSpecialistCustomDefect(testType: TestTypeModel, index: number) {
     testType.customDefects.splice(index, 1);
-    this.visitService.updateVisit();
-    this.trackRemoveDefect(
+    await this.visitService.updateVisit();
+    await this.trackRemoveDefect(
       testType.customDefects[index] ? testType.customDefects[index].referenceNumber : null
     );
   }

@@ -97,7 +97,7 @@ export class TestStationHomePage implements OnInit {
     }
   }
 
-  enableCache() {
-    this.appService.enableCache();
+  async enableCache() {
+    await this.appService.enableCache();
   }
 }

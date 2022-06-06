@@ -549,12 +549,12 @@ describe('Provider: ActivityService', () => {
       expect(activityService.updateActivitiesArgs).toHaveBeenCalled();
     });
 
-    it('should log error if submit activity fails', () => {
+    it('should log error if submit activity fails', async () => {
       spyOn(activityService, 'submitActivity').and.returnValue(throwError('error'));
 
       activityService.createActivityToPost$(timeline, visit, oid).subscribe();
 
-      expect(activityService.showLoading).toHaveBeenCalledWith('');
+      expect(await activityService.showLoading).toHaveBeenCalledWith('');
       expect(logProvider.dispatchLog).toHaveBeenCalled();
 
       expect(analyticsService.logEvent).toHaveBeenCalledWith({

@@ -440,12 +440,12 @@ export class TestCreatePage implements OnInit {
     if (testType.name.includes('retest')) {
       testType.name = 'Retest';
     }
-    const test = this.testTypeService.createTestType(
+    const test = await this.testTypeService.createTestType(
       testType,
       vehicle.techRecord.vehicleType
     );
     test.testTypeCategoryName = testType.name;
-    this.vehicleService.addTestType(vehicle, test);
+    await this.vehicleService.addTestType(vehicle, test);
   }
 
   async onVehicleDetails(vehicle: VehicleModel) {
@@ -562,7 +562,7 @@ export class TestCreatePage implements OnInit {
     });
 
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
-    this.vehicleService.removeTestType(vehicle, vehicleTest);
+    await this.vehicleService.removeTestType(vehicle, vehicleTest);
   }
 
   isTestAbandoned(vehicleTest: TestTypeModel) {

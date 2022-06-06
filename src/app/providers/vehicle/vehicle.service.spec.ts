@@ -132,11 +132,11 @@ describe('Provider: VehicleService', () => {
     expect(newVehicle.testTypes.length).toBe(0);
   });
 
-  it('should add preparer to vehicle', () => {
+  it('should add preparer to vehicle', async () => {
     const newVehicle = vehicleService.createVehicle(VEHICLE_TECH_RECORD);
     expect(newVehicle.preparerId).toBeFalsy();
     expect(newVehicle.preparerName).toBeFalsy();
-    vehicleService.addPreparer(newVehicle, PREPARER);
+    await vehicleService.addPreparer(newVehicle, PREPARER);
     expect(newVehicle.preparerId).toBeTruthy();
     expect(newVehicle.preparerName).toBeTruthy();
   });
