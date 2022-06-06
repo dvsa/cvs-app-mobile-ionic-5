@@ -41,6 +41,7 @@ import { OdometerReadingPage } from '@app/pages/testing/test-creation/odometer-r
 import {
   CountryOfRegistrationPage
 } from '@app/pages/testing/test-creation/country-of-registration/country-of-registration';
+import { EuVehicleCategoryPage } from '@app/pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category';
 
 @Component({
   selector: 'page-test-create',
@@ -509,19 +510,18 @@ export class TestCreatePage implements OnInit {
   }
 
   async onVehicleCategory(vehicle: VehicleModel) {
-    //@TODO - Add modal back in VTA-629
-    // const MODAL = await this.modalCtrl.create({
-    //   component: CategoryReadingPage,
-    //   componentProps: {
-    //     vehicle,
-    //     errorIncomplete: this.errorIncomplete
-    //   }
-    // });
-    // await MODAL.present();
-    // const didDismiss = await MODAL.onDidDismiss();
-    // if (didDismiss) {
-    //   this.computeErrorIncomplete();
-    // }
+    const MODAL = await this.modalCtrl.create({
+      component: EuVehicleCategoryPage,
+      componentProps: {
+        vehicle,
+        errorIncomplete: this.errorIncomplete
+      }
+    });
+    await MODAL.present();
+    const didDismiss = await MODAL.onDidDismiss();
+    if (didDismiss) {
+      this.computeErrorIncomplete();
+    }
   }
 
   async onRemoveVehicleTest(

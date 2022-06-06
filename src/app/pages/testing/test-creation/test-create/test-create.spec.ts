@@ -445,16 +445,16 @@ describe('Component: TestCreatePage', () => {
 
     expect(modalCtrl.create).toHaveBeenCalled();
   });
-  //
-  // it('should test onVehicleCategory logic', () => {
-  //   component.onCountryOfRegistration(VEHICLE);
-  //   expect(modalCtrl.create).toHaveBeenCalled();
-  // });
-  //
-  // it('should test onCountryOfRegistration logic', () => {
-  //   component.onVehicleCategory(VEHICLE);
-  //   expect(modalCtrl.create).toHaveBeenCalled();
-  // });
+
+  it('should test onCountryOfRegistration logic', () => {
+    component.onCountryOfRegistration(VEHICLE);
+    expect(modalCtrl.create).toHaveBeenCalled();
+  });
+
+  it('should test onVehicleCategory logic', () => {
+    component.onVehicleCategory(VEHICLE);
+    expect(modalCtrl.create).toHaveBeenCalled();
+  });
 
   it('should test computeErrorIncomplete logic', () => {
     component.errorIncomplete = true;

@@ -408,7 +408,7 @@ export enum PAGE_NAMES {
   TEST_STATION_SEARCH_PAGE = 'TestStationSearchPage',
   TEST_STATION_HOME_PAGE = 'TestStationHomePage',
   TEST_STATION_DETAILS_PAGE = 'TestStationDetailsPage',
-  CATEGORY_READING_PAGE = 'CategoryReadingPage',
+  EU_VEHICLE_CATEGORY_PAGE = 'EuVehicleCategoryPage',
   COUNTRY_OF_REGISTRATION_PAGE = 'CountryOfRegistrationPage',
   ODOMETER_READING_PAGE = 'OdometerReadingPage',
   TEST_CREATE_PAGE = 'TestCreatePage',

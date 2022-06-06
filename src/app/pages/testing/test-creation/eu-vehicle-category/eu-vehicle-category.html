@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-margin-start">
+      EU vehicle category
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="save-btn" (click)="onSave()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey">
+  <p class="subtitle ion-padding-horizontal">{{categorySubtitle}}</p>
+  <ion-list class="eu-cat">
+    <ion-item
+      *ngFor="let elem of categoriesArr; let last = last"
+      [lines]="last ? 'none' : 'full'"
+      [detail]="vehicle.euVehicleCategory === elem.key"
+      detail-icon="checkmark"
+      [ngClass]="{
+      'error-incomplete-item': errorIncomplete,
+      'selected' : vehicle.euVehicleCategory === elem.key
+      }"
+      (click)="setVehicleCategory(elem.key)"
+    >
+      <ion-label>
+        <h2 class="ion-text-capitalize">{{displayVehicleCategoryKey(elem.key)}}</h2>
+        <p class="ion-text-wrap">{{elem.value}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
