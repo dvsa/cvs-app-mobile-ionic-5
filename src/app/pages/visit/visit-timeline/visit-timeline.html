@@ -35,10 +35,10 @@
       </div>
     </ion-item>
 
-    <button
-      ion-item
+    <ion-item
       *ngFor="let timelineItem of timeline"
       class="timeline-test ion-text-wrap"
+      lines="none"
       [ngClass]="{'hide-chevron': !timelineItem.activityType}"
       (click)="editWaitTime(timelineItem)"
     >
@@ -123,7 +123,7 @@
           <p class="timeline-message">{{timelineItem.notes}}</p>
         </ng-template>
       </div>
-    </button>
+    </ion-item>
   </ion-list>
 </ion-content>
 
