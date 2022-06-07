@@ -128,6 +128,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category.module')
         .then( m => m.EuVehicleCategoryPageModule)
+  },
+  {
+    path: PAGE_NAMES.REASONS_SELECTION_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-abandonment/reasons-selection/reasons-selection.module')
+        .then( m => m.ReasonsSelectionModule)
+  },
+  {
+    path: PAGE_NAMES.TEST_ABANDON_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-abandonment/test-abandon/test-abandon.module')
+        .then( m => m.TestAbandonModule)
   }
 ];
 
