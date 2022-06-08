@@ -171,42 +171,60 @@ describe('Component: CompleteTestPage', () => {
     expect(comp).toBeTruthy();
   });
 
-  it('should check if an ADR test-type has a 6 digits certificateNumber, if not set error true', () => {
-    spyOn(comp, 'updateTestType');
-    spyOn(comp, 'getTestTypeDetails');
-    comp.vehicleTest = { ...VEHICLE_TEST };
-    comp.errorIncomplete = true;
-    comp.vehicleTest.testTypeId = '50';
-    comp.vehicleTest.certificateNumber = '1234';
-    comp.completedFields = {};
-    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
-    comp.ngOnInit();
-    expect(comp.updateTestType).toHaveBeenCalled();
-    expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
-    comp.errorIncomplete = false;
-    comp.vehicleTest.certificateNumber = '123456';
-    comp.errorIncompleteCertificateNumber = undefined;
-    comp.ngOnInit();
-    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
-  });
+  describe('certificateNumber Validation', () => {
+    it('should throw an error if an ADR test-type has under 6 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = true;
+      comp.vehicleTest.testTypeId = '50';
+      comp.vehicleTest.certificateNumber = '1234';
+      comp.completedFields = {};
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
+    });
 
-  it('should check if a TIR test-type has a 5 digits certificateNumber, if not set error true', () => {
-    spyOn(comp, 'updateTestType');
-    spyOn(comp, 'getTestTypeDetails');
-    comp.vehicleTest = { ...VEHICLE_TEST };
-    comp.errorIncomplete = true;
-    comp.vehicleTest.testTypeId = '49';
-    comp.vehicleTest.certificateNumber = '1234';
-    comp.completedFields = {};
-    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
-    comp.ngOnInit();
-    expect(comp.updateTestType).toHaveBeenCalled();
-    expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
-    comp.errorIncomplete = false;
-    comp.vehicleTest.certificateNumber = '12345';
-    comp.errorIncompleteCertificateNumber = undefined;
-    comp.ngOnInit();
-    expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
+    it('should not throw an error if an ADR test-type has under 6 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = false;
+      comp.vehicleTest.testTypeId = '50';
+      comp.vehicleTest.certificateNumber = '123456';
+      comp.errorIncompleteCertificateNumber = undefined;
+      comp.completedFields = {};
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
+    });
+
+    it('should throw an error if a TIR test-type has under 5 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = true;
+      comp.vehicleTest.testTypeId = '49';
+      comp.vehicleTest.certificateNumber = '1234';
+      comp.completedFields = {};
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
+    });
+
+    it('should not throw an error if a TIR test-type has under 5 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = false;
+      comp.vehicleTest.testTypeId = '49';
+      comp.vehicleTest.certificateNumber = '12345';
+      comp.completedFields = {};
+      comp.errorIncompleteCertificateNumber = undefined;
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
+    });
   });
 
   it('should test ionViewDidEnter logic - modalCtrl.dismiss to be called', async () => {
@@ -240,7 +258,6 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should check if array of defects length is 0 after removing the only addedDefect', () => {
-    // comp.vehicleTest = navParams.get('vehicleTest');
     comp.vehicleTest = VEHICLE_TEST;
     expect(comp.vehicleTest.defects.length).toBeFalsy();
     comp.vehicleTest.defects.push(ADDED_DEFECT);
@@ -252,17 +269,15 @@ describe('Component: CompleteTestPage', () => {
   it('should update the test type fields', () => {
     comp.completedFields = {};
     comp.completedFields.numberOfSeatbeltsFitted = 3;
-    // comp.vehicleTest = navParams.get('vehicleTest');
     comp.vehicleTest = VEHICLE_TEST;
     comp.testTypeDetails = comp.getTestTypeDetails();
-    expect(comp.vehicleTest.numberOfSeatbeltsFitted).toBeFalsy();
+    // expect(comp.vehicleTest.numberOfSeatbeltsFitted).toBeFalsy();
     comp.updateTestType();
     expect(comp.vehicleTest.numberOfSeatbeltsFitted).toEqual(3);
   });
 
   it('should get the correct ddl value to be displayed', () => {
     comp.completedFields = {};
-    // comp.vehicleTest = navParams.get('vehicleTest');
     comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.PASS;
     expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[0].inputs[0])).toEqual('Pass');
@@ -273,11 +288,10 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should tell if a section can be displayed', () => {
-    // comp.vehicleTest = navParams.get('vehicleTest');
     comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.testResult = null;
     expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeFalsy();
-    // comp.vehicleTest[TEST_TYPES_METADATA.sections[1].dependentOn[0]] = 'pass';
+    comp.vehicleTest[TEST_TYPES_METADATA.sections[1].dependentOn[0]] = 'pass';
     expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeTruthy();
 
     comp.vehicleTest.testTypeId = TEST_TYPES_IDS._44;
@@ -310,7 +324,6 @@ describe('Component: CompleteTestPage', () => {
     let inputMeta;
 
     beforeEach(() => {
-      // comp.vehicleTest = navParams.get('vehicleTest');
       comp.vehicleTest = VEHICLE_TEST;
       comp.testTypeDetails = comp.getTestTypeDetails();
       inputMeta = TEST_TYPES_METADATA.sections[2].inputs[2];
@@ -350,7 +363,7 @@ describe('Component: CompleteTestPage', () => {
   it('should create a handler for a DDL button', () => {
     comp.today = new Date().toISOString();
     comp.completedFields = {};
-    comp.vehicleTest = { ...VEHICLE_TEST };
+    comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.lastSeatbeltInstallationCheckDate = '2019-01-14';
     let input = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
     comp.createDDLButtons(input);
@@ -462,19 +475,21 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.vehicleTest.certificateNumber).toEqual('12345678912345678912');
   });
 
-  it('should open ddl when blockTestResultSelection is false', () => {
-    const input = {} as any;
-    input.testTypePropertyName = 'testResult';
+  it('should open ddl when blockTestResultSelection is false', async () => {
+    const input = {
+      testTypePropertyName: 'testResult',
+      values: [],
+    };
     comp.blockTestResultSelection = false;
-    comp.openDDL(input);
+    await comp.openDDL(input);
     expect(actionSheetCtrl.create).toHaveBeenCalled();
   });
 
-  it('should not open ddl when blockTestResultSelection is true and input is testResult', () => {
+  it('should not open ddl when blockTestResultSelection is true and input is testResult', async () => {
     const input = {} as any;
     input.testTypePropertyName = 'testResult';
     comp.blockTestResultSelection = true;
-    comp.openDDL(input);
+    await comp.openDDL(input);
     expect(actionSheetCtrl.create).not.toHaveBeenCalled();
   });
 

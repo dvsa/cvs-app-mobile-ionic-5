@@ -100,11 +100,19 @@ export class TestCompletePage implements OnInit {
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.testTypeDetails = this.getTestTypeDetails();
     this.updateTestType();
+    this.getDefects();
+    this.validateCertificateNumber();
+  }
+
+  getDefects() {
     this.defectsService
       .getDefectsFromStorage()
       .subscribe((defects: DefectCategoryReferenceDataModel[]) => {
         this.defectsCategories = defects;
       });
+  }
+
+  validateCertificateNumber() {
     if (this.vehicleTest.numberOfSeatbeltsFitted && this.testTypeDetails.category === 'B') {
       this.errorIncomplete = false;
     }
@@ -264,11 +272,11 @@ export class TestCompletePage implements OnInit {
     if (input.testTypePropertyName === 'testResult' && this.blockTestResultSelection) {
       return;
     }
-    // const ACTION_SHEET = await this.actionSheetCtrl.create({
-    //   title: input.title,
-    //   buttons: this.createDDLButtons(input)
-    // });
-    // await ACTION_SHEET.present();
+    const ACTION_SHEET = await this.actionSheetCtrl.create({
+      header: input.title,
+      buttons: this.createDDLButtons(input)
+    });
+    await ACTION_SHEET.present();
   }
 
   getDDLValueToDisplay(input) {
