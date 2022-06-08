@@ -16,7 +16,7 @@
 
         img {
           position: absolute;
-          bottom: 60px;
+          top: 20px;
           margin-left: 10px;
           margin-right: 0;
           z-index: 1;
@@ -94,15 +94,15 @@
         }
       }
 
-      button.timeline-test.hide-chevron .item-inner {
+      ion-item.timeline-test.hide-chevron .item-inner {
         background-image: none;
       }
 
-      button.timeline-test.item-block {
+      ion-item.timeline-test.item-block {
         align-items: start;
       }
 
-      button.timeline-test {
+      ion-item.timeline-test {
         .icon-ios {
           color: var(--primary);
         }
@@ -110,7 +110,7 @@
         img {
           height: 20px;
           width: 20px;
-          margin-left: 18px;
+          margin-left: 15px;
         }
 
         .timeline-bar {

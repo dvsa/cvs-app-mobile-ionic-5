@@ -115,7 +115,7 @@ export class VehicleLookupPage implements OnInit {
    */
   async onSearchVehicle(searchedValue: string): Promise<void> {
     this.loading = await this.loadingCtrl.create({
-      message: 'loading....'
+      message: 'loading...'
     });
     this.loading.present();
 
