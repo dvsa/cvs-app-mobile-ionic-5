@@ -57,7 +57,7 @@ export class TestCompletePage implements OnInit {
   isCertificateNumberFocused: boolean;
   today: string;
   patterns: typeof REG_EX_PATTERNS = REG_EX_PATTERNS;
-  changeBackground: boolean = false;
+  changeBackground = false;
   notifiableAlterationTestTypesDataIds: string[] =
     NotifiableAlterationTestTypesData.NotifiableAlterationTestTypesDataIds;
   isNotifiableAlteration: boolean;
@@ -105,8 +105,9 @@ export class TestCompletePage implements OnInit {
       .subscribe((defects: DefectCategoryReferenceDataModel[]) => {
         this.defectsCategories = defects;
       });
-    if (this.vehicleTest.numberOfSeatbeltsFitted && this.testTypeDetails.category === 'B')
+    if (this.vehicleTest.numberOfSeatbeltsFitted && this.testTypeDetails.category === 'B') {
       this.errorIncomplete = false;
+    }
     if (
       (this.testTypeService.isAdrTestType(this.vehicleTest.testTypeId) &&
         this.vehicleTest.certificateNumber &&
@@ -118,8 +119,9 @@ export class TestCompletePage implements OnInit {
         this.vehicleTest.certificateNumber.length &&
         this.vehicleTest.certificateNumber.length < 5 &&
         this.errorIncomplete)
-    )
+    ) {
       this.errorIncompleteCertificateNumber = true;
+    }
   }
 
   ionViewWillEnter() {
@@ -141,8 +143,8 @@ export class TestCompletePage implements OnInit {
   }
 
   updateTestType() {
-    for (let section of this.testTypeDetails.sections) {
-      for (let input of section.inputs) {
+    for (const section of this.testTypeDetails.sections) {
+      for (const input of section.inputs) {
         if (this.completedFields.hasOwnProperty(input.testTypePropertyName)) {
           this.vehicleTest[input.testTypePropertyName] = this.completedFields[
             input.testTypePropertyName
@@ -153,7 +155,7 @@ export class TestCompletePage implements OnInit {
             input.values &&
             !this.vehicleTest[input.testTypePropertyName]
           ) {
-            for (let inputValue of input.values) {
+            for (const inputValue of input.values) {
               if (input.defaultValue === inputValue.text) {
                 this.completedFields[input.testTypePropertyName] = this.vehicleTest[
                   input.testTypePropertyName
@@ -175,8 +177,8 @@ export class TestCompletePage implements OnInit {
   }
 
   getTestTypeDetails() {
-    let testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
-    for (let testTypeFieldMetadata of testTypesFieldsMetadata) {
+    const testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
+    for (const testTypeFieldMetadata of testTypesFieldsMetadata) {
       if (this.vehicleTest.testTypeId === testTypeFieldMetadata.testTypeId) {
         return testTypeFieldMetadata;
       }
@@ -184,7 +186,7 @@ export class TestCompletePage implements OnInit {
   }
 
   createDDLButtonHandler(input, index) {
-    let inputValue = input.values[index].value;
+    const inputValue = input.values[index].value;
     this.vehicleTest[input.testTypePropertyName] = inputValue;
     if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       if (inputValue) {
@@ -243,9 +245,9 @@ export class TestCompletePage implements OnInit {
   }
 
   createDDLButtons(input) {
-    let buttons = [];
-    for (let index in input.values) {
-      let button = {
+    const buttons = [];
+    for (const index of input.values) {
+      const button = {
         text: input.values[index].text,
         cssClass: input.values[index].cssClass,
         handler: () => {
@@ -270,7 +272,7 @@ export class TestCompletePage implements OnInit {
   }
 
   getDDLValueToDisplay(input) {
-    for (let inputValue of input.values) {
+    for (const inputValue of input.values) {
       if (
         this.completedFields[input.testTypePropertyName] === inputValue.value ||
         this.vehicleTest[input.testTypePropertyName] === inputValue.value
@@ -342,7 +344,7 @@ export class TestCompletePage implements OnInit {
     }
     // -----TO HERE-----
     if (section.dependentOn && section.dependentOn.length) {
-      for (let index in section.dependentOn) {
+      for (const index in section.dependentOn) {
         if (!this.vehicleTest[section.dependentOn[index]]) {
           return false;
         }
@@ -370,7 +372,7 @@ export class TestCompletePage implements OnInit {
       return false;
     }
     if (input.dependentOn && input.dependentOn.length) {
-      for (let dep of input.dependentOn) {
+      for (const dep of input.dependentOn) {
         if (
           !this.testTypeService.isSpecialistIvaTestAndRetestTestType(
             this.vehicleTest.testTypeId
@@ -458,7 +460,7 @@ export class TestCompletePage implements OnInit {
   }
 
   async openDefect(defect: DefectDetailsModel): Promise<void> {
-    if (defect.deficiencyCategory.toLowerCase() != DEFICIENCY_CATEGORY.ADVISORY.toLowerCase()) {
+    if (defect.deficiencyCategory.toLowerCase() !== DEFICIENCY_CATEGORY.ADVISORY.toLowerCase()) {
       await this.router.navigate(['DefectDetailsPage'], {
         state: {
           vehicleTest: this.vehicleTest,
@@ -496,9 +498,11 @@ export class TestCompletePage implements OnInit {
         {
           text: 'Remove',
           handler: () => {
-            this.testTypeService.isSpecialistTestType(this.vehicleTest.testTypeId)
-              ? this.removeSpecialistCustomDefect(specialistCustomDefectIndex)
-              : this.removeDefect(defect);
+            if (this.testTypeService.isSpecialistTestType(this.vehicleTest.testTypeId)) {
+              this.removeSpecialistCustomDefect(specialistCustomDefectIndex);
+            } else {
+              this.removeDefect(defect);
+            }
           }
         }
       ]
@@ -558,8 +562,8 @@ export class TestCompletePage implements OnInit {
   async abandonTestType(vehicleType: string, vehicleTest: TestTypeModel) {
     await this.router.navigate([PAGE_NAMES.REASONS_SELECTION_PAGE], {
       state: {
-        vehicleTest: vehicleTest,
-        vehicleType: vehicleType,
+        vehicleTest,
+        vehicleType,
         altAbandon: true,
         fromTestReview: this.fromTestReview
       },
@@ -577,7 +581,7 @@ export class TestCompletePage implements OnInit {
       this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
       this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)
     ) {
-      let formattedValue = value.replace(/[^a-zA-Z0-9]/gi, '');
+      const formattedValue = value.replace(/[^a-zA-Z0-9]/gi, '');
       this.vehicleTest.certificateNumber =
         formattedValue.length > 20 ? formattedValue.substring(0, 20) : formattedValue;
     } else {
