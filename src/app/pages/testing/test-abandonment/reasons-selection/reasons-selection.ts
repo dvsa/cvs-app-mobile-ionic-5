@@ -15,7 +15,6 @@ export class ReasonsSelectionPage {
   vehicleType: string;
   selectedReasons: string[] = [];
   reasonsList: AbandonmentReasonItemModel[];
-  altAbandon: boolean;
   fromTestReview: boolean;
 
   constructor(
@@ -24,7 +23,6 @@ export class ReasonsSelectionPage {
   ) {
     this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
     this.vehicleType = this.router.getCurrentNavigation().extras.state.vehicleType;
-    this.altAbandon = this.router.getCurrentNavigation().extras.state.altAbandon;
     this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
   }
 
@@ -38,7 +36,6 @@ export class ReasonsSelectionPage {
         vehicleTest: this.vehicleTest,
         selectedReasons: this.selectedReasons,
         editMode: true,
-        altAbandon: this.altAbandon,
         fromTestReview: this.fromTestReview
       }
     });

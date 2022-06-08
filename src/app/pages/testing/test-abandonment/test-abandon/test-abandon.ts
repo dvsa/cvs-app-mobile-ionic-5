@@ -7,7 +7,7 @@ import { AnalyticsService } from '@providers/global';
 import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL
+  ANALYTICS_LABEL, PAGE_NAMES
 } from '@app/app.enums';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,6 @@ export class TestAbandonPage implements OnInit {
   selectedReasons: string[];
   additionalComment: string;
   editMode: string;
-  altAbandon: boolean;
   fromTestReview: boolean;
   changeOpacity = false;
 
@@ -33,11 +32,10 @@ export class TestAbandonPage implements OnInit {
     private analyticsService: AnalyticsService,
     private testTypeService: TestTypeService
   ) {
-    this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest
-    this.selectedReasons = this.router.getCurrentNavigation().extras.state.selectedReasons
-    this.editMode = this.router.getCurrentNavigation().extras.state.editMode
-    this.altAbandon = this.router.getCurrentNavigation().extras.state.altAbandon
-    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview
+    this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
+    this.selectedReasons = this.router.getCurrentNavigation().extras.state.selectedReasons;
+    this.editMode = this.router.getCurrentNavigation().extras.state.editMode;
+    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
   }
 
   ngOnInit() {
@@ -46,15 +44,17 @@ export class TestAbandonPage implements OnInit {
     }
   }
 
-  onDoneHandler() {
-    // this.updateVehicleTestModel();
-    // if (!this.fromTestReview) {
-    //   this.altAbandon
-    //     ? this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 4))
-    //     : this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
-    // } else {
-    //   this.navCtrl.popToRoot();
-    // }
+  async onDoneHandler() {
+    await this.updateVehicleTestModel();
+    if (!this.fromTestReview) {
+      await this.navCtrl.navigateBack(PAGE_NAMES.TEST_CREATE_PAGE);
+    } else {
+      //@TODO - fix when test review page is added
+      // await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE, {
+      //   state: {
+      //   }
+      // });
+    }
   }
 
   async onDone() {
@@ -70,18 +70,17 @@ export class TestAbandonPage implements OnInit {
         {
           text: 'Abandon',
           cssClass: 'danger-action-button',
-          handler: () => {
-            this.onDoneHandler();
+          handler: async () => {
+            await this.onDoneHandler();
           }
         }
       ]
     });
-    // await alert.onDidDismiss(() => (this.changeOpacity = false));
+    await alert.present();
     const didDismiss = await alert.onDidDismiss();
     if (didDismiss) {
-      this.changeOpacity = false
+      this.changeOpacity = false;
     }
-    await alert.present();
   }
 
   async updateVehicleTestModel() {
