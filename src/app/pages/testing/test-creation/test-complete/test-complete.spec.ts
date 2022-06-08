@@ -1,21 +1,17 @@
-import { CompleteTestPage } from './test-complete';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ActionSheetController,
   AlertController,
-  IonicModule,
   ModalController,
   NavController,
-  NavParams,
 } from '@ionic/angular';
-import { NavParamsMock } from '@test-config/ionic-mocks/nav-params.mock';
 import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DefectDetailsModel } from '@models/defects/defect-details.model';
 import { DefectsService } from '@providers/defects/defects.service';
 import { DefectsReferenceDataMock } from '@assets/data-mocks/reference-data-mocks/defects-data.mock';
 import {
   DEFICIENCY_CATEGORY,
-  MOD_TYPES,
+  MOD_TYPES, PAGE_NAMES,
   REG_EX_PATTERNS,
   SPEC_VALUES,
   TEST_TYPE_FIELDS,
@@ -36,15 +32,19 @@ import { of } from 'rxjs/observable/of';
 import { TestTypeServiceMock } from '@test-config/services-mocks/test-type-service.mock';
 import { DefectCategoryReferenceDataModel } from '@models/reference-data-models/defects.reference-model';
 import { VehicleTechRecordModel } from '@models/vehicle/tech-record.model';
-import { ActionSheetControllerMock, ModalControllerMock, ViewControllerMock } from 'ionic-mocks';
+import { ActionSheetControllerMock } from 'ionic-mocks';
 import { AnalyticsService } from '@providers/global';
+import { TestCompletePage } from '@app/pages/testing/test-creation/test-complete/test-complete';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
+import { Router } from '@angular/router';
+import { ModalControllerMock } from '@test-config/mocks/modal-controller.mock';
 
 describe('Component: CompleteTestPage', () => {
-  let comp: CompleteTestPage;
-  let fixture: ComponentFixture<CompleteTestPage>;
+  let comp: TestCompletePage;
+  let fixture: ComponentFixture<TestCompletePage>;
 
   let navCtrl: NavController;
-  let navParams: NavParams;
   let defectsService: DefectsService;
   let alertCtrl: AlertController;
   let actionSheetCtrl: ActionSheetController;
@@ -54,6 +54,7 @@ describe('Component: CompleteTestPage', () => {
   let modalCtrl: ModalController;
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
+  let router: any;
 
   const DEFECTS: DefectCategoryReferenceDataModel[] = DefectsReferenceDataMock.DefectsData;
   const ADDED_DEFECT: DefectDetailsModel = {
@@ -90,7 +91,7 @@ describe('Component: CompleteTestPage', () => {
   const VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const VEHICLE: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     defectsServiceSpy = jasmine.createSpyObj('DefectsService', {
       getDefectsFromStorage: of(DEFECTS)
     });
@@ -102,12 +103,17 @@ describe('Component: CompleteTestPage', () => {
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [CompleteTestPage],
-      imports: [],
+      declarations: [TestCompletePage],
+      imports: [
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.TEST_CREATE_PAGE,
+            component: TestCreatePage
+          }
+        ])],
       providers: [
         NavController,
         ChangeDetectorRef,
-        { provide: NavParams, useClass: NavParamsMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
         AlertController,
@@ -115,7 +121,7 @@ describe('Component: CompleteTestPage', () => {
           provide: ActionSheetController,
           useFactory: () => ActionSheetControllerMock.instance()
         },
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: DefectsService, useValue: defectsServiceSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy }
@@ -125,7 +131,7 @@ describe('Component: CompleteTestPage', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CompleteTestPage);
+    fixture = TestBed.createComponent(TestCompletePage);
     comp = fixture.componentInstance;
     navCtrl = TestBed.inject(NavController);
     defectsService = TestBed.inject(DefectsService);
@@ -135,18 +141,21 @@ describe('Component: CompleteTestPage', () => {
     modalCtrl = TestBed.inject(ModalController);
     actionSheetCtrl = TestBed.inject(ActionSheetController);
     analyticsService = TestBed.inject(AnalyticsService);
-  });
-
-  beforeEach(() => {
-    const navParams = fixture.debugElement.injector.get(NavParams);
-
-    navParams.get = jasmine.createSpy('get').and.callFake((param) => {
-      const params = {
-        vehicleTest: VEHICLE_TEST,
-        vehicle: VEHICLE
-      };
-      return params[param];
-    });
+    router = TestBed.inject(Router);
+    spyOn(router, 'getCurrentNavigation').and.returnValue(
+      { extras:
+          {
+            state: {
+              previousPage: PAGE_NAMES.TEST_CREATE_PAGE,
+              vehicle: VEHICLE,
+              vehicleTest: VEHICLE_TEST,
+              completedFields: {},
+              errorIncomplete: false,
+              fromTestReview: false,
+            }
+          }
+      } as any
+    );
   });
 
   afterEach(() => {
@@ -200,20 +209,22 @@ describe('Component: CompleteTestPage', () => {
     expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
   });
 
-  it('should test ionViewDidEnter logic - viewCtrl.dismiss to be called', () => {
+  it('should test ionViewDidEnter logic - modalCtrl.dismiss to be called', async () => {
     comp.fromTestReview = true;
     comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.ABANDONED;
-    comp.ionViewDidEnter();
-    // expect(viewCtrl.dismiss).toHaveBeenCalled();
+    spyOn(modalCtrl, 'dismiss');
+    await comp.ionViewDidEnter();
+    expect(await modalCtrl.dismiss).toHaveBeenCalled();
   });
 
-  it('should test ionViewDidEnter logic - viewCtrl.dismiss not to be called', () => {
+  it('should test ionViewDidEnter logic - modalCtrl.dismiss not to be called', async () => {
     comp.vehicleTest = VEHICLE_TEST;
     comp.fromTestReview = false;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.PASS;
-    comp.ionViewDidEnter();
-    // expect(viewCtrl.dismiss).not.toHaveBeenCalled();
+    spyOn(modalCtrl, 'dismiss');
+    await comp.ionViewDidEnter();
+    expect(await modalCtrl.dismiss).not.toHaveBeenCalled();
   });
 
   it('should VisitService and Root Component share the same instance', inject(
@@ -229,7 +240,8 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should check if array of defects length is 0 after removing the only addedDefect', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = VEHICLE_TEST;
     expect(comp.vehicleTest.defects.length).toBeFalsy();
     comp.vehicleTest.defects.push(ADDED_DEFECT);
     expect(comp.vehicleTest.defects.length).toBeTruthy();
@@ -240,7 +252,8 @@ describe('Component: CompleteTestPage', () => {
   it('should update the test type fields', () => {
     comp.completedFields = {};
     comp.completedFields.numberOfSeatbeltsFitted = 3;
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = VEHICLE_TEST;
     comp.testTypeDetails = comp.getTestTypeDetails();
     expect(comp.vehicleTest.numberOfSeatbeltsFitted).toBeFalsy();
     comp.updateTestType();
@@ -249,7 +262,8 @@ describe('Component: CompleteTestPage', () => {
 
   it('should get the correct ddl value to be displayed', () => {
     comp.completedFields = {};
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.PASS;
     expect(comp.getDDLValueToDisplay(TEST_TYPES_METADATA.sections[0].inputs[0])).toEqual('Pass');
 
@@ -259,7 +273,8 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should tell if a section can be displayed', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.testResult = null;
     expect(comp.canDisplaySection(TEST_TYPES_METADATA.sections[1])).toBeFalsy();
     // comp.vehicleTest[TEST_TYPES_METADATA.sections[1].dependentOn[0]] = 'pass';
@@ -295,7 +310,8 @@ describe('Component: CompleteTestPage', () => {
     let inputMeta;
 
     beforeEach(() => {
-      comp.vehicleTest = navParams.get('vehicleTest');
+      // comp.vehicleTest = navParams.get('vehicleTest');
+      comp.vehicleTest = VEHICLE_TEST;
       comp.testTypeDetails = comp.getTestTypeDetails();
       inputMeta = TEST_TYPES_METADATA.sections[2].inputs[2];
       comp.completedFields = {
@@ -375,7 +391,8 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should test ionViewWillEnter logic', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.testTypeId = '47';
     comp.ionViewWillEnter();
     expect(comp.isNotifiableAlteration).toBeTruthy();
@@ -388,7 +405,8 @@ describe('Component: CompleteTestPage', () => {
   it('should activate the notifiable alteration error if certain condition met', () => {
     comp.isNotesIncompleteError = false;
     comp.isNotifiableAlteration = true;
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
     comp.vehicleTest.additionalNotesRecorded = null;
     comp.onSave();
@@ -396,7 +414,8 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should test openInputModalDismissHandler logic', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
+    comp.vehicleTest = VEHICLE_TEST;
     comp.openInputModalDismissHandler(
       TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0],
       {
@@ -408,7 +427,7 @@ describe('Component: CompleteTestPage', () => {
   });
 
   it('should test openInputPage logic', () => {
-    comp.vehicleTest = navParams.get('vehicleTest');
+    // comp.vehicleTest = navParams.get('vehicleTest');
     comp.testTypeDetails = TestTypeMetadataMock.TestTypeMetadata;
     comp.completedFields = {};
     comp.openInputPage(

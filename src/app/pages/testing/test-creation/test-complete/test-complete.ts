@@ -37,6 +37,8 @@ import { VehicleService } from '@providers/vehicle/vehicle.service';
 import { DefectCategoryReferenceDataModel } from '@models/reference-data-models/defects.reference-model';
 import { NotifiableAlterationTestTypesData } from '@assets/app-data/test-types-data/notifiable-alteration-test-types.data';
 import { AnalyticsService } from '@providers/global';
+import { Router } from '@angular/router';
+import { EventsService } from '@providers/events/events.service';
 
 @Component({
   selector: 'page-test-complete',
@@ -66,32 +68,34 @@ export class TestCompletePage implements OnInit {
   blockTestResultSelection: boolean;
   vehicleTypes: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   tirCertificateNumberPrefixes: typeof TIR_CERTIFICATE_NUMBER_PREFIXES = TIR_CERTIFICATE_NUMBER_PREFIXES;
+  previousPageName: string;
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public visitService: VisitService,
     public defectsService: DefectsService,
     private alertCtrl: AlertController,
     public testTypeService: TestTypeService,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private events: Events,
     private cdRef: ChangeDetectorRef,
     private vehicleService: VehicleService,
-    private viewCtrl: ViewController,
-    private analyticsService: AnalyticsService
+    private analyticsService: AnalyticsService,
+    public router: Router,
+    public navController: NavController,
+    public events: EventsService,
   ) {
-    this.vehicle = navParams.get('vehicle');
-    this.vehicleTest = navParams.get('vehicleTest');
-    this.completedFields = navParams.get('completedFields');
-    this.fromTestReview = navParams.get('fromTestReview');
-    this.errorIncomplete = navParams.get('errorIncomplete');
     this.patterns = REG_EX_PATTERNS;
     this.isCertificateNumberFocused = false;
   }
 
   ngOnInit(): void {
+    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+    this.vehicle = this.router.getCurrentNavigation().extras.state.vehicle;
+    this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
+    this.completedFields = this.router.getCurrentNavigation().extras.state.completedFields;
+    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
+    this.errorIncomplete = this.router.getCurrentNavigation().extras.state.errorIncomplete;
     this.today = new Date().toISOString();
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.testTypeDetails = this.getTestTypeDetails();
@@ -128,11 +132,11 @@ export class TestCompletePage implements OnInit {
     );
   }
 
-  ionViewDidEnter() {
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_TYPE_DETAILS);
+  async ionViewDidEnter() {
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_TYPE_DETAILS);
 
     if (this.fromTestReview && this.vehicleTest.testResult === TEST_TYPE_RESULTS.ABANDONED) {
-      this.viewCtrl.dismiss(this.vehicleTest);
+      await this.modalCtrl.dismiss(this.vehicleTest);
     }
   }
 
@@ -254,15 +258,15 @@ export class TestCompletePage implements OnInit {
     return buttons;
   }
 
-  openDDL(input) {
+  async openDDL(input) {
     if (input.testTypePropertyName === 'testResult' && this.blockTestResultSelection) {
       return;
     }
-    const ACTION_SHEET = this.actionSheetCtrl.create({
-      title: input.title,
-      buttons: this.createDDLButtons(input)
-    });
-    ACTION_SHEET.present();
+    // const ACTION_SHEET = await this.actionSheetCtrl.create({
+    //   title: input.title,
+    //   buttons: this.createDDLButtons(input)
+    // });
+    // await ACTION_SHEET.present();
   }
 
   getDDLValueToDisplay(input) {
@@ -394,22 +398,23 @@ export class TestCompletePage implements OnInit {
     }
   }
 
-  openInputPage(section, input) {
-    const INPUT_MODAL = this.modalCtrl.create('TestTypeDetailsInputPage', {
-      vehicleCategory: this.testTypeDetails.category,
-      sectionName: input.title || section.sectionName,
-      input: input,
-      existentValue:
-        this.completedFields[input.testTypePropertyName] ||
-        this.vehicleTest[input.testTypePropertyName] ||
-        null,
-      fromTestReview: this.fromTestReview,
-      errorIncomplete: this.errorIncomplete
-    });
-    INPUT_MODAL.onDidDismiss((data) => {
-      this.openInputModalDismissHandler(input, data);
-    });
-    INPUT_MODAL.present();
+  async openInputPage(section, input) {
+    // const INPUT_MODAL = await this.modalCtrl.create({
+    //   component: TestTypeDetailsInputPage,
+    //   vehicleCategory: this.testTypeDetails.category,
+    //   sectionName: input.title || section.sectionName,
+    //   input: input,
+    //   existentValue:
+    //     this.completedFields[input.testTypePropertyName] ||
+    //     this.vehicleTest[input.testTypePropertyName] ||
+    //     null,
+    //   fromTestReview: this.fromTestReview,
+    //   errorIncomplete: this.errorIncomplete
+    // });
+    // await INPUT_MODAL.onDidDismiss((data) => {
+    //   this.openInputModalDismissHandler(input, data);
+    // });
+    // await INPUT_MODAL.present();
   }
 
   onDatetimeChange(value, key) {
@@ -417,7 +422,7 @@ export class TestCompletePage implements OnInit {
     this.vehicleTest[key] = value;
   }
 
-  onSave() {
+  async onSave() {
     this.isNotesIncompleteError = false;
     if (
       (this.isNotifiableAlteration ||
@@ -432,37 +437,43 @@ export class TestCompletePage implements OnInit {
       this.vehicleTest,
       this.testTypeDetails.hasDefects
     );
-    this.visitService.updateVisit();
+    await this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
     if (this.fromTestReview) {
-      this.viewCtrl.dismiss(this.vehicleTest);
+      await this.modalCtrl.dismiss(this.vehicleTest);
     } else {
-      this.navCtrl.pop();
+      await this.navController.navigateBack(this.previousPageName);
     }
   }
 
-  addDefect(): void {
-    this.navCtrl.push('AddDefectCategoryPage', {
-      vehicleType: this.vehicle.techRecord.vehicleType,
-      vehicleTest: this.vehicleTest,
-      defects: this.defectsCategories,
-      fromTestReview: this.fromTestReview
+  async addDefect(): Promise<void> {
+    await this.router.navigate(['AddDefectCategoryPage'], {
+      state: {
+        vehicleType: this.vehicle.techRecord.vehicleType,
+        vehicleTest: this.vehicleTest,
+        defects: this.defectsCategories,
+        fromTestReview: this.fromTestReview
+      }
     });
   }
 
-  openDefect(defect: DefectDetailsModel): void {
+  async openDefect(defect: DefectDetailsModel): Promise<void> {
     if (defect.deficiencyCategory.toLowerCase() != DEFICIENCY_CATEGORY.ADVISORY.toLowerCase()) {
-      this.navCtrl.push('DefectDetailsPage', {
-        vehicleTest: this.vehicleTest,
-        deficiency: defect,
-        isEdit: true,
-        fromTestReview: this.fromTestReview
+      await this.router.navigate(['DefectDetailsPage'], {
+        state: {
+          vehicleTest: this.vehicleTest,
+          deficiency: defect,
+          isEdit: true,
+          fromTestReview: this.fromTestReview
+        }
       });
     } else {
-      this.navCtrl.push('AdvisoryDetailsPage', {
-        vehicleTest: this.vehicleTest,
-        advisory: defect,
-        isEdit: true
+      await this.router.navigate(['AdvisoryDetailsPage'], {
+        state: {
+          vehicleTest: this.vehicleTest,
+          advisory: defect,
+          isEdit: true
+        }
       });
     }
   }
@@ -471,9 +482,9 @@ export class TestCompletePage implements OnInit {
     return +event;
   }
 
-  showAlert(item: ItemSliding, defect, specialistCustomDefectIndex?: number) {
-    const confirm = this.alertCtrl.create({
-      title: 'Remove defect',
+  async showAlert(item, defect, specialistCustomDefectIndex?: number) {
+    const confirm = await this.alertCtrl.create({
+      header: 'Remove defect',
       message: 'This action will remove this defect.',
       buttons: [
         {
@@ -492,13 +503,13 @@ export class TestCompletePage implements OnInit {
         }
       ]
     });
-    confirm.present();
+    await confirm.present();
   }
 
-  onRemoveTestType(vehicle, vehicleTest) {
+  async onRemoveTestType(vehicle, vehicleTest) {
     this.changeBackground = true;
-    const confirm = this.alertCtrl.create({
-      title: 'Remove test type',
+    const confirm = await this.alertCtrl.create({
+      header: 'Remove test type',
       message: 'This action will remove this test type from the vehicle.',
       buttons: [
         {
@@ -512,16 +523,19 @@ export class TestCompletePage implements OnInit {
         }
       ]
     });
-    confirm.present();
-    confirm.onDidDismiss(() => (this.changeBackground = false));
+    await confirm.present();
+    const onDidDismiss = await confirm.onDidDismiss();
+    if(onDidDismiss){
+      this.changeBackground = false;
+    }
   }
 
-  removeDefect(defect) {
-    this.testTypeService.removeDefect(this.vehicleTest, defect);
+  async removeDefect(defect) {
+    await this.testTypeService.removeDefect(this.vehicleTest, defect);
   }
 
-  removeSpecialistCustomDefect(index: number) {
-    this.testTypeService.removeSpecialistCustomDefect(this.vehicleTest, index);
+  async removeSpecialistCustomDefect(index: number) {
+    await this.testTypeService.removeSpecialistCustomDefect(this.vehicleTest, index);
   }
 
   async removeTestType(vehicle: VehicleModel, vehicleTest: TestTypeModel) {
@@ -537,16 +551,18 @@ export class TestCompletePage implements OnInit {
     );
 
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
-    this.vehicleService.removeTestType(vehicle, vehicleTest);
-    this.navCtrl.pop();
+    await this.vehicleService.removeTestType(vehicle, vehicleTest);
+    await this.navController.navigateBack(this.previousPageName);
   }
 
-  abandonTestType(vehicleType: string, vehicleTest: TestTypeModel) {
-    this.navCtrl.push(PAGE_NAMES.REASONS_SELECTION_PAGE, {
-      vehicleTest: vehicleTest,
-      vehicleType: vehicleType,
-      altAbandon: true,
-      fromTestReview: this.fromTestReview
+  async abandonTestType(vehicleType: string, vehicleTest: TestTypeModel) {
+    await this.router.navigate([PAGE_NAMES.REASONS_SELECTION_PAGE], {
+      state: {
+        vehicleTest: vehicleTest,
+        vehicleType: vehicleType,
+        altAbandon: true,
+        fromTestReview: this.fromTestReview
+      },
     });
   }
 
@@ -594,13 +610,13 @@ export class TestCompletePage implements OnInit {
     defectIndex?: number,
     defect?: SpecialistCustomDefectModel
   ): void {
-    const MODAL = this.modalCtrl.create(PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING, {
-      isEdit: isEditMode,
-      defectIndex: isEditMode ? defectIndex : null,
-      defect: isEditMode ? defect : ({} as SpecialistCustomDefectModel),
-      testType: this.vehicleTest,
-      errorIncomplete: this.errorIncomplete
-    });
-    MODAL.present();
+    // const MODAL = this.modalCtrl.create(PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING, {
+    //   isEdit: isEditMode,
+    //   defectIndex: isEditMode ? defectIndex : null,
+    //   defect: isEditMode ? defect : ({} as SpecialistCustomDefectModel),
+    //   testType: this.vehicleTest,
+    //   errorIncomplete: this.errorIncomplete
+    // });
+    // MODAL.present();
   }
 }

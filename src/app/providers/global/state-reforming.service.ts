@@ -23,7 +23,7 @@ export class StateReformingService {
         if (view.name === PAGE_NAMES.TEST_TYPES_LIST_PAGE) {
           continue;
         }
-        if (view.name === PAGE_NAMES.COMPLETE_TEST_PAGE) {
+        if (view.name === PAGE_NAMES.TEST_COMPLETE_PAGE) {
           continue;
         }
         if (view.name === PAGE_NAMES.TEST_REVIEW_PAGE) {

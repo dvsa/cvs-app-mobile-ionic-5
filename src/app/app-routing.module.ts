@@ -122,6 +122,7 @@ const routes: Routes = [
     path: PAGE_NAMES.COUNTRY_OF_REGISTRATION_PAGE,
     loadChildren: () =>
       import('./pages/testing/test-creation/country-of-registration/country-of-registration.module')
+        .then(m => m.CountryOfRegistrationModule)
   },
   {
     path: PAGE_NAMES.EU_VEHICLE_CATEGORY_PAGE,
