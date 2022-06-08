@@ -1,11 +1,12 @@
-page-reasons-selection {
+:host {
   .item-divider-ios {
-    font-size: $font-size-small;
+    font-size: var(--font-size-small);
     text-transform: none;
   }
 
   .selected {
-    color: color($colors, primary);
+    --detail-icon-color: var(--primary);
+    --detail-icon-opacity: 1;
   }
 
   .checkbox-list {
@@ -13,13 +14,13 @@ page-reasons-selection {
       margin: 16px 28px 16px 0;
     }
 
-    ion-icon[item-end] {
-      display: flex;
-      align-items: center;
-      margin: 0;
-      position: absolute;
-      right: 16px;
-      height: 100%;
-    }
+    //ion-icon[item-end] {
+    //  display: flex;
+    //  align-items: center;
+    //  margin: 0;
+    //  position: absolute;
+    //  right: 16px;
+    //  height: 100%;
+    //}
   }
 }

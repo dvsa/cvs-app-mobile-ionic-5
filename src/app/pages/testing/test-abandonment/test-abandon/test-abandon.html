@@ -1,33 +1,32 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
     <ion-title *ngIf="editMode">Abandon test</ion-title>
     <ion-title *ngIf="!editMode">Abandoned test</ion-title>
-    <ion-buttons end>
-      <button
-        ion-button
+    <ion-buttons slot="end">
+      <ion-button
         [ngClass]="{buttonOpacity: changeOpacity}"
         (click)="onDone()"
         *ngIf="editMode"
       >
         Done
-      </button>
+      </ion-button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="content-background-color-grey">
-  <ion-list text-wrap>
+  <ion-list class="ion-text-wrap">
     <ion-item-group>
-      <ion-item-divider padding-left>Reason(s) for abandoning this test</ion-item-divider>
-      <ion-item text-wrap padding-horizontal *ngFor="let reason of selectedReasons">
+      <ion-item-divider>Reason(s) for abandoning this test</ion-item-divider>
+      <ion-item class="ion-text-wrap" *ngFor="let reason of selectedReasons">
         {{reason}}
       </ion-item>
     </ion-item-group>
     <ion-item-group>
-      <ion-item-divider *ngIf="editMode || additionalComment" padding-left
-        >Additional comments (optional)
+      <ion-item-divider class="ion-padding-start" *ngIf="editMode || additionalComment">
+        Additional comments (optional)
       </ion-item-divider>
-      <ion-item *ngIf="editMode || additionalComment" padding-left>
+      <ion-item *ngIf="editMode || additionalComment">
         <ion-textarea
           placeholder="Add comments"
           rows="5"

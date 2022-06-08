@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, NavParams } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { TestTypeModel } from '@models/tests/test-type.model';
 import { VisitService } from '@providers/visit/visit.service';
 import { TestTypeService } from '@providers/test-type/test-type.service';
@@ -9,6 +9,7 @@ import {
   ANALYTICS_EVENTS,
   ANALYTICS_LABEL
 } from '@app/app.enums';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-test-abandon',
@@ -25,18 +26,18 @@ export class TestAbandonPage implements OnInit {
   changeOpacity = false;
 
   constructor(
-    private navParams: NavParams,
+    private router: Router,
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     public visitService: VisitService,
     private analyticsService: AnalyticsService,
     private testTypeService: TestTypeService
   ) {
-    this.vehicleTest = this.navParams.get('vehicleTest');
-    this.selectedReasons = this.navParams.get('selectedReasons');
-    this.editMode = this.navParams.get('editMode');
-    this.altAbandon = this.navParams.get('altAbandon');
-    this.fromTestReview = this.navParams.get('fromTestReview');
+    this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest
+    this.selectedReasons = this.router.getCurrentNavigation().extras.state.selectedReasons
+    this.editMode = this.router.getCurrentNavigation().extras.state.editMode
+    this.altAbandon = this.router.getCurrentNavigation().extras.state.altAbandon
+    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview
   }
 
   ngOnInit() {
@@ -46,20 +47,20 @@ export class TestAbandonPage implements OnInit {
   }
 
   onDoneHandler() {
-    this.updateVehicleTestModel();
-    if (!this.fromTestReview) {
-      this.altAbandon
-        ? this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 4))
-        : this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
-    } else {
-      this.navCtrl.popToRoot();
-    }
+    // this.updateVehicleTestModel();
+    // if (!this.fromTestReview) {
+    //   this.altAbandon
+    //     ? this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 4))
+    //     : this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length() - 3));
+    // } else {
+    //   this.navCtrl.popToRoot();
+    // }
   }
 
-  onDone() {
+  async onDone() {
     this.changeOpacity = true;
-    const alert = this.alertCtrl.create({
-      title: 'Abandon test',
+    const alert = await this.alertCtrl.create({
+      header: 'Abandon test',
       message: 'You will not be able to make changes to this test after it has been abandoned.',
       buttons: [
         {
@@ -75,8 +76,12 @@ export class TestAbandonPage implements OnInit {
         }
       ]
     });
-    alert.onDidDismiss(() => (this.changeOpacity = false));
-    alert.present();
+    // await alert.onDidDismiss(() => (this.changeOpacity = false));
+    const didDismiss = await alert.onDidDismiss();
+    if (didDismiss) {
+      this.changeOpacity = false
+    }
+    await alert.present();
   }
 
   async updateVehicleTestModel() {
@@ -96,6 +101,6 @@ export class TestAbandonPage implements OnInit {
       this.vehicleTest.additionalCommentsForAbandon = this.additionalComment;
     }
     this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, false);
-    this.visitService.updateVisit();
+    await this.visitService.updateVisit();
   }
 }

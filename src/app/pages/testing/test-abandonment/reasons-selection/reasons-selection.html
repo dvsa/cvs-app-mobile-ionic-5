@@ -1,33 +1,34 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
     <ion-title>
       Select reason
     </ion-title>
-    <ion-buttons end>
-      <button ion-button *ngIf="selectedReasons.length" (click)="onNext()">
+    <ion-buttons slot="end">
+      <ion-button *ngIf="selectedReasons.length" (click)="onNext()">
         Next
-      </button>
+      </ion-button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list class="checkbox-list">
     <ion-item-group>
-      <ion-item-divider padding-left text-wrap
-        >You can select multiple reasons for abandoning this test
+      <ion-item-divider class="ion-padding-start ion-text-wrap">
+        You can select multiple reasons for abandoning this test
       </ion-item-divider>
 
-      <button
-        ion-item
-        padding-left
-        detail-none
+      <ion-item
+        class="ion-padding-start"
+        [ngClass]="{ 'selected' : reason.isChecked }"
+        [detail]="reason.isChecked"
+        detail-icon="checkmark"
         *ngFor="let reason of reasonsList"
         (click)="onCheck(reason)"
       >
-        <ion-label text-wrap>{{reason.text}}</ion-label>
-        <ion-icon item-end class="selected" name="checkmark" *ngIf="reason.isChecked"></ion-icon>
-      </button>
+        <ion-label class="ion-text-wrap">{{reason.text}}</ion-label>
+<!--        <ion-icon item-end class="selected" name="checkmark" *ngIf="reason.isChecked"></ion-icon>-->
+      </ion-item>
     </ion-item-group>
   </ion-list>
 </ion-content>

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TestAbandonPage } from '@app/pages/testing/test-abandonment/test-abandon/test-abandon';
+import { ReasonsSelectionPage } from '@app/pages/testing/test-abandonment/reasons-selection/reasons-selection';
 
 const routes: Routes = [
   {
     path: '',
-    component: TestAbandonPage,
+    component: ReasonsSelectionPage,
   },
 ];
 

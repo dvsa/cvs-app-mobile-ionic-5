@@ -469,7 +469,7 @@ export class TestCreatePage implements OnInit {
         }
       });
     } else {
-      await this.router.navigate([PAGE_NAMES.TEST_ABANDONING_PAGE], {
+      await this.router.navigate([PAGE_NAMES.TEST_ABANDON_PAGE], {
         state: {
           vehicleTest,
           selectedReasons: vehicleTest.reasons,

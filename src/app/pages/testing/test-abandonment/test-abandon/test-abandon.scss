@@ -1,6 +1,6 @@
-page-test-abandoning {
+:host {
   .item-divider-ios {
-    font-size: $font-size-small;
+    font-size: var(--font-size-small);
     text-transform: uppercase;
   }
 }
