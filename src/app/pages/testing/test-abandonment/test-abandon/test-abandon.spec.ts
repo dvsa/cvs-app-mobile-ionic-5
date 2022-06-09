@@ -106,7 +106,7 @@ describe('Component: TestAbandonPage', () => {
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  // @TODO - fix when test review page is added
+  // @TODO - add in VTA-710
   // it('should test onDone handler logic - popToRoot to have been called', async () => {
   //   const navigateSpy = spyOn(router, 'navigate');
   //   spyOn(component, 'updateVehicleTestModel');

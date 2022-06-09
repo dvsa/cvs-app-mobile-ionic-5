@@ -47,7 +47,7 @@ export class TestAbandonPage implements OnInit {
     if (!this.fromTestReview) {
       await this.navCtrl.navigateBack(PAGE_NAMES.TEST_CREATE_PAGE);
     } else {
-      // @TODO - fix when test review page is added
+      // @TODO - add in VTA-710
       // await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE, {
       //   state: {
       //   }
