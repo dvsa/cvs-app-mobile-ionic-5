@@ -1,6 +1,5 @@
 import { ReasonsSelectionPage } from './reasons-selection';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NavController } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { VEHICLE_TYPE } from '@app/app.enums';
 import { TestAbandonmentReasonsData } from '@assets/app-data/abandon-data/test-abandonment-reasons.data';
@@ -14,8 +13,7 @@ import { TestTypeModel } from '@models/tests/test-type.model';
 describe('Component: ReasonsSelectionPage', () => {
   let component: ReasonsSelectionPage;
   let fixture: ComponentFixture<ReasonsSelectionPage>;
-  let navCtrl: NavController;
-  let router: Router;
+  let router: any;
   const VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
 
   beforeEach(() => {
@@ -25,7 +23,6 @@ describe('Component: ReasonsSelectionPage', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
-        NavController,
         { provide: TestTypeService, useClass: TestTypeServiceMock }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -35,7 +32,6 @@ describe('Component: ReasonsSelectionPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReasonsSelectionPage);
     component = fixture.componentInstance;
-    navCtrl = TestBed.inject(NavController);
     router = TestBed.inject(Router);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
       { extras:

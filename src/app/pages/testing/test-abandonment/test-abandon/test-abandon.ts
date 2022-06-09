@@ -31,17 +31,15 @@ export class TestAbandonPage implements OnInit {
     public visitService: VisitService,
     private analyticsService: AnalyticsService,
     private testTypeService: TestTypeService
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
     this.selectedReasons = this.router.getCurrentNavigation().extras.state.selectedReasons;
     this.editMode = this.router.getCurrentNavigation().extras.state.editMode;
     this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
-  }
 
-  ngOnInit() {
-    if (!this.editMode) {
-      this.additionalComment = this.vehicleTest.additionalCommentsForAbandon;
-    }
+    this.getAdditionalComment();
   }
 
   async onDoneHandler() {
@@ -49,7 +47,7 @@ export class TestAbandonPage implements OnInit {
     if (!this.fromTestReview) {
       await this.navCtrl.navigateBack(PAGE_NAMES.TEST_CREATE_PAGE);
     } else {
-      //@TODO - fix when test review page is added
+      // @TODO - fix when test review page is added
       // await this.navCtrl.navigateBack(PAGE_NAMES.TEST_REVIEW_PAGE, {
       //   state: {
       //   }
@@ -101,5 +99,11 @@ export class TestAbandonPage implements OnInit {
     }
     this.vehicleTest.testResult = this.testTypeService.setTestResult(this.vehicleTest, false);
     await this.visitService.updateVisit();
+  }
+
+  getAdditionalComment() {
+    if (!this.editMode) {
+      this.additionalComment = this.vehicleTest.additionalCommentsForAbandon;
+    }
   }
 }
