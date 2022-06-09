@@ -171,62 +171,6 @@ describe('Component: CompleteTestPage', () => {
     expect(comp).toBeTruthy();
   });
 
-  describe('certificateNumber Validation', () => {
-    it('should throw an error if an ADR test-type has under 6 digits for its certificateNumber', () => {
-      comp.vehicleTest = VEHICLE_TEST;
-      comp.errorIncomplete = true;
-      comp.vehicleTest.testTypeId = '50';
-      comp.vehicleTest.certificateNumber = '1234';
-      comp.completedFields = {};
-      comp.testTypeDetails = comp.getTestTypeDetails();
-      comp.updateTestType();
-      comp.getDefects();
-      comp.validateCertificateNumber();
-      expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
-    });
-
-    it('should not throw an error if an ADR test-type has under 6 digits for its certificateNumber', () => {
-      comp.vehicleTest = VEHICLE_TEST;
-      comp.errorIncomplete = false;
-      comp.vehicleTest.testTypeId = '50';
-      comp.vehicleTest.certificateNumber = '123456';
-      comp.errorIncompleteCertificateNumber = undefined;
-      comp.completedFields = {};
-      comp.testTypeDetails = comp.getTestTypeDetails();
-      comp.updateTestType();
-      comp.getDefects();
-      comp.validateCertificateNumber();
-      expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
-    });
-
-    it('should throw an error if a TIR test-type has under 5 digits for its certificateNumber', () => {
-      comp.vehicleTest = VEHICLE_TEST;
-      comp.errorIncomplete = true;
-      comp.vehicleTest.testTypeId = '49';
-      comp.vehicleTest.certificateNumber = '1234';
-      comp.completedFields = {};
-      comp.testTypeDetails = comp.getTestTypeDetails();
-      comp.updateTestType();
-      comp.getDefects();
-      comp.validateCertificateNumber();
-      expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
-    });
-
-    it('should not throw an error if a TIR test-type has under 5 digits for its certificateNumber', () => {
-      comp.vehicleTest = VEHICLE_TEST;
-      comp.errorIncomplete = false;
-      comp.vehicleTest.testTypeId = '49';
-      comp.vehicleTest.certificateNumber = '12345';
-      comp.completedFields = {};
-      comp.errorIncompleteCertificateNumber = undefined;
-      comp.testTypeDetails = comp.getTestTypeDetails();
-      comp.updateTestType();
-      comp.getDefects();
-      comp.validateCertificateNumber();
-      expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
-    });
-  });
-
   it('should test ionViewDidEnter logic - modalCtrl.dismiss to be called', async () => {
     comp.fromTestReview = true;
     comp.vehicleTest = VEHICLE_TEST;
@@ -271,7 +215,7 @@ describe('Component: CompleteTestPage', () => {
     comp.completedFields.numberOfSeatbeltsFitted = 3;
     comp.vehicleTest = VEHICLE_TEST;
     comp.testTypeDetails = comp.getTestTypeDetails();
-    // expect(comp.vehicleTest.numberOfSeatbeltsFitted).toBeFalsy();
+    expect(comp.vehicleTest.numberOfSeatbeltsFitted).toBeFalsy();
     comp.updateTestType();
     expect(comp.vehicleTest.numberOfSeatbeltsFitted).toEqual(3);
   });
@@ -528,4 +472,60 @@ describe('Component: CompleteTestPage', () => {
   //   comp.toSpecialistDefectDetailsPage(false);
   //   expect(modalCtrl.create).toHaveBeenCalled();
   // });
+
+  describe('certificateNumber Validation', () => {
+    it('should throw an error if an ADR test-type has under 6 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = true;
+      comp.vehicleTest.testTypeId = '50';
+      comp.vehicleTest.certificateNumber = '1234';
+      comp.completedFields = {};
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
+    });
+
+    it('should not throw an error if an ADR test-type has under 6 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = false;
+      comp.vehicleTest.testTypeId = '50';
+      comp.vehicleTest.certificateNumber = '123456';
+      comp.errorIncompleteCertificateNumber = undefined;
+      comp.completedFields = {};
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
+    });
+
+    it('should throw an error if a TIR test-type has under 5 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = true;
+      comp.vehicleTest.testTypeId = '49';
+      comp.vehicleTest.certificateNumber = '1234';
+      comp.completedFields = {};
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBeTruthy();
+    });
+
+    it('should not throw an error if a TIR test-type has under 5 digits for its certificateNumber', () => {
+      comp.vehicleTest = VEHICLE_TEST;
+      comp.errorIncomplete = false;
+      comp.vehicleTest.testTypeId = '49';
+      comp.vehicleTest.certificateNumber = '12345';
+      comp.completedFields = {};
+      comp.errorIncompleteCertificateNumber = undefined;
+      comp.testTypeDetails = comp.getTestTypeDetails();
+      comp.updateTestType();
+      comp.getDefects();
+      comp.validateCertificateNumber();
+      expect(comp.errorIncompleteCertificateNumber).toBe(undefined);
+    });
+  });
 });
