@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbandonmentReasonItemModel } from '@models/tests/abandonment-reason-item.model';
 import { TestAbandonmentReasonsData } from '@assets/app-data/abandon-data/test-abandonment-reasons.data';
 import { TestTypeModel } from '@models/tests/test-type.model';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: 'reasons-selection.html',
   styleUrls: ['reasons-selection.scss']
 })
-export class ReasonsSelectionPage {
+export class ReasonsSelectionPage implements OnInit{
   vehicleTest: TestTypeModel;
   vehicleType: string;
   selectedReasons: string[] = [];
@@ -22,7 +22,9 @@ export class ReasonsSelectionPage {
   constructor(
     private testTypeService: TestTypeService,
     private router: Router
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
     this.vehicleType = this.router.getCurrentNavigation().extras.state.vehicleType;
     this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
