@@ -21,12 +21,17 @@
   <ion-list class="ion-text-wrap">
     <ion-item-group>
       <ion-item-divider>Reason(s) for abandoning this test</ion-item-divider>
-      <ion-item class="ion-text-wrap" *ngFor="let reason of selectedReasons">
-        {{reason}}
+      <ion-item
+        [lines]="last ? 'none' : 'full'"
+        class="ion-text-wrap"
+        *ngFor="let reason of selectedReasons; let last = last">
+        <p>
+          {{reason}}
+        </p>
       </ion-item>
     </ion-item-group>
     <ion-item-group>
-      <ion-item-divider class="ion-padding-start" *ngIf="editMode || additionalComment">
+      <ion-item-divider *ngIf="editMode || additionalComment">
         Additional comments (optional)
       </ion-item-divider>
       <ion-item *ngIf="editMode || additionalComment">

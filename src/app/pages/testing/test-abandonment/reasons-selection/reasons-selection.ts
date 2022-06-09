@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-reasons-selection',
-  templateUrl: 'reasons-selection.html'
+  templateUrl: 'reasons-selection.html',
+  styleUrls: ['reasons-selection.scss']
 })
 export class ReasonsSelectionPage {
   vehicleTest: TestTypeModel;

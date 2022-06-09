@@ -1,6 +1,26 @@
 :host {
+  ion-toolbar {
+    ion-button {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
   .item-divider-ios {
     font-size: var(--font-size-small);
     text-transform: uppercase;
+  }
+
+  ion-item-divider {
+    background: var(--color-grey-3);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 20px;
+  }
+  ion-item {
+    p {
+      margin: 11px 8px 11px 0;
+      color: var(--dark);
+      font-size: var(--font-size-normal);
+    }
   }
 }

@@ -1,26 +1,31 @@
 :host {
+  ion-toolbar {
+    ion-button {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
   .item-divider-ios {
     font-size: var(--font-size-small);
     text-transform: none;
   }
 
-  .selected {
-    --detail-icon-color: var(--primary);
-    --detail-icon-opacity: 1;
-  }
-
-  .checkbox-list {
-    .label-ios {
-      margin: 16px 28px 16px 0;
+  ion-content {
+    ion-item-divider {
+      background: var(--color-grey-3);
+      padding-top: 3px;
+      padding-bottom: 3px;
+      padding-left: 20px;
+    }
+    .selected {
+      --detail-icon-color: var(--primary);
+      --detail-icon-opacity: 1;
     }
 
-    //ion-icon[item-end] {
-    //  display: flex;
-    //  align-items: center;
-    //  margin: 0;
-    //  position: absolute;
-    //  right: 16px;
-    //  height: 100%;
-    //}
+    .checkbox-list {
+      .label-ios {
+        margin: 16px 28px 16px 0;
+      }
+    }
   }
 }
