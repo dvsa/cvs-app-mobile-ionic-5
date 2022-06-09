@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AbandonmentReasonItemModel } from '@models/tests/abandonment-reason-item.model';
 import { TestAbandonmentReasonsData } from '@assets/app-data/abandon-data/test-abandonment-reasons.data';
 import { TestTypeModel } from '@models/tests/test-type.model';
-import { PAGE_NAMES, VEHICLE_TYPE } from '@app/app.enums';
+import { APP_STRINGS, PAGE_NAMES, VEHICLE_TYPE } from '@app/app.enums';
 import { TestTypeService } from '@providers/test-type/test-type.service';
 import { Router } from '@angular/router';
 
@@ -16,6 +16,7 @@ export class ReasonsSelectionPage {
   selectedReasons: string[] = [];
   reasonsList: AbandonmentReasonItemModel[];
   fromTestReview: boolean;
+  APP_STRINGS: typeof APP_STRINGS = APP_STRINGS;
 
   constructor(
     private testTypeService: TestTypeService,
