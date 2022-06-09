@@ -261,12 +261,12 @@ export class TestCompletePage implements OnInit {
 
   createDDLButtons(input) {
     const buttons = [];
-    for (const index of input.values) {
+    for (const value of input.values) {
       const button = {
-        text: input.values[index].text,
-        cssClass: input.values[index].cssClass,
+        text: value.text,
+        cssClass: value.cssClass,
         handler: () => {
-          this.createDDLButtonHandler(input, index);
+          this.createDDLButtonHandler(input, value);
         }
       };
       buttons.push(button);
