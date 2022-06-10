@@ -125,11 +125,20 @@
     margin-top: 100px;
   }
 
+  ion-button.save-button {
+    font-weight: var(--font-weight-bold);
+  }
+
+  h3.input-label {
+    margin-top: 10px;
+  }
+
   .divider-height-auto {
     height: auto;
   }
 
   .test-type-name {
+    margin-top: 10px;
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-medium);
   }

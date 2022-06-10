@@ -460,6 +460,7 @@ export class TestCreatePage implements OnInit {
 
   async openTest(vehicle: VehicleModel, vehicleTest: TestTypeModel): Promise<void> {
     if (!this.isTestAbandoned(vehicleTest)) {
+      alert('something');
       await this.router.navigate([PAGE_NAMES.TEST_COMPLETE_PAGE], {
         state: {
           vehicle,
@@ -468,7 +469,7 @@ export class TestCreatePage implements OnInit {
           errorIncomplete: this.errorIncomplete,
           previousPageName: PAGE_NAMES.TEST_CREATE_PAGE,
         }
-      });
+      }).catch((error) => { console.log(error); });
     } else {
       await this.router.navigate([PAGE_NAMES.TEST_ABANDONING_PAGE], {
         state: {

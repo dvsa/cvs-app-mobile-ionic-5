@@ -4,7 +4,7 @@
       Test type details
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="onSave()">
+      <ion-button (click)="onSave()" class="save-button">
         Save
       </ion-button>
     </ion-buttons>
@@ -20,7 +20,7 @@
   </div>
 
   <ion-list class="full-dividers-list">
-    <ion-item class="ion-text-wrap"><h2 class="test-type-name">{{vehicleTest.testTypeName}}</h2></ion-item>
+    <ion-item class="ion-text-wrap" lines="none"><h2 class="test-type-name">{{vehicleTest.testTypeName}}</h2></ion-item>
 
     <ion-item-group *ngFor="let section of testTypeDetails.sections">
       <ion-item-divider *ngIf="canDisplaySection(section)">
@@ -29,16 +29,17 @@
 
       <div *ngFor="let input of section.inputs">
         <ion-item
-          detail="none"
+          detail="false"
           class="bottom-divider"
+          lines="none"
           [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
           (click)="openDDL(input)"
           *ngIf="input.type === testTypeFields.DDL && canDisplaySection(section) && canDisplayInput(input)"
         >
-          <h3>{{input.label}}</h3>
+          <h3 class="input-label">{{input.label}}</h3>
           <h3
-            item-end
-            class="current-value"
+            slot="end"
+            class="current-value input-label"
             [ngClass]="{'no-data': (!vehicleTest.hasOwnProperty(input.testTypePropertyName) || vehicleTest[input.testTypePropertyName] === null) &&
                         (!completedFields.hasOwnProperty(input.testTypePropertyName) || completedFields[input.testTypePropertyName] === null),
                         'data-successful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] === 'pass',
@@ -52,7 +53,7 @@
             : input.defaultValue}}
           </h3>
           <ion-icon
-            item-end
+            slot="end"
             class="arrow-forward"
             name="arrow-forward"
             *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"
@@ -67,7 +68,7 @@
         >
           <h3>{{input.label}}</h3>
           <h3
-            item-end
+            slot="end"
             class="current-value"
             [ngClass]="{'no-data': !completedFields[input.testTypePropertyName] && !vehicleTest[input.testTypePropertyName],
                           'overflow-hidden': vehicleTest[input.testTypePropertyName] && (input.testTypePropertyName === testTypeInputs.PT_FITTED ||
@@ -89,7 +90,7 @@
         >
           <ion-label><h3>{{input.label}}</h3></ion-label>
           <h3
-            item-end
+            slot="end"
             class="current-value no-data"
             *ngIf="!completedFields[input.testTypePropertyName]"
           >
@@ -212,7 +213,7 @@
           </h4>
           <h4
             class="parent-info-color truncate-text"
-            *ngIf="defect.deficiencyCategory != 'Advisory'"
+            *ngIf="defect.deficiencyCategory !== 'Advisory'"
           >
             <span>
               <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
@@ -220,14 +221,14 @@
             </span>
             {{ defect.deficiencyText }}
           </h4>
-          <ion-icon item-end name="arrow-forward" class="arrow-forward"></ion-icon>
+          <ion-icon slot="end" name="arrow-forward" class="arrow-forward"></ion-icon>
         </ion-item>
         <ion-item-options>
           <ion-button color="danger" (click)="showAlert(item, defect)">Remove</ion-button>
         </ion-item-options>
       </ion-item-sliding>
-      <ion-item detail="none" class="btn-add-test" (click)="addDefect()">
-        <ion-icon aria-hidden="true" name="add-circle-outline" item-end></ion-icon>
+      <ion-item detail="false" class="btn-add-test" lines="none" (click)="addDefect()">
+        <ion-icon aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
         Add defect
       </ion-item>
     </ion-item-group>
@@ -253,11 +254,12 @@
         </ion-item-options>
       </ion-item-sliding>
       <ion-item
-        detail="none"
+        detail="false"
         class="btn-add-test"
         (click)="toSpecialistDefectDetailsPage(false)"
+        lines="none"
       >
-        <ion-icon aria-hidden="true" name="add-circle-outline" item-end></ion-icon>
+        <ion-icon aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
         Add defect
       </ion-item>
     </ion-item-group>
@@ -271,7 +273,7 @@
           >(REQUIRED)</span
         >
       </ion-item-divider>
-      <ion-item
+      <ion-item lines="none"
         [ngClass]="{'error-incomplete-item': isNotesIncompleteError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL}"
       >
         <ion-textarea
@@ -303,7 +305,8 @@
     <ion-item-group>
       <ion-item-divider></ion-item-divider>
       <ion-item
-        detail="none"
+        detail="false"
+        lines="none"
         class="btn-remove-test"
         [ngClass]="{buttonBackground: changeBackground}"
         (click)="onRemoveTestType(vehicle, vehicleTest)"
@@ -311,7 +314,8 @@
         Remove test type
       </ion-item>
       <ion-item
-        detail="none"
+        detail="false"
+        lines="none"
         class="btn-remove-test"
         (click)="abandonTestType(vehicle.techRecord.vehicleType, vehicleTest)"
       >
