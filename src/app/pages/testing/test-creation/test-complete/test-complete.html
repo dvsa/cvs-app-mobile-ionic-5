@@ -55,7 +55,7 @@
           <ion-icon
             slot="end"
             class="arrow-forward"
-            name="arrow-forward"
+            name="chevron-forward"
             *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"
           ></ion-icon>
         </ion-item>
@@ -292,7 +292,9 @@
 
     <ion-item-group *ngIf="!this.testTypeDetails.hasDefects">
       <ion-item-divider>PROHIBITION</ion-item-divider>
-      <ion-item>
+      <ion-item
+        lines="none"
+      >
         <ion-label>Issued in Mobile Compliance</ion-label>
         <ion-toggle
           color="secondary"
