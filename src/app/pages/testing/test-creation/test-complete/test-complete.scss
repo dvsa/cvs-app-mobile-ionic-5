@@ -15,10 +15,10 @@
     margin-bottom: 8px;
   }
 
-  ion-icon[item-end].arrow-forward {
+  ion-icon.arrow-forward {
     display: flex;
     align-items: center;
-    font-size: var(--font-size-medium-2);
+    font-size: var(--font-size-small);
     color: var(--color-grey-2);
   }
 
@@ -133,8 +133,16 @@
     margin-top: 10px;
   }
 
+  h3.input-title {
+    color: var(--ion-color-dark)
+  }
+
   .divider-height-auto {
     height: auto;
+  }
+
+  ion-item-divider {
+    background: var(--color-grey-3);
   }
 
   .test-type-name {
@@ -177,5 +185,9 @@
 
   .custom-defects-divider {
     border-bottom: 0.8px solid var(--color-grey-3);
+  }
+
+  ion-item h3 {
+    font-size: var(--font-size-small)
   }
 }

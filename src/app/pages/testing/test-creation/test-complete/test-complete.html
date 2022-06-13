@@ -36,7 +36,7 @@
           (click)="openDDL(input)"
           *ngIf="input.type === testTypeFields.DDL && canDisplaySection(section) && canDisplayInput(input)"
         >
-          <h3 class="input-label">{{input.label}}</h3>
+          <h3 class="input-label input-title">{{input.label}}</h3>
           <h3
             slot="end"
             class="current-value input-label"
