@@ -468,7 +468,7 @@ export class TestCreatePage implements OnInit {
           errorIncomplete: this.errorIncomplete,
           previousPageName: PAGE_NAMES.TEST_CREATE_PAGE,
         }
-      }).catch((error) => { console.log(error); });
+      });
     } else {
       await this.router.navigate([PAGE_NAMES.TEST_ABANDONING_PAGE], {
         state: {
