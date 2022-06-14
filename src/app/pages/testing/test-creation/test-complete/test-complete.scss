@@ -18,6 +18,7 @@
   ion-icon.arrow-forward {
     display: flex;
     align-items: center;
+    margin-left: 0;
     font-size: var(--font-size-small);
     color: var(--color-grey-2);
   }
@@ -188,6 +189,6 @@
   }
 
   ion-item h3 {
-    font-size: var(--font-size-small)
+    font-size: var(--font-size-medium);
   }
 }
