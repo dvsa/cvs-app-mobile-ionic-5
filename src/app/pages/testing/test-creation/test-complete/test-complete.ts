@@ -571,7 +571,6 @@ export class TestCompletePage implements OnInit {
       state: {
         vehicleTest,
         vehicleType,
-        altAbandon: true,
         fromTestReview: this.fromTestReview
       },
     });
