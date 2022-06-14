@@ -193,10 +193,7 @@ export class TestCompletePage implements OnInit {
     }
   }
 
-  createDDLButtonHandler(input, index) {
-    console.log(input);
-    console.log(index);
-    const inputValue = input.values[index].value; // error here
+  createDDLButtonHandler(input, inputValue) {
     this.vehicleTest[input.testTypePropertyName] = inputValue;
     if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       if (inputValue) {
