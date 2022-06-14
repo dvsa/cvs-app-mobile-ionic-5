@@ -151,26 +151,20 @@ export class TestCompletePage implements OnInit {
   }
 
   updateTestType() {
-    console.log(1);
     for (const section of this.testTypeDetails.sections) {
       for (const input of section.inputs) {
-        console.log(2);
         if (this.completedFields.hasOwnProperty(input.testTypePropertyName)) {
-          console.log(3);
           this.vehicleTest[input.testTypePropertyName] = this.completedFields[
             input.testTypePropertyName
           ];
         } else {
-          console.log(4);
           if (
             input.defaultValue &&
             input.values &&
             !this.vehicleTest[input.testTypePropertyName]
           ) {
-            console.log(5);
             for (const inputValue of input.values) {
               if (input.defaultValue === inputValue.text) {
-                console.log(6);
                 this.completedFields[input.testTypePropertyName] = this.vehicleTest[
                   input.testTypePropertyName
                 ] = inputValue.value;
@@ -182,7 +176,6 @@ export class TestCompletePage implements OnInit {
           this.testTypeDetails.category === 'B' &&
           input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT
         ) {
-          console.log(7);
           this.completedFields[input.testTypePropertyName] = this.vehicleTest[
             input.testTypePropertyName
           ] = true;
@@ -201,7 +194,9 @@ export class TestCompletePage implements OnInit {
   }
 
   createDDLButtonHandler(input, index) {
-    const inputValue = input.values[index].value;
+    console.log(input);
+    console.log(index);
+    const inputValue = input.values[index].value; // error here
     this.vehicleTest[input.testTypePropertyName] = inputValue;
     if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       if (inputValue) {
