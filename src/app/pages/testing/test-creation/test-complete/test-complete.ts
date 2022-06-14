@@ -194,7 +194,7 @@ export class TestCompletePage implements OnInit {
   }
 
   createDDLButtonHandler(input, inputValue) {
-    this.vehicleTest[input.testTypePropertyName] = inputValue;
+    this.vehicleTest[input.testTypePropertyName] = inputValue.value;
     if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       if (inputValue) {
         this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[
