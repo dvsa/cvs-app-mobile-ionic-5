@@ -310,6 +310,8 @@ describe('Component: CompleteTestPage', () => {
     comp.vehicleTest = VEHICLE_TEST;
     comp.vehicleTest.lastSeatbeltInstallationCheckDate = '2019-01-14';
     let input = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
+    const passValue = {};
+    const failValue = {};
     comp.createDDLButtons(input);
     comp.createDDLButtonHandler(input, 1);
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeNull();

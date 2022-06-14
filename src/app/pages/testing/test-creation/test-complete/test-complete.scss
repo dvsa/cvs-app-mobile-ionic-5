@@ -48,19 +48,19 @@
     color: var(--color-grey-2);
   }
 
-  h3[item-end].current-value.data-successful {
+  h3.current-value.data-successful {
     font-size: var(--font-size-medium);
     font-weight: var(--font-weight-bold);
     color: var(--secondary);
   }
 
-  h3[item-end].current-value.data-unsuccessful {
+  h3.current-value.data-unsuccessful {
     font-size: var(--font-size-medium);
     font-weight: var(--font-weight-bold);
     color: var(--danger);
   }
 
-  h3[item-end].current-value.coif-prs {
+  h3.current-value.coif-prs {
     font-size: var(--font-size-medium);
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;

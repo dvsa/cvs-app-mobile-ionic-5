@@ -4,7 +4,6 @@ import {
   AlertController,
   ModalController,
   NavController,
-  NavParams,
 } from '@ionic/angular';
 import {
   DefectDetailsModel,
@@ -194,6 +193,7 @@ export class TestCompletePage implements OnInit {
   }
 
   createDDLButtonHandler(input, inputValue) {
+    console.log(inputValue);
     this.vehicleTest[input.testTypePropertyName] = inputValue.value;
     if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       if (inputValue) {
