@@ -307,44 +307,42 @@ describe('Component: CompleteTestPage', () => {
   it('should create a handler for a DDL button', () => {
     comp.today = new Date().toISOString();
     comp.completedFields = {};
-    comp.vehicleTest = VEHICLE_TEST;
+    comp.vehicleTest = { ...VEHICLE_TEST };
     comp.vehicleTest.lastSeatbeltInstallationCheckDate = '2019-01-14';
-    let input = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
-    const passValue = {};
-    const failValue = {};
+    let input: any = TestTypeMetadataMock.TestTypeMetadata.sections[2].inputs[0];
     comp.createDDLButtons(input);
-    comp.createDDLButtonHandler(input, 1);
+    comp.createDDLButtonHandler(input, input.values[1].value);
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeNull();
-    comp.createDDLButtonHandler(input, 0);
+    comp.createDDLButtonHandler(input, input.values[0].value);
     expect(comp.vehicleTest.lastSeatbeltInstallationCheckDate).toBeDefined();
     input = TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0];
     comp.vehicleTest.certificateNumber = '1234';
     comp.vehicleTest.testExpiryDate = '2019-01-14';
     comp.vehicleTest.testTypeId = '50';
-    comp.createDDLButtonHandler(input, 1);
+    comp.createDDLButtonHandler(input, input.values[1].value);
     expect(comp.vehicleTest.certificateNumber).toBe(null);
     expect(comp.vehicleTest.testExpiryDate).toBe(null);
 
     comp.vehicleTest.testTypeId = TEST_TYPES_IDS._49;
     comp.vehicleTest.certificateNumber = '76322';
-    comp.createDDLButtonHandler(input, 1);
+    comp.createDDLButtonHandler(input, input.values[1].value);
     expect(comp.vehicleTest.certificateNumber).toBeNull();
 
     comp.vehicleTest.testTypeId = TEST_TYPES_IDS._44;
     comp.vehicleTest.testResult = TEST_TYPE_RESULTS.FAIL;
     comp.vehicleTest.emissionStandard = SPEC_VALUES.EMISSION_STANDARD;
     input = TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0];
-    comp.createDDLButtonHandler(input, 1);
+    comp.createDDLButtonHandler(input, input.values[1].value);
     expect(comp.vehicleTest.emissionStandard).toBeNull();
 
     comp.vehicleTest.modificationTypeUsed = 'mod';
     input = TestTypeMetadataMock.TestTypeMetadata.sections[3].inputs[0];
-    comp.createDDLButtonHandler(input, 0);
+    comp.createDDLButtonHandler(input, input.values[0].value);
     expect(comp.vehicleTest.modificationTypeUsed).toBeNull();
 
     comp.vehicleTest.particulateTrapFitted = 'jhb56';
     comp.vehicleTest.particulateTrapSerialNumber = 'serial';
-    comp.createDDLButtonHandler(input, 1);
+    comp.createDDLButtonHandler(input, input.values[1].value);
     expect(comp.vehicleTest.particulateTrapFitted).toBeNull();
     expect(comp.vehicleTest.particulateTrapSerialNumber).toBeNull();
   });

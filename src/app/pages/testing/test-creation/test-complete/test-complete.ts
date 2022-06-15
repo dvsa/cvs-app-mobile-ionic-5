@@ -193,8 +193,7 @@ export class TestCompletePage implements OnInit {
   }
 
   createDDLButtonHandler(input, inputValue) {
-    console.log(inputValue);
-    this.vehicleTest[input.testTypePropertyName] = inputValue.value;
+    this.vehicleTest[input.testTypePropertyName] = inputValue;
     if (input.testTypePropertyName === TEST_TYPE_INPUTS.SIC_CARRIED_OUT) {
       if (inputValue) {
         this.completedFields[TEST_TYPE_INPUTS.SIC_LAST_DATE] = this.vehicleTest[
@@ -258,7 +257,7 @@ export class TestCompletePage implements OnInit {
         text: value.text,
         cssClass: value.cssClass,
         handler: () => {
-          this.createDDLButtonHandler(input, value);
+          this.createDDLButtonHandler(input, value.value);
         }
       };
       buttons.push(button);
