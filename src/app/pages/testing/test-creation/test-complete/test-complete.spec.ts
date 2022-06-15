@@ -40,7 +40,7 @@ import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/tes
 import { Router } from '@angular/router';
 import { ModalControllerMock } from '@test-config/mocks/modal-controller.mock';
 
-describe('Component: CompleteTestPage', () => {
+describe('Component: TestCompletePage', () => {
   let comp: TestCompletePage;
   let fixture: ComponentFixture<TestCompletePage>;
 
