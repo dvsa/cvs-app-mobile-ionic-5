@@ -122,12 +122,19 @@ const routes: Routes = [
     path: PAGE_NAMES.COUNTRY_OF_REGISTRATION_PAGE,
     loadChildren: () =>
       import('./pages/testing/test-creation/country-of-registration/country-of-registration.module')
+        .then(m => m.CountryOfRegistrationModule)
   },
   {
     path: PAGE_NAMES.EU_VEHICLE_CATEGORY_PAGE,
     loadChildren: () =>
       import('./pages/testing/test-creation/eu-vehicle-category/eu-vehicle-category.module')
         .then( m => m.EuVehicleCategoryPageModule)
+  },
+  {
+    path: PAGE_NAMES.TEST_COMPLETE_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-creation/test-complete/test-complete.module')
+        .then(m => m.TestCompleteModule)
   }
 ];
 

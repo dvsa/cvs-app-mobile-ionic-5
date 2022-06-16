@@ -1,0 +1,328 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-margin-start">
+      Test type details
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSave()" class="save-button">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey">
+  <div
+    class="error-banner"
+    *ngIf="isNotesIncompleteError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL"
+  >
+    Before saving, give more details about the failure in the notes section.
+  </div>
+
+  <ion-list class="full-dividers-list">
+    <ion-item class="ion-text-wrap" lines="none"><h2 class="test-type-name">{{vehicleTest.testTypeName}}</h2></ion-item>
+
+    <ion-item-group *ngFor="let section of testTypeDetails.sections">
+      <ion-item-divider *ngIf="canDisplaySection(section)">
+        {{section.sectionName.toUpperCase()}}
+      </ion-item-divider>
+
+      <div *ngFor="let input of section.inputs">
+        <ion-item
+          detail="false"
+          class="bottom-divider"
+          lines="none"
+          [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
+          (click)="openDDL(input)"
+          *ngIf="input.type === testTypeFields.DDL && canDisplaySection(section) && canDisplayInput(input)"
+        >
+          <h3 class="input-label input-title">{{input.label}}</h3>
+          <h3
+            slot="end"
+            class="current-value input-label"
+            [ngClass]="{'no-data': (!vehicleTest.hasOwnProperty(input.testTypePropertyName) || vehicleTest[input.testTypePropertyName] === null) &&
+                        (!completedFields.hasOwnProperty(input.testTypePropertyName) || completedFields[input.testTypePropertyName] === null),
+                        'data-successful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] === 'pass',
+                        'data-unsuccessful': input.deactivateButtonOnSelection && vehicleTest[input.testTypePropertyName] && vehicleTest[input.testTypePropertyName] === 'fail',
+                        'coif-prs': input.deactivateButtonOnSelection && testTypeService.isSpecialistIvaTestAndRetestTestType(vehicleTest.testTypeId) && vehicleTest[input.testTypePropertyName] === 'prs'}"
+          >
+            {{vehicleTest[input.testTypePropertyName] || vehicleTest[input.testTypePropertyName]
+            === false || (input.testTypePropertyName !== 'testResult' &&
+            (completedFields[input.testTypePropertyName] ||
+            completedFields[input.testTypePropertyName] === false)) ? getDDLValueToDisplay(input)
+            : input.defaultValue}}
+          </h3>
+          <ion-icon
+            slot="end"
+            class="arrow-forward"
+            name="chevron-forward"
+            *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"
+          ></ion-icon>
+        </ion-item>
+
+        <ion-item
+          class="bottom-divider"
+          [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
+          (click)="openInputPage(section, input)"
+          *ngIf="input.type === testTypeFields.NUMBER && canDisplaySection(section) && canDisplayInput(input)"
+        >
+          <h3>{{input.label}}</h3>
+          <h3
+            slot="end"
+            class="current-value"
+            [ngClass]="{'no-data': !completedFields[input.testTypePropertyName] && !vehicleTest[input.testTypePropertyName],
+                          'overflow-hidden': vehicleTest[input.testTypePropertyName] && (input.testTypePropertyName === testTypeInputs.PT_FITTED ||
+                          input.testTypePropertyName === testTypeInputs.PT_SERIAL_NUMBER || input.testTypePropertyName === testTypeInputs.MOD_TYPE_USED)}"
+          >
+            {{completedFields[input.testTypePropertyName] ||
+            vehicleTest[input.testTypePropertyName] || input.defaultValue}}
+            <span
+              *ngIf="input.testTypePropertyName === testTypeInputs.K_LIMIT && vehicleTest[testTypeInputs.K_LIMIT]"
+            >
+              (m<sup>-1</sup>)</span
+            >
+          </h3>
+        </ion-item>
+
+        <ion-item
+          class="bottom-divider"
+          *ngIf="input.type === testTypeFields.DATE && canDisplayInput(input)"
+        >
+          <ion-label><h3>{{input.label}}</h3></ion-label>
+          <h3
+            slot="end"
+            class="current-value no-data"
+            *ngIf="!completedFields[input.testTypePropertyName]"
+          >
+            {{input.defaultValue}}
+          </h3>
+          <ion-datetime
+            slot="end"
+            displayFormat="D MMM YYYY"
+            [(ngModel)]="completedFields[input.testTypePropertyName]"
+            (ngModelChange)="onDatetimeChange($event, input.testTypePropertyName)"
+            [max]="today"
+          ></ion-datetime>
+        </ion-item>
+
+        <div
+          [ngClass]="{'error-incomplete-item': (errorIncomplete && !vehicleTest.certificateNumber) || (errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 6)}"
+          *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER && canDisplaySection(section) && canDisplayInput(input)"
+        >
+          <ion-item>
+            <ion-input
+              [placeholder]="input.placeholder"
+              [type]="getTypeForCertificateNumberField()"
+              [pattern]="getPatternForCertificateNumberField()"
+              [(ngModel)]="vehicleTest[input.testTypePropertyName]"
+              (ngModelChange)="certificateNumberInputChange($event)"
+            ></ion-input>
+          </ion-item>
+        </div>
+
+        <p
+          class="error-incomplete-certificate-number ion-padding-start"
+          *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER && canDisplaySection(section) && canDisplayInput(input)
+           && errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 6"
+        >
+          Certificate number must be 6 digits.
+        </p>
+
+        <div
+          *ngIf="input.type === testTypeFields.EXPIRY_DATE && canDisplaySection(section) && canDisplayInput(input)"
+        >
+          <ion-item
+            [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
+          >
+            <ion-datetime
+              class="expiry-date-datetime"
+              [placeholder]="input.placeholder"
+              displayFormat="D MMM YYYY"
+              [(ngModel)]="vehicleTest[input.testTypePropertyName]"
+              [min]="input.minDate"
+              [max]="input.maxDate"
+            ></ion-datetime>
+          </ion-item>
+        </div>
+
+        <ion-grid
+          class="certificateNumberCustom"
+          [ngClass]="{'error-incomplete-item': (errorIncomplete && !vehicleTest.certificateNumber) || (errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 5)}"
+          *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section) && canDisplayInput(input)"
+        >
+          <ion-row>
+            <ion-col col-2 class="certificateNumberCustom-label">
+              {{vehicle.techRecord.vehicleType === vehicleTypes.HGV ?
+              tirCertificateNumberPrefixes.GB_V : tirCertificateNumberPrefixes.GB_T}}
+            </ion-col>
+            <ion-col col-10 class="certificateNumberCustom-input">
+              <ion-input
+                [placeholder]="input.placeholder"
+                type="number"
+                [pattern]="patterns.NUMERIC"
+                [(ngModel)]="vehicleTest[input.testTypePropertyName]"
+                (ngModelChange)="certificateNumberInputChange($event)"
+              >
+              </ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <p
+          class="error-incomplete-certificate-number ion-padding-start"
+          *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section) && canDisplayInput(input)
+           && errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 5"
+        >
+          Certificate number must be 5 digits.
+        </p>
+      </div>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="testTypeDetails.hasDefects">
+      <ion-item-divider class="ion-text-uppercase">
+        <span>DEFECTS</span>
+      </ion-item-divider>
+      <ion-item-sliding #item *ngFor="let defect of vehicleTest.defects">
+        <ion-item class="defect-details" (click)="openDefect(defect)">
+          <h3 class="defect-name">
+            <span>
+              <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
+              <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+              <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+            </span>
+            <ion-badge
+              class="no-margin-right ion-text-uppercase"
+              slot="end"
+              [color]="defectsService.getBadgeColor(defect.deficiencyCategory)"
+            >
+              {{ defect.deficiencyCategory }}
+            </ion-badge>
+            <ion-badge
+              class="no-margin-left ion-text-uppercase"
+              slot="end"
+              color="tertiary"
+              *ngIf="defect.prs"
+            >
+              PRS
+            </ion-badge>
+          </h3>
+          <h4 class="parent-info-color">
+            {{ defect.imNumber }}. {{ defect.imDescription}}
+          </h4>
+          <h4 class="parent-info-color">
+            {{ defect.itemNumber }}. {{ defect.itemDescription }}
+          </h4>
+          <h4
+            class="parent-info-color truncate-text"
+            *ngIf="defect.deficiencyCategory !== 'Advisory'"
+          >
+            <span>
+              <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+              <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+            </span>
+            {{ defect.deficiencyText }}
+          </h4>
+          <ion-icon slot="end" name="arrow-forward" class="arrow-forward"></ion-icon>
+        </ion-item>
+        <ion-item-options>
+          <ion-button color="danger" (click)="showAlert(item, defect)">Remove</ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item detail="false" class="btn-add-test" lines="none" (click)="addDefect()">
+        <ion-icon aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
+        Add defect
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="testTypeDetails.hasSpecialistDefects">
+      <ion-item-divider class="ion-text-uppercase">
+        <span>DEFECTS</span>
+      </ion-item-divider>
+      <ion-item-sliding #item *ngFor="let defect of vehicleTest.customDefects; let index = index">
+        <ion-item
+          class="defect-details custom-defects-divider"
+          [ngClass]="{'error-incomplete-item': errorIncomplete && !defect.hasAllMandatoryFields}"
+          (click)="toSpecialistDefectDetailsPage(true, index, defect)"
+        >
+          <h3 class="defect-name">{{defect.referenceNumber}}</h3>
+          <h4 class="parent-info-color">{{defect.defectName}}</h4>
+          <h4 class="parent-info-color">{{defect.defectNotes}}</h4>
+        </ion-item>
+        <ion-item-options>
+          <ion-button color="danger" (click)="showAlert(item, defect, index)">
+            Remove
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item
+        detail="false"
+        class="btn-add-test"
+        (click)="toSpecialistDefectDetailsPage(false)"
+        lines="none"
+      >
+        <ion-icon aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
+        Add defect
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="testTypeDetails.hasNotes">
+      <ion-item-divider
+        >NOTES
+        <span
+          *ngIf="(isNotifiableAlteration || testTypeService.isLecTestType(vehicleTest.testTypeId)) &&
+      vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL"
+          >(REQUIRED)</span
+        >
+      </ion-item-divider>
+      <ion-item lines="none"
+        [ngClass]="{'error-incomplete-item': isNotesIncompleteError && !vehicleTest.additionalNotesRecorded && vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL}"
+      >
+        <ion-textarea
+          placeholder="Add notes"
+          rows="5"
+          [(ngModel)]="vehicleTest.additionalNotesRecorded"
+        ></ion-textarea>
+      </ion-item>
+      <p
+        class="adr-notes-details ion-padding-start"
+        *ngIf="testTypeService.isAdrTestType(vehicleTest.testTypeId) && vehicleTest.testResult === 'pass'"
+      >
+        Notes will be printed on the certificate.
+      </p>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="!this.testTypeDetails.hasDefects">
+      <ion-item-divider>PROHIBITION</ion-item-divider>
+      <ion-item
+        lines="none"
+      >
+        <ion-label>Issued in Mobile Compliance</ion-label>
+        <ion-toggle
+          color="secondary"
+          checked="false"
+          [(ngModel)]="vehicleTest.prohibitionIssued"
+        ></ion-toggle>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider></ion-item-divider>
+      <ion-item
+        detail="false"
+        lines="none"
+        class="btn-remove-test"
+        [ngClass]="{buttonBackground: changeBackground}"
+        (click)="onRemoveTestType(vehicle, vehicleTest)"
+      >
+        Remove test type
+      </ion-item>
+      <ion-item
+        detail="false"
+        lines="none"
+        class="btn-remove-test"
+        (click)="abandonTestType(vehicle.techRecord.vehicleType, vehicleTest)"
+      >
+        Abandon test type
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

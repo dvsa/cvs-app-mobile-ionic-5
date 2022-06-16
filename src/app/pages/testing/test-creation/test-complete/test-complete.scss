@@ -1,0 +1,194 @@
+:host {
+  .item-block {
+    min-height: 58px;
+  }
+
+  .bottom-divider {
+    border-top: 0.55px solid var(--color-grey-3);
+  }
+
+  button[disabled] {
+    opacity: unset;
+  }
+
+  h3[item-end].current-value {
+    margin-bottom: 8px;
+  }
+
+  ion-icon.arrow-forward {
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+    font-size: var(--font-size-small);
+    color: var(--color-grey-2);
+  }
+
+  .datetime-ios {
+    padding: unset;
+    font-size: var(--item-ios-divider-font-size);
+  }
+
+  ion-grid.certificateNumberCustom {
+    padding: unset;
+    background-color: var(--light);
+  }
+
+  ion-col[col-2].certificateNumberCustom-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--color-grey-2);
+  }
+
+  ion-col[col-10].certificateNumberCustom-input {
+    padding-left: 16px;
+  }
+
+  h3[item-end].current-value.no-data {
+    color: var(--color-grey-2);
+  }
+
+  h3.current-value.data-successful {
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+    color: var(--secondary);
+  }
+
+  h3.current-value.data-unsuccessful {
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+    color: var(--danger);
+  }
+
+  h3.current-value.coif-prs {
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  .defect-details {
+    h3 {
+      white-space: normal;
+      font-size: 17px;
+    }
+
+    h3.defect-name {
+      font-weight: bold;
+    }
+  }
+
+  .item-ios ion-icon[item-start] {
+    margin-left: 14px;
+    margin-right: 0;
+    color: var(--secondary);
+  }
+
+  .badge-ios-light {
+    border: 1px solid var(--dark);
+    background-color: transparent;
+  }
+
+  .btn-add-test {
+    font-size: 16px;
+    color: var(--primary);
+  }
+
+  .btn-remove-test {
+    font-size: 16px;
+    color: var(--danger);
+  }
+
+  .parent-info-color {
+    color: var(--color-grey-1);
+  }
+
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .no-margin-left {
+    margin-left: 0;
+  }
+
+  .no-margin-right {
+    margin-right: 0;
+  }
+
+  .certificate-number-guidance {
+    margin-bottom: 0;
+    color: var(--color-grey-1);
+  }
+
+  .scroll-content {
+    margin-top: 100px;
+  }
+
+  ion-button.save-button {
+    font-weight: var(--font-weight-bold);
+  }
+
+  h3.input-label {
+    margin-top: 10px;
+  }
+
+  h3.input-title {
+    color: var(--ion-color-dark)
+  }
+
+  .divider-height-auto {
+    height: auto;
+  }
+
+  ion-item-divider {
+    background: var(--color-grey-3);
+  }
+
+  .test-type-name {
+    margin-top: 10px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-medium);
+  }
+
+  .error-banner {
+    padding: 16px;
+    font-size: var(--font-size-normal);
+    color: var(--light);
+    background-color: var(--danger);
+  }
+
+  .error-incomplete-certificate-number {
+    color: var(--danger);
+  }
+
+  .adr-notes-details {
+    color: var(--color-grey-1);
+  }
+
+  .expiry-date-datetime .datetime-text.datetime-placeholder {
+    font-size: var(--font-size-medium);
+    color: var(--color-grey-1);
+  }
+
+  .list-ios .item-block .item-inner,
+  .item-ios.item-block .item-inner {
+    border-bottom: none;
+  }
+
+  .overflow-hidden {
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .custom-defects-divider {
+    border-bottom: 0.8px solid var(--color-grey-3);
+  }
+
+  ion-item h3 {
+    font-size: var(--font-size-medium);
+  }
+}
