@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-padding-end">{{sectionName}}</ion-title>
+    <ion-buttons>
+      <ion-button class="cancel" (click)="onCancel()">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDone()">
+        Done
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey">
+  <ion-item-group *ngIf="input.testTypePropertyName !== testTypesInputs.K_LIMIT">
+    <ion-item-divider class="ion-padding-start">
+      <span *ngIf="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER"
+        >{{input.label.toUpperCase()}}</span
+      >
+    </ion-item-divider>
+    <ion-item class="ion-padding-start" [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}">
+      <ion-input
+        [type]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? input.type : 'text'"
+        [pattern]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? patterns.NUMERIC : ''"
+        [placeholder]="input.defaultValue"
+        [(ngModel)]="inputValue"
+        (ngModelChange)="valueInputChange($event)"
+        #valueInput
+      ></ion-input>
+    </ion-item>
+  </ion-item-group>
+  <ion-item-group *ngIf="input.testTypePropertyName === testTypesInputs.K_LIMIT">
+    <ion-item-divider></ion-item-divider>
+    <ion-row class="k-limit-custom">
+      <ion-col col-10>
+        <ion-item
+          class="ion-padding-start"
+          [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}"
+        >
+          <ion-input
+            type="text"
+            [placeholder]="input.defaultValue"
+            [(ngModel)]="inputValue"
+            (ngModelChange)="valueInputChange($event)"
+            #customValueInput
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        (m<sup>-1</sup>)
+      </ion-col>
+    </ion-row>
+  </ion-item-group>
+  <p class="color-grey-1 ion-padding-start">{{input.info}}</p>
+</ion-content>

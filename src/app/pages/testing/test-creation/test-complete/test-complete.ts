@@ -39,6 +39,9 @@ import { AnalyticsService } from '@providers/global';
 import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
 import {
+  TestTypeDetailsInputPage
+} from '@app/pages/testing/test-creation/test-type-details-input/test-type-details-input';
+import {
   DefectDetailsSpecialistTestingPage
 } from '@app/pages/testing/defects/defect-details-specialist-testing/defect-details-specialist-testing';
 
@@ -410,22 +413,25 @@ export class TestCompletePage implements OnInit {
   }
 
   async openInputPage(section, input) {
-    // const INPUT_MODAL = await this.modalCtrl.create({
-    //   component: TestTypeDetailsInputPage,
-    //   vehicleCategory: this.testTypeDetails.category,
-    //   sectionName: input.title || section.sectionName,
-    //   input: input,
-    //   existentValue:
-    //     this.completedFields[input.testTypePropertyName] ||
-    //     this.vehicleTest[input.testTypePropertyName] ||
-    //     null,
-    //   fromTestReview: this.fromTestReview,
-    //   errorIncomplete: this.errorIncomplete
-    // });
-    // await INPUT_MODAL.onDidDismiss((data) => {
-    //   this.openInputModalDismissHandler(input, data);
-    // });
-    // await INPUT_MODAL.present();
+    const INPUT_MODAL = await this.modalCtrl.create({
+      component: TestTypeDetailsInputPage,
+      componentProps: {
+        vehicleCategory: this.testTypeDetails.category,
+        sectionName: input.title || section.sectionName,
+        input,
+        existentValue:
+          this.completedFields[input.testTypePropertyName] ||
+          this.vehicleTest[input.testTypePropertyName] ||
+          null,
+        fromTestReview: this.fromTestReview,
+        errorIncomplete: this.errorIncomplete
+      }
+    });
+    const { data } = await INPUT_MODAL.onDidDismiss();
+    if (data) {
+      this.openInputModalDismissHandler(input, data);
+    };
+    await INPUT_MODAL.present();
   }
 
   onDatetimeChange(value, key) {

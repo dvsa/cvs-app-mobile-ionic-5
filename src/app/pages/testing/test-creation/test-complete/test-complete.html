@@ -62,6 +62,7 @@
 
         <ion-item
           class="bottom-divider"
+          lines="none"
           [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
           (click)="openInputPage(section, input)"
           *ngIf="input.type === testTypeFields.NUMBER && canDisplaySection(section) && canDisplayInput(input)"
@@ -133,6 +134,7 @@
         >
           <ion-item
             [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
+            lines="none"
           >
             <ion-datetime
               class="expiry-date-datetime"
