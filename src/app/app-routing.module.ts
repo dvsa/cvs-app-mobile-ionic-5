@@ -135,6 +135,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/test-creation/test-complete/test-complete.module')
         .then(m => m.TestCompleteModule)
+  },
+  {
+    path: PAGE_NAMES.REASONS_SELECTION_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-abandonment/reasons-selection/reasons-selection.module')
+        .then( m => m.ReasonsSelectionModule)
+  },
+  {
+    path: PAGE_NAMES.TEST_ABANDON_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-abandonment/test-abandon/test-abandon.module')
+        .then( m => m.TestAbandonModule)
   }
 ];
 

@@ -121,11 +121,9 @@
           >
               <ion-label class="test-type">{{ vehicleTest.testTypeCategoryName }}</ion-label>
               <ng-container *ngIf="isTestAbandoned(vehicleTest)">
-                <ion-text [color]="commonFunc.getTestResultColor(vehicleTest.testResult)">
-                  <p class="test-type-status test-result ion-text-uppercase">
-                    Abandoned
-                  </p>
-                </ion-text>
+                <p class="abandoned-test test-result ion-text-uppercase">
+                  Abandoned
+                </p>
               </ng-container>
               <div
                 class="details color-grey-1"

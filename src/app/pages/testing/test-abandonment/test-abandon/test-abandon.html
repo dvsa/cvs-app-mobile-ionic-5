@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="editMode">Abandon test</ion-title>
+    <ion-title *ngIf="!editMode">Abandoned test</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        [ngClass]="{buttonOpacity: changeOpacity}"
+        (click)="onDone()"
+        *ngIf="editMode"
+      >
+        Done
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content-background-color-grey">
+  <ion-list class="ion-text-wrap">
+    <ion-item-group>
+      <ion-item-divider>Reason(s) for abandoning this test</ion-item-divider>
+      <ion-item
+        [lines]="last ? 'none' : 'full'"
+        class="ion-text-wrap"
+        *ngFor="let reason of selectedReasons; let last = last">
+        <p>
+          {{reason}}
+        </p>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider *ngIf="editMode || additionalComment">
+        Additional comments (optional)
+      </ion-item-divider>
+      <ion-item *ngIf="editMode || additionalComment">
+        <ion-textarea
+          placeholder="Add comments"
+          rows="5"
+          [(ngModel)]="additionalComment"
+          [disabled]="!editMode"
+        ></ion-textarea>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

@@ -109,13 +109,9 @@
       margin-right: 16px;
     }
 
-    .test-type-status {
-      margin: 0;
-      color: var(--color-grey-1);
-
-      &.text-ios-danger {
-        color: var(--danger);
-      }
+    .abandoned-test {
+      margin: 0 8px 0 0;
+      color: var(--danger);
     }
 
     .test-type-status.test-type-pass {
@@ -142,10 +138,6 @@
     .vehicle-category-icon-data {
       font-size: var(--font-size-extra-large);
       color: var(--primary);
-    }
-
-    p[ion-text].test-result {
-      margin-right: 8px;
     }
   }
 
