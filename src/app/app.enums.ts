@@ -435,6 +435,8 @@ export enum PAGE_NAMES {
   MULTIPLE_TECH_RECORDS_SELECTION = 'MultipleTechRecordsSelectionPage',
   DEFECT_DETAILS_SPECIALIST_TESTING = 'DefectDetailsSpecialistTestingPage',
   ADD_DEFECT_CATEGORY_PAGE = 'AddDefectCategoryPage',
+  ADD_DEFECT_ITEM_PAGE = 'AddDefectItemPage',
+  ADD_DEFECT_PAGE = 'AddDefectPage',
   DEFECT_DETAILS_PAGE = 'DefectDetailsPage',
   ADVISORY_DETAILS_PAGE = 'AdvisoryDetailsPage'
 }

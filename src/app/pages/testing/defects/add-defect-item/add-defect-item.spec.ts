@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DefectsService } from '@providers/defects/defects.service';
 import { PipesModule } from '@pipes/pipes.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AddDefectItemPage } from './add-defect-item';
 import { DefectsServiceMock } from '@test-config/services-mocks/defects-service.mock';
 import { DefectsReferenceDataMock } from '@assets/data-mocks/reference-data-mocks/defects-data.mock';
-import { EventsService } from '@providers/events/events.service';
-import { AddDefectCategoryPage } from './add-defect-category';
-import { TestTypeDataModelMock } from '@assets/data-mocks/data-model/test-type-data-model.mock';
 import { RouterTestingModule } from '@angular/router/testing';
+import { EventsService } from '@providers/events/events.service';
 import { Router } from '@angular/router';
+import { TestTypeDataModelMock } from '@assets/data-mocks/data-model/test-type-data-model.mock';
 
-describe('Component: AddDefectCategoryPage', () => {
-  let comp: AddDefectCategoryPage;
-  let fixture: ComponentFixture<AddDefectCategoryPage>;
+describe('Component: AddDefectItemPage', () => {
+  let comp: AddDefectItemPage;
+  let fixture: ComponentFixture<AddDefectItemPage>;
   let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AddDefectCategoryPage],
+      declarations: [AddDefectItemPage],
       imports: [
         PipesModule,
         RouterTestingModule.withRoutes([]),
@@ -31,7 +31,7 @@ describe('Component: AddDefectCategoryPage', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddDefectCategoryPage);
+    fixture = TestBed.createComponent(AddDefectItemPage);
     comp = fixture.componentInstance;
     router = TestBed.inject(Router);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
@@ -40,15 +40,15 @@ describe('Component: AddDefectCategoryPage', () => {
             state: {
               vehicleType: TestTypeDataModelMock.TestTypeData,
               vehicleTest: {},
-              defects: DefectsReferenceDataMock.DefectsData,
+              category: DefectsReferenceDataMock.DefectDataCategory,
               fromTestReview: false
             }
           }
       } as any
     );
-    comp.vehicleTest = TestTypeDataModelMock.TestTypeData;
-    comp.defectCategories = DefectsReferenceDataMock.DefectsData;
-    comp.filteredCategories = [];
+    comp.category = DefectsReferenceDataMock.DefectDataCategory;
+    comp.searchVal = '2';
+    comp.filteredItems = [];
   });
 
   afterEach(() => {
@@ -62,8 +62,8 @@ describe('Component: AddDefectCategoryPage', () => {
   });
 
   it('should test ngOnInit logic', () => {
-    expect(comp.filteredCategories.length).toEqual(0);
+    expect(comp.filteredItems.length).toEqual(0);
     comp.ngOnInit();
-    expect(comp.filteredCategories.length).toEqual(2);
+    expect(comp.filteredItems.length).toEqual(1);
   });
 });

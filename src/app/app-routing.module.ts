@@ -153,6 +153,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/defects/add-defect-category/add-defect-category.module')
         .then( m => m.AddDefectCategoryModule)
+  },
+  {
+    path: PAGE_NAMES.ADD_DEFECT_ITEM_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/add-defect-item/add-defect-item.module')
+        .then( m => m.AddDefectItemModule)
   }
 ];
 

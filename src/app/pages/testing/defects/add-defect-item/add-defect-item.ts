@@ -2,20 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { DefectsService } from '@providers/defects/defects.service';
 import { APP, APP_STRINGS, PAGE_NAMES } from '@app/app.enums';
 import { TestTypeModel } from '@models/tests/test-type.model';
-import { DefectCategoryReferenceDataModel } from '@models/reference-data-models/defects.reference-model';
+import {
+  DefectCategoryReferenceDataModel,
+  DefectItemReferenceDataModel
+} from '@models/reference-data-models/defects.reference-model';
 import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
 
 @Component({
-  selector: 'page-add-defect-category',
-  templateUrl: 'add-defect-category.html',
-  styleUrls: ['add-defect-category.scss'],
+  selector: 'page-add-defect-item',
+  templateUrl: 'add-defect-item.html',
+  styleUrls: ['add-defect-item.scss'],
 })
-export class AddDefectCategoryPage implements OnInit {
+export class AddDefectItemPage implements OnInit {
   vehicleType: string;
   vehicleTest: TestTypeModel;
-  defectCategories: DefectCategoryReferenceDataModel[];
-  filteredCategories: DefectCategoryReferenceDataModel[];
+  category: DefectCategoryReferenceDataModel;
+  filteredItems: DefectItemReferenceDataModel[];
   fromTestReview: boolean;
   searchVal = '';
   appStrings = APP_STRINGS;
@@ -30,17 +33,18 @@ export class AddDefectCategoryPage implements OnInit {
   ngOnInit() {
     this.vehicleType = this.router.getCurrentNavigation().extras.state.vehicleType;
     this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
-    this.defectCategories = this.router.getCurrentNavigation().extras.state.defects;
+    this.category = this.router.getCurrentNavigation().extras.state.category;
     this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
-    this.filteredCategories = this.populateCategoriesArray();
+    this.filteredItems = this.populateItemsArray();
   }
 
-  async selectCategory(category: DefectCategoryReferenceDataModel): Promise<void> {
-    await this.router.navigate([PAGE_NAMES.ADD_DEFECT_ITEM_PAGE], {
+  async selectItem(item: DefectItemReferenceDataModel): Promise<void> {
+    await this.router.navigate([PAGE_NAMES.ADD_DEFECT_PAGE], {
       state: {
         vehicleType: this.vehicleType,
         vehicleTest: this.vehicleTest,
-        category,
+        category: this.category,
+        item,
         fromTestReview: this.fromTestReview
       }
     });
@@ -49,14 +53,14 @@ export class AddDefectCategoryPage implements OnInit {
 
   searchList(e): void {
     this.searchVal = e.target.value;
-    this.filteredCategories = this.populateCategoriesArray();
+    this.filteredItems = this.populateItemsArray();
   }
 
-  private populateCategoriesArray(): DefectCategoryReferenceDataModel[] {
-    const filteredArr = this.defectsService.searchDefect(this.defectCategories, this.searchVal, [
-      'imNumber',
-      'imDescription'
+  private populateItemsArray(): DefectItemReferenceDataModel[] {
+    const filteredArr = this.defectsService.searchDefect(this.category.items, this.searchVal, [
+      'itemNumber',
+      'itemDescription'
     ]);
-    return this.defectsService.orderDefectsArray(filteredArr, 'imNumber', 'asc');
+    return this.defectsService.orderDefectsArray(filteredArr, 'itemNumber', 'asc');
   }
 }

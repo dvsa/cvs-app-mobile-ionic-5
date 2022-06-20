@@ -1,0 +1,15 @@
+:host {
+  h3 {
+    font-size: var(--font-size-medium);
+    color: var(--dark);
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  ion-item-divider {
+    font-size: var(--font-size-large);
+    color: var(--dark);
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
