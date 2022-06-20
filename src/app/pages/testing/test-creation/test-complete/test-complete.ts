@@ -455,7 +455,7 @@ export class TestCompletePage implements OnInit {
   }
 
   async addDefect(): Promise<void> {
-    await this.router.navigate(['AddDefectCategoryPage'], {
+    await this.router.navigate([PAGE_NAMES.ADD_DEFECT_CATEGORY_PAGE], {
       state: {
         vehicleType: this.vehicle.techRecord.vehicleType,
         vehicleTest: this.vehicleTest,
@@ -467,7 +467,7 @@ export class TestCompletePage implements OnInit {
 
   async openDefect(defect: DefectDetailsModel): Promise<void> {
     if (defect.deficiencyCategory.toLowerCase() !== DEFICIENCY_CATEGORY.ADVISORY.toLowerCase()) {
-      await this.router.navigate(['DefectDetailsPage'], {
+      await this.router.navigate([PAGE_NAMES.DEFECT_DETAILS_PAGE], {
         state: {
           vehicleTest: this.vehicleTest,
           deficiency: defect,
@@ -476,7 +476,7 @@ export class TestCompletePage implements OnInit {
         }
       });
     } else {
-      await this.router.navigate(['AdvisoryDetailsPage'], {
+      await this.router.navigate([PAGE_NAMES.ADVISORY_DETAILS_PAGE], {
         state: {
           vehicleTest: this.vehicleTest,
           advisory: defect,

@@ -1,11 +1,6 @@
 :host {
   .item-ios.list-item-height {
     min-height: var(--list-ios-item-height);
-
-    h3 {
-      font-size: 50px;
-      color: red;
-    }
   }
 
   ion-item-divider {
