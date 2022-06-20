@@ -37,9 +37,6 @@ export class AddDefectCategoryPage implements OnInit {
     this.filteredCategories = this.populateCategoriesArray();
   }
 
-  ionViewWillEnter() {
-  }
-
   async selectCategory(category: DefectCategoryReferenceDataModel): Promise<void> {
     this.focusOut = false;
     await this.router.navigate([PAGE_NAMES.ADD_DEFECT_CATEGORY_PAGE], {
