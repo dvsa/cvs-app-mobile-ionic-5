@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="appStrings.DEFECT_ITEM"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="margin-left-half">
+      Defect description
+    </ion-title>
+  </ion-toolbar>
+  <ion-searchbar
+    (ionInput)="searchList($event)"
+    [(ngModel)]="searchVal"
+    showCancelButton="focus"
+    [placeholder]="appStrings.PLACEHOLDER_DEFECT_DESC"
+    #searchBar
+  >
+  </ion-searchbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list class="ion-text-wrap" *ngIf="filteredDeficiencies.length > 0">
+    <ion-item-group>
+      <ion-item-divider class="defect-heading">
+        {{ category.imNumber }}.{{ item.itemNumber }} {{ item.itemDescription }}
+      </ion-item-divider>
+      <ion-item
+        detail="true"
+        class="list-item-height ion-activatable"
+        *ngFor="let deficiency of filteredDeficiencies | byVehicleType: vehicleType; let last = last"
+        [lines]="last ? 'none' : 'inset'"
+        (click)="selectDeficiency(deficiency)"
+      >
+        <span>
+          <h3>
+            <span class="bold">
+              <span>{{ category.imNumber }}.{{ item.itemNumber }}</span>
+              <span *ngIf="deficiency.deficiencyId">({{ deficiency.deficiencyId }})</span>
+              <span *ngIf="deficiency.deficiencySubId">({{ deficiency.deficiencySubId }})</span>
+              <span class="asterisk" *ngIf="deficiency.stdForProhibition">*</span>
+            </span>
+            <ion-badge
+              slot="end"
+              class="ion-text-uppercase"
+              [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
+              [ngClass]="returnBadgeClass(deficiency.deficiencyCategory)"
+            >
+              {{ deficiency.deficiencyCategory }}
+            </ion-badge>
+          </h3>
+          <p>{{ deficiency.deficiencyText }}</p>
+        </span>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider class="ion-text-uppercase">
+        Advisory
+      </ion-item-divider>
+      <ion-item detail="true" (click)="addAdvisory()" lines="none">
+        <span>Add an advisory note</span>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+  <div *ngIf="filteredDeficiencies.length === 0" class="no-result">
+    <h3>No results found</h3>
+    <span>Try searching for a different term or</span>
+    <span>picking from the list</span>
+  </div>
+</ion-content>

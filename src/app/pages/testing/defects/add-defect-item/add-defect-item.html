@@ -25,7 +25,8 @@
     <ion-item
       detail="true"
       class="list-item-height ion-activatable"
-      *ngFor="let item of filteredItems | byVehicleType: vehicleType"
+      *ngFor="let item of filteredItems | byVehicleType: vehicleType; let last = last"
+      [lines]="last ? 'none' : 'inset'"
       (click)="selectItem(item)"
     >
       <span>
