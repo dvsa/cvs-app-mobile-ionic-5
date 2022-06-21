@@ -1,0 +1,30 @@
+:host {
+  ion-content {
+    .scroll-content {
+      background-color: var(--color-grey-3);
+    }
+  }
+
+  ion-button {
+    font-weight: var(--font-weight-bold);
+  }
+
+  .advisory__item-status {
+    font-weight: bold;
+    font-size: var(--font-size-medium);
+  }
+
+  .advisory_item-name {
+    font-weight: 500;
+  }
+
+  .badge-ios-light {
+    border: 1px solid var(--dark);
+    background-color: transparent;
+  }
+
+  .btn-remove-advisory {
+    font-size: 16px;
+    color: var(--danger);
+  }
+}
