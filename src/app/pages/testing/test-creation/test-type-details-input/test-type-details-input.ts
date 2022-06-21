@@ -1,42 +1,36 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AlertController, ModalController } from '@ionic/angular';
 import {
   APP_STRINGS,
   REG_EX_PATTERNS,
   TEST_TYPE_FIELDS,
   TEST_TYPE_INPUTS
 } from '@app/app.enums';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-test-type-details-input',
-  templateUrl: 'test-type-details-input.html'
+  templateUrl: 'test-type-details-input.html',
+  styleUrls: ['test-type-details-input.scss'],
 })
 export class TestTypeDetailsInputPage implements OnInit {
-  vehicleCategory;
-  sectionName;
-  input;
-  fromTestReview;
-  inputValue: string;
+  @Input() vehicleCategory;
+  @Input() sectionName;
+  @Input() input;
+  @Input() fromTestReview;
+  @Input() inputValue: string;
   testTypeFields;
   testTypesInputs: typeof TEST_TYPE_INPUTS = TEST_TYPE_INPUTS;
   patterns: typeof REG_EX_PATTERNS;
-  errorIncomplete: boolean;
+  @Input() errorIncomplete: boolean;
 
-  @ViewChild('valueInput') valueInput: TextInput;
-  @ViewChild('customValueInput') customValueInput: TextInput;
+  @ViewChild('valueInput') valueInput: HTMLIonInputElement;
+  @ViewChild('customValueInput') customValueInput: HTMLIonInputElement;
 
   constructor(
-    public router: Router,
     private cdRef: ChangeDetectorRef,
-    private alertCtrl: AlertController
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
   ) {
-    this.vehicleCategory = this.router.getCurrentNavigation().extras.state.vehicleCategory;
-    this.sectionName = this.router.getCurrentNavigation().extras.state.sectionName;
-    this.input = this.router.getCurrentNavigation().extras.state.input;
-    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
-    this.inputValue = this.router.getCurrentNavigation().extras.state.existentValue;
-    this.errorIncomplete = this.router.getCurrentNavigation().extras.state.errorIncomplete;
   }
 
   ngOnInit() {
@@ -75,7 +69,7 @@ export class TestTypeDetailsInputPage implements OnInit {
   }
 
   async onCancel() {
-    await this.alertCtrl.dismiss({fromTestReview: this.fromTestReview});
+    await this.modalCtrl.dismiss({fromTestReview: this.fromTestReview});
   }
 
   async onDone() {
@@ -95,7 +89,7 @@ export class TestTypeDetailsInputPage implements OnInit {
       });
       await ALERT.present();
     } else {
-      await this.alertCtrl.dismiss({
+      await this.modalCtrl.dismiss({
         inputValue: this.inputValue,
         fromTestReview: this.fromTestReview,
         errorIncomplete: this.errorIncomplete

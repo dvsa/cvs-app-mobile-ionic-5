@@ -35,7 +35,7 @@
   <ion-item-group *ngIf="input.testTypePropertyName === testTypesInputs.K_LIMIT">
     <ion-item-divider></ion-item-divider>
     <ion-row class="k-limit-custom">
-      <ion-col col-10>
+      <ion-col size="10">
         <ion-item
           class="ion-padding-start"
           [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}"
@@ -49,7 +49,7 @@
           ></ion-input>
         </ion-item>
       </ion-col>
-      <ion-col col-2>
+      <ion-col class="small-column" size="2">
         (m<sup>-1</sup>)
       </ion-col>
     </ion-row>

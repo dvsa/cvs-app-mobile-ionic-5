@@ -11,7 +11,7 @@
     opacity: unset;
   }
 
-  h3[item-end].current-value {
+  h3.current-value {
     margin-bottom: 8px;
   }
 
@@ -44,7 +44,7 @@
     padding-left: 16px;
   }
 
-  h3[item-end].current-value.no-data {
+  h3.current-value.no-data {
     color: var(--color-grey-2);
   }
 

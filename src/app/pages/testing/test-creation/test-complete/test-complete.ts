@@ -427,11 +427,11 @@ export class TestCompletePage implements OnInit {
         errorIncomplete: this.errorIncomplete
       }
     });
+    await INPUT_MODAL.present();
     const { data } = await INPUT_MODAL.onDidDismiss();
     if (data) {
       this.openInputModalDismissHandler(input, data);
     };
-    await INPUT_MODAL.present();
   }
 
   onDatetimeChange(value, key) {

@@ -67,10 +67,10 @@
           (click)="openInputPage(section, input)"
           *ngIf="input.type === testTypeFields.NUMBER && canDisplaySection(section) && canDisplayInput(input)"
         >
-          <h3>{{input.label}}</h3>
+          <h3 class="input-title">{{input.label}}</h3>
           <h3
             slot="end"
-            class="current-value"
+            class="current-value input-label"
             [ngClass]="{'no-data': !completedFields[input.testTypePropertyName] && !vehicleTest[input.testTypePropertyName],
                           'overflow-hidden': vehicleTest[input.testTypePropertyName] && (input.testTypePropertyName === testTypeInputs.PT_FITTED ||
                           input.testTypePropertyName === testTypeInputs.PT_SERIAL_NUMBER || input.testTypePropertyName === testTypeInputs.MOD_TYPE_USED)}"
@@ -83,6 +83,12 @@
               (m<sup>-1</sup>)</span
             >
           </h3>
+          <ion-icon
+            slot="end"
+            class="arrow-forward"
+            name="chevron-forward"
+            *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"
+          ></ion-icon>
         </ion-item>
 
         <ion-item
