@@ -142,7 +142,7 @@ describe('Component: VehicleHistoryDetailsPage', () => {
 
   it('should return color for category MINOR', () => {
     const deficiencyColor = comp.getDeficiencyColor(DEFICIENCY_CATEGORY.MINOR);
-    expect(deficiencyColor).toEqual('attention');
+    expect(deficiencyColor).toEqual('warning');
   });
 
   it('should compareTestWithMetadata', () => {

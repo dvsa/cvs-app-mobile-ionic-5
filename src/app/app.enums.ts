@@ -147,7 +147,7 @@ export enum FUEL_TYPE {
 }
 
 export enum APP_COLORS {
-  ATTENTION = 'attention',
+  WARNING = 'warning',
   DANGER = 'danger',
   DARK = 'dark',
   LIGHT = 'light',

@@ -87,14 +87,14 @@ export class DefectsService {
     return defect;
   }
 
-  getBadgeColor(category) {
+  getBadgeColor(category): string{
     switch (category.toLowerCase()) {
       case DEFICIENCY_CATEGORY.DANGEROUS:
         return 'dark';
       case DEFICIENCY_CATEGORY.MAJOR:
         return 'danger';
       case DEFICIENCY_CATEGORY.MINOR:
-        return 'attention';
+        return 'warning';
       case DEFICIENCY_CATEGORY.PRS:
         return 'tertiary';
       case DEFICIENCY_CATEGORY.ADVISORY:

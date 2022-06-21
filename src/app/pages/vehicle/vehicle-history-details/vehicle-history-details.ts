@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import {
@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
   templateUrl: 'vehicle-history-details.html',
   styleUrls: ['vehicle-history-details.scss'],
 })
-export class VehicleHistoryDetailsPage {
+export class VehicleHistoryDetailsPage implements OnInit {
   testResultHistory: any;
   testIndex: number;
   testTypeIndex: number;
@@ -37,9 +37,9 @@ export class VehicleHistoryDetailsPage {
   testsWithoutCertificate: any;
   testsWithoutSeatbelts: any;
   testsWithoutDefects: any;
-  doesNotHaveCert: boolean = false;
-  doesNotHaveDefects: boolean = false;
-  doesNotHaveBelts: boolean = false;
+  doesNotHaveCert = false;
+  doesNotHaveDefects = false;
+  doesNotHaveBelts = false;
   doesNotHaveExpiry: boolean;
   doDefectsExist: boolean;
   isTestResultAbandon: boolean;
@@ -85,8 +85,8 @@ export class VehicleHistoryDetailsPage {
     this.testResultColor = this.commonFunc.getTestResultColor(this.selectedTestType.testResult);
   }
 
-  ionViewDidEnter() {
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_TEST_HISTORY_DETAILS);
+  async ionViewDidEnter() {
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.VEHICLE_TEST_HISTORY_DETAILS);
   }
 
   setTestMetadata() {
@@ -138,7 +138,7 @@ export class VehicleHistoryDetailsPage {
       case DEFICIENCY_CATEGORY.MAJOR:
         return 'danger';
       case DEFICIENCY_CATEGORY.MINOR:
-        return 'attention';
+        return 'warning';
     }
   }
 
