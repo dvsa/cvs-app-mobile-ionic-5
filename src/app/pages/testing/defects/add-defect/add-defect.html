@@ -34,18 +34,18 @@
           <h3>
             <span class="bold">
               <span>{{ category.imNumber }}.{{ item.itemNumber }}</span>
-              <span *ngIf="deficiency.deficiencyId">({{ deficiency.deficiencyId }})</span>
-              <span *ngIf="deficiency.deficiencySubId">({{ deficiency.deficiencySubId }})</span>
-              <span class="asterisk" *ngIf="deficiency.stdForProhibition">*</span>
+              <span class="margin-left-quarter" *ngIf="deficiency.deficiencyId">({{ deficiency.deficiencyId }})</span>
+              <span class="margin-left-quarter" *ngIf="deficiency.deficiencySubId">({{ deficiency.deficiencySubId }})</span>
+              <span *ngIf="deficiency.stdForProhibition">*</span>
             </span>
             <ion-badge
               slot="end"
-              class="ion-text-uppercase"
+              class="ion-text-uppercase margin-left-half"
               [color]="defectsService.getBadgeColor(deficiency.deficiencyCategory)"
               [ngClass]="returnBadgeClass(deficiency.deficiencyCategory)"
             >
-              {{ deficiency.deficiencyCategory }}
-            </ion-badge>
+            {{ deficiency.deficiencyCategory }}
+          </ion-badge>
           </h3>
           <p>{{ deficiency.deficiencyText }}</p>
         </span>
