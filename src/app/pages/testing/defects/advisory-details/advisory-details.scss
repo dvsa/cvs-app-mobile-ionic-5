@@ -1,24 +1,25 @@
 :host {
-  ion-content {
-    .scroll-content {
-      background-color: var(--color-grey-3);
-    }
-  }
-
   ion-button {
     font-weight: var(--font-weight-bold);
   }
 
-  .advisory__item-status {
+  .advisory-item-status {
     font-weight: bold;
-    font-size: var(--font-size-medium);
+    font-size: 19px;
+    color: var(--dark);
+    margin-top: 10px;
+    margin-bottom: 8px;
   }
 
-  .advisory_item-name {
+  .advisory-item-name {
     font-weight: 500;
+    color: var(--dark);
+    margin-top: 8px;
+    margin-bottom: 10px;
   }
 
-  .badge-ios-light {
+  ion-badge {
+    color: var(--dark);
     border: 1px solid var(--dark);
     background-color: transparent;
   }
