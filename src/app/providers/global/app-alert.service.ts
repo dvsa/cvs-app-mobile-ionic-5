@@ -65,12 +65,14 @@ export class AppAlertService {
       buttons: [...buttons,
         {
           text: 'Test History',
+          cssClass: 'suggested-popup-test-history',
           handler: async () => {
             await testCreatePage.goToVehicleTestResultsHistory(vehicle);
           }
         },
         {
           text: 'Select a different test type',
+          cssClass: 'suggested-popup-select-different-type',
           handler: async () => {
             await testCreatePage.addNewTestType(vehicle);
           }

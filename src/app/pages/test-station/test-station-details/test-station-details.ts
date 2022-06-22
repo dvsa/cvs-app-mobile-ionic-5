@@ -147,21 +147,21 @@ export class TestStationDetailsPage implements OnInit {
       buttons: [
         {
           text: APP_STRINGS.CONFIRM,
-          cssClass: 'bold-action-button',
+          cssClass: 'bold-action-button confirm-test-facility-btn',
           handler: () => {
             this.confirmStartVisit();
           }
         },
         {
           text: APP_STRINGS.REPORT_ISSUE,
-          cssClass: 'danger-action-button',
+          cssClass: 'danger-action-button report-issue-btn',
           handler: () => {
             this.reportIssueHandler();
           }
         },
         {
           text: APP_STRINGS.CANCEL,
-          cssClass: 'not-bold-action-button'
+          cssClass: 'not-bold-action-button cancel-test-facility-btn'
         }
       ]
     });

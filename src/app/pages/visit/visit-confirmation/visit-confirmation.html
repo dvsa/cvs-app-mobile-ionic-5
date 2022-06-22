@@ -10,15 +10,15 @@
     <img src="../../../../assets/tick-icon.svg" />
   </div>
   <div class="msg-centered">
-    <h3>{{message}}</h3>
-    <h3 *ngIf="additionalMessage">
+    <h3 id="confirmation-page-submitted-test-or-visit-text" >{{message}}</h3>
+    <h3 id="confirmation-page-no-email-text" *ngIf="additionalMessage">
       {{additionalMessage}}<span (click)="callSupport()">{{additionalMessageButton}}</span>
     </h3>
   </div>
 </ion-content>
 <ion-footer class="ion-padding-horizontal">
   <div class="footer-cta-section">
-    <ion-button expand="block" (click)="pushPage()" color="secondary">
+    <ion-button id="confirmation-page-done-btn" expand="block" (click)="pushPage()" color="secondary">
       <span>Done</span>
     </ion-button>
   </div>

@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="back()" color="light">
+      <ion-button id="vehicle-details-back-btn" (click)="back()" color="light">
         <ion-icon class="chevron-back ion-no-margin back-button-icon" name="chevron-back"></ion-icon>
         {{ backButtonText }}
       </ion-button>
     </ion-buttons>
-    <ion-title class="ion-margin-start">
+    <ion-title id="vehicle-details-title" class="ion-margin-start">
       <ng-container>
         <span
           *ngIf="commonFunc.checkForMatch(vehicleData.techRecord.vehicleType, VEHICLE_TYPE.TRL);
@@ -21,6 +21,7 @@
     </ion-title>
     <ion-buttons slot="end"  *ngIf="testData">
       <ion-button
+        id="vehicle-details-confirm-btn"
         class="confirm-button"
         (click)="confirmAndStartTest()"
         [ngClass]="{buttonOpacity: changeOpacity}">
@@ -225,7 +226,7 @@
 
   <ion-list-header>VIEW MORE INFORMATION</ion-list-header>
   <ion-list class="vehicle-list">
-    <ion-item detail="true" (click)="goToVehicleTestResultsHistory()">
+    <ion-item id="vehicle-details-test-history" detail="true" (click)="goToVehicleTestResultsHistory()">
       <ng-container>
         <ion-label class="ion-activatable">
           <h2>
@@ -245,6 +246,7 @@
       </ng-container>
     </ion-item>
     <ion-item
+      id="vehicle-details-brakes"
       detail="true"
       *ngIf="commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType,[VEHICLE_TYPE.PSV, VEHICLE_TYPE.TRL]) && vehicleData.techRecord.brakes"
       (click)="showMoreDetails('VehicleBrakesPage')"
@@ -255,6 +257,7 @@
       </ion-label>
     </ion-item>
     <ion-item
+      id="vehicle-details-weights"
       detail="true"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
       (click)="showMoreDetails('VehicleWeightsPage')"
@@ -265,6 +268,7 @@
       </ion-label>
     </ion-item>
     <ion-item
+      id="vehicle-details-tyres"
       detail="true"
       *ngIf="!commonFunc.checkForMatchInArray(vehicleData.techRecord.vehicleType, SPECIAL_VEHICLE_TYPES)"
       (click)="showMoreDetails('VehicleTyresPage')"
@@ -274,7 +278,8 @@
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-label>
     </ion-item>
-    <ion-item lines="none" detail="true" (click)="showMoreDetails('VehicleAdditionalPage')">
+    <ion-item id="vehicle-details-additional-vehicle-details" lines="none" detail="true"
+              (click)="showMoreDetails('VehicleAdditionalPage')">
       <ion-label class="ion-activatable">
         <h2>Additional vehicle details</h2>
         <ion-ripple-effect type="unbounded"></ion-ripple-effect>

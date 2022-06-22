@@ -1,10 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="ion-margin-start">
+    <ion-title id="test-page-title" class="ion-margin-start">
       Test
     </ion-title>
     <ion-buttons slot="end">
       <ion-button
+        id="test-page-review-and-submit-btn"
         class="review-and-submit-button"
         [ngClass]="{buttonOpacity: changeOpacity}"
         (click)="reviewTest()"
@@ -24,7 +25,7 @@
     [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}"
   >
     <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
-      <ion-item class="ion-item-title" lines="none" (click)="onVehicleDetails(vehicle)">
+      <ion-item id="test-page-vehicle-details" class="ion-item-title" lines="none" (click)="onVehicleDetails(vehicle)">
         <img
           slot="start"
           class="vehicle-type-icon"
@@ -55,6 +56,7 @@
         <ion-icon class="chevron-forward small-icon ion-no-margin" slot="end" name="chevron-forward"></ion-icon>
       </ion-item>
       <ion-item
+        id="country-of-registration"
         class="bottom-divider"
         lines="none"
         (click)="onCountryOfRegistration(vehicle)"
@@ -69,6 +71,7 @@
         <ion-icon class="chevron-forward small-icon ion-no-margin" slot="end" name="chevron-forward"></ion-icon>
       </ion-item>
       <ion-item
+        id="eu-vehicle-category"
         class="bottom-divider ion-no-margin"
         lines="none"
         [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.euVehicleCategory}"
@@ -91,6 +94,7 @@
         ></ion-icon>
       </ion-item>
       <ion-item
+        id="odometer-reading"
         class="bottom-divider"
         lines="none"
         [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.odometerReading}"
@@ -158,6 +162,7 @@
       </ng-container>
 
       <ion-item
+        id="add-test-type-btn"
         class="btn-add-test"
         lines="none"
         (click)="onAddNewTestType(vehicle)"
@@ -171,6 +176,7 @@
 
     <ion-card class="card" *ngIf="displayAddVehicleButton">
       <ion-item
+        id="add-trailer-or-vehicle-btn"
         class="btn-add-test"
         lines="none"
         (click)="addTrailer(visitService.visit.tests)"
@@ -186,7 +192,7 @@
   <ion-toolbar class="gray-toolbar">
     <ion-buttons slot="start"> </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button color="danger" (click)="onCancel()">Cancel test</ion-button>
+      <ion-button id="test-page-cancel-test-btn" color="danger" (click)="onCancel()">Cancel test</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

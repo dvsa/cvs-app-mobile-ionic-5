@@ -101,10 +101,12 @@ export class VehicleDetailsPage implements OnInit {
       message: APP_STRINGS.CONFIRM_VEHICLE_AND_START_TEST_MSG,
       buttons: [
         {
-          text: APP_STRINGS.CANCEL
+          text: APP_STRINGS.CANCEL,
+          cssClass: 'cancel-vehicle-selection-btn'
         },
         {
           text: APP_STRINGS.START_TEST,
+          cssClass: 'confirm-vehicle-selection-btn',
           handler: async () => { await this.goToTestCreatePage(); }
         }
       ]
