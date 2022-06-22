@@ -1,0 +1,60 @@
+:host {
+  .content-ios {
+    color: var(--dark);
+  }
+
+  .item-description {
+    font-size: var(--font-size-medium);
+    font-weight: var(--font-weight-semi-bold);
+    display: inline-block;
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+
+  p {
+    font-size: var(--font-size-medium);
+  }
+
+  .defect-status {
+    font-weight: var(--font-weight-semi-bold);
+    font-size: var(--font-size-medium-2);
+  }
+
+  ion-item-divider .label-ios {
+    font-size: var(--font-size-small);
+  }
+
+  ion-item {
+    .select-icon {
+      display: none;
+    }
+  }
+
+  .btn-add-attachment {
+    font-size: 16px;
+    color: var(--primary)
+  }
+
+  .badge__prs {
+    margin-left: 5px;
+  }
+
+  .textarea-height {
+    height: 100px;
+    textarea {
+      height: 80px;
+    }
+  }
+
+  .btn-remove-defect {
+    font-size: 16px;
+    color: var(--danger)
+  }
+
+  .custom-item-color {
+    background-color: var(--light)
+  }
+}

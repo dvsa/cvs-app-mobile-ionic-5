@@ -1,0 +1,300 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" color="light">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+    <ion-title margin-left>
+      Defect details
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="checkProhibitionStatus()">
+        <span>Done</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list class="ion-text-wrap">
+    <ion-item-group class="custom-item-color">
+      <ion-item-divider class="content-background-color-grey">DEFECT ITEM</ion-item-divider>
+      <ion-grid>
+        <ion-row
+          class="defect-status margin-vertical-half ion-justify-content-start ion-align-items-center"
+        >
+          <span>
+            <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
+            <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+            <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+            <span class="asterisk" *ngIf="defect.stdForProhibition">*</span>
+          </span>
+          <ion-badge
+            class="margin-left-half ion-text-uppercase"
+            slot="end"
+            [color]="defectsService.getBadgeColor(defect.deficiencyCategory)"
+          >
+            {{ defect.deficiencyCategory }}
+          </ion-badge>
+          <ion-badge
+            class="badge__prs margin-left-half ion-text-uppercase"
+            slot="end"
+            color="tertiary"
+            *ngIf="defect.prs"
+          >
+            PRS
+          </ion-badge>
+        </ion-row>
+        <ion-row>
+          <h2 class="item-description ion-no-margin">{{defect.itemDescription}}</h2>
+        </ion-row>
+        <ion-row class="defect-description margin-vertical-half">
+          <p class="ion-no-margin">{{ defect.deficiencyText }}</p>
+        </ion-row>
+      </ion-grid>
+    </ion-item-group>
+    <div *ngIf="defectMetadata">
+      <ion-item-group *ngIf="isLocation">
+        <ion-item-divider class="content-background-color-grey">LOCATION</ion-item-divider>
+        <ion-item *ngIf="defectMetadata.location.vertical">
+          <ion-label>Vertical</ion-label>
+          <ion-select class="ion-text-uppercase"
+            slot="end"
+            interface="action-sheet"
+            [(ngModel)]="defect.additionalInformation.location.vertical"
+            placeholder="Select"
+          >
+            <ion-select-option
+              *ngFor="let position of defectMetadata.location.vertical"
+              [value]="position"
+              >{{position}}</ion-select-option
+            >
+          </ion-select>
+          <ion-icon
+            *ngIf="!defect.additionalInformation.location.vertical"
+            slot="end"
+            name="arrow-forward"
+            class="color-grey-2"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="defect.additionalInformation.location.vertical"
+            slot="end"
+            name="checkmark"
+            color="primary"
+          ></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="defectMetadata.location.horizontal" padding-left>
+          <ion-label>Horizontal</ion-label>
+          <ion-select
+            class="ion-text-uppercase"
+            slot="end"
+            interface="action-sheet"
+            [(ngModel)]="defect.additionalInformation.location.horizontal"
+            placeholder="Select"
+          >
+            <ion-select-option
+              *ngFor="let position of defectMetadata.location.horizontal"
+              [value]="position"
+              >{{position}}</ion-select-option
+            >
+          </ion-select>
+          <ion-icon
+            *ngIf="!defect.additionalInformation.location.horizontal"
+            slot="end"
+            name="arrow-forward"
+            class="color-grey-2"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="defect.additionalInformation.location.horizontal"
+            slot="end"
+            name="checkmark"
+            color="primary"
+          ></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="defectMetadata.location.lateral">
+          <ion-label>Lateral</ion-label>
+          <ion-select
+            class="ion-text-uppercase"
+            slot="end"
+            interface="action-sheet"
+            [(ngModel)]="defect.additionalInformation.location.lateral"
+            placeholder="Select"
+          >
+            <ion-select-option
+              *ngFor="let position of defectMetadata.location.lateral"
+              [value]="position"
+              >{{position}}</ion-select-option
+            >
+          </ion-select>
+          <ion-icon
+            *ngIf="!defect.additionalInformation.location.lateral"
+            slot="end"
+            name="arrow-forward"
+            class="color-grey-2"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="defect.additionalInformation.location.lateral"
+            slot="end"
+            name="checkmark"
+            color="primary"
+          ></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="defectMetadata.location.longitudinal" padding-left>
+          <ion-label>Longitudinal</ion-label>
+          <ion-select
+            class="ion-text-uppercase"
+            slot="end"
+            interface="action-sheet"
+            [(ngModel)]="defect.additionalInformation.location.longitudinal"
+            placeholder="Select"
+          >
+            <ion-select-option
+              *ngFor="let position of defectMetadata.location.longitudinal"
+              [value]="position"
+              >{{position}}</ion-select-option
+            >
+          </ion-select>
+          <ion-icon
+            *ngIf="!defect.additionalInformation.location.longitudinal"
+            slot="end"
+            name="arrow-forward"
+            class="color-grey-2"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="defect.additionalInformation.location.longitudinal"
+            slot="end"
+            name="checkmark"
+            color="primary"
+          ></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="defectMetadata.location.rowNumber">
+          <ion-label>Row Number</ion-label>
+          <ion-select
+            class="ion-text-uppercase"
+            slot="end"
+            interface="action-sheet"
+            [(ngModel)]="defect.additionalInformation.location.rowNumber"
+            placeholder="Select"
+          >
+            <ion-select-option
+              *ngFor="let position of defectMetadata.location.rowNumber"
+              [value]="position"
+              >{{position}}</ion-select-option
+            >
+          </ion-select>
+          <ion-icon
+            *ngIf="!defect.additionalInformation.location.rowNumber"
+            slot="end"
+            name="arrow-forward"
+            class="color-grey-2"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="defect.additionalInformation.location.rowNumber"
+            slot="end"
+            name="checkmark"
+            color="primary"
+          ></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="defectMetadata.location.seatNumber">
+          <ion-label>Seat Number</ion-label>
+          <ion-select
+            class="ion-text-uppercase"
+            slot="end"
+            interface="action-sheet"
+            [(ngModel)]="defect.additionalInformation.location.seatNumber"
+            placeholder="Select"
+          >
+            <ion-select-option
+              *ngFor="let position of defectMetadata.location.seatNumber"
+              [value]="position"
+              >{{position}}</ion-select-option
+            >
+          </ion-select>
+          <ion-icon
+            *ngIf="!defect.additionalInformation.location.seatNumber"
+            slot="end"
+            name="arrow-forward"
+            class="color-grey-2"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="defect.additionalInformation.location.seatNumber"
+            slot="end"
+            name="checkmark"
+            color="primary"
+          ></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="defectMetadata.location.axleNumber">
+          <ion-label>Axle Number</ion-label>
+          <ion-select
+            class="ion-text-uppercase"
+            slot="end"
+            interface="action-sheet"
+            [(ngModel)]="defect.additionalInformation.location.axleNumber"
+            placeholder="Select"
+          >
+            <ion-select-option
+              *ngFor="let position of defectMetadata.location.axleNumber"
+              [value]="position"
+              >{{position}}</ion-select-option
+            >
+          </ion-select>
+          <ion-icon
+            *ngIf="!defect.additionalInformation.location.axleNumber"
+            slot="end"
+            name="arrow-forward"
+            class="color-grey-2"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="defect.additionalInformation.location.axleNumber"
+            slot="end"
+            name="checkmark"
+            color="primary"
+          ></ion-icon>
+        </ion-item>
+      </ion-item-group>
+
+      <ion-item-group *ngIf="defectMetadata.notes">
+        <ion-item-divider class="content-background-color-grey">NOTES</ion-item-divider>
+        <ion-item>
+          <ion-textarea
+            placeholder="Add notes"
+            [(ngModel)]="defect.additionalInformation.notes"
+            (ngModelChange)="notesChanged=true"
+            maxlength="200"
+            class="textarea-height"
+          ></ion-textarea>
+        </ion-item>
+      </ion-item-group>
+    </div>
+
+    <ion-item-group *ngIf="showPrs">
+      <ion-item-divider class="content-background-color-grey">PRS</ion-item-divider>
+      <ion-item lines="none">
+        <ion-label>Defect repaired during test</ion-label>
+        <ion-toggle color="secondary" checked="false" [(ngModel)]="defect.prs"></ion-toggle>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="showProhibition && !isProhibitionClearance">
+      <ion-item-divider class="content-background-color-grey">PROHIBITION</ion-item-divider>
+      <ion-item lines="none">
+        <ion-label>Issued in Mobile Compliance</ion-label>
+        <ion-toggle
+          color="secondary"
+          checked="false"
+          [(ngModel)]="defect.prohibitionIssued"
+        ></ion-toggle>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="isEdit">
+      <ion-item-divider></ion-item-divider>
+      <ion-item
+        detail="false"
+        class="btn-remove-defect"
+        (click)="removeDefectConfirm(defect)"
+      >
+        Remove defect
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

@@ -171,6 +171,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/defects/advisory-details/advisory-details.module')
         .then( m => m.AdvisoryDetailsModule)
+  },
+  {
+    path: PAGE_NAMES.DEFECT_DETAILS_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/defect-details/defect-details.module')
+        .then( m => m.DefectDetailsModule)
   }
 ];
 
