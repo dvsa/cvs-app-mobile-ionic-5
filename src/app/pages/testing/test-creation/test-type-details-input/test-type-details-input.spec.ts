@@ -23,18 +23,16 @@ describe('Component: TestTypeDetailsInputPage', () => {
   let comp: TestTypeDetailsInputPage;
   let fixture: ComponentFixture<TestTypeDetailsInputPage>;
 
-  let navParams: NavParamsMock;
   let alertCtrl: AlertController;
   let viewCtrl: ViewControllerMock;
 
-  // const mockValueInput: HTMLIonInputElement = {
-  //   input: new EventEmitter<UIEvent>(),
-  //   setFocus(): void {},
-  // } as HTMLIonInputElement;
+  const mockValueInput: HTMLIonInputElement = new HTMLIonInputElement();
 
   const mockInput = {
     testTypePropertyName: 'test',
-    label: { toUpperCase(): void {} },
+    label: {
+      toUpperCase: () => {},
+    },
   };
 
   beforeEach(waitForAsync(() => {
@@ -43,7 +41,6 @@ describe('Component: TestTypeDetailsInputPage', () => {
       imports: [],
       providers: [
         ChangeDetectorRef,
-        { provide: NavParams, useClass: NavParamsMock },
         {
           provide: AlertController,
           useFactory: () => AlertControllerMock.instance(),
@@ -51,19 +48,16 @@ describe('Component: TestTypeDetailsInputPage', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestTypeDetailsInputPage);
     comp = fixture.componentInstance;
-    // comp.valueInput = mockValueInput;
+    comp.valueInput = mockValueInput;
     comp.inputValue = 'test';
     comp.input = mockInput;
-    // comp.customValueInput = mockValueInput;
+    comp.customValueInput = mockValueInput;
     alertCtrl = TestBed.inject(AlertController);
     jasmine.clock().uninstall();
     jasmine.clock().install();
-  });
+  }));
 
   afterEach(() => {
     fixture.destroy();

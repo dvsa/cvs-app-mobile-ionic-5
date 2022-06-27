@@ -159,11 +159,11 @@
           *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER_CUSTOM && canDisplaySection(section) && canDisplayInput(input)"
         >
           <ion-row>
-            <ion-col col-2 class="certificateNumberCustom-label">
+            <ion-col size="2" class="certificateNumberCustom-label">
               {{vehicle.techRecord.vehicleType === vehicleTypes.HGV ?
               tirCertificateNumberPrefixes.GB_V : tirCertificateNumberPrefixes.GB_T}}
             </ion-col>
-            <ion-col col-10 class="certificateNumberCustom-input">
+            <ion-col size="10" class="certificateNumberCustom-input">
               <ion-input
                 [placeholder]="input.placeholder"
                 type="number"

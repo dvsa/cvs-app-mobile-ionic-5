@@ -33,14 +33,14 @@
     background-color: var(--light);
   }
 
-  ion-col[col-2].certificateNumberCustom-label {
+  ion-col.certificateNumberCustom-label {
     display: flex;
     align-items: center;
     justify-content: center;
     border-right: 1px solid var(--color-grey-2);
   }
 
-  ion-col[col-10].certificateNumberCustom-input {
+  ion-col.certificateNumberCustom-input {
     padding-left: 16px;
   }
 
