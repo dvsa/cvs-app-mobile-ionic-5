@@ -21,6 +21,10 @@
     font-weight: var(--font-weight-semi-bold);
     display: inline-block;
     text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
 
   p {

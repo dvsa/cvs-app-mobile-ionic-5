@@ -48,7 +48,7 @@
         <ion-row>
           <h2 class="item-description ion-no-margin">{{defect.itemDescription}}</h2>
         </ion-row>
-        <ion-row class="defect-description margin-vertical-half">
+        <ion-row class="margin-vertical-half">
           <p class="ion-no-margin">{{ defect.deficiencyText }}</p>
         </ion-row>
       </ion-grid>
@@ -61,6 +61,7 @@
           <ion-select
             slot="end"
             interface="action-sheet"
+            [interfaceOptions]="{ header: 'Vertical' }"
             [(ngModel)]="defect.additionalInformation.location.vertical"
             placeholder="Select"
             class="ion-no-margin ion-no-padding"
@@ -91,6 +92,7 @@
           <ion-select
             slot="end"
             interface="action-sheet"
+            [interfaceOptions]="{ header: 'Horizontal' }"
             [(ngModel)]="defect.additionalInformation.location.horizontal"
             placeholder="Select"
             class="ion-no-margin ion-no-padding"
@@ -121,6 +123,7 @@
           <ion-select
             slot="end"
             interface="action-sheet"
+            [interfaceOptions]="{ header: 'Lateral' }"
             [(ngModel)]="defect.additionalInformation.location.lateral"
             placeholder="Select"
             class="ion-no-margin ion-no-padding"
@@ -151,6 +154,7 @@
           <ion-select
             slot="end"
             interface="action-sheet"
+            [interfaceOptions]="{ header: 'Longitudinal' }"
             [(ngModel)]="defect.additionalInformation.location.longitudinal"
             placeholder="Select"
             class="ion-no-margin ion-no-padding"
@@ -181,6 +185,7 @@
           <ion-select
             slot="end"
             interface="action-sheet"
+            [interfaceOptions]="{ header: 'Row Number' }"
             [(ngModel)]="defect.additionalInformation.location.rowNumber"
             placeholder="Select"
             class="ion-no-margin ion-no-padding"
@@ -211,6 +216,7 @@
           <ion-select
             slot="end"
             interface="action-sheet"
+            [interfaceOptions]="{ header: 'Seat Number' }"
             [(ngModel)]="defect.additionalInformation.location.seatNumber"
             placeholder="Select"
             class="ion-no-margin ion-no-padding"
@@ -241,6 +247,7 @@
           <ion-select
             slot="end"
             interface="action-sheet"
+            [interfaceOptions]="{ header: 'Axle Number' }"
             [(ngModel)]="defect.additionalInformation.location.axleNumber"
             placeholder="Select"
             class="ion-no-margin ion-no-padding"
