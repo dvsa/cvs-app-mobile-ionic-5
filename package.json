@@ -41,7 +41,7 @@
     "@ionic-native/google-analytics": "^5.36.0",
     "@ionic-native/keyboard": "^5.36.0",
     "@ionic-native/mobile-accessibility": "^5.36.0",
-    "@ionic-native/network": "^5.33.0",
+    "@ionic-native/network": "^5.36.0",
     "@ionic-native/open-native-settings": "^5.36.0",
     "@ionic-native/screen-orientation": "^5.36.0",
     "@ionic-native/secure-storage": "^5.36.0",
