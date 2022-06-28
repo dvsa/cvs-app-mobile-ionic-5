@@ -66,6 +66,7 @@
             class="ion-no-margin ion-no-padding"
           >
             <ion-select-option
+              class="ion-text-capitalize"
               *ngFor="let position of defectMetadata.location.vertical"
               [value]="position"
               >{{position}}</ion-select-option
@@ -95,6 +96,7 @@
             class="ion-no-margin ion-no-padding"
           >
             <ion-select-option
+              class="ion-text-capitalize"
               *ngFor="let position of defectMetadata.location.horizontal"
               [value]="position"
               >{{position}}</ion-select-option
@@ -124,6 +126,7 @@
             class="ion-no-margin ion-no-padding"
           >
             <ion-select-option
+              class="ion-text-capitalize"
               *ngFor="let position of defectMetadata.location.lateral"
               [value]="position"
               >{{position}}</ion-select-option
@@ -153,6 +156,7 @@
             class="ion-no-margin ion-no-padding"
           >
             <ion-select-option
+              class="ion-text-capitalize"
               *ngFor="let position of defectMetadata.location.longitudinal"
               [value]="position"
               >{{position}}</ion-select-option
@@ -182,6 +186,7 @@
             class="ion-no-margin ion-no-padding"
           >
             <ion-select-option
+              class="ion-text-capitalize"
               *ngFor="let position of defectMetadata.location.rowNumber"
               [value]="position"
               >{{position}}</ion-select-option
@@ -211,6 +216,7 @@
             class="ion-no-margin ion-no-padding"
           >
             <ion-select-option
+              class="ion-text-capitalize"
               *ngFor="let position of defectMetadata.location.seatNumber"
               [value]="position"
               >{{position}}</ion-select-option
@@ -240,6 +246,7 @@
             class="ion-no-margin ion-no-padding"
           >
             <ion-select-option
+              class="ion-text-capitalize"
               *ngFor="let position of defectMetadata.location.axleNumber"
               [value]="position"
               >{{position}}</ion-select-option
@@ -294,8 +301,9 @@
       </ion-item>
     </ion-item-group>
     <ion-item-group *ngIf="isEdit">
-      <ion-item-divider></ion-item-divider>
+      <ion-item-divider class="content-background-color-grey"></ion-item-divider>
       <ion-item
+        lines="none"
         detail="false"
         class="btn-remove-defect"
         (click)="removeDefectConfirm(defect)"

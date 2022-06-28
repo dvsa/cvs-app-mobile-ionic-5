@@ -7,6 +7,10 @@
     display: none !important;
   }
 
+  ion-select::part(text) {
+    text-transform: capitalize;
+  }
+
   ion-badge {
     margin-left: 8px;
     margin-top: 4px;
@@ -17,10 +21,6 @@
     font-weight: var(--font-weight-semi-bold);
     display: inline-block;
     text-transform: lowercase;
-
-    &::first-letter {
-      text-transform: capitalize;
-    }
   }
 
   p {

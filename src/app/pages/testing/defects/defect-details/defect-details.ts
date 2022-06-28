@@ -93,18 +93,10 @@ export class DefectDetailsPage implements OnInit {
   }
 
   async addDefect(): Promise<void> {
-    // @TODO - I don't think this is needed anymore
-    // if (!this.fromTestReview) {
-    //   if (!this.isEdit) {
-    //     await this.testTypeService.addDefect(this.vehicleTest, this.defect);
-    //   }
-    //   await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-    // } else {
-      if (!this.isEdit) {
-        await this.testTypeService.addDefect(this.vehicleTest, this.defect);
-      }
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-    // }
+    if (!this.isEdit) {
+      await this.testTypeService.addDefect(this.vehicleTest, this.defect);
+    }
+    await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
 
     if (this.notesChanged) {
       await this.onNotesChanged();
