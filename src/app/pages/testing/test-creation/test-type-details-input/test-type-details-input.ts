@@ -39,12 +39,12 @@ export class TestTypeDetailsInputPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    setTimeout(() => {
+    setTimeout(async () => {
       if (this.valueInput) {
-        this.valueInput.setFocus();
+        await this.valueInput.setFocus();
       }
       if (this.customValueInput) {
-        this.customValueInput.setFocus();
+        await this.customValueInput.setFocus();
       }
     }, 150);
   }
@@ -73,11 +73,7 @@ export class TestTypeDetailsInputPage implements OnInit {
   }
 
   async onDone() {
-    if (this.inputValue && this.inputValue.length) {
-      this.errorIncomplete = false;
-    } else {
-      this.errorIncomplete = true;
-    }
+    this.errorIncomplete = !(this.inputValue && this.inputValue.length);
     if (
       this.vehicleCategory === 'B' &&
       ((this.inputValue && this.inputValue.charAt(0) === '0') || !this.inputValue)

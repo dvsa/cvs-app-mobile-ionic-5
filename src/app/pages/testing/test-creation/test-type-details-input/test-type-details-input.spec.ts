@@ -8,7 +8,7 @@ import {
 } from '@ionic/angular';
 import {
   ChangeDetectorRef,
-  CUSTOM_ELEMENTS_SCHEMA,
+  CUSTOM_ELEMENTS_SCHEMA, EventEmitter,
 } from '@angular/core';
 import { TestTypeDetailsInputPage } from './test-type-details-input';
 import { AlertControllerMock } from 'ionic-mocks';
@@ -24,10 +24,10 @@ describe('Component: TestTypeDetailsInputPage', () => {
   let viewCtrl: ViewControllerMock;
   let modalCtrl: ModalController;
 
-  // const mockValueInput: HTMLIonInputElement = {
-  //   input: new EventEmitter<UIEvent>(),
-  //   setFocus: () => {},
-  // };
+  const mockValueInput: HTMLIonInputElement = {
+    input: new EventEmitter<UIEvent>(),
+    setFocus: () => Promise.resolve(undefined),
+  } as unknown as HTMLIonInputElement;
 
   const mockInput = {
     testTypePropertyName: 'test',
@@ -54,10 +54,10 @@ describe('Component: TestTypeDetailsInputPage', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestTypeDetailsInputPage);
     comp = fixture.componentInstance;
-    // comp.valueInput = mockValueInput;
+    comp.valueInput = mockValueInput;
     comp.inputValue = 'test';
     comp.input = mockInput;
-    // comp.customValueInput = mockValueInput;
+    comp.customValueInput = mockValueInput;
     alertCtrl = TestBed.inject(AlertController);
     modalCtrl = TestBed.inject(ModalController);
     jasmine.clock().uninstall();
@@ -101,22 +101,22 @@ describe('Component: TestTypeDetailsInputPage', () => {
     expect(modalCtrl.dismiss).toHaveBeenCalled();
   });
 
-  xit('should call setFocus on valueInput on ionViewDidEnter action ', () => {
+  it('should call setFocus on valueInput on ionViewDidEnter action ', async () => {
     const spyValueInput = spyOn(comp.valueInput, 'setFocus').and.callThrough();
     comp.ionViewDidEnter();
     jasmine.clock().tick(150);
-    expect(spyValueInput).toHaveBeenCalled();
+    expect(await spyValueInput).toHaveBeenCalled();
 
   });
 
-  xit('should call setFocus on customValueInput ionViewDidEnter action', () => {
+  it('should call setFocus on customValueInput ionViewDidEnter action', async () => {
     const spyCustomValueInput = spyOn(
       comp.customValueInput,
       'setFocus'
     ).and.callThrough();
     comp.ionViewDidEnter();
     jasmine.clock().tick(150);
-    expect(spyCustomValueInput).toHaveBeenCalled();
+    expect(await spyCustomValueInput).toHaveBeenCalled();
   });
 
   it('should update inputValue with given value on valueInputChange action', () => {
