@@ -89,16 +89,16 @@ describe('Component: TestTypeDetailsInputPage', () => {
     expect(modalCtrl.dismiss).toHaveBeenCalled();
   });
 
-  xit('should test onDone logic', () => {
-    spyOn(viewCtrl, 'dismiss');
+  it('should test onDone logic', async () => {
+    spyOn(modalCtrl, 'dismiss');
     comp.vehicleCategory = 'B';
     comp.inputValue = '0322';
-    comp.onDone();
+    await comp.onDone();
     expect(alertCtrl.create).toHaveBeenCalled();
     comp.vehicleCategory = 'A';
     comp.inputValue = '566';
-    comp.onDone();
-    expect(viewCtrl.dismiss).toHaveBeenCalled();
+    await comp.onDone();
+    expect(modalCtrl.dismiss).toHaveBeenCalled();
   });
 
   xit('should call setFocus on valueInput on ionViewDidEnter action ', () => {
