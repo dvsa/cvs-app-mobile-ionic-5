@@ -22,6 +22,7 @@ describe('Component: TestTypeDetailsInputPage', () => {
 
   let alertCtrl: AlertController;
   let viewCtrl: ViewControllerMock;
+  let modalCtrl: ModalController;
 
   // const mockValueInput: HTMLIonInputElement = {
   //   input: new EventEmitter<UIEvent>(),
@@ -58,6 +59,7 @@ describe('Component: TestTypeDetailsInputPage', () => {
     comp.input = mockInput;
     // comp.customValueInput = mockValueInput;
     alertCtrl = TestBed.inject(AlertController);
+    modalCtrl = TestBed.inject(ModalController);
     jasmine.clock().uninstall();
     jasmine.clock().install();
   });
@@ -82,9 +84,9 @@ describe('Component: TestTypeDetailsInputPage', () => {
   });
 
   it('should dismiss the view', async () => {
-    spyOn(viewCtrl, 'dismiss');
+    spyOn(modalCtrl, 'dismiss');
     await comp.onCancel();
-    expect(viewCtrl.dismiss).toHaveBeenCalled();
+    expect(modalCtrl.dismiss).toHaveBeenCalled();
   });
 
   xit('should test onDone logic', () => {
