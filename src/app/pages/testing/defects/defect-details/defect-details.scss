@@ -1,6 +1,15 @@
 :host {
-  .content-ios {
-    color: var(--dark);
+  ion-button.done-button {
+    font-weight: var(--font-weight-bold);
+  }
+
+  ion-select::part(icon) {
+    display: none !important;
+  }
+
+  ion-badge {
+    margin-left: 8px;
+    margin-top: 4px;
   }
 
   .item-description {
@@ -27,21 +36,6 @@
     font-size: var(--font-size-small);
   }
 
-  ion-item {
-    .select-icon {
-      display: none;
-    }
-  }
-
-  .btn-add-attachment {
-    font-size: 16px;
-    color: var(--primary)
-  }
-
-  .badge__prs {
-    margin-left: 5px;
-  }
-
   .textarea-height {
     height: 100px;
     textarea {
@@ -56,5 +50,10 @@
 
   .custom-item-color {
     background-color: var(--light)
+  }
+
+  .select-label {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }

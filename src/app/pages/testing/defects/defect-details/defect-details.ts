@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
   NavController,
@@ -81,7 +81,7 @@ export class DefectDetailsPage implements OnInit {
       this.prohibitionClearanceTestTypesIds.indexOf(this.vehicleTest.testTypeId) !== -1;
   }
 
-  async goBack() {
+  async back() {
     this.defect.additionalInformation.location = Object.assign({}, this.tempDefectLocation);
     this.defect.additionalInformation.notes = this.tempDefectNotes;
     this.defect.prs = this.tempPrs;
