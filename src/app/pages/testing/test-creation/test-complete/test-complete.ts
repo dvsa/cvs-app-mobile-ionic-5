@@ -38,6 +38,9 @@ import { NotifiableAlterationTestTypesData } from '@assets/app-data/test-types-d
 import { AnalyticsService } from '@providers/global';
 import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
+import {
+  DefectDetailsSpecialistTestingPage
+} from '@app/pages/testing/defects/defect-details-specialist-testing/defect-details-specialist-testing';
 
 @Component({
   selector: 'page-test-complete',
@@ -614,18 +617,21 @@ export class TestCompletePage implements OnInit {
       : this.patterns.NUMERIC;
   }
 
-  toSpecialistDefectDetailsPage(
+  async toSpecialistDefectDetailsPage(
     isEditMode: boolean,
     defectIndex?: number,
     defect?: SpecialistCustomDefectModel
-  ): void {
-    // const MODAL = this.modalCtrl.create(PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING, {
-    //   isEdit: isEditMode,
-    //   defectIndex: isEditMode ? defectIndex : null,
-    //   defect: isEditMode ? defect : ({} as SpecialistCustomDefectModel),
-    //   testType: this.vehicleTest,
-    //   errorIncomplete: this.errorIncomplete
-    // });
-    // MODAL.present();
+  ): Promise<void> {
+    const MODAL = await this.modalCtrl.create({
+      component: DefectDetailsSpecialistTestingPage,
+      componentProps: {
+        isEdit: isEditMode,
+        defectIndex: isEditMode ? defectIndex : null,
+        defect: isEditMode ? defect : ({} as SpecialistCustomDefectModel),
+        testType: this.vehicleTest,
+        errorIncomplete: this.errorIncomplete
+      }
+    });
+    await MODAL.present();
   }
 }

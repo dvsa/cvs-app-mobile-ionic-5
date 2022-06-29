@@ -177,6 +177,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/defects/defect-details/defect-details.module')
         .then( m => m.DefectDetailsModule)
+  },
+  {
+    path: PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING,
+    loadChildren: () =>
+      import('./pages/testing/defects/defect-details-specialist-testing/defect-details-specialist-testing.module')
+        .then( m => m.DefectDetailsSpecialistTestingModule)
   }
 ];
 
