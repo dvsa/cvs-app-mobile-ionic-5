@@ -56,7 +56,15 @@
     <div *ngIf="defectMetadata">
       <ion-item-group *ngIf="isLocation">
         <ion-item-divider class="content-background-color-grey">LOCATION</ion-item-divider>
-        <ion-item *ngIf="defectMetadata.location.vertical">
+        <ion-item
+          *ngIf="defectMetadata.location.vertical"
+          [lines]="!defectMetadata.location.axleNumber &&
+          !defectMetadata.location.seatNumber &&
+          !defectMetadata.location.seatNumber &&
+          !defectMetadata.location.longitudinal &&
+          !defectMetadata.location.lateral &&
+          !defectMetadata.location.horizontal ? 'none' : 'inset'"
+        >
           <ion-label class="select-label">Vertical</ion-label>
           <ion-select
             slot="end"
@@ -87,7 +95,14 @@
             color="primary"
           ></ion-icon>
         </ion-item>
-        <ion-item *ngIf="defectMetadata.location.horizontal">
+        <ion-item
+          *ngIf="defectMetadata.location.horizontal"
+          [lines]="!defectMetadata.location.axleNumber &&
+          !defectMetadata.location.seatNumber &&
+          !defectMetadata.location.seatNumber &&
+          !defectMetadata.location.longitudinal &&
+          !defectMetadata.location.lateral ? 'none' : 'inset'"
+        >
           <ion-label class="select-label">Horizontal</ion-label>
           <ion-select
             slot="end"
@@ -118,7 +133,13 @@
             color="primary"
           ></ion-icon>
         </ion-item>
-        <ion-item *ngIf="defectMetadata.location.lateral">
+        <ion-item
+          *ngIf="defectMetadata.location.lateral"
+          [lines]="!defectMetadata.location.axleNumber &&
+          !defectMetadata.location.seatNumber &&
+          !defectMetadata.location.seatNumber &&
+          !defectMetadata.location.longitudinal ? 'none' : 'inset'"
+        >
           <ion-label class="select-label">Lateral</ion-label>
           <ion-select
             slot="end"
@@ -149,7 +170,12 @@
             color="primary"
           ></ion-icon>
         </ion-item>
-        <ion-item *ngIf="defectMetadata.location.longitudinal">
+        <ion-item
+          *ngIf="defectMetadata.location.longitudinal"
+          [lines]="!defectMetadata.location.axleNumber &&
+          !defectMetadata.location.seatNumber &&
+          !defectMetadata.location.seatNumber ? 'none' : 'inset'"
+        >
           <ion-label class="select-label">Longitudinal</ion-label>
           <ion-select
             slot="end"
@@ -180,7 +206,11 @@
             color="primary"
           ></ion-icon>
         </ion-item>
-        <ion-item *ngIf="defectMetadata.location.rowNumber">
+        <ion-item
+          *ngIf="defectMetadata.location.rowNumber"
+          [lines]="!defectMetadata.location.axleNumber &&
+          !defectMetadata.location.seatNumber ? 'none' : 'inset'"
+        >
           <ion-label class="select-label">Row Number</ion-label>
           <ion-select
             slot="end"
@@ -211,7 +241,10 @@
             color="primary"
           ></ion-icon>
         </ion-item>
-        <ion-item *ngIf="defectMetadata.location.seatNumber">
+        <ion-item
+          *ngIf="defectMetadata.location.seatNumber"
+          [lines]="!defectMetadata.location.axleNumber ? 'none' : 'inset'"
+        >
           <ion-label class="select-label">Seat Number</ion-label>
           <ion-select
             slot="end"
@@ -242,7 +275,7 @@
             color="primary"
           ></ion-icon>
         </ion-item>
-        <ion-item *ngIf="defectMetadata.location.axleNumber">
+        <ion-item *ngIf="defectMetadata.location.axleNumber" lines="none">
           <ion-label class="select-label">Axle Number</ion-label>
           <ion-select
             slot="end"
@@ -277,7 +310,7 @@
 
       <ion-item-group *ngIf="defectMetadata.notes">
         <ion-item-divider class="content-background-color-grey">NOTES</ion-item-divider>
-        <ion-item>
+        <ion-item lines="none">
           <ion-textarea
             placeholder="Add notes"
             [(ngModel)]="defect.additionalInformation.notes"
