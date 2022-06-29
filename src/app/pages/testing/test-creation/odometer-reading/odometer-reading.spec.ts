@@ -16,7 +16,7 @@ describe('Component: OdometerReadingPage', () => {
   let fixture: ComponentFixture<OdometerReadingPage>;
   let vehicleService: VehicleService;
 
-  let VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

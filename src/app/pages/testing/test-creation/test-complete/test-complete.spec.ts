@@ -467,11 +467,13 @@ describe('Component: TestCompletePage', () => {
     expect(comp.getPatternForCertificateNumberField()).toEqual(REG_EX_PATTERNS.NUMERIC);
   });
 
-  // TODO reintroduce this with ticket VTA-XXX
-  // it('should open the modal for specialist defects details page', () => {
-  //   comp.toSpecialistDefectDetailsPage(false);
-  //   expect(modalCtrl.create).toHaveBeenCalled();
-  // });
+  it('should open the modal for specialist defects details page', async () => {
+    spyOn(modalCtrl, 'create')
+      .and
+      .callThrough();
+    await comp.toSpecialistDefectDetailsPage(false);
+    expect(modalCtrl.create).toHaveBeenCalled();
+  });
 
   describe('certificateNumber Validation', () => {
     it('should throw an error if an ADR test-type has under 6 digits for its certificateNumber', () => {

@@ -434,7 +434,6 @@ describe('Component: TestCreatePage', () => {
     });
   });
 
-  //@TODO - add back with VTA-62 + VTA-628 + VTA-629
   it('should test onOdometer logic', () => {
     const newTest = testService.createTest();
     const newVehicle = vehicleService.createVehicle(vehicle);
