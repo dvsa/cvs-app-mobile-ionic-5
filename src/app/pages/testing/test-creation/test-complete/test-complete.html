@@ -182,46 +182,50 @@
         <span>DEFECTS</span>
       </ion-item-divider>
       <ion-item-sliding #item *ngFor="let defect of vehicleTest.defects">
-        <ion-item class="defect-details" (click)="openDefect(defect)">
-          <h3 class="defect-name">
-            <span>
+        <ion-item
+          class="defect-details"
+          (click)="openDefect(defect)"
+          lines="none"
+          detail="true"
+        >
+          <span>
+            <h3 class="defect-name">
               <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
-              <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
-              <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
-            </span>
-            <ion-badge
-              class="no-margin-right ion-text-uppercase"
-              slot="end"
-              [color]="defectsService.getBadgeColor(defect.deficiencyCategory)"
+              <span class="margin-left-quarter" *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+              <span class="margin-left-quarter" *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+              <ion-badge
+                class="margin-left-half ion-text-uppercase"
+                slot="end"
+                [color]="defectsService.getBadgeColor(defect.deficiencyCategory)"
+              >
+                {{ defect.deficiencyCategory }}
+              </ion-badge>
+              <ion-badge
+                class="margin-left-quarter ion-text-uppercase"
+                slot="end"
+                color="tertiary"
+                *ngIf="defect.prs"
+              >
+                PRS
+              </ion-badge>
+            </h3>
+            <h4 class="parent-info-color">
+              <span>{{ defect.imNumber }}. {{ defect.imDescription}}</span>
+            </h4>
+            <h4 class="parent-info-color">
+              <span>{{ defect.itemNumber }}. {{ defect.itemDescription }}</span>
+            </h4>
+            <h4
+              class="parent-info-color truncate-text"
+              *ngIf="defect.deficiencyCategory !== 'Advisory'"
             >
-              {{ defect.deficiencyCategory }}
-            </ion-badge>
-            <ion-badge
-              class="no-margin-left ion-text-uppercase"
-              slot="end"
-              color="tertiary"
-              *ngIf="defect.prs"
-            >
-              PRS
-            </ion-badge>
-          </h3>
-          <h4 class="parent-info-color">
-            {{ defect.imNumber }}. {{ defect.imDescription}}
-          </h4>
-          <h4 class="parent-info-color">
-            {{ defect.itemNumber }}. {{ defect.itemDescription }}
-          </h4>
-          <h4
-            class="parent-info-color truncate-text"
-            *ngIf="defect.deficiencyCategory !== 'Advisory'"
-          >
-            <span>
-              <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
-              <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
-            </span>
-            {{ defect.deficiencyText }}
-          </h4>
-          <ion-icon slot="end" name="arrow-forward" class="arrow-forward"></ion-icon>
+              <span>
+                <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+              </span>
+              {{ defect.deficiencyText }}
+            </h4>
+          </span>
         </ion-item>
         <ion-item-options>
           <ion-button color="danger" (click)="showAlert(item, defect)">Remove</ion-button>
@@ -237,15 +241,25 @@
       <ion-item-divider class="ion-text-uppercase">
         <span>DEFECTS</span>
       </ion-item-divider>
-      <ion-item-sliding #item *ngFor="let defect of vehicleTest.customDefects; let index = index">
+      <ion-item-sliding #item *ngFor="let defect of vehicleTest.customDefects; let index = index;  let last = last">
         <ion-item
           class="defect-details custom-defects-divider"
           [ngClass]="{'error-incomplete-item': errorIncomplete && !defect.hasAllMandatoryFields}"
+          lines="none"
+          detail="true"
           (click)="toSpecialistDefectDetailsPage(true, index, defect)"
         >
-          <h3 class="defect-name">{{defect.referenceNumber}}</h3>
-          <h4 class="parent-info-color">{{defect.defectName}}</h4>
-          <h4 class="parent-info-color">{{defect.defectNotes}}</h4>
+          <span>
+            <h3 class="defect-name">
+              <span>{{defect.referenceNumber}}</span>
+            </h3>
+            <h4 class="parent-info-color">
+              <span>{{defect.defectName}}</span>
+            </h4>
+            <h4 class="parent-info-color truncate-text">
+              <span>{{defect.defectNotes}}</span>
+            </h4>
+          </span>
         </ion-item>
         <ion-item-options>
           <ion-button color="danger" (click)="showAlert(item, defect, index)">

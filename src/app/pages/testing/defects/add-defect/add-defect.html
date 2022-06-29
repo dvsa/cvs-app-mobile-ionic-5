@@ -25,7 +25,7 @@
       </ion-item-divider>
       <ion-item
         detail="true"
-        class="list-item-height ion-activatable"
+        class="list-item-height"
         *ngFor="let deficiency of filteredDeficiencies | byVehicleType: vehicleType; let last = last"
         [lines]="last ? 'none' : 'inset'"
         (click)="selectDeficiency(deficiency)"
@@ -45,11 +45,10 @@
               [ngClass]="returnBadgeClass(deficiency.deficiencyCategory)"
             >
             {{ deficiency.deficiencyCategory }}
-          </ion-badge>
+            </ion-badge>
           </h3>
           <p>{{ deficiency.deficiencyText }}</p>
         </span>
-        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
     </ion-item-group>
     <ion-item-group>
@@ -58,9 +57,8 @@
           Advisory
         </span>
       </ion-item-divider>
-      <ion-item class="ion-activatable" detail="true" (click)="addAdvisory()" lines="none">
+      <ion-item detail="true" (click)="addAdvisory()" lines="none">
         <span>Add an advisory note</span>
-        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
     </ion-item-group>
   </ion-list>

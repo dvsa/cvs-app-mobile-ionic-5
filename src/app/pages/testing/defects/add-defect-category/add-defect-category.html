@@ -21,7 +21,7 @@
   <ion-list class="ion-text-wrap" *ngIf="filteredCategories.length > 0">
     <ion-item
       detail="true"
-      class="list-item-height ion-activatable"
+      class="list-item-height"
       *ngFor="let category of filteredCategories | byVehicleType: vehicleType; let last = last"
       [lines]="last ? 'none' : 'inset'"
       (click)="selectCategory(category)"
@@ -29,7 +29,6 @@
       <span>
         <h3>{{ category.imNumber }}. {{ category.imDescription }}</h3>
       </span>
-      <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </ion-item>
   </ion-list>
 
