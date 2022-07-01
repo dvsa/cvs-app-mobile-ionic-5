@@ -54,7 +54,7 @@
           </h3>
           <ion-icon
             slot="end"
-            class="arrow-forward"
+            class="arrow-forward small-icon"
             name="chevron-forward"
             *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"
           ></ion-icon>
@@ -85,7 +85,7 @@
           </h3>
           <ion-icon
             slot="end"
-            class="arrow-forward"
+            class="arrow-forward small-icon"
             name="chevron-forward"
             *ngIf="!input.hasOwnProperty('deactivateButtonOnSelection') || input.deactivateButtonOnSelection && !vehicleTest[input.testTypePropertyName]"
           ></ion-icon>
@@ -150,6 +150,7 @@
               [min]="input.minDate"
               [max]="input.maxDate"
             ></ion-datetime>
+            <ion-icon slot="end" name="chevron-forward" class="arrow-forward small-icon"></ion-icon>
           </ion-item>
         </div>
 
@@ -291,7 +292,7 @@
         >NOTES
         <span
           *ngIf="(isNotifiableAlteration || testTypeService.isLecTestType(vehicleTest.testTypeId)) &&
-      vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL"
+      vehicleTest.testResult === TEST_TYPE_RESULTS.FAIL" class="notes-required"
           >(REQUIRED)</span
         >
       </ion-item-divider>

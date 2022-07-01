@@ -80,6 +80,10 @@
     }
   }
 
+  span.notes-required {
+    padding-left: 3px;
+  }
+
   .item-ios ion-icon[item-start] {
     margin-left: 14px;
     margin-right: 0;
@@ -167,8 +171,9 @@
     color: var(--danger);
   }
 
-  .adr-notes-details {
+  p.adr-notes-details {
     color: var(--color-grey-1);
+    padding-left: 5px;
   }
 
   .expiry-date-datetime .datetime-text.datetime-placeholder {

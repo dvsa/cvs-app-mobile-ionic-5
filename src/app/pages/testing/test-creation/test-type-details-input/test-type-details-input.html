@@ -21,8 +21,9 @@
         >{{input.label.toUpperCase()}}</span
       >
     </ion-item-divider>
-    <ion-item class="ion-padding-start" [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}">
+    <ion-item lines="none" [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}">
       <ion-input
+        autocapitalize="on"
         [type]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? input.type : 'text'"
         [pattern]="input.testTypePropertyName === testTypesInputs.SIC_SEATBELTS_NUMBER ? patterns.NUMERIC : ''"
         [placeholder]="input.defaultValue"
@@ -38,6 +39,7 @@
       <ion-col size="10">
         <ion-item
           class="ion-padding-start"
+          lines="none"
           [ngClass]="{'error-incomplete-item': errorIncomplete && !inputValue}"
         >
           <ion-input

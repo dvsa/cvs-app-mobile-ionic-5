@@ -585,7 +585,7 @@ export class TestCompletePage implements OnInit {
   }
 
   certificateNumberInputChange(value) {
-    this.cdRef.detectChanges();
+    console.log(value);
     if (this.testTypeService.isTirTestType(this.vehicleTest.testTypeId)) {
       this.vehicleTest.certificateNumber = value.length > 5 ? value.substring(0, 5) : value;
     } else if (
@@ -601,16 +601,19 @@ export class TestCompletePage implements OnInit {
     } else {
       this.vehicleTest.certificateNumber = value.length > 6 ? value.substring(0, 6) : value;
     }
+    this.cdRef.detectChanges();
   }
 
   getTypeForCertificateNumberField(): string {
-    return this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
+    const value = this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
       this.vehicleTest.testTypeId
     ) ||
       this.testTypeService.isSpecialistPartOfCoifTestTypes(this.vehicleTest.testTypeId) ||
       this.testTypeService.isPsvNotifiableAlterationTestType(this.vehicleTest.testTypeId)
       ? 'text'
       : 'number';
+    console.log(value);
+    return value;
   }
 
   getPatternForCertificateNumberField(): string {
