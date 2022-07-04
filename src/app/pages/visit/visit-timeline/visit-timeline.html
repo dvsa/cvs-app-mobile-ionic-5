@@ -2,13 +2,14 @@
   <ion-toolbar>
     <ion-buttons slot="end">
       <ion-button
+        id="start-test-btn"
         class="start-test-button"
         (click)="createNewTestReport()"
         *ngIf="isCreateTestEnabled">
         Start test
       </ion-button>
     </ion-buttons>
-    <ion-title class="ion-margin-start">
+    <ion-title id="site-visit-title" class="ion-margin-start">
       Site visit
     </ion-title>
   </ion-toolbar>
@@ -131,6 +132,7 @@
   <ion-toolbar class="gray-toolbar">
     <ion-buttons class="button-centered">
       <ion-button
+        id="end-visit-btn"
         (click)="endVisit()"
         color="primary"
         [ngClass]="{buttonOpacity: changeOpacity}"

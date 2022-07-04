@@ -151,10 +151,12 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         buttons: [
           {
             text: APP_STRINGS.CANCEL,
+            cssClass: 'cancel-end-visit-btn',
             role: APP_STRINGS.CANCEL.toLowerCase()
           },
           {
             text: APP_STRINGS.END_VISIT_TITLE,
+            cssClass: 'confirm-end-visit-btn',
             handler: () => {
               this.confirmVisit$ = this.confirmEndVisit$();
             }

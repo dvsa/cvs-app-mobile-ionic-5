@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="margin-left-half">
+    <ion-title id="test-facility-title" class="margin-left-half">
       Find test facility
     </ion-title>
   </ion-toolbar>
@@ -13,7 +13,7 @@
     showCancelButton="focus"
     placeholder="Search by test facility number, name or address"
     #searchBar
-    id="stay-cancel"
+    id="test-facility-searchbar"
   >
   </ion-searchbar>
 </ion-header>
@@ -26,6 +26,7 @@
           <strong>{{ testStation.testStationName | slice:0:1 }}</strong>
         </ion-item-divider>
         <ion-item detail="true"
+                  id="test-facility-select-site"
                   lines="none"
                   (click)="openTestStation(testStation)"
                   class="list-item-height ion-text-wrap"

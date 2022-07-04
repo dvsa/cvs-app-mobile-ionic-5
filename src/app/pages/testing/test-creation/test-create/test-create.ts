@@ -391,6 +391,7 @@ export class TestCreatePage implements OnInit {
     for (const item of suggestedTestTypes) {
       buttons.push({
         text: item.suggestedTestTypeDisplayName,
+        cssClass: `suggested-popup-option-${suggestedTestTypes.indexOf(item) + 1}`,
         handler: () => {
           this.addSuggestedTestType(item, vehicle);
         }

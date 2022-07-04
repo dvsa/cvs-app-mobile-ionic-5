@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [text]="APP_STRINGS.IDENTIFY_VEHICLE">
+      <ion-back-button id="select-vehicle-back-btn" [text]="APP_STRINGS.IDENTIFY_VEHICLE">
       </ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-margin-start ion-padding-vertical">
+    <ion-title id="select-vehicle-title" class="ion-margin-start ion-padding-vertical">
       Select Vehicle
     </ion-title>
   </ion-toolbar>
@@ -14,14 +14,15 @@
   <div class="skeleton-banner" *ngIf="isAtLeastOneSkeleton">
     {{ APP_STRINGS.SKELETON_BANNER }}
   </div>
-  <ion-list>
+  <ion-list id="select-vehicle-list">
     <ion-item-divider class="ion-padding-start">
       <ion-label>
         <h3>Multiple vehicles found matching this search</h3>
       </ion-label>
     </ion-item-divider>
     <ion-item
-      *ngFor="let vehicle of vehicles"
+      *ngFor="let vehicle of vehicles; let i = index"
+      [id]="'select-vehicle-option-' + (i + 1)"
       detail="true"
       class="full-border"
       lines="none"
