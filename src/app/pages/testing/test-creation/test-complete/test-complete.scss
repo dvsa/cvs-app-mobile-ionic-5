@@ -38,11 +38,12 @@
     align-items: center;
     justify-content: center;
     border-right: 1px solid var(--color-grey-2);
-  }
-
-  ion-col.certificateNumberCustom-input {
     padding-left: 16px;
   }
+
+  //ion-col.certificateNumberCustom-input {
+  //  padding-left: 16px;
+  //}
 
   h3.current-value.no-data {
     color: var(--color-grey-2);
@@ -171,9 +172,9 @@
     color: var(--danger);
   }
 
-  p.adr-notes-details {
+  ion-item-group p.adr-notes-details {
     color: var(--color-grey-1);
-    padding-left: 5px;
+    padding-left: 20px;
   }
 
   .expiry-date-datetime .datetime-text.datetime-placeholder {

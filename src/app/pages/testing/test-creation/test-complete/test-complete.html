@@ -93,6 +93,7 @@
 
         <ion-item
           class="bottom-divider"
+          lines="none"
           *ngIf="input.type === testTypeFields.DATE && canDisplayInput(input)"
         >
           <ion-label><h3>{{input.label}}</h3></ion-label>
@@ -116,7 +117,9 @@
           [ngClass]="{'error-incomplete-item': (errorIncomplete && !vehicleTest.certificateNumber) || (errorIncompleteCertificateNumber && vehicleTest.certificateNumber.length < 6)}"
           *ngIf="input.type === testTypeFields.CERTIFICATE_NUMBER && canDisplaySection(section) && canDisplayInput(input)"
         >
-          <ion-item>
+          <ion-item
+            lines="none"
+          >
             <ion-input
               [placeholder]="input.placeholder"
               [type]="getTypeForCertificateNumberField()"
