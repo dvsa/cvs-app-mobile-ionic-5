@@ -179,7 +179,7 @@ const routes: Routes = [
         .then( m => m.DefectDetailsModule)
   },
   {
-    path: PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING,
+    path: PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING_PAGE,
     loadChildren: () =>
       import('./pages/testing/defects/defect-details-specialist-testing/defect-details-specialist-testing.module')
         .then( m => m.DefectDetailsSpecialistTestingModule)
