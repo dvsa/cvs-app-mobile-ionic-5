@@ -1,15 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="close()" color="light">
+      <ion-button id="identify-vehicle-cancel-btn" (click)="close()" color="light">
         Cancel
       </ion-button>
     </ion-buttons>
-    <ion-title class="ion-margin-start">
+    <ion-title id="identify-vehicle-title" class="ion-margin-start">
       {{title}}
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button class="custom-search-button" (click)="onSearchVehicle(searchVal)">
+      <ion-button id="identify-vehicle-search-btn" class="custom-search-button" (click)="onSearchVehicle(searchVal)">
         Search
       </ion-button>
     </ion-buttons>
@@ -21,6 +21,7 @@
     <ion-input
       *ngIf="!appService.isAccessibilityTextZoomEnabled(); else accessibilityTextArea"
       [ngModelOptions]="{standalone: true}"
+      id="search-criteria-input"
       class="custom-input shadow ios-margin-top ion-no-padding"
       autocapitalize="characters"
       clearInput="true"
@@ -48,7 +49,8 @@
       SEARCH CRITERIA
     </ion-label>
   </ion-list-header>
-  <ion-item detail="true" class="ion-no-margin" (click)="onChangeSearchCriteria()" lines="none">
+  <ion-item id="change-search-criteria-btn" detail="true" class="ion-no-margin" (click)="onChangeSearchCriteria()"
+            lines="none">
     <ion-label>{{selectedSearchCriteria}}</ion-label>
     <div>Change</div>
   </ion-item>
