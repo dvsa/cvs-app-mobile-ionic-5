@@ -185,6 +185,11 @@
     text-overflow: ellipsis;
   }
 
+  ion-grid.certificateNumberCustom {
+    padding: unset;
+    background-color: var(--light);
+  }
+
   .custom-defects-divider {
     border-bottom: 0.8px solid var(--color-grey-3);
   }
