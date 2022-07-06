@@ -3,6 +3,10 @@
     height: var(--header-height-default);
   }
 
+  .done-button {
+    font-weight: var(--font-weight-bold);
+  }
+
   button.cancel {
     font-weight: var(--font-weight-normal);
     color: var(--light);
