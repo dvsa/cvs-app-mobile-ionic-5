@@ -183,7 +183,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/defects/defect-details-specialist-testing/defect-details-specialist-testing.module')
         .then( m => m.DefectDetailsSpecialistTestingModule)
-  }
+  },
+  {
+    path: PAGE_NAMES.TEST_REVIEW_PAGE,
+    loadChildren: () => import('./pages/testing/test-creation/test-review/test-review.module')
+      .then( m => m.TestReviewModule)
+  },
 ];
 
 @NgModule({
