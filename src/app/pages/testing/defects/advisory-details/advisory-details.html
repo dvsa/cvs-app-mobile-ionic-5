@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelAdvisory()" color="light">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Advisory details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="submitAdvisory()">
+        <span>{{ isEdit ? 'Done' : 'Add Note' }}</span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list class="ion-text-wrap">
+    <ion-item-divider class="content-background-color-grey">DEFECT ITEM</ion-item-divider>
+    <ion-item lines="none">
+      <span>
+        <h3 class="advisory-item-status">
+          <span>{{ advisory.deficiencyRef }}</span>
+          <ion-badge class="ion-text-uppercase margin-left-half">Advisory</ion-badge>
+        </h3>
+        <p class="advisory-item-name">
+          {{ advisory.itemDescription }}
+        </p>
+      </span>
+    </ion-item>
+    <ion-item-divider class="content-background-color-grey">NOTES</ion-item-divider>
+    <ion-item lines="none">
+      <ion-textarea
+        maxlength="200"
+        rows="5"
+        [(ngModel)]="advisory?.additionalInformation.notes"
+        placeholder="Add Notes"
+      >
+      </ion-textarea>
+    </ion-item>
+    <ion-item-group *ngIf="isEdit">
+      <ion-item-divider class="ion-text-uppercase content-background-color-grey"></ion-item-divider>
+      <ion-item
+        lines="none"
+        detail="false"
+        class="btn-remove-advisory"
+        (click)="removeAdvisoryConfirm()"
+      >
+        Remove defect
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

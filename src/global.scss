@@ -551,6 +551,10 @@ ion-list.vehicle-list {
   margin-left: 8px;
 }
 
+.margin-left-quarter {
+  margin-left: 4px;
+}
+
 .black-bar {
   height: 35px;
   background-color: var(--dark);
@@ -593,10 +597,6 @@ ion-item-divider.defect-heading {
   height: initial;
   padding: 8px;
   min-height: 44px;
-}
-
-.asterisk {
-  margin-left: -5px;
 }
 
 .error-incomplete-item {

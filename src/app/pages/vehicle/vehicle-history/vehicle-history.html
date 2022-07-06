@@ -29,14 +29,14 @@
             <ion-col class="ion-text-right">
               <ion-text
                 *ngIf="!haveProhibition(testType)"
-                class="test-result ion-text-capitalize"
+                class="test-result ion-text-uppercase"
                 [color]="commonFunc.getTestResultColor(testType.testResult)"
               >
                 {{ testType.testResult }}
               </ion-text>
               <ion-text
                 *ngIf="haveProhibition(testType)"
-                class="test-result ion-text-capitalize ion-color-dark"
+                class="test-result ion-text-uppercase ion-color-dark"
               >
                 PROHIBITION
               </ion-text>

@@ -1,0 +1,15 @@
+:host {
+  ion-button.done-button {
+    font-weight: var(--font-weight-bold);
+  }
+
+  button.cancel {
+    font-weight: var(--font-weight-normal);
+    color: var(--light);
+  }
+
+  .btn-remove-defect {
+    font-size: 16px;
+    color: var(--danger);
+  }
+}

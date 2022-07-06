@@ -306,12 +306,12 @@
             <ion-col size="auto" class="ion-text-start ion-text-wrap">
                 <span class="defect-ref">
                   <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
-                  <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
-                  <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+                  <span class="margin-left-quarter" *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                  <span class="margin-left-quarter" *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
                 </span>
                 <ion-badge
                   *ngIf="defect.deficiencyCategory"
-                  class="ion-text-capitalize defect-badge"
+                  class="ion-text-uppercase defect-badge margin-left-half"
                   [color]="getDeficiencyColor(defect.deficiencyCategory)"
                 >
                   {{ defect.deficiencyCategory }}

@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="vehicleTest.testTypeName"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="margin-left-half">
+      Defect category
+    </ion-title>
+  </ion-toolbar>
+  <ion-searchbar
+    (ionInput)="searchList($event)"
+    [(ngModel)]="searchVal"
+    showCancelButton="focus"
+    [placeholder]="appStrings.PLACEHOLDER_DEFECT_CAT"
+    #searchBar
+  >
+  </ion-searchbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list class="ion-text-wrap" *ngIf="filteredCategories.length > 0">
+    <ion-item
+      detail="true"
+      class="list-item-height"
+      *ngFor="let category of filteredCategories | byVehicleType: vehicleType; let last = last"
+      [lines]="last ? 'none' : 'inset'"
+      (click)="selectCategory(category)"
+    >
+      <span>
+        <h3>{{ category.imNumber }}. {{ category.imDescription }}</h3>
+      </span>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="filteredCategories.length === 0" class="no-result">
+    <h3>No results found</h3>
+    <span>Try searching for a different term or</span>
+    <span>picking from the list</span>
+  </div>
+</ion-content>

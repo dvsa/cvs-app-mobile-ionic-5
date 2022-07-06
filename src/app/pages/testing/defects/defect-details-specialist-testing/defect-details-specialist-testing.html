@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onCancel()" color="light">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Defect details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="done-button" (click)="onDone()">
+        Done
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding content-background-color-grey">
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider class="content-background-color-grey">REFERENCE NUMBER</ion-item-divider>
+      <ion-item
+        lines="none"
+        [ngClass]="{'error-incomplete-item': errorIncomplete && !defect.referenceNumber}"
+      >
+        <ion-input
+          autocapitalize="on"
+          placeholder="Enter"
+          type="text"
+          [(ngModel)]="defect.referenceNumber"
+          (ngModelChange)="onInputChange('referenceNumber', 10, $event)"
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider class="content-background-color-grey">DEFECT NAME</ion-item-divider>
+      <ion-item
+        lines="none"
+        [ngClass]="{'error-incomplete-item': errorIncomplete && !defect.defectName}"
+      >
+        <ion-input
+          autocapitalize="on"
+          placeholder="Enter"
+          type="text"
+          [(ngModel)]="defect.defectName"
+          (ngModelChange)="onInputChange('defectName', 200, $event)"
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider class="content-background-color-grey">DEFECT NOTES</ion-item-divider>
+      <ion-item lines="none">
+        <ion-textarea
+          autocapitalize="on"
+          placeholder="Add notes"
+          rows="5"
+          [(ngModel)]="defect.defectNotes"
+          (ngModelChange)="onInputChange('defectNotes', 200, $event)"
+        ></ion-textarea>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="isEdit">
+      <ion-item-divider class="content-background-color-grey"></ion-item-divider>
+      <ion-item
+        lines="none"
+        detail="false"
+        class="btn-remove-defect"
+        (click)="onRemoveDefect()"
+      >
+        Remove defect
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

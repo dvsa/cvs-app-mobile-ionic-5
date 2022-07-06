@@ -38,6 +38,9 @@ import { NotifiableAlterationTestTypesData } from '@assets/app-data/test-types-d
 import { AnalyticsService } from '@providers/global';
 import { Router } from '@angular/router';
 import { EventsService } from '@providers/events/events.service';
+import {
+  DefectDetailsSpecialistTestingPage
+} from '@app/pages/testing/defects/defect-details-specialist-testing/defect-details-specialist-testing';
 
 @Component({
   selector: 'page-test-complete',
@@ -455,7 +458,7 @@ export class TestCompletePage implements OnInit {
   }
 
   async addDefect(): Promise<void> {
-    await this.router.navigate(['AddDefectCategoryPage'], {
+    await this.router.navigate([PAGE_NAMES.ADD_DEFECT_CATEGORY_PAGE], {
       state: {
         vehicleType: this.vehicle.techRecord.vehicleType,
         vehicleTest: this.vehicleTest,
@@ -467,7 +470,7 @@ export class TestCompletePage implements OnInit {
 
   async openDefect(defect: DefectDetailsModel): Promise<void> {
     if (defect.deficiencyCategory.toLowerCase() !== DEFICIENCY_CATEGORY.ADVISORY.toLowerCase()) {
-      await this.router.navigate(['DefectDetailsPage'], {
+      await this.router.navigate([PAGE_NAMES.DEFECT_DETAILS_PAGE], {
         state: {
           vehicleTest: this.vehicleTest,
           deficiency: defect,
@@ -476,7 +479,7 @@ export class TestCompletePage implements OnInit {
         }
       });
     } else {
-      await this.router.navigate(['AdvisoryDetailsPage'], {
+      await this.router.navigate([PAGE_NAMES.ADVISORY_DETAILS_PAGE], {
         state: {
           vehicleTest: this.vehicleTest,
           advisory: defect,
@@ -614,18 +617,21 @@ export class TestCompletePage implements OnInit {
       : this.patterns.NUMERIC;
   }
 
-  toSpecialistDefectDetailsPage(
+  async toSpecialistDefectDetailsPage(
     isEditMode: boolean,
     defectIndex?: number,
     defect?: SpecialistCustomDefectModel
-  ): void {
-    // const MODAL = this.modalCtrl.create(PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING, {
-    //   isEdit: isEditMode,
-    //   defectIndex: isEditMode ? defectIndex : null,
-    //   defect: isEditMode ? defect : ({} as SpecialistCustomDefectModel),
-    //   testType: this.vehicleTest,
-    //   errorIncomplete: this.errorIncomplete
-    // });
-    // MODAL.present();
+  ): Promise<void> {
+    const MODAL = await this.modalCtrl.create({
+      component: DefectDetailsSpecialistTestingPage,
+      componentProps: {
+        isEdit: isEditMode,
+        defectIndex: isEditMode ? defectIndex : null,
+        defect: isEditMode ? defect : ({} as SpecialistCustomDefectModel),
+        testType: this.vehicleTest,
+        errorIncomplete: this.errorIncomplete
+      }
+    });
+    await MODAL.present();
   }
 }

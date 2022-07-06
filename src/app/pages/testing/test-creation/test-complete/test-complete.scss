@@ -74,7 +74,9 @@
     }
 
     h3.defect-name {
-      font-weight: bold;
+      font-weight: var(--font-weight-semi-bold);
+      font-size: var(--font-size-medium);
+      color: var(--dark);
     }
   }
 
@@ -100,7 +102,9 @@
   }
 
   .parent-info-color {
+    margin-top: 10px;
     color: var(--color-grey-1);
+    font-size: var(--font-size-small);
   }
 
   .truncate-text {

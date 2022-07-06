@@ -55,7 +55,7 @@ describe('Provider: DefectsService', () => {
   });
 
   it('should return badge\'s correct color', () => {
-    expect(defectsService.getBadgeColor(DEFICIENCY_CATEGORY.MINOR)).toBe(APP_COLORS.ATTENTION);
+    expect(defectsService.getBadgeColor(DEFICIENCY_CATEGORY.MINOR)).toBe(APP_COLORS.WARNING);
     expect(defectsService.getBadgeColor(DEFICIENCY_CATEGORY.MAJOR)).toBe(APP_COLORS.DANGER);
     expect(defectsService.getBadgeColor(DEFICIENCY_CATEGORY.DANGEROUS)).toBe(APP_COLORS.DARK);
     expect(defectsService.getBadgeColor(DEFICIENCY_CATEGORY.ADVISORY)).toBe(APP_COLORS.LIGHT);

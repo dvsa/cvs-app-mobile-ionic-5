@@ -147,6 +147,42 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/test-abandonment/test-abandon/test-abandon.module')
         .then( m => m.TestAbandonModule)
+  },
+  {
+    path: PAGE_NAMES.ADD_DEFECT_CATEGORY_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/add-defect-category/add-defect-category.module')
+        .then( m => m.AddDefectCategoryModule)
+  },
+  {
+    path: PAGE_NAMES.ADD_DEFECT_ITEM_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/add-defect-item/add-defect-item.module')
+        .then( m => m.AddDefectItemModule)
+  },
+  {
+    path: PAGE_NAMES.ADD_DEFECT_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/add-defect/add-defect.module')
+        .then( m => m.AddDefectModule)
+  },
+  {
+    path: PAGE_NAMES.ADVISORY_DETAILS_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/advisory-details/advisory-details.module')
+        .then( m => m.AdvisoryDetailsModule)
+  },
+  {
+    path: PAGE_NAMES.DEFECT_DETAILS_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/defect-details/defect-details.module')
+        .then( m => m.DefectDetailsModule)
+  },
+  {
+    path: PAGE_NAMES.DEFECT_DETAILS_SPECIALIST_TESTING_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/defects/defect-details-specialist-testing/defect-details-specialist-testing.module')
+        .then( m => m.DefectDetailsSpecialistTestingModule)
   }
 ];
 
