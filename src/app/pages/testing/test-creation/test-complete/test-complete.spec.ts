@@ -368,30 +368,29 @@ describe('Component: TestCompletePage', () => {
     expect(comp.isNotesIncompleteError).toBeTruthy();
   });
 
-  // TODO reintroduce this with ticket VTA-XXX
-  // it('should test openInputModalDismissHandler logic', () => {
-  //   comp.vehicleTest = VEHICLE_TEST;
-  //   comp.openInputModalDismissHandler(
-  //     TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0],
-  //     {
-  //       fromTestReview: false,
-  //       errorIncomplete: false
-  //     }
-  //   );
-  //   expect(comp.errorIncomplete).toBeFalsy();
-  // });
+  it('should test openInputModalDismissHandler logic', () => {
+    comp.vehicleTest = VEHICLE_TEST;
+    comp.openInputModalDismissHandler(
+      TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0],
+      {
+        fromTestReview: false,
+        errorIncomplete: false
+      }
+    );
+    expect(comp.errorIncomplete).toBeFalsy();
+  });
 
-  // TODO reintroduce this with ticket VTA-XXX
-  // it('should test openInputPage logic', () => {
-  //   comp.vehicleTest = VEHICLE_TEST;
-  //   comp.testTypeDetails = TestTypeMetadataMock.TestTypeMetadata;
-  //   comp.completedFields = {};
-  //   comp.openInputPage(
-  //     TestTypeMetadataMock.TestTypeMetadata.sections[0],
-  //     TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]
-  //   );
-  //   expect(modalCtrl.create).toHaveBeenCalled();
-  // });
+  it('should test openInputPage logic', () => {
+    spyOn(modalCtrl, 'create');
+    comp.vehicleTest = VEHICLE_TEST;
+    comp.testTypeDetails = TestTypeMetadataMock.TestTypeMetadata;
+    comp.completedFields = {};
+    comp.openInputPage(
+      TestTypeMetadataMock.TestTypeMetadata.sections[0],
+      TestTypeMetadataMock.TestTypeMetadata.sections[0].inputs[0]
+    );
+    expect(modalCtrl.create).toHaveBeenCalled();
+  });
 
   it('should take only the first 6 digits from a string and assign them to the ' +
     'certificate number and only the first 5 for TIR tests and only the first 20 for specialist tests', () => {

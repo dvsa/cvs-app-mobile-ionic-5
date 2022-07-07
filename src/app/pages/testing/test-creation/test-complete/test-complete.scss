@@ -11,7 +11,7 @@
     opacity: unset;
   }
 
-  h3[item-end].current-value {
+  h3.current-value {
     margin-bottom: 8px;
   }
 
@@ -28,23 +28,15 @@
     font-size: var(--item-ios-divider-font-size);
   }
 
-  ion-grid.certificateNumberCustom {
-    padding: unset;
-    background-color: var(--light);
-  }
-
-  ion-col[col-2].certificateNumberCustom-label {
+  ion-col.certificateNumberCustom-label {
     display: flex;
     align-items: center;
     justify-content: center;
     border-right: 1px solid var(--color-grey-2);
-  }
-
-  ion-col[col-10].certificateNumberCustom-input {
     padding-left: 16px;
   }
 
-  h3[item-end].current-value.no-data {
+  h3.current-value.no-data {
     color: var(--color-grey-2);
   }
 
@@ -78,6 +70,10 @@
       font-size: var(--font-size-medium);
       color: var(--dark);
     }
+  }
+
+  span.notes-required {
+    padding-left: 3px;
   }
 
   .item-ios ion-icon[item-start] {
@@ -167,8 +163,9 @@
     color: var(--danger);
   }
 
-  .adr-notes-details {
+  ion-item-group p.adr-notes-details {
     color: var(--color-grey-1);
+    padding-left: 20px;
   }
 
   .expiry-date-datetime .datetime-text.datetime-placeholder {
@@ -186,6 +183,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  ion-grid.certificateNumberCustom {
+    padding: unset;
+    background-color: var(--light);
   }
 
   .custom-defects-divider {
