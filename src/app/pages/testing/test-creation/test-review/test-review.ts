@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  Alert,
   AlertController,
-  IonicPage,
-  Loading,
   LoadingController,
   ModalController,
   NavController,
-  NavParams,
-  ViewController
-} from 'ionic-angular';
-import { VisitModel } from '../../../../models/visit/visit.model';
-import { CommonFunctionsService } from '../../../../providers/utils/common-functions';
+} from '@ionic/angular';
+import { VisitModel } from '@models/visit/visit.model';
+import { CommonFunctionsService } from '@providers/utils/common-functions';
 import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENTS,
@@ -29,34 +24,37 @@ import {
   TEST_TYPE_RESULTS,
   TIR_CERTIFICATE_NUMBER_PREFIXES,
   VEHICLE_TYPE
-} from '../../../../app/app.enums';
-import { VehicleModel } from '../../../../models/vehicle/vehicle.model';
-import { VehicleService } from '../../../../providers/vehicle/vehicle.service';
-import { TestTypesFieldsMetadata } from '../../../../assets/app-data/test-types-data/test-types-fields.metadata';
-import { TestTypeModel } from '../../../../models/tests/test-type.model';
-import { TestModel } from '../../../../models/tests/test.model';
-import { TestResultService } from '../../../../providers/test-result/test-result.service';
-import { TestService } from '../../../../providers/test/test.service';
-import { Observable } from 'rxjs';
-import { OpenNativeSettings } from '@ionic-native/open-native-settings';
-import { VisitService } from '../../../../providers/visit/visit.service';
+} from '@app/app.enums';
+import { VehicleModel } from '@models/vehicle/vehicle.model';
+import { VehicleService } from '@providers/vehicle/vehicle.service';
+import { TestTypesFieldsMetadata } from '@assets/app-data/test-types-data/test-types-fields.metadata';
+import { TestTypeModel } from '@models/tests/test-type.model';
+import { TestModel } from '@models/tests/test.model';
+import { TestResultService } from '@providers/test-result/test-result.service';
+import { TestService } from '@providers/test/test.service';
+import { forkJoin, Observable, throwError } from 'rxjs';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+import { VisitService } from '@providers/visit/visit.service';
 import { catchError } from 'rxjs/operators';
-import { StorageService } from '../../../../providers/natives/storage.service';
-import { DefectsService } from '../../../../providers/defects/defects.service';
-import { AuthenticationService } from '../../../../providers/auth/authentication/authentication.service';
-import { ActivityService } from '../../../../providers/activity/activity.service';
-import { TestResultModel } from '../../../../models/tests/test-result.model';
-import { RoadworthinessTestTypesData } from '../../../../assets/app-data/test-types-data/roadworthiness-test-types.data';
-import { AdrTestTypesData } from '../../../../assets/app-data/test-types-data/adr-test-types.data';
-import { AppService, AnalyticsService } from '../../../../providers/global';
-import { TirTestTypesData } from '../../../../assets/app-data/test-types-data/tir-test-types.data';
-import { TestTypeService } from '../../../../providers/test-type/test-type.service';
-import { LogsProvider } from '../../../../modules/logs/logs.service';
+import { StorageService } from '@providers/natives/storage.service';
+import { DefectsService } from '@providers/defects/defects.service';
+import { AuthenticationService } from '@providers/auth/authentication/authentication.service';
+import { ActivityService } from '@providers/activity/activity.service';
+import { TestResultModel } from '@models/tests/test-result.model';
+import { RoadworthinessTestTypesData } from '@assets/app-data/test-types-data/roadworthiness-test-types.data';
+import { AdrTestTypesData } from '@assets/app-data/test-types-data/adr-test-types.data';
+import { AppService, AnalyticsService } from '@providers/global';
+import { TirTestTypesData } from '@assets/app-data/test-types-data/tir-test-types.data';
+import { TestTypeService } from '@providers/test-type/test-type.service';
+import { LogsProvider } from '@store/logs/logs.service';
+import { Router } from '@angular/router';
+import { TestCompletePage } from '@app/pages/testing/test-creation/test-complete/test-complete';
+import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
 
-@IonicPage()
 @Component({
   selector: 'page-test-review',
-  templateUrl: 'test-review.html'
+  templateUrl: 'test-review.html',
+  styleUrls: ['test-review.scss']
 })
 export class TestReviewPage implements OnInit {
   VEHICLE_TYPE: typeof VEHICLE_TYPE = VEHICLE_TYPE;
@@ -67,7 +65,7 @@ export class TestReviewPage implements OnInit {
   dateFormat;
   testTypeResults: typeof TEST_TYPE_RESULTS = TEST_TYPE_RESULTS;
   deficiencyCategory;
-  submitInProgress: boolean = false;
+  submitInProgress = false;
   isTestSubmitted: string;
   vehicleBeingReviewed: number;
   vehicle: VehicleModel;
@@ -75,13 +73,12 @@ export class TestReviewPage implements OnInit {
   adrTestTypesIds: string[] = AdrTestTypesData.AdrTestTypesDataIds;
   tirTestTypesIds: string[] = TirTestTypesData.TirTestTypesDataIds;
   TIR_CERTIFICATE_NUMBER_PREFIXES: typeof TIR_CERTIFICATE_NUMBER_PREFIXES = TIR_CERTIFICATE_NUMBER_PREFIXES;
+  backButtonText: string;
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams,
     public visitService: VisitService,
     public commonFunctions: CommonFunctionsService,
-    public viewCtrl: ViewController,
     public defectsService: DefectsService,
     private vehicleService: VehicleService,
     private modalCtrl: ModalController,
@@ -96,16 +93,10 @@ export class TestReviewPage implements OnInit {
     private activityService: ActivityService,
     public appService: AppService,
     private testTypeService: TestTypeService,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    private router: Router,
+    private nativePageTransitions: NativePageTransitions
   ) {
-    this.visit = this.visitService.visit;
-    this.latestTest = this.visitService.getLatestTest();
-
-    this.vehicleBeingReviewed = this.navParams.get('vehicleBeingReviewed') || 0;
-    this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
-    this.vehicle.testTypes.forEach(testType => {
-      this.testTypeService.fixDateFormatting(testType);
-    });
   }
 
   ngOnInit(): void {
@@ -113,18 +104,28 @@ export class TestReviewPage implements OnInit {
     this.dateFormat = DATE_FORMAT;
     this.testTypeResults = TEST_TYPE_RESULTS;
     this.deficiencyCategory = DEFICIENCY_CATEGORY;
+    this.visit = this.visitService.visit;
+    this.latestTest = this.visitService.getLatestTest();
+
+    this.vehicleBeingReviewed = this.router.getCurrentNavigation().extras.state.vehicleBeingReviewed || 0;
+    this.backButtonText = this.router.getCurrentNavigation().extras.state.backButtonText;
+    this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
+    this.vehicle.testTypes.forEach(testType => {
+      this.testTypeService.fixDateFormatting(testType);
+    });
     this.storageService.watchStorage().subscribe(() => {
       this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
-      this.isTestSubmitted
-        ? this.viewCtrl.showBackButton(false)
-        : this.viewCtrl.showBackButton(true);
+      // @TODO - fix this in html
+      // this.isTestSubmitted
+      //   ? this.viewCtrl.showBackButton(false)
+      //   : this.viewCtrl.showBackButton(true);
     });
 
-    this.viewCtrl.setBackButtonText(this.navParams.get('backButtonText') || APP_STRINGS.TEST);
+    // this.viewCtrl.setBackButtonText(this.navParams.get('backButtonText') || APP_STRINGS.TEST);
   }
 
-  ionViewDidEnter() {
-    this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_REVIEW);
+  async ionViewDidEnter() {
+    await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_REVIEW);
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
@@ -132,7 +133,7 @@ export class TestReviewPage implements OnInit {
   }
 
   getOdometerStringToBeDisplayed(vehicle) {
-    let unit = vehicle.odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
+    const unit = vehicle.odometerMetric === ODOMETER_METRIC.KILOMETRES ? 'km' : 'mi';
     return vehicle.odometerReading
       ? this.vehicleService.formatOdometerReadingValue(vehicle.odometerReading) + ' ' + unit
       : '';
@@ -154,8 +155,8 @@ export class TestReviewPage implements OnInit {
   }
 
   getTestTypeOptionalFieldsToDisplay(testType: TestTypeModel, field) {
-    let testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
-    for (let testTypeFieldMetadata of testTypesFieldsMetadata) {
+    const testTypesFieldsMetadata = TestTypesFieldsMetadata.FieldsMetadata;
+    for (const testTypeFieldMetadata of testTypesFieldsMetadata) {
       if (testType.testTypeId === testTypeFieldMetadata.testTypeId) {
         return field === 'defects'
           ? testTypeFieldMetadata.hasDefects
@@ -166,24 +167,27 @@ export class TestReviewPage implements OnInit {
     }
   }
 
-  /**
-   * Opens a test overview page as a modal (sliding from bottom)
-   */
-  openTestDetailsPage(vehicle, testType) {
-    let initialTestType = this.commonFunctions.cloneObject(testType);
+  async openTestDetailsPage(vehicle, testType) {
+    const initialTestType = this.commonFunctions.cloneObject(testType);
     this.completeFields(testType);
-    const MODAL = this.modalCtrl.create(PAGE_NAMES.COMPLETE_TEST_PAGE, {
-      vehicle: vehicle,
-      vehicleTest: testType,
-      completedFields: this.completedFields,
-      fromTestReview: true
+    const MODAL = await this.modalCtrl.create({
+      component: TestCompletePage,
+      componentProps: {
+        vehicle,
+        vehicleTest: testType,
+        completedFields: this.completedFields,
+        fromTestReview: true
+      }
     });
-    MODAL.onDidDismiss((data) => this.checkMissingTestTypeMandatoryFields(data, initialTestType));
-    MODAL.present();
+    await MODAL.present();
+    const { data } = await MODAL.onDidDismiss();
+    if (data) {
+      await this.checkMissingTestTypeMandatoryFields(data, initialTestType);
+    }
   }
 
-  popToTestCreatePage() {
-    this.navCtrl.popTo(this.navCtrl.getViews().find((view) => view.id === 'TestCreatePage'));
+  async goBackToTestCreatePage() {
+    await this.navCtrl.navigateBack([PAGE_NAMES.TEST_CREATE_PAGE]);
   }
 
   isSpecialistTestTypeCompleted(
@@ -216,15 +220,10 @@ export class TestReviewPage implements OnInit {
     return true;
   }
 
-  /**
-   * Contains the mandatory fields logic used to pop to test-create page
-   * @param changedTestType
-   * @param initialTestType
-   */
-  checkMissingTestTypeMandatoryFields(
+  async checkMissingTestTypeMandatoryFields(
     changedTestType: TestTypeModel,
     initialTestType: TestTypeModel
-  ): void {
+  ): Promise<void> {
     if (this.adrTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
       if (
         changedTestType.testResult === TEST_TYPE_RESULTS.PASS &&
@@ -232,7 +231,7 @@ export class TestReviewPage implements OnInit {
           (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 6) ||
           !changedTestType.testExpiryDate)
       ) {
-        this.popToTestCreatePage();
+        await this.goBackToTestCreatePage();
       }
     } else if (this.testTypeService.isTirTestType(initialTestType.testTypeId)) {
       if (
@@ -240,13 +239,13 @@ export class TestReviewPage implements OnInit {
         (!changedTestType.certificateNumber ||
           (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 5))
       ) {
-        this.popToTestCreatePage();
+        await this.goBackToTestCreatePage();
       }
     } else if (!this.isSpecialistTestTypeCompleted(changedTestType, initialTestType)) {
-      this.popToTestCreatePage();
+      await this.goBackToTestCreatePage();
     } else {
       if (initialTestType.certificateNumber && !changedTestType.certificateNumber) {
-        this.popToTestCreatePage();
+        await this.goBackToTestCreatePage();
       }
     }
   }
@@ -255,27 +254,36 @@ export class TestReviewPage implements OnInit {
    * Handler for the next button
    * Go to next vehicle if there are vehicles left, otherwise submit test
    */
-  goToNextPage() {
-    if (this.vehicleBeingReviewed < this.latestTest.vehicles.length - 1)
-      this.navCtrl.push(PAGE_NAMES.TEST_REVIEW_PAGE, {
-        vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
-        backButtonText: this.title
+  async goToNextPage() {
+    if (this.vehicleBeingReviewed < this.latestTest.vehicles.length - 1) {
+      //non-async so animation is correct
+      this.nativePageTransitions.slide({
+        direction: 'left',
+        duration: 200,
       });
-    else this.presentConfirmAlert();
+      await this.router.navigate([PAGE_NAMES.TEST_REVIEW_PAGE], {
+        state: {
+          vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
+          backButtonText: this.title
+        }
+      });
+    } else {
+      await this.presentConfirmAlert();
+    }
   }
 
-  goToTestCreatePage() {
-    this.navCtrl.push(PAGE_NAMES.TEST_CREATE_PAGE);
+  async goToTestCreatePage() {
+    await this.router.navigate([PAGE_NAMES.TEST_CREATE_PAGE]);
   }
 
   /**
    * Handler for the submit button
    * This will display the alert to confirm the test submission
    */
-  presentConfirmAlert() {
+  async presentConfirmAlert() {
     if (!this.submitInProgress) {
-      const ALERT = this.alertCtrl.create({
-        title: APP_STRINGS.SUBMIT_TEST,
+      const ALERT = await this.alertCtrl.create({
+        header: APP_STRINGS.SUBMIT_TEST,
         message: APP_STRINGS.SUBMIT_TEST_MESSAGE,
         buttons: [
           {
@@ -286,17 +294,17 @@ export class TestReviewPage implements OnInit {
           },
           {
             text: APP_STRINGS.SUBMIT,
-            handler: () => {
+            handler: async () => {
               this.storageService.setItem(LOCAL_STORAGE.IS_TEST_SUBMITTED, 'true');
               this.submitInProgress = true;
               this.latestTest.status = TEST_REPORT_STATUSES.SUBMITTED;
               this.testService.endTestReport(this.latestTest);
-              this.onSubmit(this.latestTest);
+              await this.onSubmit(this.latestTest);
             }
           }
         ]
       });
-      ALERT.present();
+      await ALERT.present();
     }
   }
 
@@ -304,38 +312,39 @@ export class TestReviewPage implements OnInit {
    * Before submitting all the tests, check if the visit is still open or if it was closed from the backend.
    * If the visit is open, proceed. If closed, show popup and clean up.
    */
-  onSubmit(test: TestModel): void {
-    const LOADING = this.loadingCtrl.create({
-      content: 'Loading...'
+  async onSubmit(test: TestModel): Promise<void> {
+    const LOADING = await this.loadingCtrl.create({
+      message: 'Loading...'
     });
-    LOADING.present();
+    await LOADING.present();
 
-    const TRY_AGAIN_ALERT = this.alertCtrl.create({
-      title: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
+    const TRY_AGAIN_ALERT = await this.alertCtrl.create({
+      header: APP_STRINGS.UNABLE_TO_SUBMIT_TESTS_TITLE,
       message: APP_STRINGS.NO_INTERNET_CONNECTION,
       buttons: [
         {
           text: APP_STRINGS.SETTINGS_BTN,
-          handler: () => {
-            this.openNativeSettings.open('settings');
+          handler: async () => {
+            await this.openNativeSettings.open('settings');
           }
         },
         {
           text: APP_STRINGS.TRY_AGAIN_BTN,
-          handler: () => {
-            this.onSubmit(test);
+          handler: async () => {
+            await this.onSubmit(test);
           }
         }
       ]
     });
-    TRY_AGAIN_ALERT.onDidDismiss(() => {
+    const didDismiss = await TRY_AGAIN_ALERT.onDidDismiss();
+    if (didDismiss) {
       this.submitInProgress = false;
-    });
+    }
 
     this.activityService.isVisitStillOpen().subscribe(
-      (response) => {
+      async (response) => {
         if (response && response.body === false) {
-          this.visitService.createDataClearingAlert(LOADING).present();
+          await this.visitService.createDataClearingAlert(LOADING);
           const { oid } = this.authenticationService.tokenInfo;
           this.logProvider.dispatchLog({
             type: 'activityService.isVisitStillOpen in test-review.ts',
@@ -346,9 +355,9 @@ export class TestReviewPage implements OnInit {
           this.submitTests(test, LOADING, TRY_AGAIN_ALERT);
         }
       },
-      (isVisitStillOpenError) => {
-        LOADING.dismiss();
-        TRY_AGAIN_ALERT.present();
+      async (isVisitStillOpenError) => {
+        await LOADING.dismiss();
+        await TRY_AGAIN_ALERT.present();
       }
     );
   }
@@ -358,14 +367,14 @@ export class TestReviewPage implements OnInit {
    * For each vehicle, this creates a separate call to test-results
    *
    */
-  submitTests(test: TestModel, LOADING: Loading, TRY_AGAIN_ALERT: Alert): void {
+  submitTests(test: TestModel, LOADING: HTMLIonLoadingElement, TRY_AGAIN_ALERT: HTMLIonAlertElement): void {
     const { oid } = this.authenticationService.tokenInfo;
-    let stack: Observable<any>[] = [];
-    let testResultsArr: TestResultModel[] = [];
+    const stack: Observable<any>[] = [];
+    const testResultsArr: TestResultModel[] = [];
     let activitiesSubmitted = true;
 
-    for (let vehicle of test.vehicles) {
-      let testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
+    for (const vehicle of test.vehicles) {
+      const testResult = this.testResultService.createTestResult(this.visit, test, vehicle);
       testResultsArr.push(testResult);
       stack.push(
         this.testResultService.submitTestResult(testResult).pipe(
@@ -378,13 +387,13 @@ export class TestReviewPage implements OnInit {
               timestamp: Date.now()
             });
 
-            return Observable.throw(error);
+            return throwError(error);
           })
         )
       );
     }
 
-    Observable.forkJoin(stack).subscribe(
+    forkJoin(stack).subscribe(
       async (response: any) => {
         this.logProvider.dispatchLog({
           type: 'info',
@@ -397,7 +406,7 @@ export class TestReviewPage implements OnInit {
           event: ANALYTICS_EVENTS.SUBMIT_TEST
         });
 
-        for (let testResult of testResultsArr) {
+        for (const testResult of testResultsArr) {
           const activity = this.activityService.createActivityBodyForCall(
             this.visitService.visit,
             testResult,
@@ -411,29 +420,30 @@ export class TestReviewPage implements OnInit {
             });
           }
           this.activityService.submitActivity(activity).subscribe(
-            (resp) => {
+            async (resp) => {
               this.logProvider.dispatchLog({
                 type: LOG_TYPES.INFO,
                 message: `${oid} - ${resp.status} ${resp.statusText} for API call to ${resp.url}`,
                 timestamp: Date.now()
               });
 
-              let activityIndex = this.activityService.activities
-                .map((activity) => activity.endTime)
+              const activityIndex = this.activityService.activities
+                .map((act) => activity.endTime)
                 .indexOf(testResult.testStartTimestamp);
-              if (activityIndex > -1)
+              if (activityIndex > -1) {
                 this.activityService.activities[activityIndex].id = resp.body.id;
-              this.activityService.updateActivities();
-              this.visitService.updateVisit();
+              }
+              await this.activityService.updateActivities();
+              await this.visitService.updateVisit();
             },
-            (error) => {
+            async (error) => {
               this.logProvider.dispatchLog({
                 type: `${LOG_TYPES.ERROR}-activityService.submitActivity in submit-test-review.ts`,
                 message: `${oid} - ${JSON.stringify(error)}`,
                 timestamp: Date.now()
               });
               activitiesSubmitted = false;
-              this.trackErrorOnTestSubmission(ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED);
+              await this.trackErrorOnTestSubmission(ANALYTICS_VALUE.WAIT_ACTIVITY_SUBMISSION_FAILED);
             }
           );
         }
@@ -441,8 +451,10 @@ export class TestReviewPage implements OnInit {
         if (activitiesSubmitted) {
           this.storageService.removeItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
           this.submitInProgress = false;
-          await this.navCtrl.push(PAGE_NAMES.CONFIRMATION_PAGE, {
-            testerEmailAddress: this.visit.testerEmail
+          await this.router.navigate([PAGE_NAMES.CONFIRMATION_PAGE], {
+            state: {
+              testerEmailAddress: this.visit.testerEmail
+            }
           });
         } else {
           await TRY_AGAIN_ALERT.present();

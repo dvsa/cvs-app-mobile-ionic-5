@@ -5,21 +5,21 @@ import { StateReformingServiceMock } from '@test-config/services-mocks/state-ref
 import { AlertControllerMock } from 'ionic-mocks';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {APP_STRINGS, PAGE_NAMES} from '@app/app.enums';
-import {VisitConfirmationPage} from "@app/pages/visit/visit-confirmation/visit-confirmation";
-import {RouterTestingModule} from "@angular/router/testing";
-import {Router} from "@angular/router";
-import {TestStationHomePage} from "@app/pages/test-station/test-station-home/test-station-home";
+import { APP_STRINGS, PAGE_NAMES } from '@app/app.enums';
+import { ConfirmationPage } from '@app/pages/visit/confirmation/confirmation';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import {TestStationHomePage } from '@app/pages/test-station/test-station-home/test-station-home';
 
 describe('Component: ConfirmationPage', () => {
-  let comp: VisitConfirmationPage;
-  let fixture: ComponentFixture<VisitConfirmationPage>;
+  let comp: ConfirmationPage;
+  let fixture: ComponentFixture<ConfirmationPage>;
   let alertCtrl: AlertController;
   let router: Router;
 
   beforeEach( () => {
      TestBed.configureTestingModule({
-      declarations: [VisitConfirmationPage],
+      declarations: [ConfirmationPage],
        imports: [
          RouterTestingModule.withRoutes([
            {
@@ -38,7 +38,7 @@ describe('Component: ConfirmationPage', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VisitConfirmationPage);
+    fixture = TestBed.createComponent(ConfirmationPage);
     comp = fixture.componentInstance;
     router = TestBed.inject(Router);
     alertCtrl = TestBed.inject(AlertController);

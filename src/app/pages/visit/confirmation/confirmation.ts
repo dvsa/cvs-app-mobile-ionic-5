@@ -1,18 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import { AlertController } from '@ionic/angular';
-import {APP_STRINGS, PAGE_NAMES} from '@app/app.enums';
+import { AlertController, NavController } from '@ionic/angular';
+import { APP_STRINGS, PAGE_NAMES } from '@app/app.enums';
 import { StateReformingService } from '@providers/global/state-reforming.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-
-import {default as AppConfig} from '@config/application.hybrid';
-import {Router} from "@angular/router";
+import { default as AppConfig } from '@config/application.hybrid';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'page-visit-confirmation',
-  templateUrl: 'visit-confirmation.html',
-  styleUrls: ['visit-confirmation.scss']
+  selector: 'page-confirmation',
+  templateUrl: 'confirmation.html',
+  styleUrls: ['confirmation.scss']
 })
-export class VisitConfirmationPage implements OnInit {
+export class ConfirmationPage implements OnInit {
   testStationName: string;
   testerEmailAddress: string;
   message: string;
@@ -24,6 +23,7 @@ export class VisitConfirmationPage implements OnInit {
     private alertCtrl: AlertController,
     private callNumber: CallNumber,
     private router: Router,
+    private navCtrl: NavController
   ) {
   }
 
@@ -47,14 +47,9 @@ export class VisitConfirmationPage implements OnInit {
     if (this.testStationName) {
       await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE]);
     } else if (this.testerEmailAddress) {
-      // TODO Reintroduce this alongside additional unit testing
-      // const views = this.navCtrl.getViews();
-      // for (let i = views.length - 1; i >= 0; i--) {
-        // if (views[i].component.name === PAGE_NAMES.VISIT_TIMELINE_PAGE) {
-          // this.stateReformingService.onTestReview();
-          // this.navCtrl.popTo(views[i]);
-        // }
-      // }
+      // @TODO - VTA-738
+      // this.stateReformingService.onTestReview();
+      await this.navCtrl.navigateBack([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
     }
   }
 

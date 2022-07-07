@@ -56,7 +56,7 @@ import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
 import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
-import { VisitConfirmationPage } from '@app/pages/visit/visit-confirmation/visit-confirmation';
+import { ConfirmationPage } from '@app/pages/visit/confirmation/confirmation';
 
 describe('Component: VisitTimelinePage', () => {
   let component: VisitTimelinePage;
@@ -136,8 +136,8 @@ describe('Component: VisitTimelinePage', () => {
             component: VehicleLookupPage
           },
           {
-            path: PAGE_NAMES.VISIT_CONFIRMATION_PAGE,
-            component: VisitConfirmationPage
+            path: PAGE_NAMES.CONFIRMATION_PAGE,
+            component: ConfirmationPage
           }
         ]),
       ],

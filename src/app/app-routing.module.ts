@@ -37,9 +37,9 @@ const routes: Routes = [
       .then( m => m.VisitTimelineModule)
   },
   {
-    path: PAGE_NAMES.VISIT_CONFIRMATION_PAGE,
-    loadChildren: () => import('./pages/visit/visit-confirmation/visit-confirmation.module')
-      .then( m => m.VisitConfirmationModule )
+    path: PAGE_NAMES.CONFIRMATION_PAGE,
+    loadChildren: () => import('./pages/visit/confirmation/confirmation.module')
+      .then( m => m.ConfirmationModule )
   },
   {
     path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,

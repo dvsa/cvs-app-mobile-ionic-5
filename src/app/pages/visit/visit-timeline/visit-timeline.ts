@@ -336,7 +336,7 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   /**
-   * removes items from local storage and navigates to the visit-confirmation page
+   * removes items from local storage and navigates to the confirmation page
    *
    * @return true when function has finished
    */
@@ -349,7 +349,11 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     this.activityService.activities = [];
     await this.showLoading('');
 
-    await this.router.navigate([PAGE_NAMES.VISIT_CONFIRMATION_PAGE], {state: {testStationName: this.visit.testStationName}});
+    await this.router.navigate([PAGE_NAMES.CONFIRMATION_PAGE], {
+      state: {
+        testStationName: this.visit.testStationName
+      }
+    });
     return true;
   }
 
