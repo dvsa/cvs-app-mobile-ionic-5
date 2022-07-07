@@ -1,8 +1,8 @@
 :host {
-  .content-ios {
+  ion-content {
     background-color: var(--color-grey-3);
 
-    .card-ios {
+    ion-card {
       margin-bottom: 32px;
 
       .ion-item-title {
@@ -28,20 +28,11 @@
         color: var(--primary);
       }
 
-      .bottom-divider {
-        border-top: 0.55px solid var(--color-grey-2);
-      }
-
       .test-field {
         padding: 16px 16px 16px 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-top: 0.55px solid var(--danger);//$list-ios-border-color;
-
-        &-no-border-top {
-          border-top: none;
-        }
 
         h3 {
           margin: 0;
@@ -63,12 +54,6 @@
       .defect-details {
         margin-top: 12px;
         margin-bottom: 12px;
-
-        &.border {
-          padding-bottom: 8px;
-          margin-bottom: 8px;
-          border-bottom: 0.55px var(--danger);//$list-ios-border-color;
-        }
 
         h3 {
           white-space: normal;
@@ -132,11 +117,16 @@
         font-size: var(--font-size-medium);
       }
 
-      .ion-align-items-end.odometer-reading-status,
-      .ion-align-items-end.country-of-registration-status,
-      .ion-align-items-end.vehicle-category-status {
+      .odometer-reading-status,
+      .country-of-registration-status,
+      .vehicle-category-status {
         font-size: var(--font-size-medium);
         margin: 2px;
+        color: var(--dark);
+        max-width: 110px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .ion-align-items-end.test-type-status.test-type-pass {
@@ -197,10 +187,10 @@
     background: none;
   }
 
-  .height-60 {
-    min-height: 60px;
-    background-color: var(--light);
-  }
+  //.height-60 {
+  //  min-height: 60px;
+  //  background-color: var(--light);
+  //}
 
   .item-block .item-inner {
     padding-right: 0;
@@ -218,12 +208,5 @@
 
   ion-item.ion-margin-start.bottom-divider.height-60 {
     padding-right: 32px;
-  }
-
-  .ion-align-items-end.ion-text-nowrap {
-    max-width: 110px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
