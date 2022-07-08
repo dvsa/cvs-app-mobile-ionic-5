@@ -47,7 +47,7 @@ import { AppService, AnalyticsService } from '@providers/global';
 import { TirTestTypesData } from '@assets/app-data/test-types-data/tir-test-types.data';
 import { TestTypeService } from '@providers/test-type/test-type.service';
 import { LogsProvider } from '@store/logs/logs.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TestCompletePage } from '@app/pages/testing/test-creation/test-complete/test-complete';
 import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
 
@@ -95,33 +95,30 @@ export class TestReviewPage implements OnInit {
     private testTypeService: TestTypeService,
     private logProvider: LogsProvider,
     private router: Router,
-    private nativePageTransitions: NativePageTransitions
+    private nativePageTransitions: NativePageTransitions,
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
-    this.appStrings = APP_STRINGS;
-    this.dateFormat = DATE_FORMAT;
-    this.testTypeResults = TEST_TYPE_RESULTS;
-    this.deficiencyCategory = DEFICIENCY_CATEGORY;
-    this.visit = this.visitService.visit;
-    this.latestTest = this.visitService.getLatestTest();
+    this.route.params.subscribe(val => {
+      this.appStrings = APP_STRINGS;
+      this.dateFormat = DATE_FORMAT;
+      this.testTypeResults = TEST_TYPE_RESULTS;
+      this.deficiencyCategory = DEFICIENCY_CATEGORY;
+      this.visit = this.visitService.visit;
+      this.latestTest = this.visitService.getLatestTest();
 
-    this.vehicleBeingReviewed = this.router.getCurrentNavigation().extras.state.vehicleBeingReviewed || 0;
-    this.backButtonText = this.router.getCurrentNavigation().extras.state.backButtonText;
-    this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
-    this.vehicle.testTypes.forEach(testType => {
-      this.testTypeService.fixDateFormatting(testType);
+      this.vehicleBeingReviewed = this.router.getCurrentNavigation().extras.state.vehicleBeingReviewed || 0;
+      this.backButtonText = this.router.getCurrentNavigation().extras.state.backButtonText;
+      this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
+      this.vehicle.testTypes.forEach(testType => {
+        this.testTypeService.fixDateFormatting(testType);
+      });
+      this.storageService.watchStorage().subscribe(() => {
+        this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
+      });
     });
-    this.storageService.watchStorage().subscribe(() => {
-      this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
-      // @TODO - fix this in html
-      // this.isTestSubmitted
-      //   ? this.viewCtrl.showBackButton(false)
-      //   : this.viewCtrl.showBackButton(true);
-    });
-
-    // this.viewCtrl.setBackButtonText(this.navParams.get('backButtonText') || APP_STRINGS.TEST);
   }
 
   async ionViewDidEnter() {
@@ -256,6 +253,8 @@ export class TestReviewPage implements OnInit {
    */
   async goToNextPage() {
     if (this.vehicleBeingReviewed < this.latestTest.vehicles.length - 1) {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
       //non-async so animation is correct
       this.nativePageTransitions.slide({
         direction: 'left',
@@ -336,10 +335,6 @@ export class TestReviewPage implements OnInit {
         }
       ]
     });
-    const didDismiss = await TRY_AGAIN_ALERT.onDidDismiss();
-    if (didDismiss) {
-      this.submitInProgress = false;
-    }
 
     this.activityService.isVisitStillOpen().subscribe(
       async (response) => {
@@ -357,9 +352,17 @@ export class TestReviewPage implements OnInit {
       },
       async (isVisitStillOpenError) => {
         await LOADING.dismiss();
-        await TRY_AGAIN_ALERT.present();
+        await this.showTryAgainAlert(TRY_AGAIN_ALERT);
       }
     );
+  }
+
+  async showTryAgainAlert(TRY_AGAIN_ALERT) {
+    await TRY_AGAIN_ALERT.present();
+    const didDismiss = await TRY_AGAIN_ALERT.onDidDismiss();
+    if (didDismiss) {
+      this.submitInProgress = false;
+    }
   }
 
   /**
@@ -457,13 +460,12 @@ export class TestReviewPage implements OnInit {
             }
           });
         } else {
-          await TRY_AGAIN_ALERT.present();
+          await this.showTryAgainAlert(TRY_AGAIN_ALERT);
         }
       },
       async (error) => {
         await LOADING.dismiss();
-        await TRY_AGAIN_ALERT.present();
-
+        await this.showTryAgainAlert(TRY_AGAIN_ALERT);
         await this.trackErrorOnTestSubmission(ANALYTICS_VALUE.TEST_SUBMISSION_FAILED);
       }
     );
