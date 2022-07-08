@@ -26,7 +26,7 @@ import { TestStationSearchPage } from '@app/pages/test-station/test-station-sear
 describe('Component: TestStationHomePage', () => {
   let comp: TestStationHomePage;
   let fixture: ComponentFixture<TestStationHomePage>;
-  let appService: AppService;
+  let appService: any;
   let screenOrientation: ScreenOrientation;
   let screenOrientationSpy: ScreenOrientation;
   let syncService: SyncService;
@@ -119,8 +119,7 @@ describe('Component: TestStationHomePage', () => {
   });
 
   it('should set app orientation on initialization', () => {
-    // spyOn(appService, 'isCordova').and.returnValue(true);
-    // appService.isCordova = true;
+    appService.isCordova = true;
 
     comp.ngOnInit();
 
@@ -150,12 +149,13 @@ describe('Component: TestStationHomePage', () => {
   });
 
   it('should test getStarted flow', async () => {
+    spyOn(router, 'navigate');
     await comp.getStarted();
 
     expect(syncService.startSync).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith([PAGE_NAMES.TEST_STATION_SEARCH_PAGE]);
 
-    // appService.isCordova = true;
+    appService.isCordova = true;
     appService.isSignatureRegistered = true;
     await comp.getStarted();
     expect(router.navigate).toHaveBeenCalledWith([PAGE_NAMES.TEST_STATION_SEARCH_PAGE]);
