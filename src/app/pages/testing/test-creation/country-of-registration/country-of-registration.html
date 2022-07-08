@@ -23,7 +23,7 @@
   <ion-list *ngIf="filteredCountries.length" class="ion-text-wrap">
     <ion-item
       detail="false"
-      class="list-item-height"
+      class="list-item-height ion-activatable"
       (click)="setVehicleRegCountry(notApplicableElem[0])"
     >
       <h3>{{ notApplicableElem[0].value }}</h3>
@@ -33,11 +33,12 @@
         name="checkmark"
         *ngIf="vehicle.countryOfRegistration === notApplicableElem[0].key"
       ></ion-icon>
+      <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </ion-item>
     <ion-item
       detail="false"
       lines="none"
-      class="list-item-height"
+      class="list-item-height ion-activatable"
       (click)="setVehicleRegCountry(topElem[0])"
     >
       <h3>{{ topElem[0].value }}</h3>
@@ -47,6 +48,7 @@
         name="checkmark"
         *ngIf="vehicle.countryOfRegistration === topElem[0].key"
       ></ion-icon>
+      <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </ion-item>
     <div *ngFor="let countryGroup of groupedCountries">
       <div *ngFor="let country of countryGroup; let i = index; let last = last;">
@@ -55,7 +57,7 @@
         </ion-item-divider>
         <ion-item
           detail="false"
-          class="list-item-height"
+          class="list-item-height ion-activatable"
           [lines]="last ? 'none' : 'inset'"
           (click)="setVehicleRegCountry(country)"
         >
@@ -66,13 +68,14 @@
             name="checkmark"
             *ngIf="vehicle.countryOfRegistration === country.key"
           ></ion-icon>
+          <ion-ripple-effect type="unbounded"></ion-ripple-effect>
         </ion-item>
       </div>
     </div>
     <ion-item-divider></ion-item-divider>
     <ion-item
       detail="false"
-      class="list-item-height"
+      class="list-item-height ion-activatable"
       (click)="setVehicleRegCountry(elem)"
       *ngFor="let elem of botElem"
     >
@@ -83,6 +86,7 @@
         name="checkmark"
         *ngIf="vehicle.countryOfRegistration === elem.key"
       ></ion-icon>
+      <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </ion-item>
   </ion-list>
 

@@ -243,9 +243,10 @@
           <ion-button color="danger" (click)="showAlert(item, defect)">Remove</ion-button>
         </ion-item-options>
       </ion-item-sliding>
-      <ion-item detail="false" class="btn-add-test" lines="none" (click)="addDefect()">
+      <ion-item detail="false" class="btn-add-test ion-activatable" lines="none" (click)="addDefect()">
         <ion-icon aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
         Add defect
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
     </ion-item-group>
 
@@ -335,19 +336,21 @@
       <ion-item
         detail="false"
         lines="none"
-        class="btn-remove-test"
+        class="btn-remove-test ion-activatable"
         [ngClass]="{buttonBackground: changeBackground}"
         (click)="onRemoveTestType(vehicle, vehicleTest)"
       >
         Remove test type
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
       <ion-item
         detail="false"
         lines="none"
-        class="btn-remove-test"
+        class="btn-remove-test ion-activatable"
         (click)="abandonTestType(vehicle.techRecord.vehicleType, vehicleTest)"
       >
         Abandon test type
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
     </ion-item-group>
   </ion-list>
