@@ -24,7 +24,7 @@
       *ngFor="let vehicle of vehicles; let i = index"
       [id]="'select-vehicle-option-' + (i + 1)"
       detail="true"
-      class="full-border"
+      class="full-border ion-activatable"
       lines="none"
       [ngClass]="{'skeleton-button': this.vehicleService.isVehicleSkeleton(vehicle)}"
       (click)="openVehicleDetails(vehicle)">
@@ -47,6 +47,7 @@
           {{ APP_STRINGS.SKELETON_INFO }}
         </p>
       </div>
+      <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </ion-item>
   </ion-list>
 </ion-content>

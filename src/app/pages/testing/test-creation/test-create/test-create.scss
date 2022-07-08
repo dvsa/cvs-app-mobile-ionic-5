@@ -37,11 +37,11 @@
     }
 
     ion-item {
-      padding-top: 7px;
-      padding-bottom: 7px;
       background-color: var(--light);
 
       ion-label {
+        padding-top: 7px;
+        padding-bottom: 7px;
         font-size: var(--font-size-normal);
         color: var(--dark);
       }
@@ -78,8 +78,10 @@
     }
 
     ion-item.btn-add-test {
-      font-size: var(--font-size-normal);
-      color: var(--primary);
+      ion-label, ion-icon {
+        font-size: var(--font-size-normal);
+        color: var(--primary);
+      }
     }
 
     ion-item.bottom-divider {
