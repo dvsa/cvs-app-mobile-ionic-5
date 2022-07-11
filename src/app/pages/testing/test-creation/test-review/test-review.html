@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button
-        [text]="backButtonText ? backButtonText : appStrings.TEST"
-        *ngIf="!isTestSubmitted"
-      ></ion-back-button>
+      <ion-button *ngIf="!isTestSubmitted" (click)="goBack()">
+        <ion-icon class="chevron-back ion-no-margin back-button-icon" name="chevron-back"></ion-icon>
+        {{ backButtonText ? backButtonText : appStrings.TEST }}
+      </ion-button>
     </ion-buttons>
     <ion-title>
       {{title}}

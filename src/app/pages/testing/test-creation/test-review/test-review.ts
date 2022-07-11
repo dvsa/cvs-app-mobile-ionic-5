@@ -47,7 +47,7 @@ import { AppService, AnalyticsService } from '@providers/global';
 import { TirTestTypesData } from '@assets/app-data/test-types-data/tir-test-types.data';
 import { TestTypeService } from '@providers/test-type/test-type.service';
 import { LogsProvider } from '@store/logs/logs.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { TestCompletePage } from '@app/pages/testing/test-creation/test-complete/test-complete';
 import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
 
@@ -74,6 +74,8 @@ export class TestReviewPage implements OnInit {
   tirTestTypesIds: string[] = TirTestTypesData.TirTestTypesDataIds;
   TIR_CERTIFICATE_NUMBER_PREFIXES: typeof TIR_CERTIFICATE_NUMBER_PREFIXES = TIR_CERTIFICATE_NUMBER_PREFIXES;
   backButtonText: string;
+  extras: NavigationExtras;
+  previousExtras: NavigationExtras;
 
   constructor(
     public navCtrl: NavController,
@@ -109,8 +111,10 @@ export class TestReviewPage implements OnInit {
       this.visit = this.visitService.visit;
       this.latestTest = this.visitService.getLatestTest();
 
-      this.vehicleBeingReviewed = this.router.getCurrentNavigation().extras.state.vehicleBeingReviewed || 0;
-      this.backButtonText = this.router.getCurrentNavigation().extras.state.backButtonText;
+      this.extras = this.router.getCurrentNavigation().extras;
+      this.previousExtras = this.extras.state.previousExtras;
+      this.vehicleBeingReviewed = this.extras.state.vehicleBeingReviewed || 0;
+      this.backButtonText = this.extras.state.backButtonText;
       this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
       this.vehicle.testTypes.forEach(testType => {
         this.testTypeService.fixDateFormatting(testType);
@@ -123,6 +127,19 @@ export class TestReviewPage implements OnInit {
 
   async ionViewDidEnter() {
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_REVIEW);
+  }
+
+  async goBack() {
+    if (this.latestTest.vehicles[0] === this.vehicle) {
+      await this.goBackToTestCreatePage();
+    } else {
+      //non-async so animation is correct
+      this.nativePageTransitions.slide({
+        direction: 'right',
+        duration: 200,
+      });
+      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_REVIEW_PAGE] , this.previousExtras);
+    }
   }
 
   getVehicleTypeIconToShow(vehicle: VehicleModel) {
@@ -263,7 +280,8 @@ export class TestReviewPage implements OnInit {
       await this.router.navigate([PAGE_NAMES.TEST_REVIEW_PAGE], {
         state: {
           vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
-          backButtonText: this.title
+          backButtonText: this.title,
+          previousExtras: this.extras
         }
       });
     } else {
