@@ -45,7 +45,7 @@
       }
 
       .test-field {
-        padding: 16px 16px 16px 0;
+        padding: 16px 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -53,6 +53,7 @@
         h3 {
           margin: 0;
           font-size: var(--font-size-medium);
+          color: var(--dark);
         }
       }
 
@@ -74,6 +75,7 @@
         h3 {
           white-space: normal;
           font-size: var(--font-size-medium);
+          color: var(--dark);
         }
 
         h3.defect-name {
@@ -182,6 +184,19 @@
         color: var(--primary);
       }
     }
+  }
+
+  .cert-number {
+    color: var(--dark);
+  }
+
+  ion-badge {
+    margin-bottom: -4.5px;
+    margin-left: 4px;
+  }
+
+  .test-field-value {
+    padding-right: 10px;
   }
 
   p.item-text-color {

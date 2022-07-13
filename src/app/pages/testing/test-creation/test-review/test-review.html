@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button *ngIf="!isTestSubmitted" (click)="goBack()">
+      <ion-button id="test-review-back-btn" *ngIf="!isTestSubmitted" (click)="goBack()">
         <ion-icon class="chevron-back ion-no-margin back-button-icon" name="chevron-back"></ion-icon>
         {{ backButtonText ? backButtonText : appStrings.TEST }}
       </ion-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title id="test-review-title">
       {{title}}
     </ion-title>
   </ion-toolbar>
@@ -33,14 +33,14 @@
         <p class="vehicle-vin">{{ vehicle.vin }}</p>
       </ion-label>
     </ion-item>
-    <ion-item>
+    <ion-item lines="full">
       <ion-label class="country-of-registration ion-text-wrap">Country of registration</ion-label>
       <div class="country-of-registration-status cor-details ion-text-nowrap">
         {{getCountryStringToBeDisplayed(vehicle)}}
       </div>
     </ion-item>
 
-    <ion-item>
+    <ion-item lines="full">
       <ion-label class="vehicle-category ion-text-wrap" >EU vehicle category</ion-label>
       <div class="vehicle-category-status ion-text-capitalize">
         {{this.vehicleService.displayVehicleCategoryKey(vehicle.euVehicleCategory)}}
@@ -56,6 +56,7 @@
       </div>
     </ion-item>
     <ion-item
+      id="change-vehicle-details"
       lines="none"
       detail="true"
       class="change-details-button ion-text-wrap ion-activatable"
@@ -70,23 +71,16 @@
   <div *ngFor="let testType of vehicle.testTypes">
     <ion-card class="ion-no-padding">
       <ion-item lines="full">
-        <ion-grid class="ion-no-padding">
-          <ion-row class="ion-align-items-center ion-justify-content-between">
-            <ion-col size="auto">
-              <p class="item-text-color ion-text-wrap ion-padding-vertical">
-                {{ testType.testTypeName }}
-              </p>
-            </ion-col>
-            <ion-col size="auto" class="ion-text-right">
-              <ion-text
-                class="test-result ion-text-uppercase ion-text-wrap"
-                [color]="commonFunctions.getTestResultColor(testType.testResult)"
-              >
-                <p>{{ testType.testResult }}</p>
-              </ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <p class="item-text-color ion-text-wrap">
+          {{ testType.testTypeName }}
+        </p>
+        <ion-text
+          slot="end"
+          class="test-result ion-text-uppercase ion-text-wrap"
+          [color]="commonFunctions.getTestResultColor(testType.testResult)"
+        >
+          {{ testType.testResult }}
+        </ion-text>
       </ion-item>
       <ion-item
         lines="full"
@@ -115,25 +109,29 @@
         class="ion-no-padding"
         *ngIf="testType.certificateNumber && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="test-field test-field-no-border-top flex-wrapper-container ion-margin-start">
-          <h3 class="ion-text-wrap">Certificate number</h3>
-          <h3 class="test-field-value">
-            {{(tirTestTypesIds.indexOf(testType.testTypeId) !== -1 ?
-            (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ?
-            TIR_CERTIFICATE_NUMBER_PREFIXES.GB_V : TIR_CERTIFICATE_NUMBER_PREFIXES.GB_T) : '') +
-            testType.certificateNumber}}
-          </h3>
-        </div>
+        <ion-label class="ion-no-margin">
+          <div class="test-field test-field-no-border-top flex-wrapper-container ion-margin-start">
+            <h3 class="ion-text-wrap cert-number">Certificate number</h3>
+            <h3 class="test-field-value">
+              {{(tirTestTypesIds.indexOf(testType.testTypeId) !== -1 ?
+              (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ?
+              TIR_CERTIFICATE_NUMBER_PREFIXES.GB_V : TIR_CERTIFICATE_NUMBER_PREFIXES.GB_T) : '') +
+              testType.certificateNumber}}
+            </h3>
+          </div>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
         class="ion-no-padding"
         *ngIf="testType.testExpiryDate && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="test-field test-field-no-border-top ion-margin-start">
-          <h3>Expiry date</h3>
-          <h3 class="test-field-value">{{testType.testExpiryDate | date:'dd MMM yyyy'}}</h3>
-        </div>
+        <ion-label class="ion-no-margin">
+          <div class="test-field test-field-no-border-top ion-margin-start">
+            <h3>Expiry date</h3>
+            <h3 class="test-field-value">{{testType.testExpiryDate | date:'dd MMM yyyy'}}</h3>
+          </div>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
@@ -217,133 +215,139 @@
         lines="full"
         *ngIf="getTestTypeOptionalFieldsToDisplay(testType, 'defects')"
       >
-        <div class="defects-section-title ion-margin-vertical">
-          Defects
-        </div>
-        <div *ngIf="testType.defects.length">
-          <div
-            class="defect-details ion-margin-bottom"
-            [ngClass]="{'border': i !== testType.defects.length - 1}"
-            *ngFor="let defect of testType.defects; let i = index"
-          >
-            <h3 class="defect-name ion-padding-end">
-              <span>
-                <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
+        <ion-label class="ion-no-margin">
+          <div class="defects-section-title ion-margin-vertical">
+            Defects
+          </div>
+          <div *ngIf="testType.defects.length">
+            <div
+              class="defect-details ion-margin-bottom"
+              [ngClass]="{'border': i !== testType.defects.length - 1}"
+              *ngFor="let defect of testType.defects; let i = index"
+            >
+              <h3 class="defect-name ion-padding-end">
+                <span>
+                  <span>{{ defect.imNumber }}.{{ defect.itemNumber }}</span>
+                  <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
+                  <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
+                </span>
+                <ion-badge
+                  class="ion-text-uppercase ion-no-margin"
+                  [color]="defectsService.getBadgeColor(defect.deficiencyCategory)"
+                >
+                  {{ defect.deficiencyCategory }}
+                </ion-badge>
+                <ion-badge class="ion-text-uppercase ion-no-margin" color="tertiary" *ngIf="defect.prs">
+                  PRS
+                </ion-badge>
+              </h3>
+              <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">
+                {{ defect.imNumber }}. {{ defect.imDescription}}
+              </h4>
+              <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">
+                {{ defect.itemNumber }}. {{ defect.itemDescription }}
+              </h4>
+              <h4
+                class="parent-info-color-sm ion-padding-end ion-text-wrap"
+                *ngIf="defect.deficiencyCategory !== commonFunctions.capitalizeString(deficiencyCategory.ADVISORY)"
+              >
                 <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
                 <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
-              </span>
-              <ion-badge
-                class="ion-text-uppercase ion-no-margin"
-                [color]="defectsService.getBadgeColor(defect.deficiencyCategory)"
+                {{ defect.deficiencyText }}
+              </h4>
+              <h4
+                class="additional-info parent-info-color-sm ion-padding-end"
+                *ngIf="defect.additionalInformation.location"
               >
-                {{ defect.deficiencyCategory }}
-              </ion-badge>
-              <ion-badge class="ion-text-uppercase ion-no-margin" color="tertiary" *ngIf="defect.prs">
-                PRS
-              </ion-badge>
-            </h3>
-            <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">
-              {{ defect.imNumber }}. {{ defect.imDescription}}
-            </h4>
-            <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">
-              {{ defect.itemNumber }}. {{ defect.itemDescription }}
-            </h4>
-            <h4
-              class="parent-info-color-sm ion-padding-end ion-text-wrap"
-              *ngIf="defect.deficiencyCategory !== commonFunctions.capitalizeString(deficiencyCategory.ADVISORY)"
-            >
-              <span *ngIf="defect.deficiencyId">({{ defect.deficiencyId }})</span>
-              <span *ngIf="defect.deficiencySubId">({{ defect.deficiencySubId }})</span>
-              {{ defect.deficiencyText }}
-            </h4>
-            <h4
-              class="additional-info parent-info-color-sm ion-padding-end"
-              *ngIf="defect.additionalInformation.location"
-            >
-              <span *ngIf="defect.additionalInformation.location.vertical">
-                {{ defect.additionalInformation.location.vertical }}<span class="comma">,</span>
-              </span>
-              <span *ngIf="defect.additionalInformation.location.horizontal">
-                {{ defect.additionalInformation.location.horizontal }}<span class="comma"
-                  >,</span
-                >
-              </span>
-              <span *ngIf="defect.additionalInformation.location.longitudinal">
-                {{ defect.additionalInformation.location.longitudinal }}<span class="comma"
-                  >,</span
-                >
-              </span>
-              <span *ngIf="defect.additionalInformation.location.lateral">
-                {{ defect.additionalInformation.location.lateral }}<span class="comma">,</span>
-              </span>
-              <span *ngIf="defect.additionalInformation.location.axleNumber">
-                axle {{ defect.additionalInformation.location.axleNumber }}<span class="comma"
-                  >,</span
-                >
-              </span>
-              <span *ngIf="defect.additionalInformation.location.rowNumber">
-                row {{ defect.additionalInformation.location.rowNumber }}<span class="comma"
-                  >,</span
-                >
-              </span>
-              <span *ngIf="defect.additionalInformation.location.seatNumber">
-                seat {{ defect.additionalInformation.location.seatNumber }}<span class="comma"
-                  >,</span
-                >
-              </span>
-            </h4>
-            <h4
-              class="parent-info-color-sm ion-padding-end ion-text-wrap"
-              *ngIf="defect.additionalInformation.notes"
-            >
-              {{ defect.additionalInformation.notes }}
-            </h4>
-            <h4
-              class="parent-info-color-sm ion-padding-end ion-text-wrap"
-              *ngIf="defect.prohibitionIssued"
-            >
-              Prohibition issued - Yes
-            </h4>
+                <span *ngIf="defect.additionalInformation.location.vertical">
+                  {{ defect.additionalInformation.location.vertical }}<span class="comma">,</span>
+                </span>
+                <span *ngIf="defect.additionalInformation.location.horizontal">
+                  {{ defect.additionalInformation.location.horizontal }}<span class="comma"
+                    >,</span
+                  >
+                </span>
+                <span *ngIf="defect.additionalInformation.location.longitudinal">
+                  {{ defect.additionalInformation.location.longitudinal }}<span class="comma"
+                    >,</span
+                  >
+                </span>
+                <span *ngIf="defect.additionalInformation.location.lateral">
+                  {{ defect.additionalInformation.location.lateral }}<span class="comma">,</span>
+                </span>
+                <span *ngIf="defect.additionalInformation.location.axleNumber">
+                  axle {{ defect.additionalInformation.location.axleNumber }}<span class="comma"
+                    >,</span
+                  >
+                </span>
+                <span *ngIf="defect.additionalInformation.location.rowNumber">
+                  row {{ defect.additionalInformation.location.rowNumber }}<span class="comma"
+                    >,</span
+                  >
+                </span>
+                <span *ngIf="defect.additionalInformation.location.seatNumber">
+                  seat {{ defect.additionalInformation.location.seatNumber }}<span class="comma"
+                    >,</span
+                  >
+                </span>
+              </h4>
+              <h4
+                class="parent-info-color-sm ion-padding-end ion-text-wrap"
+                *ngIf="defect.additionalInformation.notes"
+              >
+                {{ defect.additionalInformation.notes }}
+              </h4>
+              <h4
+                class="parent-info-color-sm ion-padding-end ion-text-wrap"
+                *ngIf="defect.prohibitionIssued"
+              >
+                Prohibition issued - Yes
+              </h4>
+            </div>
           </div>
-        </div>
-        <h3 class="parent-info-color" *ngIf="!testType.defects.length">None</h3>
+          <h3 class="parent-info-color" *ngIf="!testType.defects.length">None</h3>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
         *ngIf="getTestTypeOptionalFieldsToDisplay(testType, 'specialistDefects')"
       >
-        <div class="defects-section-title ion-margin-vertical">
-          Defects
-        </div>
-        <div *ngIf="testType.customDefects.length">
-          <div
-            class="defect-details ion-margin-bottom"
-            [ngClass]="{'border': i !== testType.customDefects.length - 1}"
-            *ngFor="let defect of testType.customDefects; let i = index"
-          >
-            <h3 class="defect-name ion-padding-end">{{defect.referenceNumber}}</h3>
-            <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">{{defect.defectName}}</h4>
-            <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">{{defect.defectNotes}}</h4>
+        <ion-label class="ion-no-margin">
+          <div class="defects-section-title ion-margin-vertical">
+            Defects
           </div>
-        </div>
-        <h3 class="parent-info-color" *ngIf="!testType.customDefects.length">
-          None
-        </h3>
+          <div *ngIf="testType.customDefects.length">
+            <div
+              class="defect-details ion-margin-bottom"
+              [ngClass]="{'border': i !== testType.customDefects.length - 1}"
+              *ngFor="let defect of testType.customDefects; let i = index"
+            >
+              <h3 class="defect-name ion-padding-end">{{defect.referenceNumber}}</h3>
+              <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">{{defect.defectName}}</h4>
+              <h4 class="parent-info-color-sm ion-padding-end ion-text-wrap">{{defect.defectNotes}}</h4>
+            </div>
+          </div>
+          <h3 class="parent-info-color" *ngIf="!testType.customDefects.length">
+            None
+          </h3>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
         *ngIf="testType.testResult !== testTypeResults.ABANDONED && getTestTypeOptionalFieldsToDisplay(testType, 'notes')"
       >
-        <div class="notes-section-title ion-margin-top">
-          Notes
-        </div>
-        <h3
-          class="parent-info-color ion-padding-end ion-text-wrap"
-          *ngIf="testType.additionalNotesRecorded"
-        >
-          {{testType.additionalNotesRecorded}}
-        </h3>
-        <h3 class="parent-info-color" *ngIf="!testType.additionalNotesRecorded">None</h3>
+        <ion-label class="ion-no-margin">
+          <div class="notes-section-title ion-margin-top">
+            Notes
+          </div>
+         <h3
+            class="parent-info-color ion-padding-end ion-text-wrap"
+            *ngIf="testType.additionalNotesRecorded"
+          >
+            {{testType.additionalNotesRecorded}}
+          </h3>
+          <h3 class="parent-info-color" *ngIf="!testType.additionalNotesRecorded">None</h3>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
@@ -357,27 +361,31 @@
       </ion-item>
       <ion-item
         lines="full"
-        class="ion-padding-start ion-margin-bottom"
         *ngIf="testType.testResult === testTypeResults.ABANDONED"
       >
-        <div class="notes-section-title ion-margin-top ion-text-wrap">
-          Reason(s) for abandoning
-        </div>
-        <h4 class="parent-info-color ion-text-wrap" *ngFor="let reason of testType.reasons">
-          {{reason}}
-        </h4>
+        <ion-label class="ion-no-margin">
+          <div class="notes-section-title ion-margin-top ion-text-wrap">
+            Reason(s) for abandoning
+          </div>
+          <h4 [ngClass]="{'ion-padding-bottom': last}" class="parent-info-color ion-text-wrap" *ngFor="let reason of
+          testType.reasons; let last = last">
+            {{reason}}
+          </h4>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
-        class="ion-margin-bottom"
         *ngIf="testType.testResult === testTypeResults.ABANDONED && testType.additionalCommentsForAbandon"
       >
-        <div class="notes-section-title ion-margin-top">
-          Notes
-        </div>
-        <h4 class="parent-info-color ion-text-wrap">{{testType.additionalCommentsForAbandon}}</h4>
+        <ion-label class="ion-no-margin">
+          <div class="notes-section-title ion-margin-top">
+            Notes
+          </div>
+          <h4 class="parent-info-color ion-text-wrap ion-padding-bottom">{{testType.additionalCommentsForAbandon}}</h4>
+        </ion-label>
       </ion-item>
       <ion-item
+        id="change-test-details"
         lines="none"
         detail="true"
         class="change-details-button ion-text-wrap ion-activatable"
@@ -390,7 +398,7 @@
     </ion-card>
   </div>
   <div class="footer-cta-section ion-margin">
-    <ion-button color="secondary" expand="block" (click)="goToNextPage()">
+    <ion-button id="test-review-submit-test-btn" color="secondary" expand="block" (click)="goToNextPage()">
       <span>{{nextButtonText}}</span>
     </ion-button>
   </div>
