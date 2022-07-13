@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import {
   ActionSheetController,
   AlertController,
@@ -51,13 +51,13 @@ import {
   templateUrl: 'test-complete.html'
 })
 export class TestCompletePage implements OnInit {
-  vehicle: VehicleModel;
-  vehicleTest: TestTypeModel;
+  @Input() vehicle: VehicleModel;
+  @Input() vehicleTest: TestTypeModel;
   testTypeDetails;
   testTypeInputs: typeof TEST_TYPE_INPUTS = TEST_TYPE_INPUTS;
   testTypeFields: typeof TEST_TYPE_FIELDS = TEST_TYPE_FIELDS;
-  completedFields;
-  fromTestReview;
+  @Input() completedFields;
+  @Input() fromTestReview;
   defectsCategories: DefectCategoryReferenceDataModel[];
   isCertificateNumberFocused: boolean;
   today: string;
@@ -87,7 +87,6 @@ export class TestCompletePage implements OnInit {
     private vehicleService: VehicleService,
     private analyticsService: AnalyticsService,
     public router: Router,
-    public navController: NavController,
     public events: EventsService,
   ) {
     this.patterns = REG_EX_PATTERNS;
@@ -95,12 +94,14 @@ export class TestCompletePage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
-    this.vehicle = this.router.getCurrentNavigation().extras.state.vehicle;
-    this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
-    this.completedFields = this.router.getCurrentNavigation().extras.state.completedFields;
-    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
-    this.errorIncomplete = this.router.getCurrentNavigation().extras.state.errorIncomplete;
+    if (!this.fromTestReview) {
+      this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+      this.vehicle = this.router.getCurrentNavigation().extras.state.vehicle;
+      this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
+      this.completedFields = this.router.getCurrentNavigation().extras.state.completedFields;
+      this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
+      this.errorIncomplete = this.router.getCurrentNavigation().extras.state.errorIncomplete;
+    }
     this.today = new Date().toISOString();
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.testTypeDetails = this.getTestTypeDetails();
@@ -459,7 +460,7 @@ export class TestCompletePage implements OnInit {
     if (this.fromTestReview) {
       await this.modalCtrl.dismiss(this.vehicleTest);
     } else {
-      await this.navController.navigateBack(this.previousPageName);
+      await this.navCtrl.navigateBack(this.previousPageName);
     }
   }
 
@@ -571,7 +572,11 @@ export class TestCompletePage implements OnInit {
 
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
     await this.vehicleService.removeTestType(vehicle, vehicleTest);
-    await this.navController.navigateBack(this.previousPageName);
+    if (!this.fromTestReview) {
+      await this.navCtrl.navigateBack(PAGE_NAMES.TEST_CREATE_PAGE);
+    } else {
+      await this.onSave();
+    }
   }
 
   async abandonTestType(vehicleType: string, vehicleTest: TestTypeModel) {
