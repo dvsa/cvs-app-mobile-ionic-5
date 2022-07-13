@@ -49,9 +49,11 @@
       SEARCH CRITERIA
     </ion-label>
   </ion-list-header>
-  <ion-item id="change-search-criteria-btn" detail="true" class="ion-no-margin" (click)="onChangeSearchCriteria()"
+  <ion-item id="change-search-criteria-btn" detail="true" class="ion-no-margin ion-activatable"
+            (click)="onChangeSearchCriteria()"
             lines="none">
     <ion-label>{{selectedSearchCriteria}}</ion-label>
     <div>Change</div>
+    <ion-ripple-effect type="unbounded"></ion-ripple-effect>
   </ion-item>
 </ion-content>

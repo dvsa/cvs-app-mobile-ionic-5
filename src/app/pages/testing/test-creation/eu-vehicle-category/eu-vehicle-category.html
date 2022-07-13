@@ -19,6 +19,7 @@
       [lines]="last ? 'none' : 'full'"
       [detail]="vehicle.euVehicleCategory === elem.key"
       detail-icon="checkmark"
+      class="ion-activatable"
       [ngClass]="{
       'error-incomplete-item': errorIncomplete,
       'selected' : vehicle.euVehicleCategory === elem.key
@@ -29,6 +30,7 @@
         <h2 class="ion-text-capitalize">{{displayVehicleCategoryKey(elem.key)}}</h2>
         <p class="ion-text-wrap">{{elem.value}}</p>
       </ion-label>
+      <ion-ripple-effect type="unbounded"></ion-ripple-effect>
     </ion-item>
   </ion-list>
 </ion-content>

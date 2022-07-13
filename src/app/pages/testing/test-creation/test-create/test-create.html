@@ -25,7 +25,8 @@
     [ngClass]="{'accessibility-max-width':appService.isAccessibilityTextZoomEnabled()}"
   >
     <ion-card class="card" *ngFor="let vehicle of testData.vehicles; let i = index">
-      <ion-item id="test-page-vehicle-details" class="ion-item-title" lines="none" (click)="onVehicleDetails(vehicle)">
+      <ion-item id="test-page-vehicle-details" class="ion-item-title ion-activatable" lines="none"
+                (click)="onVehicleDetails(vehicle)">
         <img
           slot="start"
           class="vehicle-type-icon"
@@ -45,10 +46,11 @@
         </ion-label>
         <div class="details color-grey-1">Details</div>
         <ion-icon class="chevron-forward small-icon ion-no-margin" slot="end" name="chevron-forward"></ion-icon>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
       <ion-item
         id="country-of-registration"
-        class="bottom-divider"
+        class="bottom-divider ion-activatable"
         lines="none"
         (click)="onCountryOfRegistration(vehicle)"
       >
@@ -60,10 +62,11 @@
           {{getCountryStringToBeDisplayed(vehicle)}}
         </div>
         <ion-icon class="chevron-forward small-icon ion-no-margin" slot="end" name="chevron-forward"></ion-icon>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
       <ion-item
         id="eu-vehicle-category"
-        class="bottom-divider ion-no-margin"
+        class="bottom-divider ion-no-margin ion-activatable"
         lines="none"
         [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.euVehicleCategory}"
         (click)="onVehicleCategory(vehicle)"
@@ -83,10 +86,11 @@
                           'chevron-forward': !vehicle.euVehicleCategory}"
           [name]="vehicle.euVehicleCategory ? 'checkmark' : 'chevron-forward'"
         ></ion-icon>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
       <ion-item
         id="odometer-reading"
-        class="bottom-divider"
+        class="bottom-divider ion-activatable"
         lines="none"
         [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicle.odometerReading}"
         (click)="onOdometer(i)"
@@ -105,12 +109,13 @@
           [ngClass]="{'odometer-reading-icon-data': doesOdometerDataExist(i), 'odometer-reading-icon-no-data': !doesOdometerDataExist(i)}"
           [name]="doesOdometerDataExist(i) ? 'checkmark' : 'chevron-forward'"
         ></ion-icon>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
       <ng-container class="full-dividers-list">
         <ion-item-sliding *ngFor="let vehicleTest of vehicle.testTypes" #slidingItem>
           <ion-item
             (click)="openTest(vehicle, vehicleTest)"
-            class="bottom-divider"
+            class="bottom-divider ion-activatable"
             lines="none"
             [ngClass]="{'error-incomplete-item': errorIncomplete && getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.IN_PROGRESS)}"
           >
@@ -136,6 +141,7 @@
               [name]="getTestTypeStatus(vehicle, vehicleTest) === commonFunc.capitalizeString(testCompletionStatus.EDIT) ? 'checkmark' : 'chevron-forward'"
               *ngIf="!isTestAbandoned(vehicleTest)"
             ></ion-icon>
+            <ion-ripple-effect type="unbounded"></ion-ripple-effect>
           </ion-item>
           <ion-item-options *ngIf="!isTestAbandoned(vehicleTest)">
             <ion-item-option
@@ -154,26 +160,28 @@
 
       <ion-item
         id="add-test-type-btn"
-        class="btn-add-test"
+        class="btn-add-test ion-activatable"
         lines="none"
         (click)="onAddNewTestType(vehicle)"
         [ngClass]="{'bottom-divider': vehicle.testTypes.length === 0}"
       >
-        <span *ngIf="vehicle.testTypes.length === 0">Add a test type</span>
-        <span *ngIf="vehicle.testTypes.length !== 0">Add a linked test</span>
+        <ion-label *ngIf="vehicle.testTypes.length === 0">Add a test type</ion-label>
+        <ion-label *ngIf="vehicle.testTypes.length !== 0">Add a linked test</ion-label>
         <ion-icon class="large-icon ion-no-margin" aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
     </ion-card>
 
     <ion-card class="card" *ngIf="displayAddVehicleButton">
       <ion-item
         id="add-trailer-or-vehicle-btn"
-        class="btn-add-test"
+        class="btn-add-test ion-activatable"
         lines="none"
         (click)="addTrailer(visitService.visit.tests)"
       >
-        <span>Add a {{doesHgvLgvExist ? "trailer" : "vehicle"}}</span>
+        <ion-label>Add a {{doesHgvLgvExist ? "trailer" : "vehicle"}}</ion-label>
         <ion-icon class="large-icon ion-no-margin" aria-hidden="true" name="add-circle-outline" slot="end"></ion-icon>
+        <ion-ripple-effect type="unbounded"></ion-ripple-effect>
       </ion-item>
     </ion-card>
   </ion-list>

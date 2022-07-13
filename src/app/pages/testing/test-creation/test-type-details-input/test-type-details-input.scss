@@ -1,0 +1,33 @@
+:host {
+  .header-ios {
+    height: var(--header-height-default);
+  }
+
+  .done-button {
+    font-weight: var(--font-weight-bold);
+  }
+
+  button.cancel {
+    font-weight: var(--font-weight-normal);
+    color: var(--light);
+  }
+
+  ion-content p {
+    margin-top: 8px;
+  }
+
+  .k-limit-custom {
+    background-color: var(--light);
+
+    ion-col {
+      padding: 0;
+    }
+
+    ion-col.small-column {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid var(--color-grey-2);
+    }
+  }
+}

@@ -185,6 +185,12 @@ const routes: Routes = [
         .then( m => m.DefectDetailsSpecialistTestingModule)
   },
   {
+    path: PAGE_NAMES.TEST_TYPE_DETAILS_INPUT_PAGE,
+    loadChildren: () =>
+      import('./pages/testing/test-creation/test-type-details-input/test-type-details-input.module')
+        .then( m => m.TestTypeDetailsInputPageModule)
+  },
+  {
     path: PAGE_NAMES.TEST_REVIEW_PAGE,
     loadChildren: () => import('./pages/testing/test-creation/test-review/test-review.module')
       .then( m => m.TestReviewModule)

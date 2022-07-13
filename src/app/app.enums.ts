@@ -414,6 +414,7 @@ export enum PAGE_NAMES {
   TEST_CREATE_PAGE = 'TestCreatePage',
   TEST_ABANDON_PAGE = 'TestAbandonPage',
   TEST_COMPLETE_PAGE = 'TestCompletePage',
+  TEST_TYPE_DETAILS_INPUT_PAGE = 'TestTypeDetailsInput',
   VEHICLE_DETAILS_PAGE = 'VehicleDetailsPage',
   VEHICLE_TYRES_PAGE = 'VehicleTyresPage',
   VEHICLE_HISTORY_PAGE = 'VehicleHistoryPage',
