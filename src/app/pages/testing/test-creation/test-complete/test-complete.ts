@@ -473,6 +473,9 @@ export class TestCompletePage implements OnInit {
         fromTestReview: this.fromTestReview
       }
     });
+    if (this.fromTestReview) {
+      await this.modalCtrl.dismiss();
+    }
   }
 
   async openDefect(defect: DefectDetailsModel): Promise<void> {
@@ -490,9 +493,13 @@ export class TestCompletePage implements OnInit {
         state: {
           vehicleTest: this.vehicleTest,
           advisory: defect,
-          isEdit: true
+          isEdit: true,
+          fromTestReview: this.fromTestReview
         }
       });
+    }
+    if (this.fromTestReview) {
+      await this.modalCtrl.dismiss();
     }
   }
 
@@ -545,7 +552,7 @@ export class TestCompletePage implements OnInit {
     });
     await confirm.present();
     const onDidDismiss = await confirm.onDidDismiss();
-    if(onDidDismiss){
+    if (onDidDismiss) {
       this.changeBackground = false;
     }
   }
@@ -587,6 +594,9 @@ export class TestCompletePage implements OnInit {
         fromTestReview: this.fromTestReview
       },
     });
+    if (this.fromTestReview) {
+      await this.modalCtrl.dismiss();
+    }
   }
 
   certificateNumberInputChange(inputValue) {
@@ -634,6 +644,9 @@ export class TestCompletePage implements OnInit {
     defectIndex?: number,
     defect?: SpecialistCustomDefectModel
   ): Promise<void> {
+    if (this.fromTestReview) {
+      await this.modalCtrl.dismiss();
+    }
     const MODAL = await this.modalCtrl.create({
       component: DefectDetailsSpecialistTestingPage,
       componentProps: {

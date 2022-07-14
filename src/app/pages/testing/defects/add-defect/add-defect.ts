@@ -76,7 +76,8 @@ export class AddDefectPage implements OnInit {
       state: {
         vehicleTest: this.vehicleTest,
         advisory,
-        isEdit: false
+        isEdit: false,
+        fromTestReview: this.fromTestReview
       }
     });
     this.clearSearch();

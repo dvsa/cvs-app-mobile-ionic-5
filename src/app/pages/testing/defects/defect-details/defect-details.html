@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="back()" color="light">
         <ion-icon class="chevron-back ion-no-margin back-button-icon" name="chevron-back"></ion-icon>
-        {{ appStrings.DEFECT_DESC }}
+        {{ isEdit && fromTestReview ? 'Test Review' : appStrings.DEFECT_DESC }}
       </ion-button>
     </ion-buttons>
     <ion-title>

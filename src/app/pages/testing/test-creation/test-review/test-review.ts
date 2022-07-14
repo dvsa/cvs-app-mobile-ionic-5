@@ -112,13 +112,17 @@ export class TestReviewPage implements OnInit {
       this.latestTest = this.visitService.getLatestTest();
 
       this.extras = this.router.getCurrentNavigation().extras;
-      this.previousExtras = this.extras.state.previousExtras;
-      this.vehicleBeingReviewed = this.extras.state.vehicleBeingReviewed || 0;
-      this.backButtonText = this.extras.state.backButtonText;
-      this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
-      this.vehicle.testTypes.forEach(testType => {
-        this.testTypeService.fixDateFormatting(testType);
-      });
+      if (this.extras.state) {
+        this.vehicleBeingReviewed = this.extras.state.vehicleBeingReviewed || 0;
+        this.backButtonText = this.extras.state.backButtonText;
+        this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
+        this.vehicle.testTypes.forEach(testType => {
+          this.testTypeService.fixDateFormatting(testType);
+        });
+        if (this.latestTest.vehicles[0] !== this.vehicle) {
+          this.previousExtras = this.extras.state.previousExtras;
+        }
+      }
       this.storageService.watchStorage().subscribe(() => {
         this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
       });
