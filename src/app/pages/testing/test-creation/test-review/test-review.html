@@ -82,28 +82,39 @@
           {{ testType.testResult }}
         </ion-text>
       </ion-item>
-      <ion-item
-        lines="full"
-        class="ion-no-padding"
-        *ngIf="testType.numberOfSeatbeltsFitted && testType.testResult !== testTypeResults.ABANDONED"
-      >
-        <div class="test-field test-field-no-border-top flex-wrapper-container ion-margin-start">
-          <h3 class="ion-text-wrap">Seatbelt installation check</h3>
-          <h3 class="test-field-value">
-            {{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}
-          </h3>
-        </div>
-        <div class="test-field flex-wrapper-container ion-margin-start">
-          <h3 class="ion-text-wrap">Number of seatbelts fitted</h3>
-          <h3 class="test-field-value">{{testType.numberOfSeatbeltsFitted}}</h3>
-        </div>
-        <div class="test-field flex-wrapper-container ion-margin-start">
-          <h3 class="ion-text-wrap">Most recent seatbelt check</h3>
-          <h3 class="test-field-value">
-            {{testType.lastSeatbeltInstallationCheckDate | date: dateFormat.D_MMM_YY}}
-          </h3>
-        </div>
-      </ion-item>
+      <ng-container *ngIf="testType.numberOfSeatbeltsFitted && testType.testResult !== testTypeResults.ABANDONED">
+        <ion-item
+          lines="full"
+          class="ion-no-padding"
+        >
+          <ion-label class="ion-no-margin">
+            <div class="test-field test-field-no-border-top flex-wrapper-container ion-margin-start">
+              <h3 class="ion-text-wrap align-title">Seatbelt installation check</h3>
+              <h3 class="test-field-value">
+                {{testType.seatbeltInstallationCheckDate ? appStrings.YES : appStrings.NO}}
+              </h3>
+            </div>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="full" class="ion-no-padding">
+          <ion-label class="ion-no-margin">
+            <div class="test-field flex-wrapper-container ion-margin-start">
+              <h3 class="ion-text-wrap align-title">Number of seatbelts fitted</h3>
+              <h3 class="test-field-value">{{testType.numberOfSeatbeltsFitted}}</h3>
+            </div>
+          </ion-label>
+        </ion-item>
+            <ion-item lines="full" class="ion-no-padding">
+              <ion-label class="ion-no-margin">
+                <div class="test-field flex-wrapper-container ion-margin-start">
+                  <h3 class="ion-text-wrap align-title">Most recent seatbelt check</h3>
+                  <h3 class="test-field-value">
+                    {{testType.lastSeatbeltInstallationCheckDate | date: dateFormat.D_MMM_YY}}
+                  </h3>
+                </div>
+              </ion-label>
+            </ion-item>
+      </ng-container>
       <ion-item
         lines="full"
         class="ion-no-padding"
@@ -111,7 +122,7 @@
       >
         <ion-label class="ion-no-margin">
           <div class="test-field test-field-no-border-top flex-wrapper-container ion-margin-start">
-            <h3 class="ion-text-wrap cert-number">Certificate number</h3>
+            <h3 class="ion-text-wrap cert-number align-title">Certificate number</h3>
             <h3 class="test-field-value">
               {{(tirTestTypesIds.indexOf(testType.testTypeId) !== -1 ?
               (vehicle.techRecord.vehicleType === VEHICLE_TYPE.HGV ?
@@ -128,7 +139,7 @@
       >
         <ion-label class="ion-no-margin">
           <div class="test-field test-field-no-border-top ion-margin-start">
-            <h3>Expiry date</h3>
+            <h3 class="align-title">Expiry date</h3>
             <h3 class="test-field-value">{{testType.testExpiryDate | date:'dd MMM yyyy'}}</h3>
           </div>
         </ion-label>
@@ -138,78 +149,88 @@
         class="ion-no-padding"
         *ngIf="testType.emissionStandard && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="test-field test-field-no-border-top ion-margin-start">
-          <h3>Emission standard</h3>
-          <h3 class="test-field-value">{{testType.emissionStandard}}</h3>
-        </div>
+        <ion-label class="ion-no-margin">
+          <div class="test-field test-field-no-border-top ion-margin-start">
+            <h3 class="align-title">Emission standard</h3>
+            <h3 class="test-field-value">{{testType.emissionStandard}}</h3>
+          </div>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
-        class="ion-padding-start ion-margin-bottom"
         *ngIf="testType.smokeTestKLimitApplied && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="lec-section-title ion-margin-top">
-          Smoke test "K" limit applied
-        </div>
-        <h3 class="parent-info-color ion-text-wrap ion-padding-end">
-          {{testType.smokeTestKLimitApplied}}<span> (m<sup>-1</sup>)</span>
-        </h3>
+        <ion-label class="ion-no-margin">
+          <div class="lec-section-title ion-margin-top">
+            Smoke test "K" limit applied
+          </div>
+          <h3 class="parent-info-color ion-text-wrap ion-padding-end">
+            {{testType.smokeTestKLimitApplied}}<span> (m<sup>-1</sup>)</span>
+          </h3>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
         class="ion-no-padding"
         *ngIf="testType.fuelType && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="test-field test-field-no-border-top ion-margin-start">
-          <h3>Fuel type</h3>
-          <h3 class="test-field-value ion-text-capitalize">{{testType.fuelType}}</h3>
-        </div>
+        <ion-label class="ion-no-margin">
+          <div class="test-field test-field-no-border-top ion-margin-start">
+            <h3 class="align-title">Fuel type</h3>
+            <h3 class="test-field-value ion-text-capitalize">{{testType.fuelType}}</h3>
+          </div>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
         class="ion-no-padding"
         *ngIf="testType.modType && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="test-field test-field-no-border-top ion-margin-start">
-          <h3>Modification type</h3>
-          <h3 class="test-field-value ion-text-capitalize">{{testType.modType.split(' - ')[0]}}</h3>
-        </div>
+        <ion-label class="ion-no-margin">
+          <div class="test-field test-field-no-border-top ion-margin-start">
+            <h3 class="align-title">Modification type</h3>
+            <h3 class="test-field-value ion-text-capitalize">{{testType.modType.split(' - ')[0]}}</h3>
+          </div>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
-        class="ion-padding-start ion-margin-bottom"
         *ngIf="testType.particulateTrapFitted && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="lec-section-title ion-margin-top">
-          Particulate trap fitted
-        </div>
-        <h3 class="parent-info-color ion-padding-end ion-text-wrap">
-          {{testType.particulateTrapFitted}}
-        </h3>
+        <ion-label class="ion-no-margin">
+          <div class="lec-section-title ion-margin-top">
+            Particulate trap fitted
+          </div>
+          <h3 class="parent-info-color ion-padding-end ion-text-wrap">
+            {{testType.particulateTrapFitted}}
+          </h3>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
-        class="ion-padding-start ion-margin-bottom"
         *ngIf="testType.particulateTrapSerialNumber && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="lec-section-title ion-margin-top">
-          Particulate trap serial number
-        </div>
-        <h3 class="parent-info-color ion-padding-end ion-text-wrap">
-          {{testType.particulateTrapSerialNumber}}
-        </h3>
+        <ion-label class="ion-no-margin">
+          <div class="lec-section-title ion-margin-top">
+            Particulate trap serial number
+          </div>
+          <h3 class="parent-info-color ion-padding-end ion-text-wrap">
+            {{testType.particulateTrapSerialNumber}}
+          </h3>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
-        class="ion-padding-start ion-margin-bottom"
         *ngIf="testType.modificationTypeUsed && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="lec-section-title ion-margin-top">
-          Modification type used
-        </div>
-        <h3 class="parent-info-color ion-padding-end ion-text-wrap">
-          {{testType.modificationTypeUsed}}
-        </h3>
+        <ion-label class="ion-no-margin">
+          <div class="lec-section-title ion-margin-top">
+            Modification type used
+          </div>
+          <h3 class="parent-info-color ion-padding-end ion-text-wrap">
+            {{testType.modificationTypeUsed}}
+          </h3>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
@@ -298,7 +319,7 @@
                 {{ defect.additionalInformation.notes }}
               </h4>
               <h4
-                class="parent-info-color-sm ion-padding-end ion-text-wrap"
+                class="parent-info-color-sm ion-padding-end ion-text-wrap align-title"
                 *ngIf="defect.prohibitionIssued"
               >
                 Prohibition issued - Yes
@@ -354,10 +375,12 @@
         class="ion-no-padding"
         *ngIf="testType.prohibitionIssued && testType.testResult !== testTypeResults.ABANDONED"
       >
-        <div class="test-field test-field-no-border-top flex-wrapper-container ion-margin-start">
-          <h3 class="ion-text-wrap">Prohibition Issued</h3>
-          <h3 class="test-field-value">Yes</h3>
-        </div>
+        <ion-label class="ion-no-margin">
+          <div class="test-field test-field-no-border-top flex-wrapper-container ion-margin-start">
+            <h3 class="ion-text-wrap align-title">Prohibition Issued</h3>
+            <h3 class="test-field-value">Yes</h3>
+          </div>
+        </ion-label>
       </ion-item>
       <ion-item
         lines="full"
