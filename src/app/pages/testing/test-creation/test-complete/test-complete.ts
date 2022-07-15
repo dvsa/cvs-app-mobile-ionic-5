@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   ActionSheetController,
   AlertController,
@@ -51,13 +51,13 @@ import {
   templateUrl: 'test-complete.html'
 })
 export class TestCompletePage implements OnInit {
-  @Input() vehicle: VehicleModel;
-  @Input() vehicleTest: TestTypeModel;
+  vehicle: VehicleModel;
+  vehicleTest: TestTypeModel;
   testTypeDetails;
   testTypeInputs: typeof TEST_TYPE_INPUTS = TEST_TYPE_INPUTS;
   testTypeFields: typeof TEST_TYPE_FIELDS = TEST_TYPE_FIELDS;
-  @Input() completedFields;
-  @Input() fromTestReview;
+  completedFields;
+  fromTestReview;
   defectsCategories: DefectCategoryReferenceDataModel[];
   isCertificateNumberFocused: boolean;
   today: string;
@@ -87,21 +87,19 @@ export class TestCompletePage implements OnInit {
     private vehicleService: VehicleService,
     private analyticsService: AnalyticsService,
     public router: Router,
-    public events: EventsService,
+    public events: EventsService
   ) {
     this.patterns = REG_EX_PATTERNS;
     this.isCertificateNumberFocused = false;
   }
 
   ngOnInit(): void {
-    if (!this.fromTestReview) {
-      this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
-      this.vehicle = this.router.getCurrentNavigation().extras.state.vehicle;
-      this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
-      this.completedFields = this.router.getCurrentNavigation().extras.state.completedFields;
-      this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
-      this.errorIncomplete = this.router.getCurrentNavigation().extras.state.errorIncomplete;
-    }
+    this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
+    this.vehicle = this.router.getCurrentNavigation().extras.state.vehicle;
+    this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
+    this.completedFields = this.router.getCurrentNavigation().extras.state.completedFields;
+    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
+    this.errorIncomplete = this.router.getCurrentNavigation().extras.state.errorIncomplete;
     this.today = new Date().toISOString();
     this.testTypeFields = TEST_TYPE_FIELDS;
     this.testTypeDetails = this.getTestTypeDetails();
@@ -457,11 +455,7 @@ export class TestCompletePage implements OnInit {
     );
     await this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
-    if (this.fromTestReview) {
-      await this.modalCtrl.dismiss(this.vehicleTest);
-    } else {
-      await this.navCtrl.navigateBack(this.previousPageName);
-    }
+    await this.navCtrl.navigateBack(this.previousPageName);
   }
 
   async addDefect(): Promise<void> {
@@ -473,9 +467,6 @@ export class TestCompletePage implements OnInit {
         fromTestReview: this.fromTestReview
       }
     });
-    if (this.fromTestReview) {
-      await this.modalCtrl.dismiss();
-    }
   }
 
   async openDefect(defect: DefectDetailsModel): Promise<void> {
@@ -493,13 +484,9 @@ export class TestCompletePage implements OnInit {
         state: {
           vehicleTest: this.vehicleTest,
           advisory: defect,
-          isEdit: true,
-          fromTestReview: this.fromTestReview
+          isEdit: true
         }
       });
-    }
-    if (this.fromTestReview) {
-      await this.modalCtrl.dismiss();
     }
   }
 
@@ -594,9 +581,6 @@ export class TestCompletePage implements OnInit {
         fromTestReview: this.fromTestReview
       },
     });
-    if (this.fromTestReview) {
-      await this.modalCtrl.dismiss();
-    }
   }
 
   certificateNumberInputChange(inputValue) {
@@ -644,9 +628,6 @@ export class TestCompletePage implements OnInit {
     defectIndex?: number,
     defect?: SpecialistCustomDefectModel
   ): Promise<void> {
-    if (this.fromTestReview) {
-      await this.modalCtrl.dismiss();
-    }
     const MODAL = await this.modalCtrl.create({
       component: DefectDetailsSpecialistTestingPage,
       componentProps: {

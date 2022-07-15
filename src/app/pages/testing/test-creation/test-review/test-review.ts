@@ -116,9 +116,6 @@ export class TestReviewPage implements OnInit {
         this.vehicleBeingReviewed = this.extras.state.vehicleBeingReviewed || 0;
         this.backButtonText = this.extras.state.backButtonText;
         this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
-        this.vehicle.testTypes.forEach(testType => {
-          this.testTypeService.fixDateFormatting(testType);
-        });
         if (this.latestTest.vehicles[0] !== this.vehicle) {
           this.previousExtras = this.extras.state.previousExtras;
         }
@@ -131,6 +128,11 @@ export class TestReviewPage implements OnInit {
 
   async ionViewDidEnter() {
     await this.analyticsService.setCurrentPage(ANALYTICS_SCREEN_NAMES.TEST_REVIEW);
+    for (const testType of this.vehicle.testTypes) {
+      this.testTypeService.fixDateFormatting(testType);
+      await this.checkMissingTestTypeMandatoryFields(testType);
+    }
+
   }
 
   async goBack() {
@@ -186,22 +188,17 @@ export class TestReviewPage implements OnInit {
   }
 
   async openTestDetailsPage(vehicle, testType) {
-    const initialTestType = this.commonFunctions.cloneObject(testType);
     this.completeFields(testType);
-    const MODAL = await this.modalCtrl.create({
-      component: TestCompletePage,
-      componentProps: {
+    await this.router.navigate([PAGE_NAMES.TEST_COMPLETE_PAGE], {
+      state: {
         vehicle,
         vehicleTest: testType,
         completedFields: this.completedFields,
-        fromTestReview: true
+        errorIncomplete: false,
+        previousPageName: PAGE_NAMES.TEST_REVIEW_PAGE,
+        fromTestReview: true,
       }
     });
-    await MODAL.present();
-    const { data } = await MODAL.onDidDismiss();
-    if (data) {
-      await this.checkMissingTestTypeMandatoryFields(data, initialTestType);
-    }
   }
 
   async goBackToTestCreatePage() {
@@ -209,29 +206,28 @@ export class TestReviewPage implements OnInit {
   }
 
   isSpecialistTestTypeCompleted(
-    changedTestType: TestTypeModel,
-    initialTestType: TestTypeModel
+    testType: TestTypeModel
   ): boolean {
     // specialist test-types WITHOUT certificate number with custom defects incomplete
     if (
-      this.testTypeService.isSpecialistTestType(initialTestType.testTypeId) &&
+      this.testTypeService.isSpecialistTestType(testType.testTypeId) &&
       !(
         this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
-          initialTestType.testTypeId
-        ) || this.testTypeService.isSpecialistPartOfCoifTestTypes(initialTestType.testTypeId)
+          testType.testTypeId
+        ) || this.testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId)
       ) &&
-      !this.testTypeService.areSpecialistCustomDefectsCompleted(changedTestType)
+      !this.testTypeService.areSpecialistCustomDefectsCompleted(testType)
     ) {
       return false;
     }
     // specialist test-types WITH certificate number with certificate number missing or custom defects incomplete
     if (
       (this.testTypeService.isSpecialistTestTypesExceptForCoifAndVoluntaryIvaTestAndRetest(
-        initialTestType.testTypeId
+          testType.testTypeId
       ) ||
-        this.testTypeService.isSpecialistPartOfCoifTestTypes(initialTestType.testTypeId)) &&
-      (!changedTestType.certificateNumber ||
-        !this.testTypeService.areSpecialistCustomDefectsCompleted(changedTestType))
+        this.testTypeService.isSpecialistPartOfCoifTestTypes(testType.testTypeId)) &&
+      (!testType.certificateNumber ||
+        !this.testTypeService.areSpecialistCustomDefectsCompleted(testType))
     ) {
       return false;
     }
@@ -239,30 +235,29 @@ export class TestReviewPage implements OnInit {
   }
 
   async checkMissingTestTypeMandatoryFields(
-    changedTestType: TestTypeModel,
-    initialTestType: TestTypeModel
+    testType: TestTypeModel
   ): Promise<void> {
-    if (this.adrTestTypesIds.indexOf(initialTestType.testTypeId) !== -1) {
+    if (this.adrTestTypesIds.indexOf(testType.testTypeId) !== -1) {
       if (
-        changedTestType.testResult === TEST_TYPE_RESULTS.PASS &&
-        (!changedTestType.certificateNumber ||
-          (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 6) ||
-          !changedTestType.testExpiryDate)
+        testType.testResult === TEST_TYPE_RESULTS.PASS &&
+        (!testType.certificateNumber ||
+          (testType.certificateNumber && testType.certificateNumber.length < 6) ||
+          !testType.testExpiryDate)
       ) {
         await this.goBackToTestCreatePage();
       }
-    } else if (this.testTypeService.isTirTestType(initialTestType.testTypeId)) {
+    } else if (this.testTypeService.isTirTestType(testType.testTypeId)) {
       if (
-        changedTestType.testResult === TEST_TYPE_RESULTS.PASS &&
-        (!changedTestType.certificateNumber ||
-          (changedTestType.certificateNumber && changedTestType.certificateNumber.length < 5))
+        testType.testResult === TEST_TYPE_RESULTS.PASS &&
+        (!testType.certificateNumber ||
+          (testType.certificateNumber && testType.certificateNumber.length < 5))
       ) {
         await this.goBackToTestCreatePage();
       }
-    } else if (!this.isSpecialistTestTypeCompleted(changedTestType, initialTestType)) {
+    } else if (!this.isSpecialistTestTypeCompleted(testType)) {
       await this.goBackToTestCreatePage();
     } else {
-      if (initialTestType.certificateNumber && !changedTestType.certificateNumber) {
+      if (testType.certificateNumber && !testType.certificateNumber) {
         await this.goBackToTestCreatePage();
       }
     }

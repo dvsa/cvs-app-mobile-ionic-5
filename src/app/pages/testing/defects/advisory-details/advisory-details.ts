@@ -15,7 +15,6 @@ export class AdvisoryDetailsPage implements OnInit {
   vehicleTest: TestTypeModel;
   advisory: DefectDetailsModel;
   isEdit: boolean;
-  fromTestReview: boolean;
 
   constructor(
     private alertCtrl: AlertController,
@@ -29,17 +28,11 @@ export class AdvisoryDetailsPage implements OnInit {
     this.vehicleTest = this.router.getCurrentNavigation().extras.state.vehicleTest;
     this.advisory = this.router.getCurrentNavigation().extras.state.advisory;
     this.isEdit = this.router.getCurrentNavigation().extras.state.isEdit;
-    this.fromTestReview = this.router.getCurrentNavigation().extras.state.fromTestReview;
-
   }
 
   async cancelAdvisory(): Promise<void> {
     if (this.isEdit) {
-      if (this.fromTestReview) {
-        await this.navCtrl.navigateBack([PAGE_NAMES.TEST_REVIEW_PAGE]);
-      } else {
-        await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-      }
+      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
     } else {
       await this.navCtrl.navigateBack([PAGE_NAMES.ADD_DEFECT_PAGE]);
 
@@ -50,20 +43,12 @@ export class AdvisoryDetailsPage implements OnInit {
     if (!this.isEdit) {
       this.vehicleTest.defects.push(this.advisory);
     }
-    if (this.fromTestReview) {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_REVIEW_PAGE]);
-    } else {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-    }
+    await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
   }
 
   async removeAdvisory(): Promise<void> {
     await this.testTypeService.removeDefect(this.vehicleTest, this.advisory);
-    if (this.fromTestReview) {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_REVIEW_PAGE]);
-    } else {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-    }
+    await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
   }
 
   async removeAdvisoryConfirm(): Promise<void> {

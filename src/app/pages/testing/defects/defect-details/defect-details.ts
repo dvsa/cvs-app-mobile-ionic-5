@@ -86,11 +86,7 @@ export class DefectDetailsPage implements OnInit {
     this.defect.additionalInformation.notes = this.tempDefectNotes;
     this.defect.prs = this.tempPrs;
     if (this.isEdit) {
-      if (this.fromTestReview) {
-        await this.navCtrl.navigateBack([PAGE_NAMES.TEST_REVIEW_PAGE]);
-      } else {
-        await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-      }
+      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
     } else {
       await this.navCtrl.navigateBack([PAGE_NAMES.ADD_DEFECT_PAGE]);
     }
@@ -100,11 +96,7 @@ export class DefectDetailsPage implements OnInit {
     if (!this.isEdit) {
       await this.testTypeService.addDefect(this.vehicleTest, this.defect);
     }
-    if (this.fromTestReview) {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_REVIEW_PAGE]);
-    } else {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-    }
+    await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
 
     if (this.notesChanged) {
       await this.onNotesChanged();
@@ -199,11 +191,7 @@ export class DefectDetailsPage implements OnInit {
 
   async removeDefect(defect: DefectDetailsModel): Promise<void> {
     await this.testTypeService.removeDefect(this.vehicleTest, defect);
-    if (this.fromTestReview) {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_REVIEW_PAGE]);
-    } else {
-      await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
-    }
+    await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
   }
 
   private async onNotesChanged() {
