@@ -1,6 +1,6 @@
 import { TestStationHomePage } from './test-station-home';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { AppService } from '@providers/global/app.service';
 import { StorageService } from '@providers/natives/storage.service';
 import { VisitService } from '@providers/visit/visit.service';
@@ -20,7 +20,6 @@ import { AuthenticationService } from '@providers/auth';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { SignaturePadPage } from '@app/pages/signature-pad/signature-pad';
 import { TestStationSearchPage } from '@app/pages/test-station/test-station-search/test-station-search';
 
 describe('Component: TestStationHomePage', () => {
