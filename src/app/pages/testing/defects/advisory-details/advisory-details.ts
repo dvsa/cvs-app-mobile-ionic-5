@@ -35,7 +35,6 @@ export class AdvisoryDetailsPage implements OnInit {
       await this.navCtrl.navigateBack([PAGE_NAMES.TEST_COMPLETE_PAGE]);
     } else {
       await this.navCtrl.navigateBack([PAGE_NAMES.ADD_DEFECT_PAGE]);
-
     }
   }
 
