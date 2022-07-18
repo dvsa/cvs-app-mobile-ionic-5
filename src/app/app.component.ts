@@ -93,9 +93,6 @@ export class AppComponent implements OnInit {
 
   private async setRootPage(): Promise<any> {
     await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE], {replaceUrl: true});
-    // @TODO - Ionic 5 - do we need this?
-    // this.splashScreen.hide();
-
   }
 
   async manageAppState() {

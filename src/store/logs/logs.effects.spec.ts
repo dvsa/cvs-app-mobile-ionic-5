@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
 import { NetworkMock, PlatformMock } from 'ionic-mocks';
@@ -76,39 +76,37 @@ describe('Logs Effects', () => {
     });
   });
 
-  // @TODO - Ionic 5 - fix  unit tests
+  describe('persistLogs', () => {
+    it('should call saveLogs', fakeAsync((done) => {
+      // ARRANGE
+      spyOn(effects, 'saveLogs').and.callThrough();
+      // ACT
+      actions$.next(logsActions.persistLogs());
+      tick();
+      // ASSERT
+      effects.persistLogEffect$.subscribe((result) => {
+        expect(effects.saveLogs).toHaveBeenCalled();
+        expect(result.type).toBeTruthy();
+        done();
+      });
+    }));
+  });
 
-  // describe('persistLogs', () => {
-  //   it('should call saveLogs', fakeAsync((done) => {
-  //     // ARRANGE
-  //     spyOn(effects, 'saveLogs').and.callThrough();
-  //     // ACT
-  //     actions$.next(logsActions.persistLogs());
-  //     tick();
-  //     // ASSERT
-  //     effects.persistLogEffect$.subscribe((result) => {
-  //       expect(effects.saveLogs).toHaveBeenCalled();
-  //       expect(result.type).toBeTruthy();
-  //       done();
-  //     });
-  //   }));
-  // });
-
-  // describe('LoadLog', () => {
-  //   it('should call getPersistedLogs and return LoadLogState', fakeAsync((done) => {
-  //     // ARRANGE
-  //     spyOn(effects, 'getPersistedLogs').and.callThrough();
-  //     // ACT
-  //     actions$.next(new logsActions.LoadLog());
-  //     tick();
-  //     // ASSERT
-  //     effects.persistLogEffect$.subscribe((result) => {
-  //       expect(effects.getPersistedLogs).toHaveBeenCalled();
-  //       expect(result instanceof logsActions.LoadLogState).toBe(true);
-  //       done();
-  //     });
-  //   }));
-  // });
+  describe('LoadLog', () => {
+    it('should call getPersistedLogs and return LoadLogState', fakeAsync((done) => {
+      // ARRANGE
+      spyOn(effects, 'getPersistedLogs').and.callThrough();
+      // ACT
+      actions$.next(logsActions.loadLog());
+      tick();
+      // ASSERT
+      effects.persistLogEffect$.subscribe((result) => {
+        expect(effects.getPersistedLogs).toHaveBeenCalled();
+        expect(result instanceof logsActions.loadLogState).toBe(true);
+        done();
+      });
+    }));
+  });
 
   describe('getAndConvertPersistedLogs', () => {
     it('should return data without emptying cache if data is not too old', (done) => {
