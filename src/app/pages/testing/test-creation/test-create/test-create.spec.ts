@@ -53,6 +53,7 @@ import { StorageServiceMock } from '@test-config/services-mocks/storage-service.
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { TestReviewPage } from '@app/pages/testing/test-creation/test-review/test-review';
+import { TestTypesListPage } from '@app/pages/testing/test-creation/test-types-list/test-types-list';
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -94,8 +95,12 @@ describe('Component: TestCreatePage', () => {
           {
             path: PAGE_NAMES.TEST_REVIEW_PAGE,
             component: TestReviewPage
+          },
+          {
+            path: PAGE_NAMES.TEST_TYPES_LIST_PAGE,
+            component: TestTypesListPage,
           }
-        ])
+        ]),
       ],
       providers: [
         CommonFunctionsService,
@@ -637,12 +642,11 @@ describe('Component: TestCreatePage', () => {
       await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
       expect(alertService.alertSuggestedTestTypes).toHaveBeenCalled();
     });
-    //@TODO - add back when testTypesList page is added
-    // it('should NOT inform the user if a test was failed over 20 days', async () => {
-    //   jasmine.clock().mockDate(new Date('2021-09-22T13:00:00.000Z'));
-    //   await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
-    //   expect(alertService.alertSuggestedTestTypes).not.toHaveBeenCalled();
-    // });
+    it('should NOT inform the user if a test was failed over 20 days', async () => {
+      jasmine.clock().mockDate(new Date('2021-09-22T13:00:00.000Z'));
+      await component.onAddNewTestType({systemNumber: '123456'} as VehicleModel);
+      expect(alertService.alertSuggestedTestTypes).not.toHaveBeenCalled();
+    });
   });
 
   it('should open the vehicle test history', async () => {
