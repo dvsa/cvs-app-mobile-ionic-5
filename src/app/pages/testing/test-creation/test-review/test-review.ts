@@ -47,7 +47,6 @@ import { TirTestTypesData } from '@assets/app-data/test-types-data/tir-test-type
 import { TestTypeService } from '@providers/test-type/test-type.service';
 import { LogsProvider } from '@store/logs/logs.service';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { TestCompletePage } from '@app/pages/testing/test-creation/test-complete/test-complete';
 import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
 
 @Component({
