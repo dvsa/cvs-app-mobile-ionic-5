@@ -250,10 +250,6 @@ export class TestReviewPage implements OnInit {
       }
     } else if (!this.isSpecialistTestTypeCompleted(testType)) {
       await this.goBackToTestCreatePage();
-    } else {
-      if (testType.certificateNumber && !testType.certificateNumber) {
-        await this.goBackToTestCreatePage();
-      }
     }
   }
 

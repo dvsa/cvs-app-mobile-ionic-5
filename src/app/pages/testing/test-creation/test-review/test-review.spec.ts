@@ -8,7 +8,7 @@ import {
   LoadingController
 } from '@ionic/angular';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
-import { AlertControllerMock } from 'ionic-mocks';
+import { AlertControllerMock, LoadingControllerMock } from 'ionic-mocks';
 import { StateReformingService } from '@providers/global/state-reforming.service';
 import { StateReformingServiceMock } from '@test-config/services-mocks/state-reforming-service.mock';
 import { VehicleService } from '@providers/vehicle/vehicle.service';
@@ -46,8 +46,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
 import { Router } from '@angular/router';
+import { throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ConfirmationPage } from '@app/pages/visit/confirmation/confirmation';
 
-fdescribe('Component: TestReviewPage', () => {
+describe('Component: TestReviewPage', () => {
   let component: TestReviewPage;
   let fixture: ComponentFixture<TestReviewPage>;
   let visitService: VisitService;
@@ -80,7 +83,12 @@ fdescribe('Component: TestReviewPage', () => {
 
     TestBed.configureTestingModule({
       declarations: [TestReviewPage],
-      imports: [RouterTestingModule.withRoutes([])],
+      imports: [RouterTestingModule.withRoutes([
+        {
+          path: PAGE_NAMES.CONFIRMATION_PAGE,
+          component: ConfirmationPage
+        },
+      ])],
       providers: [
         CommonFunctionsService,
         OpenNativeSettings,
@@ -100,6 +108,7 @@ fdescribe('Component: TestReviewPage', () => {
         { provide: AppService, useClass: AppServiceMock },
         { provide: LogsProvider, useValue: logProviderSpy },
         { provide: ActivityService, useClass: ActivityServiceMock },
+        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -130,7 +139,7 @@ fdescribe('Component: TestReviewPage', () => {
           }
       } as any
     );
-
+    visitService.visit = component.visit = VisitDataMock.VisitData;
     spyOn(window.localStorage, 'getItem').and.callFake(() => JSON.stringify({ test: 'test' }));
   });
 
@@ -157,18 +166,16 @@ fdescribe('Component: TestReviewPage', () => {
   });
 
   it('should test submitting a test', async () => {
-    visitService.visit = VisitDataMock.VisitData;
     await component.onSubmit(VisitDataMock.VisitTestData);
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  // it('should test submitting a test - error case on submitActivity', () => {
-  //   visitService.visit = VisitDataMock.VisitData;
-  //   activityService.isSubmitError = true;
-  //   component.onSubmit(VisitDataMock.VisitTestData);
-  //
-  //   expect(logProvider.dispatchLog).toHaveBeenCalled();
-  // });
+  it('should test submitting a test - error case on submitActivity', async () => {
+    spyOn(activityService, 'submitActivity').and.returnValue(throwError(new HttpErrorResponse({})));
+    await component.onSubmit(VisitDataMock.VisitTestData);
+
+    expect(logProvider.dispatchLog).toHaveBeenCalled();
+  });
 
   it('should test getCountryStringToBeDisplayed', () => {
     spyOn(commonFuncService, 'getCountryStringToBeDisplayed');
@@ -209,14 +216,9 @@ fdescribe('Component: TestReviewPage', () => {
     component.latestTest = newTest;
     component.vehicleBeingReviewed = component.latestTest.vehicles.length - 1;
     spyOn(component, 'goToNextPage');
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-    const submitButton = fixture.debugElement.query(By.css('.footer-cta-section>button'));
+    const submitButton = fixture.debugElement.query(By.css('.footer-cta-section>ion-button'));
     expect(component.nextButtonText).toBe('Submit tests');
     submitButton.triggerEventHandler('click', null);
-    fixture.detectChanges();
-    await fixture.whenStable();
     expect(component.goToNextPage).toHaveBeenCalled();
   });
 
@@ -232,24 +234,25 @@ fdescribe('Component: TestReviewPage', () => {
     expect(Object.keys(component.completedFields).length).toBe(3);
   });
 
-  // it('should open the testDetailsModal', () => {
-  //   const firstVehicle = vehicleService.createVehicle(vehicleTechRecord);
-  //   const testType = TestTypeDataModelMock.TestTypeData;
-  //   component.openTestDetailsPage(firstVehicle, testType);
-  //   expect(modalCtrl.create).toHaveBeenCalled();
-  // });
+  it('should open the test complete page', async () => {
+    const navSpy = spyOn(router, 'navigate');
+    const firstVehicle = vehicleService.createVehicle(vehicleTechRecord);
+    const testType = TestTypeDataModelMock.TestTypeData;
+    await component.openTestDetailsPage(firstVehicle, testType);
+    expect(navSpy).toHaveBeenCalled();
+  });
 
-  it('should not pop to test overview if roadworthiness test result is fail', async () => {
+  it('should not navigate back to test overview if roadworthiness test result is fail', async () => {
     const navSpy = spyOn(navCtrl, 'navigateBack');
     const testType = { ...TestTypeDataModelMock.TestTypeData };
 
     testType.testTypeId = '62';
     testType.testResult = TEST_TYPE_RESULTS.FAIL;
     await component.checkMissingTestTypeMandatoryFields(testType);
-    expect(await navSpy).not.toHaveBeenCalled();
+    expect(navSpy).not.toHaveBeenCalled();
   });
 
-  it('should not pop to test overview if adr test result is fail', async () => {
+  it('should not navigate back to test overview if adr test result is fail', async () => {
     const navSpy = spyOn(navCtrl, 'navigateBack');
     const testType = { ...TestTypeDataModelMock.TestTypeData };
 
@@ -259,7 +262,7 @@ fdescribe('Component: TestReviewPage', () => {
     expect(await navSpy).not.toHaveBeenCalled();
   });
 
-  it('should pop to test overview if adr test result is pass and the certificate number or expiryDate do not exist', async () => {
+  it('should navigate back to test overview if adr test result is pass and the certificate number or expiryDate do not exist', async () => {
     const navSpy = spyOn(navCtrl, 'navigateBack');
     const testType = { ...TestTypeDataModelMock.TestTypeData };
 
@@ -271,14 +274,14 @@ fdescribe('Component: TestReviewPage', () => {
     expect(await navSpy).toHaveBeenCalled();
   });
 
-  it('should pop to test overview if a test type initially had certificate number and after changing the details not', async () => {
+  it('should navigate back test overview if a specialist test has no certificate number', async () => {
     const navSpy = spyOn(navCtrl, 'navigateBack');
     const testType = { ...TestTypeDataModelMock.TestTypeData };
 
-    testType.certificateNumber = '44334554';
+    testType.testTypeId = '125';
     testType.certificateNumber = null;
     await component.checkMissingTestTypeMandatoryFields(testType);
-    expect(await navSpy).toHaveBeenCalled();
+    expect(navSpy).toHaveBeenCalled();
   });
 
   it('should get the formatted string to be displayed for odometer reading', () => {
@@ -345,7 +348,6 @@ fdescribe('Component: TestReviewPage', () => {
       const LOADING = await component.loadingCtrl.create({
         message: 'Loading...'
       });
-
       await component.onSubmit(testModelParam);
 
       expect(component.submitTests).toHaveBeenCalledTimes(1);
@@ -353,23 +355,17 @@ fdescribe('Component: TestReviewPage', () => {
     });
 
     it('should call visitService.createDataClearingAlert if a valid response is returned with a body of false', async () => {
-      const presentSpy = jasmine.createSpy();
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
+      logProvider.dispatchLog = jasmine.createSpy().and.callFake(() => {});
+      component.visitService.createDataClearingAlert = jasmine.createSpy();
 
       const LOADING = await component.loadingCtrl.create({
         message: 'Loading...'
       });
-
-      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({ body: false }));
-      logProvider.dispatchLog = jasmine.createSpy().and.callFake(() => {});
-      component.visitService.createDataClearingAlert = jasmine.createSpy().and.returnValue({
-        present: presentSpy,
-      });
-
       await component.onSubmit(testModelParam);
 
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(1);
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledWith(LOADING);
-      expect(presentSpy).toHaveBeenCalledTimes(1);
       expect(logProvider.dispatchLog).toHaveBeenCalledTimes(1);
     });
 
