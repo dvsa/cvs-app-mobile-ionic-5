@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
   LoadingController,
-  ModalController,
   NavController,
 } from '@ionic/angular';
 import { VisitModel } from '@models/visit/visit.model';
@@ -83,12 +82,11 @@ export class TestReviewPage implements OnInit {
     public commonFunctions: CommonFunctionsService,
     public defectsService: DefectsService,
     private vehicleService: VehicleService,
-    private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private testResultService: TestResultService,
     private openNativeSettings: OpenNativeSettings,
     private testService: TestService,
-    private loadingCtrl: LoadingController,
+    public loadingCtrl: LoadingController,
     private storageService: StorageService,
     private authenticationService: AuthenticationService,
     private analyticsService: AnalyticsService,
@@ -120,9 +118,9 @@ export class TestReviewPage implements OnInit {
           this.previousExtras = this.extras.state.previousExtras;
         }
       }
-      this.storageService.watchStorage().subscribe(() => {
-        this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
-      });
+    });
+    this.storageService.watchStorage().subscribe(() => {
+      this.isTestSubmitted = localStorage.getItem(LOCAL_STORAGE.IS_TEST_SUBMITTED);
     });
   }
 
@@ -205,9 +203,7 @@ export class TestReviewPage implements OnInit {
     await this.navCtrl.navigateBack([PAGE_NAMES.TEST_CREATE_PAGE]);
   }
 
-  isSpecialistTestTypeCompleted(
-    testType: TestTypeModel
-  ): boolean {
+  isSpecialistTestTypeCompleted(testType: TestTypeModel): boolean {
     // specialist test-types WITHOUT certificate number with custom defects incomplete
     if (
       this.testTypeService.isSpecialistTestType(testType.testTypeId) &&
@@ -234,9 +230,7 @@ export class TestReviewPage implements OnInit {
     return true;
   }
 
-  async checkMissingTestTypeMandatoryFields(
-    testType: TestTypeModel
-  ): Promise<void> {
+  async checkMissingTestTypeMandatoryFields(testType: TestTypeModel): Promise<void> {
     if (this.adrTestTypesIds.indexOf(testType.testTypeId) !== -1) {
       if (
         testType.testResult === TEST_TYPE_RESULTS.PASS &&
