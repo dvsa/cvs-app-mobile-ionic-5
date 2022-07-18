@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {HTTPService} from '@providers/global';
 import {Observable} from 'rxjs';
 import {
-  // Events,
   ToastController,
 } from '@ionic/angular';
 import {StorageService} from '../natives/storage.service';
 import {APP_STRINGS, STORAGE} from '@app/app.enums';
 import {AuthenticationService} from '@providers/auth';
+import { EventsService } from '@providers/events/events.service';
 
 @Injectable()
 export class SignatureService {
@@ -15,6 +15,7 @@ export class SignatureService {
 
   constructor(
     private httpService: HTTPService,
+    private events: EventsService,
     private toastCtrl: ToastController,
     private storageService: StorageService,
     private authenticationService: AuthenticationService
