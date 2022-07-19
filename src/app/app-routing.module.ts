@@ -37,9 +37,9 @@ const routes: Routes = [
       .then( m => m.VisitTimelineModule)
   },
   {
-    path: PAGE_NAMES.VISIT_CONFIRMATION_PAGE,
-    loadChildren: () => import('./pages/visit/visit-confirmation/visit-confirmation.module')
-      .then( m => m.VisitConfirmationModule )
+    path: PAGE_NAMES.CONFIRMATION_PAGE,
+    loadChildren: () => import('./pages/visit/confirmation/confirmation.module')
+      .then( m => m.ConfirmationModule )
   },
   {
     path: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
@@ -189,6 +189,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/testing/test-creation/test-type-details-input/test-type-details-input.module')
         .then( m => m.TestTypeDetailsInputPageModule)
+  },
+  {
+    path: PAGE_NAMES.TEST_REVIEW_PAGE,
+    loadChildren: () => import('./pages/testing/test-creation/test-review/test-review.module')
+      .then( m => m.TestReviewModule)
   },
 ];
 

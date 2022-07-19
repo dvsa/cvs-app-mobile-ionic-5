@@ -1,0 +1,244 @@
+:host {
+  ion-content {
+    background-color: var(--color-grey-3);
+
+    ion-card {
+      margin-bottom: 32px;
+
+      .vehicle-detail-content {
+        h2 {
+          font-size: var(--font-size-medium);
+          font-weight: var(--font-weight-normal);
+          margin: 5px;
+          span {
+            padding-right: 5px;
+          }
+        }
+
+        p {
+          font-size: var(--font-size-small);
+          margin: 5px;
+        }
+      }
+
+      .ion-item-title {
+        h2 {
+          font-size: 18px;
+          font-weight: var(--font-weight-semi-bold);
+        }
+
+        p {
+          font-weight: normal;
+          font-size: 16px;
+          color: var(--color-grey-1)
+        }
+      }
+
+      ion-row.ion-padding-start {
+        display: flex;
+        align-items: center;
+      }
+
+      .btn-add-test {
+        font-size: 14px;
+        color: var(--primary);
+      }
+
+      .test-field {
+        padding: 16px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h3 {
+          margin: 0;
+          font-size: var(--font-size-medium);
+          color: var(--dark);
+        }
+      }
+
+      .defects-section-title,
+      .notes-section-title {
+        font-size: var(--font-size-normal);
+        margin-bottom: 8px;
+      }
+
+      .lec-section-title {
+        font-size: var(--font-size-medium);
+        margin-bottom: 8px;
+      }
+
+      .defect-details {
+        margin-top: 12px;
+        margin-bottom: 12px;
+
+        h3 {
+          white-space: normal;
+          font-size: var(--font-size-medium);
+          color: var(--dark);
+        }
+
+        h3.defect-name {
+          font-weight: bold;
+          font-size: var(--font-size-medium);
+        }
+      }
+
+      .parent-info-color {
+        color: var(--color-grey-1);
+        font-size: var(--font-size-medium);
+      }
+
+      .parent-info-color-sm {
+        color: var(--color-grey-1);
+        font-size: var(--font-size-normal);
+      }
+
+      h3.parent-info-color {
+        margin-bottom: 16px;
+      }
+
+      p {
+        font-size: var(--font-size-medium);
+      }
+
+      .test-type,
+      .odometer-reading,
+      .country-of-registration,
+      .vehicle-category {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        background-color: var(--light);
+        font-size: var(--font-size-medium);
+        color: var(--dark);
+      }
+
+      .vehicle-type-icon {
+        margin: 8px 16px 8px 0;
+        background: none;
+        width: 65px;
+      }
+
+      .ion-align-items-end.vehicle-details {
+        margin: 8px;
+        color: var(--color-grey-1);
+      }
+
+      .ion-align-items-end.arrow-forward {
+        color: var(--color-grey-2);
+        font-size: var(--font-size-medium);
+        display: flex;
+        align-items: center;
+      }
+
+      .ion-align-items-end.test-type-status {
+        margin: 0;
+        font-size: var(--font-size-medium);
+      }
+
+      .odometer-reading-status,
+      .country-of-registration-status,
+      .vehicle-category-status {
+        font-size: var(--font-size-medium);
+        color: var(--dark);
+        max-width: 110px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 7px;
+      }
+
+      .ion-align-items-end.test-type-status.test-type-pass {
+        color: var(--secondary);
+        font-size: var(--font-size-medium);
+      }
+
+      .ion-align-items-end.test-type-status.test-type-fail {
+        color: var(--danger);
+        font-size: var(--font-size-medium);
+      }
+
+      .ion-align-items-end.test-type-status.test-type-inProgress {
+        color: var(--color-grey-2);
+        font-size: var(--font-size-medium);
+      }
+
+      .ion-align-items-end.odometer-reading-status.odometer-reading-start {
+        color: var(--color-grey-2);
+        font-size: var(--font-size-medium);
+      }
+
+      .ion-align-items-end.odometer-reading-icon {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        font-size: var(--font-size-medium);
+      }
+
+      .ion-align-items-end.odometer-reading-icon.odometer-reading-icon-no-data {
+        color: var(--color-grey-2);
+      }
+
+      .ion-align-items-end.odometer-reading-icon.odometer-reading-icon-data {
+        font-size: var(--font-size-extra-large);
+        color: var(--primary);
+      }
+    }
+  }
+
+  .cert-number {
+    color: var(--dark);
+  }
+
+  .align-title {
+    padding-left: 4px;
+  }
+
+  ion-badge {
+    margin-bottom: -4.5px;
+    margin-left: 4px;
+  }
+
+  .test-field-value {
+    padding-right: 10px;
+  }
+
+  p.item-text-color {
+    color: var(--dark);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .change-details-button {
+    h3 {
+      margin-bottom: 16px;
+      color: var(--primary);
+      font-size: var(--font-size-medium);
+    }
+  }
+
+  .footer-cta-section button {
+    font-weight: var(--font-weight-semi-bold);
+  }
+
+  ion-img {
+    background: none;
+  }
+
+  .item-block .item-inner {
+    padding-right: 0;
+  }
+
+  .additional-info {
+    & span:first-of-type {
+      text-transform: capitalize;
+    }
+
+    & span:last-of-type .comma {
+      display: none;
+    }
+  }
+
+  ion-item.ion-margin-start.bottom-divider.height-60 {
+    padding-right: 32px;
+  }
+}

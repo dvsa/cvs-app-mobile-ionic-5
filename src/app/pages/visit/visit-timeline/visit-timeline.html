@@ -71,7 +71,7 @@
           <h2>{{getVehicleIdentifier(vehicle)}}</h2>
           <span *ngIf="timelineItem.status !== TEST_REPORT_STATUS.CANCELLED">
             <p class="timeline-message" *ngFor="let vehicleTest of vehicle.testTypes">
-              <span>{{ vehicleTest.testTypeCategoryName }} •</span>
+              <span>{{ vehicleTest.testTypeCategoryName }} • </span>
               <span
                 *ngIf="vehicleTest.testResult === TEST_TYPE_RESULT.PASS"
                 class="pass ion-text-uppercase"

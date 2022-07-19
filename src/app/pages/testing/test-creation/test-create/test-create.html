@@ -35,17 +35,8 @@
         <ion-label class="vehicle-detail-content">
           <h2 *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.TRL">
             <span class="ion-text-uppercase">{{ vehicle.vrm }}</span>
-            <span
-              class="ion-text-uppercase"
-              *ngIf="vehicle.techRecord.vehicleType !== VEHICLE_TYPE.CAR &&
-                         vehicle.techRecord.vehicleType !== VEHICLE_TYPE.MOTORCYCLE"
-              >({{vehicle.techRecord.vehicleType}})
-            </span>
-            <span
-              class="ion-text-uppercase"
-              *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.CAR ||
-                         vehicle.techRecord.vehicleType === VEHICLE_TYPE.MOTORCYCLE"
-              >({{vehicle.techRecord.vehicleType}})
+            <span class="ion-text-uppercase">
+              ({{vehicle.techRecord.vehicleType}})
             </span>
           </h2>
           <h2 *ngIf="vehicle.techRecord.vehicleType === VEHICLE_TYPE.TRL">

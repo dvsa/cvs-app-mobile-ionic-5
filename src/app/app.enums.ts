@@ -429,7 +429,7 @@ export enum PAGE_NAMES {
   SIGNATURE_PAD_PAGE = 'SignaturePadPage',
   VISIT_TIMELINE_PAGE = 'VisitTimelinePage',
   ADD_PREPARER_PAGE = 'AddPreparerPage',
-  VISIT_CONFIRMATION_PAGE = 'VisitConfirmationPage',
+  CONFIRMATION_PAGE = 'ConfirmationPage',
   VEHICLE_LOOKUP_PAGE = 'VehicleLookupPage',
   VEHICLE_LOOKUP_SEARCH_CRITERIA_SELECTION = 'VehicleLookupSearchCriteriaSelectionPage',
   WAIT_TIME_REASONS_PAGE = 'WaitTimeReasonsPage',

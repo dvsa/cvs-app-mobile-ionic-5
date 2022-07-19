@@ -87,8 +87,7 @@ export class TestCompletePage implements OnInit {
     private vehicleService: VehicleService,
     private analyticsService: AnalyticsService,
     public router: Router,
-    public navController: NavController,
-    public events: EventsService,
+    public events: EventsService
   ) {
     this.patterns = REG_EX_PATTERNS;
     this.isCertificateNumberFocused = false;
@@ -456,11 +455,7 @@ export class TestCompletePage implements OnInit {
     );
     await this.visitService.updateVisit();
     this.events.publish(APP.TEST_TYPES_UPDATE_COMPLETED_FIELDS, this.completedFields);
-    if (this.fromTestReview) {
-      await this.modalCtrl.dismiss(this.vehicleTest);
-    } else {
-      await this.navController.navigateBack(this.previousPageName);
-    }
+    await this.navCtrl.navigateBack(this.previousPageName);
   }
 
   async addDefect(): Promise<void> {
@@ -544,7 +539,7 @@ export class TestCompletePage implements OnInit {
     });
     await confirm.present();
     const onDidDismiss = await confirm.onDidDismiss();
-    if(onDidDismiss){
+    if (onDidDismiss) {
       this.changeBackground = false;
     }
   }
@@ -571,7 +566,11 @@ export class TestCompletePage implements OnInit {
 
     this.vehicleService.removeSicFields(vehicle, this.completedFields);
     await this.vehicleService.removeTestType(vehicle, vehicleTest);
-    await this.navController.navigateBack(this.previousPageName);
+    if (!this.fromTestReview) {
+      await this.navCtrl.navigateBack(PAGE_NAMES.TEST_CREATE_PAGE);
+    } else {
+      await this.onSave();
+    }
   }
 
   async abandonTestType(vehicleType: string, vehicleTest: TestTypeModel) {

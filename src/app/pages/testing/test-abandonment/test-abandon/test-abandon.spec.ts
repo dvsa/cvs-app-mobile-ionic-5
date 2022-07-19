@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestAbandonPage } from './test-abandon';
 import { TestTypeModel } from '@models/tests/test-type.model';
@@ -14,6 +14,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { PAGE_NAMES } from '@app/app.enums';
 import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
+import { TestReviewPage } from '@app/pages/testing/test-creation/test-review/test-review';
 
 describe('Component: TestAbandonPage', () => {
   let component: TestAbandonPage;
@@ -23,6 +24,7 @@ describe('Component: TestAbandonPage', () => {
   let analyticsService: AnalyticsService;
   let analyticsServiceSpy: any;
   let router: any;
+  let navCtrl: NavController;
 
   const vehicleTest: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const selectedReasons = ['Best reason', 'Second best reason'];
@@ -41,6 +43,10 @@ describe('Component: TestAbandonPage', () => {
           {
             path: PAGE_NAMES.TEST_CREATE_PAGE,
             component: TestCreatePage
+          },
+          {
+            path: PAGE_NAMES.TEST_REVIEW_PAGE,
+            component: TestReviewPage
           }
         ])
       ],
@@ -60,6 +66,7 @@ describe('Component: TestAbandonPage', () => {
     alertCtrl = TestBed.inject(AlertController);
     visitService = TestBed.inject(VisitService);
     analyticsService = TestBed.inject(AnalyticsService);
+    navCtrl = TestBed.inject(NavController);
     component.additionalComment = null;
     router = TestBed.inject(Router);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
@@ -106,22 +113,21 @@ describe('Component: TestAbandonPage', () => {
     expect(alertCtrl.create).toHaveBeenCalled();
   });
 
-  // @TODO - add in VTA-710
-  // it('should test onDone handler logic - popToRoot to have been called', async () => {
-  //   const navigateSpy = spyOn(router, 'navigate');
-  //   spyOn(component, 'updateVehicleTestModel');
-  //   component.fromTestReview = true;
-  //   await component.onDoneHandler();
-  //   expect(component.updateVehicleTestModel).toHaveBeenCalled();
-  //   expect(await navigateSpy).toHaveBeenCalled();
-  // });
+  it('should test onDone handler logic - popToRoot to have been called', async () => {
+    const navSpy = spyOn(navCtrl, 'navigateBack');
+    spyOn(component, 'updateVehicleTestModel');
+    component.fromTestReview = true;
+    await component.onDoneHandler();
+    expect(component.updateVehicleTestModel).toHaveBeenCalled();
+    expect(await navSpy).toHaveBeenCalled();
+  });
 
   it('should test onDone handler logic - popToRoot not to have been called', async () => {
-    const navigateSpy = spyOn(router, 'navigate');
+    const navSpy = spyOn(router, 'navigate');
     spyOn(component, 'updateVehicleTestModel');
     await component.onDoneHandler();
     expect(component.updateVehicleTestModel).toHaveBeenCalled();
-    expect(await navigateSpy).not.toHaveBeenCalled();
+    expect(await navSpy).not.toHaveBeenCalled();
   });
 
   it('should update the vehicleTestModel with abandonment object', async () => {
