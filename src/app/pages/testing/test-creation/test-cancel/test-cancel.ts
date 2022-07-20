@@ -60,7 +60,7 @@ export class TestCancelPage implements OnInit {
   }
 
   ngOnInit() {
-    this.testData = this.router.getCurrentNavigation().extras.state.test;
+    this.testData = this.router.getCurrentNavigation().extras.state.testData;
     this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
   }
 

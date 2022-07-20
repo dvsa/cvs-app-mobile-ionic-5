@@ -4,7 +4,7 @@ import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_VALUE, STORAGE
 } from '@app/app.enums';
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
   LoadingController,
@@ -72,9 +72,9 @@ export class VehicleLookupPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(val => {
-      this.testData = this.router.getCurrentNavigation().extras.state.test;
       this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
       this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
+      this.testData = this.router.getCurrentNavigation().extras.state.testData;
     });
   }
 
@@ -216,7 +216,11 @@ export class VehicleLookupPage implements OnInit {
   async close(): Promise<void> {
     if (this.previousPageName === PAGE_NAMES.VISIT_TIMELINE_PAGE || !this.isCombinationTest) {
       await this.visitService.removeTest(this.testData);
-      await this.navController.navigateBack(PAGE_NAMES.VISIT_TIMELINE_PAGE);
+      await this.navController.navigateBack(PAGE_NAMES.VISIT_TIMELINE_PAGE, {
+        state: {
+          testStation: this.testStation
+        }
+      });
     } else {
       await this.navController.navigateBack(PAGE_NAMES.TEST_CREATE_PAGE, {
         state: {
@@ -241,7 +245,7 @@ export class VehicleLookupPage implements OnInit {
   async goToVehicleDetails(vehicleData: VehicleModel) {
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
-        test: this.testData,
+        testData: this.testData,
         vehicle: vehicleData,
         previousPageName: PAGE_NAMES.VEHICLE_LOOKUP_PAGE,
         testStation: this.testStation
@@ -252,7 +256,7 @@ export class VehicleLookupPage implements OnInit {
   async goToMultipleTechRecordsSelection(multipleVehicleData: VehicleModel[]) {
     await this.router.navigate([PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION], {
       state: {
-        test: this.testData,
+        testData: this.testData,
         vehicles: multipleVehicleData,
         testStation: this.testStation
       }

@@ -95,7 +95,7 @@ export class TestCreatePage implements OnInit {
     const lastTestIndex = this.visitService.visit.tests.length - 1;
     this.testData = Object.keys(this.visitService.visit).length
       ? this.visitService.visit.tests[lastTestIndex]
-      : this.router.getCurrentNavigation().extras.state.test;
+      : this.router.getCurrentNavigation().extras.state.testData;
     this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
     this.getTestTypeReferenceData();
   }
@@ -454,7 +454,9 @@ export class TestCreatePage implements OnInit {
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
         vehicle,
-        previousPageName: PAGE_NAMES.TEST_CREATE_PAGE
+        testData: this.testData,
+        previousPageName: PAGE_NAMES.TEST_CREATE_PAGE,
+        testStation: this.testStation
       }
     });
   }
@@ -583,7 +585,7 @@ export class TestCreatePage implements OnInit {
   async onCancel() {
     await this.router.navigate([PAGE_NAMES.TEST_CANCEL_PAGE], {
       state: {
-        test: this.testData,
+        testData: this.testData,
         testStation: this.testStation
       }
     });
@@ -592,7 +594,7 @@ export class TestCreatePage implements OnInit {
   async addTrailer(tests) {
     await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {
       state: {
-        test: tests[tests.length - 1],
+        testData: tests[tests.length - 1],
         previousPageName: PAGE_NAMES.TEST_CREATE_PAGE,
         testStation: this.testStation
       }
@@ -701,7 +703,8 @@ export class TestCreatePage implements OnInit {
       } else {
         await this.router.navigate([PAGE_NAMES.TEST_REVIEW_PAGE], {
           state: {
-            visit: this.visitService.visit
+            visit: this.visitService.visit,
+            testStation: this.testStation
           }
         });
       }
