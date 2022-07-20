@@ -132,7 +132,7 @@ describe('Component: TestCreatePage', () => {
           }
       } as any
     );
-    component.testData = router.getCurrentNavigation().extras.state.test;
+    component.testData = router.getCurrentNavigation().extras.state.testData;
   });
 
   afterEach(() => {

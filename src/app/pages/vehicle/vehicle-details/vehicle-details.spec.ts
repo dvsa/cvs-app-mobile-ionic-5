@@ -25,18 +25,17 @@ import { AnalyticsService } from '@providers/global';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { FormatVrmPipe } from '@pipes/format-vrm/format-vrm.pipe';
-import {VehicleService} from '@providers/vehicle/vehicle.service';
-import {VehicleServiceMock} from '@test-config/services-mocks/vehicle-service.mock';
-import {LogsProvider} from '@store/logs/logs.service';
-import {AuthenticationService} from '@providers/auth';
-import {AuthenticationServiceMock} from '@test-config/services-mocks/authentication-service.mock';
+import { VehicleService } from '@providers/vehicle/vehicle.service';
+import { VehicleServiceMock } from '@test-config/services-mocks/vehicle-service.mock';
+import { LogsProvider } from '@store/logs/logs.service';
+import { AuthenticationService } from '@providers/auth';
+import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
 import { VisitService } from '@providers/visit/visit.service';
 import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
 import { TestService } from '@providers/test/test.service';
 import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { TestModel } from '@models/tests/test.model';
-import {of} from 'rxjs';
-import {TestResultsHistoryDataMock} from '@assets/data-mocks/test-results-history-data.mock';
+import { TestResultsHistoryDataMock } from '@assets/data-mocks/test-results-history-data.mock';
 import { TestCreatePage } from '@app/pages/testing/test-creation/test-create/test-create';
 import { VehicleLookupPage } from '@app/pages/vehicle/vehicle-lookup/vehicle-lookup';
 import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
@@ -128,7 +127,7 @@ describe('Component: VehicleDetailsPage', () => {
             state: {
               previousPage: PAGE_NAMES.VISIT_TIMELINE_PAGE,
               vehicle: VEHICLE,
-              test: TEST,
+              testData: TEST,
               testStation: TEST_STATION
             }
           }
@@ -259,7 +258,7 @@ describe('Component: VehicleDetailsPage', () => {
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.TEST_CREATE_PAGE, {
         state: {
           testStation: TEST_STATION,
-          test: component.testData
+          testData: component.testData
         }
       });
     });
@@ -270,7 +269,7 @@ describe('Component: VehicleDetailsPage', () => {
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
         state: {
           testStation: TEST_STATION,
-          test: component.testData
+          testData: component.testData
         }
       });
     });
@@ -281,7 +280,7 @@ describe('Component: VehicleDetailsPage', () => {
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
         state: {
           testStation: TEST_STATION,
-          test: component.testData
+          testData: component.testData
         }
       });
     });
@@ -292,7 +291,7 @@ describe('Component: VehicleDetailsPage', () => {
       expect(await navController.navigateBack).toHaveBeenCalledWith(PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION, {
         state: {
           testStation: TEST_STATION,
-          test: component.testData
+          testData: component.testData
         }
       });
     });

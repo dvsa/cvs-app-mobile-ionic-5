@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { APP_STRINGS, PAGE_NAMES } from '@app/app.enums';
 import { StateReformingService } from '@providers/global/state-reforming.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { default as AppConfig } from '@config/application.hybrid';
 import { Router } from '@angular/router';
+import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
 
 @Component({
   selector: 'page-confirmation',
@@ -12,11 +13,12 @@ import { Router } from '@angular/router';
   styleUrls: ['confirmation.scss']
 })
 export class ConfirmationPage implements OnInit {
-  testStationName: string;
+  testStation: TestStationReferenceDataModel;
   testerEmailAddress: string;
   message: string;
   additionalMessage: string;
   additionalMessageButton: string;
+  isEndVisit: boolean;
 
   constructor(
     private stateReformingService: StateReformingService,
@@ -28,14 +30,15 @@ export class ConfirmationPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.testStationName = this.router.getCurrentNavigation().extras.state.testStationName;
+    this.isEndVisit = this.router.getCurrentNavigation().extras.state.isEndVisit;
+    this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
     this.testerEmailAddress = this.router.getCurrentNavigation().extras.state.testerEmailAddress;
   }
 
   ionViewWillEnter() {
-    if (this.testStationName) {
-      this.message = APP_STRINGS.CONFIRMATION_MESSAGE_END_VISIT + this.testStationName;
-    } else if (this.testerEmailAddress) {
+    if (this.isEndVisit) {
+      this.message = APP_STRINGS.CONFIRMATION_MESSAGE_END_VISIT + this.testStation.testStationName;
+    } else {
       this.message = APP_STRINGS.CONFIRMATION_MESSAGE_SUBMIT_TEST + this.testerEmailAddress;
       this.additionalMessage = APP_STRINGS.CONFIRMATION_ADDITIONAL_MESSAGE_SUBMIT_TEST;
       this.additionalMessageButton =
@@ -44,12 +47,16 @@ export class ConfirmationPage implements OnInit {
   }
 
   async pushPage() {
-    if (this.testStationName) {
+    if (this.isEndVisit) {
       await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE]);
     } else if (this.testerEmailAddress) {
       // @TODO - VTA-738
       // this.stateReformingService.onTestReview();
-      await this.navCtrl.navigateBack([PAGE_NAMES.VISIT_TIMELINE_PAGE]);
+      await this.navCtrl.navigateBack([PAGE_NAMES.VISIT_TIMELINE_PAGE], {
+        state: {
+          testStation: this.testStation
+        }
+      });
     }
   }
 

@@ -19,7 +19,10 @@
         </ng-template>
       </ng-container>
     </ion-title>
-    <ion-buttons slot="end"  *ngIf="testData">
+    <ion-buttons
+      slot="end"
+      *ngIf="previousPageName === pageNames.VEHICLE_LOOKUP_PAGE || previousPageName === pageNames.MULTIPLE_TECH_RECORDS_SELECTION"
+    >
       <ion-button
         id="vehicle-details-confirm-btn"
         class="confirm-button"

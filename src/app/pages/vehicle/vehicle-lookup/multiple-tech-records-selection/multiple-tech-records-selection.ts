@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
-  LoadingController
+  LoadingController, NavController
 } from '@ionic/angular';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { Observer } from 'rxjs';
@@ -42,12 +42,13 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
     private analyticsService: AnalyticsService,
     private alertCtrl: AlertController,
     private logProvider: LogsProvider,
-    private router: Router
+    private router: Router,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
     this.vehicles = this.router.getCurrentNavigation().extras.state.vehicles;
-    this.combinationTestData = this.router.getCurrentNavigation().extras.state.test;
+    this.combinationTestData = this.router.getCurrentNavigation().extras.state.testData;
     this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
   }
 
@@ -57,8 +58,17 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
     );
   }
 
-  async openVehicleDetails(selectedVehicle: VehicleModel): Promise<void> {
+  async goBack() {
+    await this.navController.navigateBack(PAGE_NAMES.VEHICLE_LOOKUP_PAGE, {
+      state: {
+        testStation: this.testStation,
+        testData: this.combinationTestData,
+        previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION
+      }
+    });
+  }
 
+  async openVehicleDetails(selectedVehicle: VehicleModel): Promise<void> {
     const LOADING = await this.loadingCtrl.create({
       message: 'Loading...'
     });
@@ -111,7 +121,7 @@ export class MultipleTechRecordsSelectionPage implements OnInit{
   async goToVehicleDetails(selectedVehicle: VehicleModel) {
     await this.router.navigate([PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
       state: {
-        test: this.combinationTestData,
+        testData: this.combinationTestData,
         vehicle: selectedVehicle,
         previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
         testStation: this.testStation
