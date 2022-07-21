@@ -196,7 +196,7 @@ export class TestReviewPage implements OnInit {
         completedFields: this.completedFields,
         errorIncomplete: false,
         previousPageName: PAGE_NAMES.TEST_REVIEW_PAGE,
-        fromTestReview: true,
+        fromTestReview: true
       }
     });
   }
@@ -272,7 +272,8 @@ export class TestReviewPage implements OnInit {
         state: {
           vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
           backButtonText: this.title,
-          previousExtras: this.extras
+          previousExtras: this.extras,
+          testStation: this.testStation
         }
       });
     } else {
