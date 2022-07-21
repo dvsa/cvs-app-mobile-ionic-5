@@ -14,10 +14,12 @@ import { AppServiceMock } from '@test-config/services-mocks/app-service.mock';
 import { ActivityService } from '../activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
-import {APP_STRINGS} from '@app/app.enums';
+import { APP_STRINGS, PAGE_NAMES } from '@app/app.enums';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
 import { TestTypeModel } from '@models/tests/test-type.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TestTypesListPage } from '@app/pages/testing/test-creation/test-types-list/test-types-list';
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -67,6 +69,14 @@ describe('Provider: VisitService', () => {
     httpServiceSpy = jasmine.createSpyObj('HTTPService', ['startVisit', 'endVisit']);
 
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.TEST_TYPES_LIST_PAGE,
+            component: TestTypesListPage,
+          }
+        ]),
+      ],
       providers: [
         VisitService,
         { provide: ActivityService, useClass: ActivityServiceMock },
