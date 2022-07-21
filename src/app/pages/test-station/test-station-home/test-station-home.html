@@ -33,6 +33,6 @@
       <img class="ion-padding-start" src="./assets/imgs/arrow-icon.svg" />
     </ion-button>
 
-    <ion-button class="get-started-btn" expand="block" slot="end" (click)="logout()">Logout</ion-button>
+    <ion-button *ngIf="!isProduction" class="get-started-btn" expand="block" slot="end" (click)="logout()">Logout</ion-button>
   </div>
 </ion-footer>

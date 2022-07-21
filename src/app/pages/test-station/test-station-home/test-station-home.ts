@@ -21,6 +21,7 @@ import { LogsModel } from '@store/logs/logs.model';
 import { startSendingLogs } from '@store/logs/logs.actions';
 import { LogsProvider } from '@store/logs/logs.service';
 import { Router } from '@angular/router';
+import { default as AppConfig } from '@config/application.hybrid';
 
 @Component({
   selector: 'page-test-station-home',
@@ -29,6 +30,7 @@ import { Router } from '@angular/router';
 })
 export class TestStationHomePage implements OnInit {
   appStrings: typeof APP_STRINGS = APP_STRINGS;
+  isProduction: boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -41,7 +43,9 @@ export class TestStationHomePage implements OnInit {
     private analyticsService: AnalyticsService,
     private logProvider: LogsProvider,
     private router: Router,
-  ) {}
+  ) {
+    this.isProduction = AppConfig.IS_PRODUCTION === 'true';
+  }
 
   neededRoles: string[] = [
     TESTER_ROLES.FULL_ACCESS,

@@ -81,7 +81,7 @@ export class AuthenticationService {
       await this.storage.set(STORAGE.EMPLOYEE_ID, null);
       await this._auth.expire();
       await this._auth.logout();
-      await this._auth.refreshSession();
+      await this.login();
     } catch (error) {
       console.log(error || error.message);
       throw error;
