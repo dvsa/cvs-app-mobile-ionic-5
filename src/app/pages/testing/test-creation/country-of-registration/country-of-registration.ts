@@ -61,7 +61,6 @@ export class CountryOfRegistrationPage implements OnInit {
 
   setVehicleRegCountry(regCountryItem) {
     this.vehicle.countryOfRegistration = regCountryItem.key;
-    this.events.publish(APP.NAV_OUT);
   }
 
   async onSave() {

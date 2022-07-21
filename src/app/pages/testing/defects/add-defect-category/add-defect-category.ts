@@ -44,7 +44,6 @@ export class AddDefectCategoryPage implements OnInit {
         fromTestReview: this.fromTestReview
       }
     });
-    this.events.publish(APP.NAV_OUT);
   }
 
   searchList(e): void {
