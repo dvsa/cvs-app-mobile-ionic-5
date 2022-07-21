@@ -60,7 +60,6 @@ export class AddDefectPage implements OnInit {
         fromTestReview: this.fromTestReview
       }
     });
-    this.clearSearch();
   }
 
   async addAdvisory(): Promise<void> {
@@ -79,7 +78,6 @@ export class AddDefectPage implements OnInit {
         isEdit: false
       }
     });
-    this.clearSearch();
   }
 
   searchList(e): void {
@@ -91,10 +89,6 @@ export class AddDefectPage implements OnInit {
     return deficiencyCategory === this.commonFunc.capitalizeString(DEFICIENCY_CATEGORY.MINOR)
       ? 'badge-text-black'
       : '';
-  }
-
-  private clearSearch(): void {
-    this.events.publish(APP.NAV_OUT);
   }
 
   private populateDeficienciesArray(): DefectDeficiencyReferenceDataModel[] {
