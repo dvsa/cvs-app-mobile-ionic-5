@@ -77,19 +77,18 @@ describe('Logs Effects', () => {
   });
 
   describe('persistLogs', () => {
-    it('should call saveLogs', fakeAsync((done) => {
+    it('should call saveLogs', (done) => {
       // ARRANGE
       spyOn(effects, 'saveLogs').and.callThrough();
       // ACT
       actions$.next(logsActions.persistLogs());
-      tick();
       // ASSERT
       effects.persistLogEffect$.subscribe((result) => {
         expect(effects.saveLogs).toHaveBeenCalled();
         expect(result.type).toBeTruthy();
         done();
       });
-    }));
+    });
   });
 
   describe('LoadLog', () => {
