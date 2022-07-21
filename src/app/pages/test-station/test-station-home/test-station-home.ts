@@ -100,4 +100,8 @@ export class TestStationHomePage implements OnInit {
   async enableCache() {
     await this.appService.enableCache();
   }
+
+  async logout() {
+    await this.authenticationService.logout();
+  }
 }
