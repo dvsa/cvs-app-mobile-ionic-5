@@ -14,6 +14,7 @@ import { AppService } from '@providers/global';
 import { ActivityService } from '../activity/activity.service';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { TestTypeModel } from '@models/tests/test-type.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class VisitService {
@@ -26,6 +27,7 @@ export class VisitService {
     private httpService: HTTPService,
     private activityService: ActivityService,
     private alertCtrl: AlertController,
+    public router: Router,
   ) {
     this.visit = {} as VisitModel;
   }
@@ -132,9 +134,7 @@ export class VisitService {
 
   private async setRootPage(): Promise<any> {
     await this.clearExpiredVisitData();
-    // @TODO - Ionic 5 - replace this functionality
-    // await this.app.getActiveNav().setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
-    // return await this.app.getActiveNav().popToRoot();
+    await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE]);
   }
 
   private async clearExpiredVisitData() {

@@ -27,7 +27,6 @@ describe('Provider: VisitService', () => {
   let httpService: HTTPService;
   let httpServiceSpy;
   let activityService: ActivityService;
-  let appSpy;
   let alertCtrl: AlertController;
 
 
@@ -66,12 +65,6 @@ describe('Provider: VisitService', () => {
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update', 'delete']);
     httpServiceSpy = jasmine.createSpyObj('HTTPService', ['startVisit', 'endVisit']);
-    // @TODO - Ionic 5 - replace this
-    // appSpy = jasmine.createSpy('App', () => {
-    //   setRoot: () => {
-    //     return new Promise(null);
-    //   };
-    // });
 
     TestBed.configureTestingModule({
       providers: [
@@ -82,8 +75,6 @@ describe('Provider: VisitService', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: HTTPService, useValue: httpServiceSpy },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        // @TODO - Ionic 5 - replace this
-        // { provide: App, useValue: appSpy }
       ]
     });
 

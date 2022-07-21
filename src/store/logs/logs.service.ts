@@ -15,6 +15,12 @@ import { Log, LogsModel } from './logs.model';
 import { HTTPService } from '@providers/global/http.service';
 import { saveLog } from './logs.actions';
 import { STORAGE } from '@app/app.enums';
+import { DataStoreProvider } from '@store/logs/data-store.service';
+
+type LogCache = {
+  dateStored: string;
+  data: Log[];
+};
 
 @Injectable()
 export class LogsProvider {
@@ -23,6 +29,7 @@ export class LogsProvider {
     private httpService: HTTPService,
     private store$: Store<LogsModel>,
     private storage: Storage,
+    private dataStore: DataStoreProvider,
   ) { }
 
   public sendLogs = (logs: Log[]): Observable<any> => {
@@ -66,4 +73,48 @@ export class LogsProvider {
   public dispatchLog(log: Log): void {
     this.store$.dispatch(saveLog(log));
   }
+
+  public saveLogs = (logData: Log[]) => {
+    const logDataToStore: LogCache = {
+      dateStored: new Date().toISOString(),
+      data: logData
+    };
+    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then((response) => {});
+  };
+
+  public getPersistedLogs = (): Observable<Log[]> => from(this.getAndConvertPersistedLogs());
+
+  public getAndConvertPersistedLogs = (): Promise<Log[]> =>
+    this.dataStore
+      .getItem('LOGS')
+      .then((data) => {
+        const logCache: LogCache = JSON.parse(data);
+        const cachedDate = new Date(logCache.dateStored);
+        if (this.isCacheTooOld(cachedDate, new Date())) {
+          return this.emptyCachedData();
+        }
+        return logCache.data;
+      })
+      .catch(() => {
+        const emptyLogData: Log[] = [];
+        return emptyLogData;
+      });
+
+  public isCacheTooOld = (dateStored: Date, now: Date): boolean => (
+    Math.floor(
+      (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
+        Date.UTC(dateStored.getFullYear(), dateStored.getMonth(), dateStored.getDate())) /
+      (1000 * 60 * 60 * 24)
+    ) > 7
+  );
+
+  public emptyCachedData = () => {
+    const emptyLogData: Log[] = [];
+    const logDataToStore: LogCache = {
+      dateStored: new Date().toISOString(),
+      data: emptyLogData
+    };
+    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then(() => {});
+    return emptyLogData;
+  };
 }

@@ -13,11 +13,6 @@ import { DataStoreProvider } from './data-store.service';
 import { NetworkService } from '@providers/global';
 import { CONNECTION_STATUS } from '@app/app.enums';
 
-type LogCache = {
-  dateStored: string;
-  data: Log[];
-};
-
 @Injectable()
 export class LogsEffects {
   constructor(
@@ -37,14 +32,14 @@ export class LogsEffects {
     ofType(logsActions.persistLogs),
     withLatestFrom(this.store$.pipe(select(getLogsState))),
     switchMap(([, logs]) => {
-      this.saveLogs(logs);
+      this.logsProvider.saveLogs(logs);
       return of({type: '[LogsEffects] Persist Log Finished'});
     })
   ));
 
   loadLogEffect$ = createEffect(() => this.actions$.pipe(
     ofType(logsActions.loadLog),
-    switchMap(() => this.getPersistedLogs().pipe(
+    switchMap(() => this.logsProvider.getPersistedLogs().pipe(
         map((logs: Log[]) => logsActions.loadLogState(logs))
       ))
   ));
@@ -76,50 +71,4 @@ export class LogsEffects {
       );
     })
   ));
-
-  // TODO: All this has to be moved to the LogsProvider or DataStore provider
-
-  getPersistedLogs = (): Observable<Log[]> => from(this.getAndConvertPersistedLogs());
-
-  getAndConvertPersistedLogs = (): Promise<Log[]> =>
-    this.dataStore
-      .getItem('LOGS')
-      .then((data) => {
-        const logCache: LogCache = JSON.parse(data);
-        const cachedDate = new Date(logCache.dateStored);
-        if (this.isCacheTooOld(cachedDate, new Date())) {
-          return this.emptyCachedData();
-        }
-        return logCache.data;
-      })
-      .catch(() => {
-        const emptyLogData: Log[] = [];
-        return emptyLogData;
-      });
-
-  saveLogs = (logData: Log[]) => {
-    const logDataToStore: LogCache = {
-      dateStored: new Date().toISOString(),
-      data: logData
-    };
-    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then((response) => {});
-  };
-
-  isCacheTooOld = (dateStored: Date, now: Date): boolean => (
-      Math.floor(
-        (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
-          Date.UTC(dateStored.getFullYear(), dateStored.getMonth(), dateStored.getDate())) /
-          (1000 * 60 * 60 * 24)
-      ) > 7
-    );
-
-  emptyCachedData = () => {
-    const emptyLogData: Log[] = [];
-    const logDataToStore: LogCache = {
-      dateStored: new Date().toISOString(),
-      data: emptyLogData
-    };
-    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then(() => {});
-    return emptyLogData;
-  };
 }
