@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {
-  AlertController,
+  AlertController, LoadingController,
   PopoverController
 } from '@ionic/angular';
 import { SignaturePad } from 'angular2-signaturepad';
@@ -11,13 +11,11 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import {
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  ANALYTICS_LABEL,
   ANALYTICS_VALUE,
   APP_STRINGS,
   LOCAL_STORAGE,
   SIGNATURE_STATUS
 } from '@app/app.enums';
-import { SignaturePopoverComponent } from '@components/signature-popover/signature-popover';
 import { SignatureService } from '@providers/signature/signature.service';
 import { AppService } from '@providers/global/app.service';
 import { default as AppConfig } from '@config/application.hybrid';
@@ -38,6 +36,8 @@ export class SignaturePadPage implements OnInit, AfterViewInit {
   dividerText: string;
   oid: string;
   eventsSubscription: Subscription;
+  loading: HTMLIonLoadingElement;
+  popOver: HTMLIonAlertElement;
 
   public signaturePadOptions = {
     minWidth: 2,
@@ -56,16 +56,20 @@ export class SignaturePadPage implements OnInit, AfterViewInit {
     private analyticsService: AnalyticsService,
     private authenticationService: AuthenticationService,
     private callNumber: CallNumber,
-    private logProvider: LogsProvider
+    private logProvider: LogsProvider,
+    public loadingCtrl: LoadingController
   ) {
     this.eventsSubscription = this.events.subscribe(SIGNATURE_STATUS.ERROR, async () => {
       await this.showConfirm();
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.dividerText = APP_STRINGS.SIGNATURE_DIVIDER;
     this.underSignText = APP_STRINGS.SIGNATURE_TEXT;
+    this.loading = await this.loadingCtrl.create({
+      message: 'Loading...'
+    });
   }
 
   ionViewWillEnter() {
@@ -157,9 +161,45 @@ export class SignaturePadPage implements OnInit, AfterViewInit {
   }
 
   /**
-   * A popover that should look like an alert
-   * Alerts do not allow images
+   * Function to present confirmation of signature popup
    */
+
+  async confirmPop() {
+    const { oid } = this.authenticationService.tokenInfo;
+    await this.loading.present();
+    try {
+      this.signatureService.saveSignature().subscribe(
+        (response) => {
+          this.logProvider.dispatchLog({
+            type: 'info',
+            message: `${oid} - ${response.status} ${response.body.message} for API call to ${response.url}`,
+            timestamp: Date.now()
+          });
+
+          this.signatureService.saveToStorage().then(() => {
+            this.signatureService.presentSuccessToast();
+            localStorage.setItem(LOCAL_STORAGE.SIGNATURE, 'true');
+            this.appService.isSignatureRegistered = true;
+            this.popOver.dismiss();
+            this.loading.dismiss();
+            this.events.publish(SIGNATURE_STATUS.SAVED_EVENT);
+          });
+        },
+        (error) => {
+          this.logProvider.dispatchLog({
+            type: 'error-signatureService.saveSignature-confirmPop in signature-popover.ts',
+            message: `${oid} - ${error.status} ${error.message} for API call to ${error.url}`,
+            timestamp: Date.now()
+          });
+
+          this.events.publish(SIGNATURE_STATUS.ERROR);
+        }
+      );
+    } finally {
+      await this.loading.dismiss();
+    }
+  }
+
   async presentPopover() {
     if (this.signaturePad.isEmpty()) {
       const EMPTY_SIGNATURE = await this.alertCtrl.create({
@@ -172,10 +212,28 @@ export class SignaturePadPage implements OnInit, AfterViewInit {
       return;
     }
 
-    const popOver = await this.popoverCtrl.create({
-      component: SignaturePopoverComponent,
+     this.popOver = await this.alertCtrl.create({
+      header: APP_STRINGS.SIGN_CONF_TITLE,
+      subHeader: APP_STRINGS.SIGN_CONF_MSG,
+      message: `<img class="pop-img" src="${this.signatureService.signatureString}" />`,
       cssClass: 'signature-popover',
-    });
-    await popOver.present();
+      buttons: [
+        {
+          text: APP_STRINGS.CANCEL,
+          cssClass: 'signature-cancel-btn',
+          handler: () => {
+            this.popOver.dismiss();
+          }
+        },
+        {
+          text: APP_STRINGS.CONFIRM,
+          cssClass: 'signature-confirm-btn',
+          handler: () => {
+            this.confirmPop();
+          }
+        }
+      ]
+    })
+    await this.popOver.present();
   }
 }
