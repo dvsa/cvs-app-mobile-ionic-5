@@ -25,7 +25,7 @@
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
     "@awesome-cordova-plugins/core": "^5.42.0",
-    "@awesome-cordova-plugins/native-page-transitions": "^5.42.0",
+    "@awesome-cordova-plugins/native-page-transitions": "^5.44.0",
     "@capacitor/app": "1.0.5",
     "@capacitor/core": "^3.2.4",
     "@capacitor/haptics": "1.1.4",
