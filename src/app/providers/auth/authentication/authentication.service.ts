@@ -76,6 +76,19 @@ export class AuthenticationService {
     }
   }
 
+  async logout() {
+    try {
+      await this.storage.set(STORAGE.EMPLOYEE_ID, null);
+      await this._auth.expire();
+      await this._auth.logout();
+    } catch (error) {
+      console.log(error || error.message);
+      throw error;
+    } finally {
+      await this.login();
+    }
+  }
+
   async updateTokenInfo(): Promise<TokenInfo> {
     const tokenInfo: TokenInfo = await this.getTokenDetails();
     if (tokenInfo) {
