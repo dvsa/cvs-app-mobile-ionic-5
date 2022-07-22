@@ -21,18 +21,6 @@
     width: 100%;
   }
 
-  div {
-    signature-pad {
-      canvas {
-        border: 1px solid var(--color-grey-3);
-        display: block;
-        margin: 12px auto;
-        width: 95%;
-        max-height: 200px;
-      }
-    }
-  }
-
   ion-button.cancel {
     font-weight: var(--font-weight-normal);
     color: var(--ion-color-light);
