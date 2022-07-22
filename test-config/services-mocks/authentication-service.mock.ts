@@ -21,6 +21,8 @@ export class AuthenticationServiceMock {
 
   login() {}
 
+  logout() {}
+
   checkUserAuthStatus(): Promise<boolean> {
     return Promise.resolve(true);
   }

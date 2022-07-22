@@ -128,6 +128,31 @@ describe('AuthenticationService', () => {
       });
     });
 
+    describe('logout', () => {
+      it('should call login if logout function does not error', async () => {
+        spyOn(authenticationService.auth, 'logout').and.returnValue(Promise.resolve());
+        spyOn(authenticationService.auth, 'expire').and.returnValue(Promise.resolve());
+        spyOn(authenticationService, 'login').and.returnValue(Promise.resolve());
+
+        await authenticationService.logout();
+
+        expect(authenticationService.auth.logout).toHaveBeenCalled();
+        expect(authenticationService.auth.expire).toHaveBeenCalled();
+        expect(authenticationService.login).toHaveBeenCalled();
+      });
+      // it('should call login even if the logout function errors', async () => {
+      //   spyOn(authenticationService.auth, 'logout').and.throwError('smth');
+      //   spyOn(authenticationService.auth, 'expire').and.throwError('smth');
+      //   spyOn(authenticationService, 'login').and.returnValue(Promise.resolve());
+      //
+      //   await authenticationService.logout();
+      //
+      //   expect(authenticationService.auth.logout).toHaveBeenCalled();
+      //   expect(authenticationService.auth.expire).toHaveBeenCalled();
+      //   expect(authenticationService.login).toHaveBeenCalled();
+      // });
+    });
+
     describe('hasUserRights', () => {
       it('should return truthy if user has access rights', async () => {
         await authenticationService.updateTokenInfo();

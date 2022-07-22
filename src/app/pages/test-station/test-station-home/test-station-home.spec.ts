@@ -159,4 +159,14 @@ describe('Component: TestStationHomePage', () => {
     await comp.getStarted();
     expect(router.navigate).toHaveBeenCalledWith([PAGE_NAMES.TEST_STATION_SEARCH_PAGE]);
   });
+
+  describe('logout',  () => {
+    it('should call authentication.logout', async () => {
+      spyOn(authenticationService, 'logout');
+
+      await comp.logout();
+
+      expect(authenticationService.logout).toHaveBeenCalled();
+    });
+  });
 });
