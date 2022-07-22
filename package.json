@@ -55,7 +55,7 @@
     "call-number": "^1.0.1",
     "com.telerik.plugins.nativepagetransitions": "^0.7.0",
     "cordova-open-native-settings": "^1.5.5",
-    "cordova-plugin-app-version": "^0.1.12",
+    "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-google-analytics": "^1.9.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
