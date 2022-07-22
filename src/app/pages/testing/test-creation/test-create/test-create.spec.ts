@@ -2,7 +2,7 @@ import { TestCreatePage } from './test-create';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AlertController,
-  ModalController
+  ModalController, NavController
 } from '@ionic/angular';
 import { VehicleService } from '@providers/vehicle/vehicle.service';
 import { TestTypeModel } from '@models/tests/test-type.model';
@@ -52,6 +52,7 @@ import { TestTypesReferenceDataMock } from '@assets/data-mocks/reference-data-mo
 import { StorageServiceMock } from '@test-config/services-mocks/storage-service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { TestReviewPage } from '@app/pages/testing/test-creation/test-review/test-review';
 
 describe('Component: TestCreatePage', () => {
   let component: TestCreatePage;
@@ -70,6 +71,7 @@ describe('Component: TestCreatePage', () => {
   let testTypeService: TestTypeService;
   let alertService: AppAlertService;
   let router: any;
+  let navCtrl: NavController;
 
   const ADDED_VEHICLE_TEST: TestTypeModel = TestTypeDataModelMock.TestTypeData;
   const vehicle: VehicleTechRecordModel = TechRecordDataMock.VehicleTechRecordData;
@@ -88,7 +90,12 @@ describe('Component: TestCreatePage', () => {
     TestBed.configureTestingModule({
       declarations: [TestCreatePage],
       imports: [
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.TEST_REVIEW_PAGE,
+            component: TestReviewPage
+          }
+        ])
       ],
       providers: [
         CommonFunctionsService,
@@ -122,6 +129,7 @@ describe('Component: TestCreatePage', () => {
     testTypeService = TestBed.inject(TestTypeService);
     alertService = TestBed.inject(AppAlertService);
     router = TestBed.inject(Router);
+    navCtrl = TestBed.inject(NavController);
     spyOn(router, 'getCurrentNavigation').and.returnValue(
       { extras:
           {
@@ -132,7 +140,7 @@ describe('Component: TestCreatePage', () => {
           }
       } as any
     );
-    component.testData = router.getCurrentNavigation().extras.state.test;
+    component.testData = router.getCurrentNavigation().extras.state.testData;
   });
 
   afterEach(() => {
@@ -369,59 +377,60 @@ describe('Component: TestCreatePage', () => {
     expect(component.getTestTypeStatus(VEHICLE, testType)).toEqual('Edit');
   });
 
-  //@TODO - add back when TestReviewPage is added back
-  // it('should not allow to review a test because not all mandatory fields completed', async () => {
-  //   const newTest = testService.createTest();
-  //   const newVehicle = vehicleService.createVehicle(vehicle);
-  //   vehicleService.addTestType(newVehicle, ADDED_VEHICLE_TEST);
-  //   newTest.vehicles.push(newVehicle);
-  //   component.testData = newTest;
-  //
-  //   await component.reviewTest();
-  // });
-  //
-  // it('should not allow to review a test because no testType added', async () => {
-  //   const newTest = testService.createTest();
-  //   const newVehicle = vehicleService.createVehicle(vehicle);
-  //   newTest.vehicles.push(newVehicle);
-  //   newVehicle.testTypes = [];
-  //   newVehicle.countryOfRegistration = 'United Kingdom';
-  //   newVehicle.euVehicleCategory = 'm1';
-  //   newVehicle.odometerReading = '122';
-  //   component.testData = newTest;
-  //
-  //   await component.reviewTest();
-  // });
+  it('should not allow to review a test because not all mandatory fields completed', async () => {
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
+    await vehicleService.addTestType(newVehicle, ADDED_VEHICLE_TEST);
+    newTest.vehicles.push(newVehicle);
+    component.testData = newTest;
 
-  // it('should not allow to review a combination test if at least one vehicle has an incomplete test', async () => {
-  //   const navigateSpy = spyOn(router, 'navigate');
-  //   const newTest = testService.createTest();
-  //   const completeTest = TestTypeDataModelMock.TestTypeData;
-  //   completeTest.testTypeId = '90';
-  //   const incompleteTest = TestTypeDataModelMock.TestTypeData;
-  //   incompleteTest.testTypeId = '90';
-  //   incompleteTest.testResult = null;
-  //
-  //   const hgv = vehicleService.createVehicle(vehicle);
-  //   vehicleService.addTestType(hgv, incompleteTest);
-  //   hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
-  //   hgv.countryOfRegistration = 'United Kingdom';
-  //   hgv.euVehicleCategory = 'n1';
-  //   hgv.odometerReading = '122';
-  //   newTest.vehicles.push(hgv);
-  //
-  //   const trailer = vehicleService.createVehicle(vehicle);
-  //   vehicleService.addTestType(trailer, completeTest);
-  //   trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
-  //   trailer.countryOfRegistration = 'United Kingdom';
-  //   trailer.euVehicleCategory = 'o2';
-  //   newTest.vehicles.push(trailer);
-  //
-  //   component.testData = newTest;
-  //   await component.reviewTest();
-  //   expect(component.errorIncomplete).toBe(true);
-  //   expect(await navigateSpy).toHaveBeenCalled();
-  // });
+    await component.reviewTest();
+  });
+
+  it('should not allow to review a test because no testType added', async () => {
+    const newTest = testService.createTest();
+    const newVehicle = vehicleService.createVehicle(vehicle);
+    newTest.vehicles.push(newVehicle);
+    newVehicle.testTypes = [];
+    newVehicle.countryOfRegistration = 'United Kingdom';
+    newVehicle.euVehicleCategory = 'm1';
+    newVehicle.odometerReading = '122';
+    component.testData = newTest;
+
+    await component.reviewTest();
+  });
+
+  it('should not allow to review a combination test if at least one vehicle has an incomplete test', async () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const navigateBackSpy = spyOn(navCtrl, 'navigateBack');
+    const newTest = testService.createTest();
+    const completeTest = TestTypeDataModelMock.TestTypeData;
+    completeTest.testTypeId = '90';
+    const incompleteTest = TestTypeDataModelMock.TestTypeData;
+    incompleteTest.testTypeId = '90';
+    incompleteTest.testResult = null;
+
+    const hgv = vehicleService.createVehicle(vehicle);
+    await vehicleService.addTestType(hgv, incompleteTest);
+    hgv.techRecord.vehicleType = VEHICLE_TYPE.HGV;
+    hgv.countryOfRegistration = 'United Kingdom';
+    hgv.euVehicleCategory = 'n1';
+    hgv.odometerReading = '122';
+    newTest.vehicles.push(hgv);
+
+    const trailer = vehicleService.createVehicle(vehicle);
+    await vehicleService.addTestType(trailer, completeTest);
+    trailer.techRecord.vehicleType = VEHICLE_TYPE.TRL;
+    trailer.countryOfRegistration = 'United Kingdom';
+    trailer.euVehicleCategory = 'o2';
+    newTest.vehicles.push(trailer);
+
+    component.testData = newTest;
+    await component.reviewTest();
+    expect(component.errorIncomplete).toBe(true);
+    expect(await navigateSpy).not.toHaveBeenCalled();
+    expect(await navigateBackSpy).not.toHaveBeenCalled();
+  });
 
   it('should track log event when removing a test type', async () => {
     component.completedFields = {};

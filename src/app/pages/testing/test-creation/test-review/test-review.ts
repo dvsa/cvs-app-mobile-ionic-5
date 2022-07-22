@@ -48,6 +48,7 @@ import { TestTypeService } from '@providers/test-type/test-type.service';
 import { LogsProvider } from '@store/logs/logs.service';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NativePageTransitions } from '@awesome-cordova-plugins/native-page-transitions/ngx';
+import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
 
 @Component({
   selector: 'page-test-review',
@@ -74,6 +75,7 @@ export class TestReviewPage implements OnInit {
   backButtonText: string;
   extras: NavigationExtras;
   previousExtras: NavigationExtras;
+  testStation: TestStationReferenceDataModel;
 
   constructor(
     public navCtrl: NavController,
@@ -110,6 +112,7 @@ export class TestReviewPage implements OnInit {
 
       this.extras = this.router.getCurrentNavigation().extras;
       if (this.extras.state) {
+        this.testStation = this.extras.state.testStation;
         this.vehicleBeingReviewed = this.extras.state.vehicleBeingReviewed || 0;
         this.backButtonText = this.extras.state.backButtonText;
         this.vehicle = this.latestTest.vehicles[this.vehicleBeingReviewed];
@@ -193,7 +196,7 @@ export class TestReviewPage implements OnInit {
         completedFields: this.completedFields,
         errorIncomplete: false,
         previousPageName: PAGE_NAMES.TEST_REVIEW_PAGE,
-        fromTestReview: true,
+        fromTestReview: true
       }
     });
   }
@@ -269,7 +272,8 @@ export class TestReviewPage implements OnInit {
         state: {
           vehicleBeingReviewed: this.vehicleBeingReviewed + 1,
           backButtonText: this.title,
-          previousExtras: this.extras
+          previousExtras: this.extras,
+          testStation: this.testStation
         }
       });
     } else {
@@ -464,7 +468,9 @@ export class TestReviewPage implements OnInit {
           this.submitInProgress = false;
           await this.router.navigate([PAGE_NAMES.CONFIRMATION_PAGE], {
             state: {
-              testerEmailAddress: this.visit.testerEmail
+              testerEmailAddress: this.visit.testerEmail,
+              testStation: this.testStation,
+              isEndVisit: false
             }
           });
         } else {

@@ -4,7 +4,7 @@ import {
   AlertController,
   LoadingController,
 } from '@ionic/angular';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import {
   AlertControllerMock,
   LoadingControllerMock,
@@ -108,7 +108,7 @@ describe('Component: ', () => {
     expect(await navigateSpy).toHaveBeenCalledWith(
       [PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
         state : {
-          test: undefined,
+          testData: undefined,
           vehicle: VehicleDataMock.VehicleData,
           previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
           testStation: TEST_STATION
@@ -131,7 +131,7 @@ describe('Component: ', () => {
     expect(await navigateSpy).toHaveBeenCalledWith(
       [PAGE_NAMES.VEHICLE_DETAILS_PAGE], {
         state : {
-          test: undefined,
+          testData: undefined,
           vehicle: VehicleDataMock.VehicleData,
           previousPageName: PAGE_NAMES.MULTIPLE_TECH_RECORDS_SELECTION,
           testStation: TEST_STATION

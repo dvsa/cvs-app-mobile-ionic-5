@@ -35,7 +35,7 @@ import { from, Observable, Subscription } from 'rxjs';
 import { LogsProvider } from '@store/logs/logs.service';
 import { of } from 'rxjs/observable/of';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'page-visit-timeline',
@@ -73,7 +73,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private formatVrmPipe: FormatVrmPipe,
     private logProvider: LogsProvider,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.timeline = [];
     // this.platform.ready().then(() => {
@@ -84,10 +85,13 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
-    this.visit = Object.keys(this.visitService.visit).length
-      ? this.visitService.visit
-      : await this.visitService.createVisit(this.testStation);
+    this.route.params.subscribe(async val => {
+      this.isCreateTestEnabled = true;
+      this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
+      this.visit = Object.keys(this.visitService.visit).length
+        ? this.visitService.visit
+        : await this.visitService.createVisit(this.testStation);
+    });
     //@TODO - Ionic 5 - Reinstate this
     // this.stateReformingService.saveNavStack(this.navCtrl);
   }
@@ -108,10 +112,10 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   }
 
   async createNewTestReport(): Promise<void> {
-    const test = this.testReportService.createTest();
+    const testData = this.testReportService.createTest();
     await this.router.navigate([PAGE_NAMES.VEHICLE_LOOKUP_PAGE], {
       state: {
-        test,
+        testData,
         previousPageName: PAGE_NAMES.VISIT_TIMELINE_PAGE,
         testStation: this.testStation
       }
@@ -351,7 +355,8 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
 
     await this.router.navigate([PAGE_NAMES.CONFIRMATION_PAGE], {
       state: {
-        testStationName: this.visit.testStationName
+        testStation: this.testStation,
+        isEndVisit: true
       }
     });
     return true;

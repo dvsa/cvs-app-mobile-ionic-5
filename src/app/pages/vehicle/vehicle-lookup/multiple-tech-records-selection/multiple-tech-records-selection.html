@@ -1,8 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button id="select-vehicle-back-btn" [text]="APP_STRINGS.IDENTIFY_VEHICLE">
-      </ion-back-button>
+      <ion-button id="select-vehicle-back-btn" (click)="goBack()" color="light">
+        <ion-icon class="chevron-back ion-no-margin back-button-icon" name="chevron-back"></ion-icon>
+        {{ APP_STRINGS.IDENTIFY_VEHICLE }}
+      </ion-button>
     </ion-buttons>
     <ion-title id="select-vehicle-title" class="ion-margin-start ion-padding-vertical">
       Select Vehicle

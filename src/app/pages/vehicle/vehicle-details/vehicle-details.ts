@@ -10,8 +10,7 @@ import { TestModel } from '@models/tests/test.model';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import {
-  ANALYTICS_EVENT_CATEGORIES, ANALYTICS_EVENTS,
-  ANALYTICS_SCREEN_NAMES, ANALYTICS_VALUE,
+  ANALYTICS_SCREEN_NAMES,
   APP_STRINGS,
   DATE_FORMAT,
   PAGE_NAMES, STORAGE,
@@ -53,6 +52,7 @@ export class VehicleDetailsPage implements OnInit {
   formattedVrm: string;
   backButtonText: string;
   testStation: any;
+  pageNames: any;
 
   constructor(
     private navController: NavController,
@@ -73,16 +73,16 @@ export class VehicleDetailsPage implements OnInit {
     private route: ActivatedRoute,
     public loadingController: LoadingController,
   ) {
+    this.pageNames = PAGE_NAMES;
   }
 
   ngOnInit(): void {
-    // this mess will be fixed with the ngrx implementation
     this.route.params.subscribe(val => {
       try {
-        this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
         this.vehicleData = this.router.getCurrentNavigation().extras.state.vehicle;
-        this.testData = this.router.getCurrentNavigation().extras.state.test;
+        this.testData = this.router.getCurrentNavigation().extras.state.testData;
         this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
+        this.previousPageName = this.router.getCurrentNavigation().extras.state.previousPageName;
       } catch {
       }
       this.backButtonText = this.getBackButtonText();
@@ -123,7 +123,6 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   async goToVehicleTestResultsHistory() {
-
     this.storageService
       .read(STORAGE.TEST_HISTORY + this.vehicleData.systemNumber)
       .then((data) => {
@@ -147,7 +146,7 @@ export class VehicleDetailsPage implements OnInit {
       await this.router
         .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
           state: {
-            test: this.testData,
+            testData: this.testData,
             previousPageName: PAGE_NAMES.VEHICLE_DETAILS_PAGE,
             testStation: this.testStation
           }
@@ -181,7 +180,7 @@ export class VehicleDetailsPage implements OnInit {
     await this.navController.navigateBack(this.previousPageName, {
       state: {
         testStation: this.testStation,
-        test: this.testData
+        testData: this.testData
       }
     });
   }
