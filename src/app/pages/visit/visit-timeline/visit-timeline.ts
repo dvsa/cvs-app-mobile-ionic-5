@@ -287,8 +287,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
             }
           ]
         });
-        //@TODO - Ionic 5 - reinstate this in some way
-        // return of(TRY_AGAIN_ALERT.present());
         return of(TRY_AGAIN_ALERT);
       } else {
         return of(this.onUpdateActivityReasonsSuccess());

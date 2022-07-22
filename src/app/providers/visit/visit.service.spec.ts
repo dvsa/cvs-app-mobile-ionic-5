@@ -14,7 +14,12 @@ import { AppServiceMock } from '@test-config/services-mocks/app-service.mock';
 import { ActivityService } from '../activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
 import { AuthenticationServiceMock } from '@test-config/services-mocks/authentication-service.mock';
-import {APP_STRINGS} from "@app/app.enums";
+import { APP_STRINGS, PAGE_NAMES } from '@app/app.enums';
+import { VehicleModel } from '@models/vehicle/vehicle.model';
+import { VehicleDataMock } from '@assets/data-mocks/vehicle-data.mock';
+import { TestTypeModel } from '@models/tests/test-type.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TestTypesListPage } from '@app/pages/testing/test-creation/test-types-list/test-types-list';
 
 describe('Provider: VisitService', () => {
   let visitService: VisitService;
@@ -24,56 +29,55 @@ describe('Provider: VisitService', () => {
   let httpService: HTTPService;
   let httpServiceSpy;
   let activityService: ActivityService;
-  let appSpy;
   let alertCtrl: AlertController;
 
 
   const TEST_STATION: TestStationReferenceDataModel = TestStationDataMock.TestStationData[0];
   const TEST: TestModel = TestDataModelMock.TestData;
-  // @TODO - added in VTA-497
-  // let VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
-  // let aTest: TestModel = {
-  //   startTime: null,
-  //   endTime: '14 March',
-  //   status: null,
-  //   reasonForCancellation: '',
-  //   vehicles: [VEHICLE]
-  // };
-  // let aTestType: TestTypeModel = {
-  //   prohibitionIssued: false,
-  //   testNumber: '1',
-  //   additionalCommentsForAbandon: 'none',
-  //   numberOfSeatbeltsFitted: 2,
-  //   testTypeEndTimestamp: '2019-01-15T10:36:33.987Z',
-  //   reasonForAbandoning: 'none',
-  //   lastSeatbeltInstallationCheckDate: '2019-01-14',
-  //   testExpiryDate: '2020-02-21T08:47:59.749Z',
-  //   testTypeId: '1',
-  //   testTypeStartTimestamp: '2019-01-15T10:36:33.987Z',
-  //   certificateNumber: '1234',
-  //   secondaryCertificateNumber: null,
-  //   testTypeName: 'Annual test',
-  //   seatbeltInstallationCheckDate: true,
-  //   additionalNotesRecorded: 'VEHICLE FRONT REGISTRATION PLATE MISSING',
-  //   defects: [],
-  //   name: 'Annual test',
-  //   testResult: 'pass'
-  // }
+
+  const VEHICLE: VehicleModel = VehicleDataMock.VehicleData;
+  const aTest: TestModel = {
+    startTime: null,
+    endTime: '14 March',
+    status: null,
+    reasonForCancellation: '',
+    vehicles: [VEHICLE]
+  };
+  const aTestType: TestTypeModel = {
+    prohibitionIssued: false,
+    testNumber: '1',
+    additionalCommentsForAbandon: 'none',
+    numberOfSeatbeltsFitted: 2,
+    testTypeEndTimestamp: '2019-01-15T10:36:33.987Z',
+    reasonForAbandoning: 'none',
+    lastSeatbeltInstallationCheckDate: '2019-01-14',
+    testExpiryDate: '2020-02-21T08:47:59.749Z',
+    testTypeId: '1',
+    testTypeStartTimestamp: '2019-01-15T10:36:33.987Z',
+    certificateNumber: '1234',
+    secondaryCertificateNumber: null,
+    testTypeName: 'Annual test',
+    seatbeltInstallationCheckDate: true,
+    additionalNotesRecorded: 'VEHICLE FRONT REGISTRATION PLATE MISSING',
+    defects: [],
+    name: 'Annual test',
+    testResult: 'pass'
+  };
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['update', 'delete']);
     httpServiceSpy = jasmine.createSpyObj('HTTPService', ['startVisit', 'endVisit']);
-    // @TODO - Ionic 5 - replace this
-    // appSpy = jasmine.createSpy('App', () => {
-    //   setRoot: () => {
-    //     return new Promise(null);
-    //   };
-    // });
 
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([
+          {
+            path: PAGE_NAMES.TEST_TYPES_LIST_PAGE,
+            component: TestTypesListPage,
+          }
+        ]),
+      ],
       providers: [
-        // @TODO - Ionic 5 - replace this
-        // Events,
         VisitService,
         { provide: ActivityService, useClass: ActivityServiceMock },
         { provide: AppService, useClass: AppServiceMock },
@@ -81,8 +85,6 @@ describe('Provider: VisitService', () => {
         { provide: StorageService, useValue: storageServiceSpy },
         { provide: HTTPService, useValue: httpServiceSpy },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        // @TODO - Ionic 5 - replace this
-        // { provide: App, useValue: appSpy }
       ]
     });
 
@@ -143,14 +145,14 @@ describe('Provider: VisitService', () => {
 
   it('should return the latest test', () => {
     visitService.createVisit(TEST_STATION);
-    const aTest: TestModel = {
+    const value: TestModel = {
       startTime: null,
       endTime: '14 March',
       status: null,
       reasonForCancellation: '',
       vehicles: []
     };
-    visitService.visit.tests.push(aTest);
+    visitService.visit.tests.push(value);
     const lateTest = visitService.getLatestTest();
     expect(lateTest.endTime).toMatch('14 March');
   });
@@ -241,46 +243,45 @@ describe('Provider: VisitService', () => {
     expect(await alert.onDidDismiss).toHaveBeenCalledTimes(1);
   });
 
-  // @TODO - added in VTA-497
-  // it('should return the latest vehicle', () => {
-  //   visitService.createVisit(TEST_STATION);
-  //   visitService.visit.tests.push(aTest);
-  //   expect(visitService.getLatestVehicle().vrm).toMatch('BQ91YHQ');
-  // });
-  //
-  // it('should return the current ATF name', () => {
-  //   expect(visitService.getCurrentATF()).toMatch('N/A');
-  //   visitService.createVisit(TEST_STATION);
-  //   expect(visitService.getCurrentATF()).toMatch('An Test Station Name');
-  // });
-  //
-  // it('should return the current ATF P number', () => {
-  //   expect(visitService.getCurrentATFPNumber()).toMatch('N/A');
-  //   visitService.createVisit(TEST_STATION);
-  //   expect(visitService.getCurrentATFPNumber()).toMatch('123');
-  // });
-  //
-  // it('should return the current VIN', () => {
-  //   expect(visitService.getCurrentVIN()).toMatch('N/A');
-  //   visitService.createVisit(TEST_STATION);
-  //   visitService.visit.tests.push(aTest);
-  //   expect(visitService.getCurrentVIN()).toMatch('1B7GG36N12S678410');
-  // });
-  //
-  // it('should return the current test type ID', () => {
-  //   expect(visitService.getCurrentTestTypeID()).toMatch('N/A');
-  //   visitService.createVisit(TEST_STATION);
-  //   visitService.visit.tests.push(aTest);
-  //   expect(visitService.getCurrentTestTypeID()).toMatch('N/A');
-  //   visitService.visit.tests.pop();
-  //   aTest.vehicles[0].testTypes.push(aTestType);
-  //   visitService.visit.tests.push(aTest);
-  //   expect(visitService.getCurrentTestTypeID()).toMatch('1');
-  // });
-  //
-  // it('should return the name of the current tester', () => {
-  //   expect(visitService.getCurrentTesterName()).toMatch('N/A');
-  //   visitService.visit.testerName = 'some guy';
-  //   expect(visitService.getCurrentTesterName()).toMatch('some guy');
-  // });
+  it('should return the latest vehicle', () => {
+    visitService.createVisit(TEST_STATION);
+    visitService.visit.tests.push(aTest);
+    expect(visitService.getLatestVehicle().vrm).toMatch('BQ91YHQ');
+  });
+
+  it('should return the current ATF name', () => {
+    expect(visitService.getCurrentATF()).toMatch('N/A');
+    visitService.createVisit(TEST_STATION);
+    expect(visitService.getCurrentATF()).toMatch('An Test Station Name');
+  });
+
+  it('should return the current ATF P number', () => {
+    expect(visitService.getCurrentATFPNumber()).toMatch('N/A');
+    visitService.createVisit(TEST_STATION);
+    expect(visitService.getCurrentATFPNumber()).toMatch('123');
+  });
+
+  it('should return the current VIN', () => {
+    expect(visitService.getCurrentVIN()).toMatch('N/A');
+    visitService.createVisit(TEST_STATION);
+    visitService.visit.tests.push(aTest);
+    expect(visitService.getCurrentVIN()).toMatch('1B7GG36N12S678410');
+  });
+
+  it('should return the current test type ID', () => {
+    expect(visitService.getCurrentTestTypeID()).toMatch('N/A');
+    visitService.createVisit(TEST_STATION);
+    visitService.visit.tests.push(aTest);
+    expect(visitService.getCurrentTestTypeID()).toMatch('N/A');
+    visitService.visit.tests.pop();
+    aTest.vehicles[0].testTypes.push(aTestType);
+    visitService.visit.tests.push(aTest);
+    expect(visitService.getCurrentTestTypeID()).toMatch('1');
+  });
+
+  it('should return the name of the current tester', () => {
+    expect(visitService.getCurrentTesterName()).toMatch('N/A');
+    visitService.visit.testerName = 'some guy';
+    expect(visitService.getCurrentTesterName()).toMatch('some guy');
+  });
 });

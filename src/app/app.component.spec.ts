@@ -1,14 +1,11 @@
 import { waitForAsync, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { IonicModule } from '@ionic/angular';
-// import { StatusBar } from '@ionic-native/status-bar';
-// import { SplashScreen } from '@ionic-native/splash-screen';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { Store } from '@ngrx/store';
-import { EventsMock, SplashScreenMock, StatusBarMock, NetworkMock } from 'ionic-mocks';
+import { EventsMock, NetworkMock } from 'ionic-mocks';
 
 import { AppComponent } from './app.component';
 import { StorageService } from '@providers/natives/storage.service';
@@ -20,21 +17,21 @@ import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock
 import { AuthenticationService } from '@providers/auth';
 import { ActivityService } from '@providers/activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
-import { STORAGE, PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
+import { PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
 import { LogsProvider } from '@store/logs/logs.service';
 import { TestStore } from '@store/logs/data-store.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import {SignaturePadPage} from '@app/pages/signature-pad/signature-pad';
 import {TestStationHomePage} from '@app/pages/test-station/test-station-home/test-station-home';
+import { EventsService } from '@providers/events/events.service';
 
-//TODO - add in SplashScreen + statusbar + Events + manageAppState when app component is finished
+//TODO - manageAppState
 describe('Component: Root', () => {
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let appService: AppService;
-  // let events: Events;
-  // let splashScreen: SplashScreen;
+  let events: EventsService;
   let activityService;
   let syncService;
   let syncServiceSpy: any;
@@ -96,10 +93,8 @@ describe('Component: Root', () => {
         { provide: AuthenticationService, useValue: authenticationSpy },
         { provide: AppService, useClass: AppServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
-        // { provide: StatusBar, useFactory: () => StatusBarMock.instance() },
-        // { provide: Events, useFactory: () => EventsMock.instance() },
+        { provide: EventsService, useFactory: () => EventsMock.instance() },
         { provide: Network, useFactory: () => NetworkMock.instance('wifi') },
-        // { provide: SplashScreen, useFactory: () => SplashScreenMock.instance() },
         { provide: ScreenOrientation, useValue: screenOrientationSpy },
         { provide: AnalyticsService, useValue: analyticsServiceSpy },
         { provide: ActivityService, useClass: ActivityServiceMock },
@@ -114,8 +109,7 @@ describe('Component: Root', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     comp = fixture.componentInstance;
-    // events = TestBed.get(Events);
-    // splashScreen = TestBed.get(SplashScreen);
+    events = TestBed.inject(EventsService);
     authenticationService = TestBed.inject(AuthenticationService);
     syncService = TestBed.inject(SyncService);
     storageService = TestBed.inject(StorageService);

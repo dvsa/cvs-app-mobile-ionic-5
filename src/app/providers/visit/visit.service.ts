@@ -12,6 +12,9 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '@providers/auth';
 import { AppService } from '@providers/global';
 import { ActivityService } from '../activity/activity.service';
+import { VehicleModel } from '@models/vehicle/vehicle.model';
+import { TestTypeModel } from '@models/tests/test-type.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class VisitService {
@@ -24,6 +27,7 @@ export class VisitService {
     private httpService: HTTPService,
     private activityService: ActivityService,
     private alertCtrl: AlertController,
+    public router: Router,
   ) {
     this.visit = {} as VisitModel;
   }
@@ -130,9 +134,7 @@ export class VisitService {
 
   private async setRootPage(): Promise<any> {
     await this.clearExpiredVisitData();
-    // @TODO - Ionic 5 - replace this functionality
-    // await this.app.getActiveNav().setRoot(PAGE_NAMES.TEST_STATION_HOME_PAGE);
-    // return await this.app.getActiveNav().popToRoot();
+    await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE]);
   }
 
   private async clearExpiredVisitData() {
@@ -145,47 +147,46 @@ export class VisitService {
     clearTimeout(this.activityService.waitTimer);
   }
 
-  // @TODO - added in VTA-497
-  // getLatestVehicle(): VehicleModel {
-  //   if (this.getLatestTest()) {
-  //     return this.getLatestTest().vehicles[this.getLatestTest().vehicles.length -1];
-  //   }
-  // }
-  //
-  // getLatestTestType(): TestTypeModel {
-  //   if (this.getLatestVehicle()){
-  //     return this.getLatestVehicle().testTypes[this.getLatestVehicle().testTypes.length -1];
-  //   }
-  // }
-  //
-  // getCurrentATF(): string {
-  //   return this.visit.testStationName ? this.visit.testStationName : 'N/A';
-  // }
-  //
-  // getCurrentATFPNumber(): string {
-  //   return this.visit.testStationPNumber ? this.visit.testStationPNumber : 'N/A';
-  // }
-  //
-  // getCurrentVIN(): string {
-  //   const test = this.getLatestTest();
-  //   let vehicle;
-  //   if (test) {
-  //     vehicle = this.getLatestVehicle();
-  //   }
-  //   return vehicle && !test.status ? vehicle.vin : 'N/A';
-  // }
-  //
-  // getCurrentTestTypeID(): string {
-  //   const test = this.getLatestTest();
-  //   const vehicle = this.getLatestVehicle();
-  //   let testType;
-  //   if (test && vehicle) {
-  //     testType = this.getLatestTestType();
-  //   }
-  //   return testType && !test.status ? testType.testTypeId : 'N/A';
-  // }
-  //
-  // getCurrentTesterName(): string {
-  //   return this.visit.testerName? this.visit.testerName : 'N/A';
-  // }
+  getLatestVehicle(): VehicleModel {
+    if (this.getLatestTest()) {
+      return this.getLatestTest().vehicles[this.getLatestTest().vehicles.length -1];
+    }
+  }
+
+  getLatestTestType(): TestTypeModel {
+    if (this.getLatestVehicle()){
+      return this.getLatestVehicle().testTypes[this.getLatestVehicle().testTypes.length -1];
+    }
+  }
+
+  getCurrentATF(): string {
+    return this.visit.testStationName ? this.visit.testStationName : 'N/A';
+  }
+
+  getCurrentATFPNumber(): string {
+    return this.visit.testStationPNumber ? this.visit.testStationPNumber : 'N/A';
+  }
+
+  getCurrentVIN(): string {
+    const test = this.getLatestTest();
+    let vehicle;
+    if (test) {
+      vehicle = this.getLatestVehicle();
+    }
+    return vehicle && !test.status ? vehicle.vin : 'N/A';
+  }
+
+  getCurrentTestTypeID(): string {
+    const test = this.getLatestTest();
+    const vehicle = this.getLatestVehicle();
+    let testType;
+    if (test && vehicle) {
+      testType = this.getLatestTestType();
+    }
+    return testType && !test.status ? testType.testTypeId : 'N/A';
+  }
+
+  getCurrentTesterName(): string {
+    return this.visit.testerName? this.visit.testerName : 'N/A';
+  }
 }
