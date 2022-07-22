@@ -140,17 +140,6 @@ describe('AuthenticationService', () => {
         expect(authenticationService.auth.expire).toHaveBeenCalled();
         expect(authenticationService.login).toHaveBeenCalled();
       });
-      // it('should call login even if the logout function errors', async () => {
-      //   spyOn(authenticationService.auth, 'logout').and.throwError('smth');
-      //   spyOn(authenticationService.auth, 'expire').and.throwError('smth');
-      //   spyOn(authenticationService, 'login').and.returnValue(Promise.resolve());
-      //
-      //   await authenticationService.logout();
-      //
-      //   expect(authenticationService.auth.logout).toHaveBeenCalled();
-      //   expect(authenticationService.auth.expire).toHaveBeenCalled();
-      //   expect(authenticationService.login).toHaveBeenCalled();
-      // });
     });
 
     describe('hasUserRights', () => {
