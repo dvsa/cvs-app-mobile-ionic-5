@@ -25,6 +25,7 @@ import to from 'await-to-js';
 import { VisitService } from '@providers/visit/visit.service';
 import { ActivityService } from '@providers/activity/activity.service';
 import { LogsProvider } from '@store/logs/logs.service';
+import { act } from '@ngrx/effects';
 
 
 
@@ -101,15 +102,25 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private async setRootPage(): Promise<any> {
-    const visit: VisitModel = await this.storageService.read(STORAGE.VISIT);
+  private async setRootPage(visit: VisitModel): Promise<any> {
+
+    // Retrieve testStation data from storage
     const testStations: TestStationReferenceDataModel[] = await this.storageService.read(STORAGE.ATFS);
+
+    // Check for incomplete tests
     const hasIncompleteTest = !!visit && !!visit.tests && (visit.tests.some((test) => test.status === null));
+
+    // Check for incomplete visit
     const hasIncompleteVisit = !!visit && visit.endTime === null;
+
+    // Get test station for current visit
     const testStation: TestStationReferenceDataModel = testStations
       .find((station) => station.testStationPNumber === visit.testStationPNumber);
     if (hasIncompleteTest) {
+      // Retrieve incomplete test
       const incompleteTest: TestModel = visit.tests.find((test) => test.status === null);
+
+      // Redirect to test create page
       await this.router
         .navigate([PAGE_NAMES.TEST_CREATE_PAGE],
           {
@@ -122,29 +133,29 @@ export class AppComponent implements OnInit {
         );
 
     }
-
+    // Navigate to visit timeline page if user has an open visit
     else if (hasIncompleteVisit) {
       await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE], {state: {testStation}});
     }
-
+    // Navigate to home page if there is no open visit or incomplete test stored in storage.
     else {
       await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE], {replaceUrl: true});
     }
   }
 
   async manageAppState() {
-    let getVisitError; let getActivitiesError; let storedVisit; let storedActivities;
+    try {
+      // Set visitService visit to value retrieved from storage
+      const visitData: VisitModel = await this.storageService.read(STORAGE.VISIT);
+      this.visitService.visit = visitData || ({} as VisitModel);
 
-    // eslint-disable-next-line prefer-const
-    [getVisitError, storedVisit] = await to(this.storageService.read(STORAGE.VISIT));
-    this.visitService.visit = storedVisit || ({} as VisitModel);
+      // Set activityService activities to value retrieved from storage
+      const activitiesData: ActivityModel[] = await this.storageService.read((STORAGE.ACTIVITIES));
+      this.activityService.activities = activitiesData || ([] as ActivityModel[]);
+      await this.setRootPage(visitData);
 
-    // eslint-disable-next-line prefer-const
-    [getActivitiesError, storedActivities] = await to(this.storageService.read(STORAGE.ACTIVITIES));
-    this.activityService.activities = storedActivities || ([] as ActivityModel[]);
+    } catch (error) {
 
-    if (getVisitError || getActivitiesError) {
-      const error = !!getVisitError ? getVisitError : getActivitiesError;
       const {oid} = this.authenticationService.tokenInfo;
       this.logProvider.dispatchLog({
         type: `${LOG_TYPES.ERROR}`,
@@ -154,7 +165,6 @@ export class AppComponent implements OnInit {
         )}`
       });
     }
-    await this.setRootPage();
   }
 
   async activateNativeFeatures(): Promise<void> {
