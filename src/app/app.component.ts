@@ -1,5 +1,5 @@
-import {Component, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {Platform, IonNav} from '@ionic/angular';
+import {Component, OnInit, Renderer2} from '@angular/core';
+import {Platform} from '@ionic/angular';
 import {AnalyticsService, AppService, NetworkService, SyncService} from '@providers/global';
 import {AuthenticationService} from '@providers/auth';
 import {StorageService} from '@providers/natives/storage.service';
@@ -33,7 +33,6 @@ import {TestStationReferenceDataModel} from '@models/reference-data-models/test-
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  @ViewChild(IonNav) navElem: IonNav;
   eventSubscription: Subscription;
   public history: any[];
   constructor(
