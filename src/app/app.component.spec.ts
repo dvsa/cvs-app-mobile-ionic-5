@@ -17,7 +17,7 @@ import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock
 import { AuthenticationService } from '@providers/auth';
 import { ActivityService } from '@providers/activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
-import { PAGE_NAMES, CONNECTION_STATUS, STORAGE } from './app.enums';
+import { PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
 import { LogsProvider } from '@store/logs/logs.service';
 import { TestStore } from '@store/logs/data-store.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +26,7 @@ import {SignaturePadPage} from '@app/pages/signature-pad/signature-pad';
 import {TestStationHomePage} from '@app/pages/test-station/test-station-home/test-station-home';
 import { EventsService } from '@providers/events/events.service';
 
+//TODO - manageAppState
 describe('Component: Root', () => {
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -178,6 +179,7 @@ describe('Component: Root', () => {
     }
   ));
 
+  //TODO - add the 3 following tests back when StateReformingService is implemented
 
   // it('Should check manageAppState method state resp: true, visit resp: true, activities resp: false', () => {
   //   storageService.read = jasmine.createSpy('read').and.callFake((key) => {
