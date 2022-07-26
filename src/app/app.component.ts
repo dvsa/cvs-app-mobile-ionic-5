@@ -7,7 +7,7 @@ import {
   ACCESSIBILITY_DEFAULT_VALUES,
   ANALYTICS_EVENT_CATEGORIES,
   ANALYTICS_EVENTS,
-  CONNECTION_STATUS, PAGE_NAMES, SIGNATURE_STATUS
+  CONNECTION_STATUS, LOG_TYPES, PAGE_NAMES, SIGNATURE_STATUS, STORAGE
 } from '@app/app.enums';
 import { default as AppConfig } from '../../config/application.hybrid';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
@@ -17,6 +17,14 @@ import {EventsService} from '@providers/events/events.service';
 import {Subscription} from 'rxjs';
 import {Capacitor} from '@capacitor/core';
 import {StatusBar, Style} from '@capacitor/status-bar';
+import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
+import { VisitModel } from '@models/visit/visit.model';
+import { TestModel } from '@models/tests/test.model';
+import { ActivityModel } from '@models/visit/activity.model';
+import to from 'await-to-js';
+import { VisitService } from '@providers/visit/visit.service';
+import { ActivityService } from '@providers/activity/activity.service';
+import { LogsProvider } from '@store/logs/logs.service';
 
 
 
@@ -30,6 +38,8 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     public events: EventsService,
+    public visitService: VisitService,
+    public activityService: ActivityService,
     private networkService: NetworkService,
     private authenticationService: AuthenticationService,
     public storageService: StorageService,
@@ -40,6 +50,7 @@ export class AppComponent implements OnInit {
     private renderer: Renderer2,
     private router: Router,
     private syncService: SyncService,
+    private logProvider: LogsProvider,
   ) {
   }
 
@@ -62,8 +73,7 @@ export class AppComponent implements OnInit {
     const netWorkStatus: CONNECTION_STATUS = this.networkService.getNetworkState();
 
     if (netWorkStatus === CONNECTION_STATUS.OFFLINE) {
-      // @TODO - Ionic 5 - enable this
-      // this.manageAppState();
+      await this.manageAppState();
       return;
     }
 
@@ -92,38 +102,59 @@ export class AppComponent implements OnInit {
   }
 
   private async setRootPage(): Promise<any> {
-    await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE], {replaceUrl: true});
+    const visit: VisitModel = await this.storageService.read(STORAGE.VISIT);
+    const testStations: TestStationReferenceDataModel[] = await this.storageService.read(STORAGE.ATFS);
+    const hasIncompleteTest = !!visit && !!visit.tests && (visit.tests.some((test) => test.status === null));
+    const hasIncompleteVisit = !!visit && visit.endTime === null;
+    const testStation: TestStationReferenceDataModel = testStations
+      .find((station) => station.testStationPNumber === visit.testStationPNumber);
+    if (hasIncompleteTest) {
+      const incompleteTest: TestModel = visit.tests.find((test) => test.status === null);
+      await this.router
+        .navigate([PAGE_NAMES.TEST_CREATE_PAGE],
+          {
+            state: {
+              testData: incompleteTest,
+              previousPageName: PAGE_NAMES.VISIT_TIMELINE_PAGE,
+              testStation
+            }
+          }
+        );
+
+    }
+
+    else if (hasIncompleteVisit) {
+      await this.router.navigate([PAGE_NAMES.VISIT_TIMELINE_PAGE], {state: {testStation}});
+    }
+
+    else {
+      await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE], {replaceUrl: true});
+    }
   }
 
   async manageAppState() {
+    let getVisitError; let getActivitiesError; let storedVisit; let storedActivities;
+
+    // eslint-disable-next-line prefer-const
+    [getVisitError, storedVisit] = await to(this.storageService.read(STORAGE.VISIT));
+    this.visitService.visit = storedVisit || ({} as VisitModel);
+
+    // eslint-disable-next-line prefer-const
+    [getActivitiesError, storedActivities] = await to(this.storageService.read(STORAGE.ACTIVITIES));
+    this.activityService.activities = storedActivities || ([] as ActivityModel[]);
+
+    if (getVisitError || getActivitiesError) {
+      const error = !!getVisitError ? getVisitError : getActivitiesError;
+      const {oid} = this.authenticationService.tokenInfo;
+      this.logProvider.dispatchLog({
+        type: `${LOG_TYPES.ERROR}`,
+        timestamp: Date.now(),
+        message: `User ${oid} failed from manageAppState in app.component.ts - ${JSON.stringify(
+          error
+        )}`
+      });
+    }
     await this.setRootPage();
-    // @TODO - Ionic 5 - replace navigation to root above with method below
-    // let error, storageState, storedVisit, storedActivities;
-    //
-    // [error, storageState] = await to(this.storageService.read(STORAGE.STATE));
-    // if (storageState) {
-    //   let parsedArr = JSON.parse(storageState);
-    //   this.navElem.setPages(parsedArr).then(() => this.splashScreen.hide());
-    // } else {
-    //   this.setRootPage();
-    // }
-    //
-    // [error, storedVisit] = await to(this.storageService.read(STORAGE.VISIT));
-    // this.visitService.visit = storedVisit || ({} as VisitModel);
-    //
-    // [error, storedActivities] = await to(this.storageService.read(STORAGE.ACTIVITIES));
-    // this.activityService.activities = storedActivities || ([] as ActivityModel[]);
-    //
-    // if (error) {
-    //   const { oid } = this.authenticationService.tokenInfo;
-    //   this.logProvider.dispatchLog({
-    //     type: `${LOG_TYPES.ERROR}`,
-    //     timestamp: Date.now(),
-    //     message: `User ${oid} failed from manageAppState in app.component.ts - ${JSON.stringify(
-    //       error
-    //     )}`
-    //   });
-    // }
   }
 
   async activateNativeFeatures(): Promise<void> {
