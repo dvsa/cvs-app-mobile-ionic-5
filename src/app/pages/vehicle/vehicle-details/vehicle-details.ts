@@ -141,7 +141,7 @@ export class VehicleDetailsPage implements OnInit {
         this.visitService.getLatestTest().endTime) {
         await this.visitService.addTest(this.testData);
       }
-      this.testReportService.addVehicle(this.testData, this.vehicleData);
+      await this.testReportService.addVehicle(this.testData, this.vehicleData);
 
       await this.router
         .navigate([PAGE_NAMES.TEST_CREATE_PAGE], {
