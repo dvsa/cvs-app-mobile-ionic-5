@@ -250,5 +250,18 @@ describe('Component: VehicleLookupPage', () => {
       expect(component.searchVehicle).toHaveBeenCalledTimes(0);
       expect(component.visitService.createDataClearingAlert).toHaveBeenCalledTimes(0);
     });
+    it('should trim spaces from searched values', async () => {
+      activityService.isVisitStillOpen = jasmine.createSpy().and.callFake(() => of({body: true}));
+      component.searchVehicle = jasmine.createSpy().and.callFake(() => {});
+
+      const searchValue = ' P01 2301 2301 23 ';
+      const LOADING = await component.loadingCtrl.create({
+        message: 'Loading...'
+      });
+
+      await component.onSearchVehicle(searchValue);
+
+      expect(component.searchVehicle).toHaveBeenCalledWith('P012301230123', LOADING);
+    });
   });
 });

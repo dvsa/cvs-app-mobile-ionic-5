@@ -114,6 +114,7 @@ export class VehicleLookupPage implements OnInit {
    * When clicking the search button, check if the visit is open
    */
   async onSearchVehicle(searchedValue: string): Promise<void> {
+    const trimmedSearchedValue = searchedValue.replace(/\s/g, '');
     this.loading = await this.loadingCtrl.create({
       message: 'loading...'
     });
@@ -130,7 +131,7 @@ export class VehicleLookupPage implements OnInit {
             timestamp: Date.now()
           });
         } else {
-          this.searchVehicle(searchedValue, this.loading);
+          this.searchVehicle(trimmedSearchedValue, this.loading);
         }
       },
       (isVisitStillOpenError) => {
