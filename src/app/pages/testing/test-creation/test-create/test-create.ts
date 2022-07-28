@@ -8,7 +8,6 @@ import {
 import { TestModel } from '@models/tests/test.model';
 import { VehicleModel } from '@models/vehicle/vehicle.model';
 import { VehicleService } from '@providers/vehicle/vehicle.service';
-import { StateReformingService } from '@providers/global/state-reforming.service';
 import { VisitService } from '@providers/visit/visit.service';
 import { TestTypeModel } from '@models/tests/test-type.model';
 import {
@@ -73,7 +72,6 @@ export class TestCreatePage implements OnInit {
     public alertCtrl: AlertController,
     public appService: AppService,
     public visitService: VisitService,
-    public stateReformingService: StateReformingService,
     private vehicleService: VehicleService,
     private events: EventsService,
     public commonFunc: CommonFunctionsService,
@@ -88,8 +86,6 @@ export class TestCreatePage implements OnInit {
   }
 
   ngOnInit() {
-    //@TODO - add this back with stateReformingService
-    // this.stateReformingService.saveNavStack(this.navCtrl);
     this.testStation = this.router.getCurrentNavigation().extras.state.testStation;
     this.testCompletionStatus = TEST_COMPLETION_STATUS;
     const lastTestIndex = this.visitService.visit.tests.length - 1;

@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
@@ -11,7 +9,6 @@ import {
   AppAlertService,
   AppService,
   HTTPService, NetworkService,
-  StateReformingService,
   SyncService
 } from '@providers/global';
 import {StorageService} from '@providers/natives/storage.service';
@@ -76,7 +73,6 @@ const CUSTOM_PROVIDERS = [
   PreparerService,
   VisitService,
   ActivityService,
-  StateReformingService,
   CommonFunctionsService,
   LogsProvider,
   SignatureService,

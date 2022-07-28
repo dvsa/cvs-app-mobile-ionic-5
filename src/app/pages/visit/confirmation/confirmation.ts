@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
 import { APP_STRINGS, PAGE_NAMES } from '@app/app.enums';
-import { StateReformingService } from '@providers/global/state-reforming.service';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { default as AppConfig } from '@config/application.hybrid';
 import { Router } from '@angular/router';
@@ -21,7 +20,6 @@ export class ConfirmationPage implements OnInit {
   isEndVisit: boolean;
 
   constructor(
-    private stateReformingService: StateReformingService,
     private alertCtrl: AlertController,
     private callNumber: CallNumber,
     private router: Router,
@@ -50,8 +48,6 @@ export class ConfirmationPage implements OnInit {
     if (this.isEndVisit) {
       await this.router.navigate([PAGE_NAMES.TEST_STATION_HOME_PAGE]);
     } else if (this.testerEmailAddress) {
-      // @TODO - VTA-738
-      // this.stateReformingService.onTestReview();
       await this.navCtrl.navigateBack([PAGE_NAMES.VISIT_TIMELINE_PAGE], {
         state: {
           testStation: this.testStation

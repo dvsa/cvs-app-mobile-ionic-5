@@ -21,13 +21,9 @@ import { TestStationReferenceDataModel } from '@models/reference-data-models/tes
 import { VisitModel } from '@models/visit/visit.model';
 import { TestModel } from '@models/tests/test.model';
 import { ActivityModel } from '@models/visit/activity.model';
-import to from 'await-to-js';
 import { VisitService } from '@providers/visit/visit.service';
 import { ActivityService } from '@providers/activity/activity.service';
 import { LogsProvider } from '@store/logs/logs.service';
-import { act } from '@ngrx/effects';
-
-
 
 @Component({
   selector: 'app-root',

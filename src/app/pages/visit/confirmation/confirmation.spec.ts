@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController } from '@ionic/angular';
-import { StateReformingService } from '@providers/global/state-reforming.service';
-import { StateReformingServiceMock } from '@test-config/services-mocks/state-reforming-service.mock';
 import { AlertControllerMock } from 'ionic-mocks';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -32,7 +30,6 @@ describe('Component: ConfirmationPage', () => {
        ],
       providers: [
         CallNumber,
-        { provide: StateReformingService, useClass: StateReformingServiceMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

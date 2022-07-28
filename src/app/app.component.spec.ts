@@ -26,7 +26,6 @@ import {SignaturePadPage} from '@app/pages/signature-pad/signature-pad';
 import {TestStationHomePage} from '@app/pages/test-station/test-station-home/test-station-home';
 import { EventsService } from '@providers/events/events.service';
 
-//TODO - manageAppState
 describe('Component: Root', () => {
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -153,7 +152,6 @@ describe('Component: Root', () => {
       expect(appService.manageAppInit).toHaveBeenCalled();
 
       expect(networkService.getNetworkState).toHaveBeenCalled();
-      // expect(splashScreen.hide).toHaveBeenCalled();
       // expect(comp.navElem.setRoot).toHaveBeenCalledWith(PAGE_NAMES.SIGNATURE_PAD_PAGE);
     });
   });
