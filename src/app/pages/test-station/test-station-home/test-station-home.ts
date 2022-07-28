@@ -69,19 +69,20 @@ export class TestStationHomePage implements OnInit {
     let err: Error; let IsDataSynced: boolean;
     // eslint-disable-next-line prefer-const
     [err, IsDataSynced] = await this.syncService.startSync();
-    if (!(await this.authenticationService.hasUserRights(this.neededRoles))) {
-      await this.alertService.alertUnAuthorise();
-    }
-    if (IsDataSynced) {
-      await this.setPage();
+    if (await this.authenticationService.hasUserRights(this.neededRoles)) {
+      if (IsDataSynced) {
+        await this.setPage();
+      } else {
+        this.logProvider.dispatchLog({
+          type: LOG_TYPES.ERROR,
+          message: `User ${
+            this.authenticationService.tokenInfo.oid
+          } having issue(s) with syncing data: Error ${JSON.stringify(err)}`,
+          timestamp: Date.now()
+        });
+      }
     } else {
-      this.logProvider.dispatchLog({
-        type: LOG_TYPES.ERROR,
-        message: `User ${
-          this.authenticationService.tokenInfo.oid
-        } having issue(s) with syncing data: Error ${JSON.stringify(err)}`,
-        timestamp: Date.now()
-      });
+      await this.alertService.alertUnAuthorise();
     }
   }
 
