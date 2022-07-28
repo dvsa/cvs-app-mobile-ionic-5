@@ -197,4 +197,8 @@
   ion-item h3 {
     font-size: var(--font-size-medium);
   }
+
+  ion-popover.datetime-popover {
+    --width: 500px;
+  }
 }

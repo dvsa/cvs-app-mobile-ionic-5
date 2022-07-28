@@ -155,10 +155,6 @@ export class TestCompletePage implements OnInit {
     }
   }
 
-  // async openDateTimeModal() {
-  //
-  // }
-
   updateTestType() {
     for (const section of this.testTypeDetails.sections) {
       for (const input of section.inputs) {
