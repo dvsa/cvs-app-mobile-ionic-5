@@ -74,6 +74,7 @@ export class TestCompletePage implements OnInit {
   vehicleTypes: typeof VEHICLE_TYPE = VEHICLE_TYPE;
   tirCertificateNumberPrefixes: typeof TIR_CERTIFICATE_NUMBER_PREFIXES = TIR_CERTIFICATE_NUMBER_PREFIXES;
   previousPageName: string;
+  date: Date;
 
   constructor(
     public navCtrl: NavController,
@@ -153,6 +154,10 @@ export class TestCompletePage implements OnInit {
       await this.modalCtrl.dismiss(this.vehicleTest);
     }
   }
+
+  // async openDateTimeModal() {
+  //
+  // }
 
   updateTestType() {
     for (const section of this.testTypeDetails.sections) {

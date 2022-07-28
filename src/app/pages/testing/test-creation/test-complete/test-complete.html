@@ -146,14 +146,24 @@
             [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
             lines="none"
           >
-            <ion-datetime
-              class="expiry-date-datetime"
-              presentation="time-date"
-              prefer-wheel="true"
-              [(ngModel)]="vehicleTest[input.testTypePropertyName]"
-              [min]="input.minDate"
-              [max]="input.maxDate"
-            ></ion-datetime>
+            <ion-label>
+              Enter
+            </ion-label>
+            <ion-input
+              value="{{ date | date: 'D MM YYYY' }}"
+              id="date"
+              class="ion-text-end"
+            ></ion-input>
+            <ion-popover trigger="date" size="cover">
+              <ng-template>
+                <ion-datetime
+                  presentation="time-date"
+                  prefer-wheel="true"
+                  [(ngModel)]="date"
+                  locale="sl-SI"
+                ></ion-datetime>
+              </ng-template>
+            </ion-popover>
             <ion-icon slot="end" name="chevron-forward" class="arrow-forward small-icon"></ion-icon>
           </ion-item>
         </div>
