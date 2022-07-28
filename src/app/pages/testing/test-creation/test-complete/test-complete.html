@@ -146,10 +146,11 @@
             [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
             lines="none"
           >
-            <ion-label>
+            <ion-label *ngIf="date === null">
               Enter
             </ion-label>
             <ion-input
+              *ngIf="date !== null"
               value="{{ date | date: 'D MM YYYY' }}"
               id="date"
               class="ion-text-end"
