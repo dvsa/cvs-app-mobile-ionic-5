@@ -130,11 +130,11 @@ describe('Component: TestStationHomePage', () => {
     );
   });
 
-  describe('ionViewDidEnter', () => {
-    it('should alert unauthorise if user has no right', async () => {
+  describe('getStarted', () => {
+    it('should alert unauthorised if user has no right', async () => {
       spyOn(authenticationService, 'hasUserRights').and.returnValue(Promise.resolve(false));
 
-      await comp.ionViewDidEnter();
+      await comp.getStarted();
 
       expect(authenticationService.hasUserRights).toHaveBeenCalledWith([
         TESTER_ROLES.FULL_ACCESS,
