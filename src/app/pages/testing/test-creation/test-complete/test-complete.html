@@ -106,7 +106,8 @@
           </h3>
           <ion-datetime
             slot="end"
-            displayFormat="D MMM YYYY"
+            presentation="time-date"
+            prefer-wheel="true"
             [(ngModel)]="completedFields[input.testTypePropertyName]"
             (ngModelChange)="onDatetimeChange($event, input.testTypePropertyName)"
             [max]="today"
@@ -147,8 +148,8 @@
           >
             <ion-datetime
               class="expiry-date-datetime"
-              [placeholder]="input.placeholder"
-              displayFormat="D MMM YYYY"
+              presentation="time-date"
+              prefer-wheel="true"
               [(ngModel)]="vehicleTest[input.testTypePropertyName]"
               [min]="input.minDate"
               [max]="input.maxDate"
