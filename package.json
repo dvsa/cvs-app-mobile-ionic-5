@@ -13,7 +13,7 @@
     "e2e": "ng e2e",
     "config": "ts-node ./scripts/create-configs.ts",
     "lint:fix": "eslint . --fix --quiet --ext .ts",
-    "serve:livereload": "source .env && npm run config && ionic cap run ios -l --external --target=${IPHONE8_P_ID}",
+    "serve:livereload": "source .env && npm run config && ionic cap run ios -l --target=${IPHONE8_P_ID}",
     "security-checks": "git-secrets --scan && git log -p | scanrepo",
     "build-ios": "source .env && npm run config && ionic cap build ios"
   },
@@ -46,7 +46,7 @@
     "@ionic-native/open-native-settings": "^5.36.0",
     "@ionic-native/screen-orientation": "^5.36.0",
     "@ionic-native/secure-storage": "^5.36.0",
-    "@ionic/angular": "^5.5.2",
+    "@ionic/angular": "^6.2.0",
     "@ionic/storage": "^2.3.1",
     "@ngrx/effects": "^12.5.1",
     "@ngrx/entity": "^12.5.1",

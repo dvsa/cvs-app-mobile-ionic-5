@@ -106,7 +106,8 @@
           </h3>
           <ion-datetime
             slot="end"
-            displayFormat="D MMM YYYY"
+            presentation="time-date"
+            prefer-wheel="true"
             [(ngModel)]="completedFields[input.testTypePropertyName]"
             (ngModelChange)="onDatetimeChange($event, input.testTypePropertyName)"
             [max]="today"
@@ -145,14 +146,25 @@
             [ngClass]="{'error-incomplete-item': errorIncomplete && !vehicleTest[input.testTypePropertyName]}"
             lines="none"
           >
-            <ion-datetime
-              class="expiry-date-datetime"
-              [placeholder]="input.placeholder"
-              displayFormat="D MMM YYYY"
-              [(ngModel)]="vehicleTest[input.testTypePropertyName]"
-              [min]="input.minDate"
-              [max]="input.maxDate"
-            ></ion-datetime>
+            <ion-label>
+              Enter
+            </ion-label>
+            <ion-input
+              value="{{ date | date: 'dd.MM.yyyy' }}"
+              id="date"
+              class="ion-text-end"
+            ></ion-input>
+            <ion-popover trigger="date" class="datetime-popover">
+              <ng-template>
+                <ion-datetime
+                  show-default-buttons="true"
+                  size="cover"
+                  presentation="date"
+                  prefer-wheel="true"
+                  [(ngModel)]="date"
+                ></ion-datetime>
+              </ng-template>
+            </ion-popover>
             <ion-icon slot="end" name="chevron-forward" class="arrow-forward small-icon"></ion-icon>
           </ion-item>
         </div>
