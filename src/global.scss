@@ -230,6 +230,8 @@ ion-header > ion-toolbar:first-child {
 }
 
 .ios ion-footer {
+  background: var(--light);
+
   .footer-cta-section {
     padding: 0 16px;
 
