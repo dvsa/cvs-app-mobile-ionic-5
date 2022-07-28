@@ -57,7 +57,7 @@
     "com.telerik.plugins.nativepagetransitions": "^0.7.0",
     "cordova-open-native-settings": "^1.5.5",
     "cordova-plugin-app-version": "^0.1.12",
-    "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-device": "^2.1.0",
     "cordova-plugin-google-analytics": "^1.9.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-network-information": "^2.0.2",
