@@ -7,7 +7,6 @@ import {
 import { TestService } from '@providers/test/test.service';
 import { VisitService } from '@providers/visit/visit.service';
 import { VisitModel } from '@models/visit/visit.model';
-import { StateReformingService } from '@providers/global/state-reforming.service';
 import {
   ANALYTICS_SCREEN_NAMES,
   ANALYTICS_EVENTS,
@@ -59,7 +58,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
   testStation: any;
 
   constructor(
-    public stateReformingService: StateReformingService,
     public loadingCtrl: LoadingController,
     public appService: AppService,
     private testReportService: TestService,
@@ -92,8 +90,6 @@ export class VisitTimelinePage implements OnInit, OnDestroy {
         ? this.visitService.visit
         : await this.visitService.createVisit(this.testStation);
     });
-    //@TODO - Ionic 5 - Reinstate this
-    // this.stateReformingService.saveNavStack(this.navCtrl);
   }
 
   ngOnDestroy(): void {

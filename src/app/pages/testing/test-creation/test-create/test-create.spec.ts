@@ -27,8 +27,6 @@ import { TestServiceMock } from '@test-config/services-mocks/test-service.mock';
 import { VehicleServiceMock } from '@test-config/services-mocks/vehicle-service.mock';
 import { VisitService } from '@providers/visit/visit.service';
 import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock';
-import { StateReformingService } from '@providers/global/state-reforming.service';
-import { StateReformingServiceMock } from '@test-config/services-mocks/state-reforming-service.mock';
 import { VisitDataMock } from '@assets/data-mocks/visit-data.mock';
 import { VehicleTechRecordModel } from '@models/vehicle/tech-record.model';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
@@ -62,7 +60,6 @@ describe('Component: TestCreatePage', () => {
   let visitService: VisitService;
   let appService: AppService;
   let testService: TestService;
-  let stateReformingService: StateReformingService;
   let callNumberSpy: any;
   let modalCtrl: ModalController;
   let commonFuncService: CommonFunctionsService;
@@ -108,7 +105,6 @@ describe('Component: TestCreatePage', () => {
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: AppService, useClass: AppServiceMock },
         { provide: CallNumber, useValue: callNumberSpy },
-        { provide: StateReformingService, useClass: StateReformingServiceMock },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: TestService, useClass: TestServiceMock },
@@ -126,7 +122,6 @@ describe('Component: TestCreatePage', () => {
     testService = TestBed.inject(TestService);
     appService = TestBed.inject(AppService);
     visitService = TestBed.inject(VisitService);
-    stateReformingService = TestBed.inject(StateReformingService);
     modalCtrl = TestBed.inject(ModalController);
     commonFuncService = TestBed.inject(CommonFunctionsService);
     analyticsService = TestBed.inject(AnalyticsService);
@@ -154,7 +149,6 @@ describe('Component: TestCreatePage', () => {
     testService = null;
     vehicleService = null;
     visitService = null;
-    stateReformingService = null;
     modalCtrl = null;
     commonFuncService = null;
     storageService = null;

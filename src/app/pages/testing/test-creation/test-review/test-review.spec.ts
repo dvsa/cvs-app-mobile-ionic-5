@@ -9,8 +9,6 @@ import {
 } from '@ionic/angular';
 import { CommonFunctionsService } from '@providers/utils/common-functions';
 import { AlertControllerMock, LoadingControllerMock } from 'ionic-mocks';
-import { StateReformingService } from '@providers/global/state-reforming.service';
-import { StateReformingServiceMock } from '@test-config/services-mocks/state-reforming-service.mock';
 import { VehicleService } from '@providers/vehicle/vehicle.service';
 import { VehicleServiceMock } from '@test-config/services-mocks/vehicle-service.mock';
 import { VisitService } from '@providers/visit/visit.service';
@@ -100,7 +98,6 @@ describe('Component: TestReviewPage', () => {
         { provide: TestService, useClass: TestServiceMock },
         { provide: TestTypeService, useClass: TestTypeServiceMock },
         { provide: StorageService, useClass: StorageServiceMock },
-        { provide: StateReformingService, useClass: StateReformingServiceMock },
         { provide: VehicleService, useClass: VehicleServiceMock },
         { provide: VisitService, useClass: VisitServiceMock },
         { provide: AuthenticationService, useClass: AuthenticationServiceMock },

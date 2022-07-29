@@ -167,7 +167,7 @@ describe('Component: VehicleDetailsPage', () => {
 
   describe('goToTestCreatePage', () => {
     beforeEach(() => {
-      spyOn(testReportService, 'addVehicle').and.callFake(() => {});
+      spyOn(testReportService, 'addVehicle').and.callFake(async () => {});
 
       visitService.visit = {
         tests: [

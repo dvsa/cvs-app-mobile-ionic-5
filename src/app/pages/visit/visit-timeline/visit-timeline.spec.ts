@@ -18,8 +18,6 @@ import {
 } from 'ionic-mocks';
 
 import { PipesModule } from '@pipes/pipes.module';
-import { StateReformingService } from '@providers/global/state-reforming.service';
-import { StateReformingServiceMock } from '@test-config/services-mocks/state-reforming-service.mock';
 import { VisitTimelinePage } from './visit-timeline';
 import { AppService } from '@providers/global/app.service';
 import { AppServiceMock } from '@test-config/services-mocks/app-service.mock';
@@ -146,7 +144,6 @@ describe('Component: VisitTimelinePage', () => {
         CommonFunctionsService,
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: NavParams, useClass: NavParamsMock },
-        { provide: StateReformingService, useClass: StateReformingServiceMock },
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: ToastController, useFactory: () => ToastControllerMock.instance() },

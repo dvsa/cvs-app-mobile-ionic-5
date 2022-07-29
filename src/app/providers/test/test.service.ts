@@ -42,7 +42,8 @@ export class TestService {
     test.endTime = new Date().toISOString();
   }
 
-  addVehicle(test: TestModel, vehicle: VehicleModel) {
+  async addVehicle(test: TestModel, vehicle: VehicleModel) {
     test.vehicles.push(vehicle);
+    await this.visitService.updateVisit();
   }
 }

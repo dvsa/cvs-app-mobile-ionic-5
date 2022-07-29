@@ -17,7 +17,7 @@ import { VisitServiceMock } from '@test-config/services-mocks/visit-service.mock
 import { AuthenticationService } from '@providers/auth';
 import { ActivityService } from '@providers/activity/activity.service';
 import { ActivityServiceMock } from '@test-config/services-mocks/activity-service.mock';
-import { PAGE_NAMES, CONNECTION_STATUS } from './app.enums';
+import { PAGE_NAMES, CONNECTION_STATUS, STORAGE } from './app.enums';
 import { LogsProvider } from '@store/logs/logs.service';
 import { TestStore } from '@store/logs/data-store.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -25,8 +25,12 @@ import { Router } from '@angular/router';
 import {SignaturePadPage} from '@app/pages/signature-pad/signature-pad';
 import {TestStationHomePage} from '@app/pages/test-station/test-station-home/test-station-home';
 import { EventsService } from '@providers/events/events.service';
+import { VisitModel } from '@models/visit/visit.model';
+import { TestStationDataMock } from '@assets/data-mocks/reference-data-mocks/test-station-data.mock';
+import { TestModel } from '@models/tests/test.model';
+import { TestDataModelMock } from '@assets/data-mocks/data-model/test-data-model.mock';
+import { TestStationReferenceDataModel } from '@models/reference-data-models/test-station.model';
 
-//TODO - manageAppState
 describe('Component: Root', () => {
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -48,7 +52,6 @@ describe('Component: Root', () => {
   let networkService: NetworkService;
   let router: Router;
 
-
   beforeEach(waitForAsync(() => {
     syncServiceSpy = jasmine.createSpyObj('SyncService', {
       checkForUpdate: () => true
@@ -61,7 +64,8 @@ describe('Component: Root', () => {
     authenticationSpy = jasmine.createSpyObj('AuthenticationService', [
       'expireTokens',
       'checkUserAuthStatus',
-      'initialiseAuth'
+      'initialiseAuth',
+      'tokenInfo'
     ]);
 
     screenOrientationSpy = jasmine.createSpyObj('ScreenOrientation', ['lock']);
@@ -138,7 +142,7 @@ describe('Component: Root', () => {
       spyOn(networkService, 'initialiseNetworkStatus');
       spyOn(networkService, 'getNetworkState').and.returnValue(CONNECTION_STATUS.ONLINE);
       spyOn(appService, 'manageAppInit').and.callFake(() => Promise.resolve());
-      // spyOn(comp, 'setupLogNetworkStatus');
+      spyOn(comp, 'navigateToSignaturePage');
     });
 
     it('should set app defaults and navigate to signature page', async () => {
@@ -153,8 +157,7 @@ describe('Component: Root', () => {
       expect(appService.manageAppInit).toHaveBeenCalled();
 
       expect(networkService.getNetworkState).toHaveBeenCalled();
-      // expect(splashScreen.hide).toHaveBeenCalled();
-      // expect(comp.navElem.setRoot).toHaveBeenCalledWith(PAGE_NAMES.SIGNATURE_PAD_PAGE);
+      expect(comp.navigateToSignaturePage).toHaveBeenCalledWith();
     });
   });
 
@@ -179,73 +182,65 @@ describe('Component: Root', () => {
     }
   ));
 
-  //TODO - add the 3 following tests back when StateReformingService is implemented
+  describe('setRootPage', async () => {
+    const visit: VisitModel = {
+      startTime: '2019-05-23T12:11:11.974Z',
+      endTime: null,
+      testStationName: 'An Test Station Name',
+      testStationPNumber: '123',
+      testStationEmail: 'teststationname@dvsa.gov.uk',
+      testStationType: 'gvts',
+      testerId: '9b4q4o87d',
+      testerName: 'gvminnbbl',
+      testerEmail: 'blabla@email.com',
+      tests: [],
+      id: '8e56af10-503c-494c-836b-b2f3aa3c56ac'
+    };
+    const testStations: TestStationReferenceDataModel[] = TestStationDataMock.TestStationData;
+    const testStation = testStations[0];
+    const test: TestModel = TestDataModelMock.TestData;
+    beforeEach(() => {
+      spyOn(comp, 'setRootPage').and.callThrough();
+      spyOn(router, 'navigate');
+    });
+    it('should open test-station-home if there are no incomplete visits or tests',  async () => {
+      spyOn(storageService, 'read')
+        .withArgs(STORAGE.VISIT).and.returnValue({})
+        .withArgs(STORAGE.ACTIVITIES).and.returnValue({})
+        .withArgs(STORAGE.ATFS).and.returnValue(Promise.resolve(testStations));
+      await comp.manageAppState();
+      expect(comp.setRootPage).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith([PAGE_NAMES.TEST_STATION_HOME_PAGE], {replaceUrl: true});
+    });
 
-  // it('Should check manageAppState method state resp: true, visit resp: true, activities resp: false', () => {
-  //   storageService.read = jasmine.createSpy('read').and.callFake((key) => {
-  //     let keyReturn;
-  //     switch (key) {
-  //       case STORAGE.STATE: {
-  //         keyReturn = true;
-  //         break;
-  //       }
-  //       case STORAGE.VISIT: {
-  //         keyReturn = true;
-  //         break;
-  //       }
-  //       case STORAGE.ACTIVITIES: {
-  //         keyReturn = false;
-  //         break;
-  //       }
-  //     }
-  //     return new Promise((resolve) => resolve(keyReturn));
-  //   });
-  //   comp.manageAppState();
-  //   expect(storageService.read).toHaveBeenCalled();
-  // });
+    it('should open visit-timeline if there is an open visit but no open tests',  async () => {
+      spyOn(storageService, 'read')
+        .withArgs(STORAGE.VISIT).and.returnValue(Promise.resolve(visit))
+        .withArgs(STORAGE.ACTIVITIES).and.returnValue({})
+        .withArgs(STORAGE.ATFS).and.returnValue(Promise.resolve(testStations));
 
-  // it('Should check manageAppState method state resp: true, visit resp: true, activities resp: true', () => {
-  //   storageService.read = jasmine.createSpy('read').and.callFake((key) => {
-  //     let keyReturn;
-  //     switch (key) {
-  //       case STORAGE.STATE: {
-  //         keyReturn = true;
-  //         break;
-  //       }
-  //       case STORAGE.VISIT: {
-  //         keyReturn = true;
-  //         break;
-  //       }
-  //       case STORAGE.ACTIVITIES: {
-  //         keyReturn = true;
-  //         break;
-  //       }
-  //     }
-  //     return new Promise((resolve) => resolve(keyReturn));
-  //   });
-  //   comp.manageAppState();
-  //   expect(storageService.read).toHaveBeenCalled();
-  // });
+      await comp.manageAppState();
+      expect(comp.setRootPage).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith([PAGE_NAMES.VISIT_TIMELINE_PAGE], {state: {testStation}});
+    });
 
-  // it('Should check manageAppState method false state response', async () => {
-  //   storageService.read = jasmine.createSpy('read').and.callFake((key) => {
-  //     let keyReturn;
-  //     switch (key) {
-  //       case STORAGE.STATE: {
-  //         keyReturn = false;
-  //         break;
-  //       }
-  //       case STORAGE.VISIT: {
-  //         keyReturn = true;
-  //         break;
-  //       }
-  //       case STORAGE.ACTIVITIES: {
-  //         keyReturn = false;
-  //         break;
-  //       }
-  //     }
-  //     return new Promise((resolve) => resolve(keyReturn));
-  //   });
-  //   await comp.manageAppState();
-  // });
+    it('should open test-create if there is an open visit and an open test',  async () => {
+      visit.tests.push(test);
+      spyOn(storageService, 'read')
+        .withArgs(STORAGE.VISIT).and.returnValue(Promise.resolve(visit))
+        .withArgs(STORAGE.ACTIVITIES).and.returnValue({})
+        .withArgs(STORAGE.ATFS).and.returnValue(Promise.resolve(testStations));
+
+      await comp.manageAppState();
+      expect(comp.setRootPage).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith([PAGE_NAMES.TEST_CREATE_PAGE], {
+        state: {
+          testData: test,
+          previousPageName: PAGE_NAMES.VISIT_TIMELINE_PAGE,
+          testStation
+        }
+      });
+
+    });
+  });
 });
