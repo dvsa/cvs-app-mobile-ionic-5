@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private async setRootPage(visit: VisitModel): Promise<any> {
+  async setRootPage(visit: VisitModel): Promise<any> {
 
     // Retrieve testStation data from storage
     const testStations: TestStationReferenceDataModel[] = await this.storageService.read(STORAGE.ATFS);
